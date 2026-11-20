@@ -80,7 +80,6 @@ for k, ax in enumerate(axes):
 fig.subplots_adjust(left=0.01, right=0.99, top=0.99, bottom=0.01, wspace=0.10)
 ```
 
-
 ### Osmotic pressure, turgor and plasmolysis
 
 The **osmotic pressure (OP)** of a solution is the pressure that must be applied to it to stop water entering it through a selectively permeable membrane. It is a positive quantity, and it is numerically equal to the solute potential with the sign reversed: $\Psi_s = -\text{OP}$. For a dilute solution it obeys the van't Hoff equation
@@ -104,10 +103,6 @@ Because a solution open to the atmosphere has $\Psi_p = 0$, the water potential 
 :::
 
 When a cell is put in a hypertonic solution it loses water, the protoplast shrinks and pulls away from the wall, and the cell is **plasmolysed**. The stage at which the protoplast has *just* begun to pull away — when the wall is exerting no pressure at all, so $\Psi_p = 0$ — is **incipient plasmolysis**, and at that moment $\Psi_w = \Psi_s$. Operationally it is taken as the external concentration at which half the cells in a peeled onion epidermis show visible plasmolysis; a 0.6 M sucrose solution is the standard. Returning the cell to water reverses the process — **deplasmolysis**. Plasmolysis proves that the protoplast is alive and that the membrane is selectively permeable, and it is the only simple way to estimate a cell's solute potential.
-
-::: note What happened to DPD?
-Older Nepali and Indian textbooks work in **diffusion pressure deficit (DPD)**, where DPD = OP − TP. The term was coined by B. S. Meyer in 1938 and it was superseded by Slatyer and Taylor in 1960. The mapping is exact: **$\Psi_w = -\text{DPD}$, $\Psi_s = -\text{OP}$, $\Psi_p = +\text{TP}$**. DPD was abandoned because it has no matric term, no gravitational term, an inverted sign convention, and because "diffusion pressure" is not a real pressure. If a question is set in DPD, convert, solve in $\Psi$, and convert back.
-:::
 
 ### Absorption of water by roots
 
@@ -226,7 +221,7 @@ Opening is driven by **potassium influx**. The accepted sequence is:
 Closing is driven by **abscisic acid**. Water stress raises ABA, ABA binds its receptors, an anion channel opens, the membrane depolarises, an outward K$^+$ channel opens, solutes leak out, water follows and the pore shuts.
 
 ::: caution
-Many textbooks still teach the **starch–sugar interconversion theory** (Sayre's pH mechanism) as *the* mechanism of stomatal movement. It is history, not current science. It is too slow, the pH changes are too small, and the soluble sugars never rise enough to account for the osmotic change. The decisive counterexample is **onion (*Allium cepa*)**: its guard cells contain **no starch at all**, yet they open and close perfectly normally, using KCl as the osmoticum. Starch's real role is to supply the carbon skeletons for **malate**, the counter-ion for K$^+$. Write about K$^+$ fluxes.
+The modern explanation of stomatal movement is Levitt's **active $\text{K}^+$–$\text{H}^+$ ion-exchange mechanism**, not the older starch–sugar interconversion hypothesis. Guard cells in **onion (*Allium cepa*)** contain no starch at all yet open and close normally using $\text{KCl}$ as the osmoticum; in starch-containing guard cells, starch supplies carbon skeletons for **malate**, the counter-ion for $\text{K}^+$.
 :::
 
 ::: caution
@@ -372,7 +367,7 @@ Trace it in words. Light strikes PS II; P680 is excited to P680\* and loses an e
 $$2\,\text{H}_2\text{O} \longrightarrow \text{O}_2 + 4\,\text{H}^+ + 4\,e^-$$
 
 ::: caution
-The oxygen-evolving complex faces the **lumen**. All four protons from photolysis are released **into the lumen**, where they add to the proton gradient. Textbooks that say photolysis releases protons into the stroma have the geometry backwards — and have thrown away half the explanation of how ATP is made.
+The oxygen-evolving complex faces the **thylakoid lumen**. All four protons ($4\text{H}^+$) from photolysis of water are released **into the lumen**, directly building the proton gradient that drives ATP synthesis.
 :::
 
 The protons accumulating in the lumen — four per two water molecules from photolysis, plus four more pumped across by the cytochrome $b_6f$ complex — create a proton gradient. They escape through **ATP synthase**, whose stalk projects into the stroma, and their passage drives the phosphorylation of ADP. This is **chemiosmosis**, and because the phosphorylation is ultimately driven by light it is called **photophosphorylation**.
@@ -881,7 +876,7 @@ Plants move. They cannot walk, but parts of them change position, and the moveme
 Gravity is perceived by **statoliths** — dense, starch-filled **amyloplasts** that settle under gravity in special cells called statocytes, which in a root are the **columella cells of the root cap**. The **Cholodny–Went hypothesis** (1927–28) explains the response: gravity or light causes auxin to be redistributed laterally, and the unequal auxin causes unequal growth.
 
 ::: caution
-In a horizontally placed seedling, auxin accumulates on the **lower side of both the root and the shoot**. The shoot bends up and the root bends down not because the auxin goes to opposite sides, but because **roots and shoots respond to auxin in opposite ways** — the concentration that stimulates a shoot inhibits a root. Textbooks that claim auxin moves to the upper side of the root have invented a fact to avoid explaining this.
+In a horizontally placed seedling, gravity causes auxin to accumulate on the **lower side of both the root and the shoot**. The shoot bends upward and the root bends downward because **roots and shoots have different sensitivity thresholds to auxin**—the concentration that stimulates cell elongation on the lower side of the shoot inhibits cell elongation on the lower side of the root.
 :::
 
 **Nastic movements (nasties)** are movements in which the **direction of the response is fixed by the structure of the organ and is independent of the direction of the stimulus**. Some are growth movements; some are reversible **turgor (variation) movements** and involve no growth at all.

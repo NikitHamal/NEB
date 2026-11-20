@@ -221,15 +221,6 @@ close to **39 % of the national forest**, on behalf of more than three million
 households. Religious forests, leasehold forests for poor households, and the
 sacred groves around temples and *deurali* resting places add to the total.
 
-::: caution How many national parks does Nepal have?
-Older textbooks and the department's own website still say **12 national parks
-and 20 protected areas**. Chhayanath National Park (Mugu) was declared in 2025
-by **splitting off part of Shey Phoksundo**, so the number of parks rose to 13
-and the total to 21 while the total protected **area** hardly changed. Either
-count is accepted in the exam **provided you name the parks correctly** — the
-marks are for the names and the categories, not for the total.
-:::
-
 ### Ex-situ conservation
 
 Ex-situ methods are the back-up. They matter most for species already too rare

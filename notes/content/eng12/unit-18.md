@@ -212,7 +212,7 @@ ax.annotate('audience', xy=(6, -1.3), xytext=(6, 0.0), ha='center', fontsize=7, 
 fig.tight_layout()
 ```
 
-::: caution Study-guide mistakes to avoid
+::: caution Common misconceptions to avoid
 - The husband is **not** a character who appears during the conversation. He is
   hidden in the actress's boudoir and is called out only in the very last line.
 - The actress does **not** tell the wife outright that she loves Alfred. She tells
@@ -373,9 +373,6 @@ this reading, since the actress's "help" saves only her own secret.
 :::
 
 ## 18.9 Comprehension and critical thinking — "A Matter of Husbands"
-
-The wording follows the CDC Grade 12 textbook as reproduced in common guides; your
-printing may differ slightly, so match the question in your own book.
 
 **Understanding the text**
 

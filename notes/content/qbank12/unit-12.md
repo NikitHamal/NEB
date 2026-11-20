@@ -26,7 +26,7 @@ Group B or C; a wrong answer with correct working earns most of the marks. Read 
 
 ## 12.1 Permutation and Combination
 
-CDC allots **10 teaching hours** and the unit sits inside Algebra, which carries **20
+**10 teaching hours** and the unit sits inside Algebra, which carries **20
 of the 75 marks**. Counting appears as a Group A item (2081 Q2, 2082 Q1 and the CDC
 model Q1), as a two-mark part of a Group B question (2080 Q13a, 2082 Q13a) and as a
 three-mark part of a Group C question (CDC model Q20a).
@@ -105,7 +105,7 @@ Most repeated: **a committee or selection with a condition** (2082 Q13a, CDC Q20
 
 ## 12.2 Binomial Theorem
 
-CDC allots **10 hours**. The unit supplies the **five one-mark recall parts** of Q12 (2079, 2081 and 2082 Q12 all open with binomial or series recall), a middle-term question (2079 Q12b, 2082 Q20a), a coefficient question (2080 Q13b, 2081 Q20a), and the approximation and $e^{x}$, $\log(1+x)$ expansions.
+**10 hours**. The unit supplies the **five one-mark recall parts** of Q12 (2079, 2081 and 2082 Q12 all open with binomial or series recall), a middle-term question (2079 Q12b, 2082 Q20a), a coefficient question (2080 Q13b, 2081 Q20a), and the approximation and $e^{x}$, $\log(1+x)$ expansions.
 
 | Result | Formula |
 |---|---|
@@ -189,7 +189,7 @@ Most repeated: **middle term** (2079, 2082), **coefficient comparison** (2080, 2
 
 ## 12.3 Complex Numbers
 
-CDC allots **8 hours**. De Moivre's theorem is the most repeated single theorem in Algebra: it was the subject of 2080 Q12 (five parts), 2081 Q13b and Q20b, 2082 Q12c, and CDC model Q13a.
+**8 hours**. De Moivre's theorem is the most repeated single theorem in Algebra: it was the subject of 2080 Q12 (five parts), 2081 Q13b and Q20b, 2082 Q12c, and CDC model Q13a.
 
 | Result | Formula |
 |---|---|
@@ -257,7 +257,7 @@ Most repeated: **square (or cube) roots by De Moivre** (2080, 2081 twice, CDC Q1
 
 ## 12.4 Sequence and Series
 
-CDC allots **8 hours**. A proof by mathematical induction has appeared in **every verified year**: 2079 Q13a ($\sum n^{2}$), 2080 Q20b ($n!\geq 2^{n}$), 2081 Q20c, 2082 Q20b, CDC model Q20c. It is the nearest thing to a guaranteed Group B/C item in Algebra.
+**8 hours**. A proof by mathematical induction has appeared in **every verified year**: 2079 Q13a ($\sum n^{2}$), 2080 Q20b ($n!\geq 2^{n}$), 2081 Q20c, 2082 Q20b, CDC model Q20c. It is the nearest thing to a guaranteed Group B/C item in Algebra.
 
 | Result | Formula |
 |---|---|
@@ -339,7 +339,7 @@ Most repeated: **an induction proof of an identity** (2079, 2082, CDC) or **of a
 
 ## 12.5 Matrix Based System of Linear Equations
 
-CDC allots **8 hours**. Every verified paper sets one full system of three equations: 2079 Q20 (foods, Group C), 2080 Q20c (Cramer, Group C), 2081 Q13 (row-equivalent, Group B), 2082 Q20c (matrix method, Group C) — and the Group A item "nature of a system" or "eliminate $x$".
+**8 hours**. Every verified paper sets one full system of three equations: 2079 Q20 (foods, Group C), 2080 Q20c (Cramer, Group C), 2081 Q13 (row-equivalent, Group B), 2082 Q20c (matrix method, Group C) — and the Group A item "nature of a system" or "eliminate $x$".
 
 | Method | When to use |
 |---|---|
@@ -456,7 +456,7 @@ Most repeated: a **three-equation system with a context** (2079 foods, CDC-style
 
 ## 12.6 Properties of a Triangle
 
-CDC allots **8 hours**, and the grid footnote guarantees at least one Group A item from Trigonometry, Analytic Geometry and Vector each year. The half-angle formulae appeared as MCQs in 2081 Q3 and 2082 Q3 and as proofs in 2081 Q14a and Q15a; the sine law is proved in 2079 Q14b (by vectors) and used in 2082 Q21b.
+**8 hours**, and the grid footnote guarantees at least one Group A item from Trigonometry, Analytic Geometry and Vector each year. The half-angle formulae appeared as MCQs in 2081 Q3 and 2082 Q3 and as proofs in 2081 Q14a and Q15a; the sine law is proved in 2079 Q14b (by vectors) and used in 2082 Q21b.
 
 | Result | Formula |
 |---|---|
@@ -536,7 +536,7 @@ Most repeated: a **half-angle proof of an "in A.P." or an inequality** (2081 twi
 
 ## 12.7 Solution of Triangles
 
-CDC allots only **4 hours**, but solving a triangle is a standard part of a Group C question (2081 Q21a) and supplies Group A items. Decide first which law to use: **two angles and a side** — sine law; **three sides** or **two sides and the included angle** — cosine law; **two sides and a non-included angle** — sine law, and check for *two* solutions.
+**4 hours**, but solving a triangle is a standard part of a Group C question (2081 Q21a) and supplies Group A items. Decide first which law to use: **two angles and a side** — sine law; **three sides** or **two sides and the included angle** — cosine law; **two sides and a non-included angle** — sine law, and check for *two* solutions.
 
 | Given | Method |
 |---|---|
@@ -544,10 +544,6 @@ CDC allots only **4 hours**, but solving a triangle is a standard part of a Grou
 | SAS | cosine law for the third side, then sine law (or tangent law) |
 | ASA / AAS | third angle by subtraction, then sine law |
 | SSA | sine law for $\sin B$; the ambiguous case gives $B$ and $180^{\circ}-B$ |
-
-::: caution The 2081 item as recorded cannot be solved
-In the copy of the 2081 paper we read, Q21a gives $a=3+\sqrt{3}\approx4.73$, $b=2$, $c=\sqrt{3}\approx1.73$. Here $b+c\approx3.73<a$, which violates the triangle inequality, so no such triangle exists; the printed data were presumably misread or misprinted. The question is therefore not reproduced below. **Before solving any triangle, check that the largest side is less than the sum of the other two.**
-:::
 
 **Short answer questions [5 marks each]**
 
@@ -605,7 +601,7 @@ Most repeated: **solving from three sides** and **from two sides and the include
 
 ## 12.8 Conic Sections
 
-CDC allots **20 hours**, the second-longest unit. Conics are worth **9 marks** in the grid together with their share of the Group A items, and every verified year has a Group B conic question: 2081 Q14a, Q15b, Q21b; 2082 Q15a, Q15b, Q21c; 2080 Q21a; and MCQs on eccentricity (2079 Q6), conic identification (2080 Q5) and the parabolic reflector (2081 Q4).
+**20 hours**, the second-longest unit. Conics are worth **9 marks** in the grid together with their share of the Group A items, and every verified year has a Group B conic question: 2081 Q14a, Q15b, Q21b; 2082 Q15a, Q15b, Q21c; 2080 Q21a; and MCQs on eccentricity (2079 Q6), conic identification (2080 Q5) and the parabolic reflector (2081 Q4).
 
 | Conic | Standard equation | Key quantities |
 |---|---|---|
@@ -714,7 +710,7 @@ Most repeated: **eccentricity, foci and latus rectum from an equation** (2080, 2
 
 ## 12.9 Product of Vectors
 
-CDC allots **12 hours**. Vectors are a guaranteed Group A item (grid footnote) and have a Group B or C part almost every year: 2079 Q14b (sine law by vectors), 2080 Q14b (area identity), 2081 Q14b and Q21c (dot product; area from diagonals), 2082 Q14b and Q21a (projection; scalar and vector product related).
+**12 hours**. Vectors are a guaranteed Group A item (grid footnote) and have a Group B or C part almost every year: 2079 Q14b (sine law by vectors), 2080 Q14b (area identity), 2081 Q14b and Q21c (dot product; area from diagonals), 2082 Q14b and Q21a (projection; scalar and vector product related).
 
 | Result | Formula |
 |---|---|
@@ -795,7 +791,7 @@ Most repeated: **dot product / projection / angle from components** (2081, 2082)
 
 ## 12.10 Correlation and Regression
 
-CDC allots **8 hours**, and a numerical correlation or regression question from a small table has appeared in **every verified year**: 2079 Q16 (from two given regression lines), 2080 Q15, 2081 Q16, 2082 Q16, and the CDC model Q16. It is the most predictable Group B question in the paper. Work with **deviations from the mean** to keep the arithmetic small.
+**8 hours**, and a numerical correlation or regression question from a small table has appeared in **every verified year**: 2079 Q16 (from two given regression lines), 2080 Q15, 2081 Q16, 2082 Q16, and the CDC model Q16. It is the most predictable Group B question in the paper. Work with **deviations from the mean** to keep the arithmetic small.
 
 | Result | Formula |
 |---|---|
@@ -906,7 +902,7 @@ Most repeated: **correlation from a table** then **regression and an estimate** 
 
 ## 12.11 Probability
 
-CDC allots only **4 hours** but supplies a Group A item every year: $P(B/A)$ from given probabilities appeared as an MCQ in **2080 Q7, 2081 Q6, 2082 Q6 and CDC model Q6** (the last asked the chance of $53$ Fridays or Saturdays in a leap year), and there is a Group B question on it in the grid.
+**4 hours** but supplies a Group A item every year: $P(B/A)$ from given probabilities appeared as an MCQ in **2080 Q7, 2081 Q6, 2082 Q6 and CDC model Q6** (the last asked the chance of $53$ Fridays or Saturdays in a leap year), and there is a Group B question on it in the grid.
 
 | Result | Formula |
 |---|---|
@@ -975,7 +971,7 @@ Most repeated: **$P(B/A)$ from three given probabilities** (2080, 2081, 2082, CD
 
 ## 12.12 Derivatives
 
-CDC allots **18 hours**, and with anti-derivatives and differential equations Calculus is the heaviest area, **22 of the 75 marks**. The years 2080, 2081, 2082 and the CDC model each set a hyperbolic or inverse-hyperbolic derivative (2080 Q8, 2081 Q17, 2082 Q17a and Q18a, CDC Q7), a L'Hospital limit (2080 Q17b, 2081 Q7), a tangent or normal (2081 Q18a, 2082 Q7) and a rate-of-change problem (2081 Q22a, 2082 Q22a, CDC Q10).
+**18 hours**, and with anti-derivatives and differential equations Calculus is the heaviest area, **22 of the 75 marks**. The years 2080, 2081, 2082 and the CDC model each set a hyperbolic or inverse-hyperbolic derivative (2080 Q8, 2081 Q17, 2082 Q17a and Q18a, CDC Q7), a L'Hospital limit (2080 Q17b, 2081 Q7), a tangent or normal (2081 Q18a, 2082 Q7) and a rate-of-change problem (2081 Q22a, 2082 Q22a, CDC Q10).
 
 | Result | Formula |
 |---|---|
@@ -1053,7 +1049,7 @@ Most repeated: **inverse hyperbolic derivative** (2080, 2081, 2082, CDC), **L'Ho
 
 ## 12.13 Anti-derivatives
 
-CDC allots **18 hours**. Partial fractions were set as a Group B integral in three of the four verified years (2079 Q17, 2081 Q18b, 2082 Q18b; 2080 set a substitution integral, Q22b); a half-angle substitution integral $\int dx/(a+b\cos x)$ in 2081 Q22b and 2082 Q22b; and standard forms as MCQs (2080 Q9, 2081 Q8, 2082 Q8).
+**18 hours**. Partial fractions were set as a Group B integral in three of the four verified years (2079 Q17, 2081 Q18b, 2082 Q18b; 2080 set a substitution integral, Q22b); a half-angle substitution integral $\int dx/(a+b\cos x)$ in 2081 Q22b and 2082 Q22b; and standard forms as MCQs (2080 Q9, 2081 Q8, 2082 Q8).
 
 | Standard form | Result |
 |---|---|
@@ -1137,7 +1133,7 @@ Most repeated: **partial fractions** with distinct linear factors (2079, 2082) o
 
 ## 12.14 Differential Equations
 
-CDC allots **12 hours**. Three of the four verified papers carry differential-equation MCQs in Group A (2079 Q9, 2081 Q9–Q10, 2082 Q9–Q10); all four have a solve-it part (2079 Q15b, 2080 Q17a, 2082 Q22c) and a modelling or theory part in Group C (2079 Q22, 2080 Q22c, 2081 Q22c).
+**12 hours**. Three of the four verified papers carry differential-equation MCQs in Group A (2079 Q9, 2081 Q9–Q10, 2082 Q9–Q10); all four have a solve-it part (2079 Q15b, 2080 Q17a, 2082 Q22c) and a modelling or theory part in Group C (2079 Q22, 2080 Q22c, 2081 Q22c).
 
 | Type | Method |
 |---|---|
@@ -1211,7 +1207,7 @@ Most repeated: **linear first-order with an integrating factor** (2079, 2081, 20
 
 ## 12.15 Computational Methods
 
-CDC allots **12 hours** and this unit is **one of two optional areas** (the other is Mechanics). The grid gives it $6$ marks: one Group A item and one Group B question. **A simplex LPP has appeared as a five-mark Group B question in every verified year** (compulsory in 2079 Q18 and 2080 Q18; as the Computational Methods option in 2081 Q19, 2082 Q19 and CDC model Q19b), and every year's MCQ about eliminating $x$ or $y$ from two equations belongs here too.
+**12 hours** and this unit is **one of two optional areas** (the other is Mechanics). The grid gives it $6$ marks: one Group A item and one Group B question. **A simplex LPP has appeared as a five-mark Group B question in every verified year** (compulsory in 2079 Q18 and 2080 Q18; as the Computational Methods option in 2081 Q19, 2082 Q19 and CDC model Q19b), and every year's MCQ about eliminating $x$ or $y$ from two equations belongs here too.
 
 | Method | Rule |
 |---|---|
@@ -1353,7 +1349,7 @@ Most repeated: **simplex in two variables** (every year); **Gauss–Seidel** (CD
 
 ## 12.16 Mechanics (alternative to Unit 15)
 
-CDC allots **12 hours**. This is the other optional area. In 2081, 2082 and the CDC model the two "Or" slots (Q11 and Q19) pair Computational Methods against Mechanics. In 2079 and 2080 the simplex question was compulsory (Q18) and Mechanics was paired with an input–output (economics) alternative that does not appear in the published 2078 curriculum, so it is not covered in this book. Mechanics was set in **2079 (projectile), 2080 (like parallel forces), 2081 (tensions; rocket), 2082 (inclined plane; maximum height) and the CDC model (bullet; like parallel forces)**.
+**12 hours**. This is the other optional area. In 2081, 2082 and the CDC model the two "Or" slots (Q11 and Q19) pair Computational Methods against Mechanics. In 2079 and 2080 the simplex question was compulsory (Q18) and Mechanics was paired with an input–output (economics) alternative that does not appear in the published 2078 curriculum, so it is not covered in this book. Mechanics was set in **2079 (projectile), 2080 (like parallel forces), 2081 (tensions; rocket), 2082 (inclined plane; maximum height) and the CDC model (bullet; like parallel forces)**.
 
 | Result | Formula |
 |---|---|

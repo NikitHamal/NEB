@@ -17,8 +17,7 @@ is about what a decent person turns into when the times are indecent and there i
 nothing to be done except see clearly and write it down.
 
 ::: key What the exam wants from this poem
-The **oxymoron** — "soft storm", "soft gale" — and what it achieves, because the
-textbook asks it directly. The **anaphora**: the phrase *I became soft* opens
+The **oxymoron** — "soft storm", "soft gale" — and what it achieves, which is central to the poem. The **anaphora**: the phrase *I became soft* opens
 stanza after stanza, eight times exactly, with three more variations. The
 **form**: nine stanzas, 106 lines, free verse, no rhyme, no metre. The two Nepali
 place names, **Thamel** and **Kesharmahal**, which are the only ones in the poem.
@@ -52,18 +51,6 @@ He has been President of the **Literary Association of Nepal (LAN)** and has
 written a weekly column for many years. As a critic he has worked on Nepali
 literature in English, on translation, and on Nepal's image in Western writing.
 
-::: note What we can and cannot say about the date of this poem
-The prescribed text does not say when "Soft Storm" was written or where it was first
-published. It lists *Chasing Dreams: Kathmandu Odyssey* (1996) among Subedi's
-collections, and some guides therefore state that this poem comes from that book.
-**That attribution is not confirmed by the prescribed text and you should not assert
-it.** What the poem itself gives you is internal evidence — "violent history",
-"war memories", a man beaten for no reason, a blood-stained shirt — which points
-to the decade of Nepal's armed conflict (1996–2006) and its aftermath. Write
-"the poem clearly belongs to Nepal's conflict years" rather than naming a
-publication you cannot verify.
-:::
-
 ## 12.2 The poem's world: Thamel and Kesharmahal
 
 Two place names appear in this poem and no others, and both are in the same few
@@ -96,9 +83,6 @@ lift a whole answer.
 :::
 
 ## 12.3 The poem, stanza by stanza
-
-The poem is in copyright, so short quotations only are given below. Keep the
-textbook open at pages 241–244.
 
 ### Stanza 1 (21 lines) — how the softness began
 
@@ -199,7 +183,7 @@ witnesses of the people who love him.
 
 ### Stanza 5 (11 lines) — the blood-stained shirt
 
-This is the stanza the prescribed text asks you to explain, so know it closely.
+This is the stanza the text asks you to explain, so know it closely.
 
 > I became soft
 > when I saw
@@ -229,7 +213,7 @@ against "you": "since you gave words / but did not listen to them, / gave storms
 / but didn't wait to see its **Leela** / over the silent stone."
 
 **Leela** (लीला) is the one Sanskrit word in the poem, and it does not translate
-neatly. The prescribed text glosses it as "a divine play", and that is right: in Hindu
+neatly. The text glosses it as "a divine play", and that is right: in Hindu
 thought *līlā* is the play or sport of the divine, the idea that creation is
 something God does the way a child does a game — for delight, without necessity.
 So Subedi's charge is that "you" started things and did not stay for them: gave
@@ -1090,7 +1074,6 @@ ward meeting; teach one child to read.
 > away. Thank you.
 
 ---
-
 
 ## Group D: Long answers (10 marks)
 

@@ -24,7 +24,7 @@ is dangerous. **The factors of wisdom** Russell names in turn: a *sense of propo
 and the atom; Hegel; the seekers of the philosopher's stone; Mr A and Mr B; the Samaritan.
 **The teaching of wisdom**: it can be taught, by widening the intellectual element of moral
 instruction. **The three leaders**: Queen Elizabeth I, Henry IV of France and Abraham Lincoln.
-Many short questions ask you to *differentiate* the two terms; learn the prescribed text's simple
+Many short questions ask you to *differentiate* the two terms; learn the text's simple
 definition as well as Russell's own.
 :::
 
@@ -40,7 +40,7 @@ was orphaned at the age of four and brought up mainly by his grandmother. He won
 to **Trinity College, Cambridge**, where he studied mathematics and graduated in 1893. He went
 on to become one of the founders of **analytic philosophy**. With Alfred North Whitehead he
 wrote ***Principia Mathematica*** (1910–13), an attempt to show that mathematics could be
-built on pure logic — the view called **logicism** in the prescribed text's note. He also wrote
+built on pure logic — the view called **logicism** in the text's note. He also wrote
 *The Problems of Philosophy* (1912) and ***A History of Western Philosophy*** (1945), which
 made philosophy readable for millions.
 
@@ -72,7 +72,7 @@ example of knowledge running ahead of wisdom.
 ```photo id="eng12/castle-bravo" caption="The Bravo test at Bikini Atoll, 1 March 1954: a 15-megaton thermonuclear explosion, photographed by the US Department of Energy. The year Russell wrote his essay, the world saw how far knowledge of the atom had outrun the wisdom to control it." width="46"
 ```
 
-The prescribed text's headnote gives a short, simplified version of the idea: *knowledge* is "the
+The text's headnote gives a short, simplified version of the idea: *knowledge* is "the
 acquisition of data and information", *wisdom* is "the practical application and use of the
 knowledge to create value", gained "through learning and practical experience, not just
 memorization". This is a modern summary, **not Russell's wording**. Board answers usually
@@ -384,7 +384,7 @@ and humane. The last sentences rise to a serious warning.
 | fanatical | too enthusiastic about a cause, to an extreme and unreasoning degree |
 | beneficent | doing good; kind |
 | augments | increases |
-| bound up | closely tied to something (the prescribed text's gloss, "to limit", is not the meaning here) |
+| bound up | closely tied to something |
 
 ::: note Textual notes
 In the printed passage "as fat as possible" should read **"as far as possible"**, and "the extent
@@ -559,7 +559,7 @@ asking *what is this knowledge for?*
 9. Why does Russell refuse to say that it is right to hate those who do harm? <span class="marks">[2]</span>
 
 ::: note Model answers — short questions
-**1.** According to the prescribed text's summary, knowledge is the acquisition of data and information,
+**1.** According to the text's summary, knowledge is the acquisition of data and information,
 while wisdom is the practical application of that knowledge to create value. In Russell's own
 account, knowledge is what a specialist knows; wisdom is a **comprehensive vision** — a sense of
 proportion, awareness of the ends of life, freedom from prejudice and from the "tyranny of the

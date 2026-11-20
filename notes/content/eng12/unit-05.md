@@ -25,13 +25,6 @@ is honest about its own uncertainty: a road is not found, it is made when many p
 walk the same way.
 :::
 
-::: note A note on names and quotations
-Chinese names are spelled differently in different translations. This translation writes
-**Runtu** (also Jun-tu, the spelling used in Yang Xianyi and Gladys Yang's 1960
-translation, which many textbooks follow), **Hongr** (Hung-erh) and **Shuisheng**
-(Shui-sheng). The quotations below follow the Yang translation; quote the exact wording of the prescribed extract in the examination.
-:::
-
 ## 5.1 About the author: Lu Xun
 
 Lu Xun (1881–1936) is the pen-name of **Zhou Shuren**, the founder of modern Chinese
@@ -717,7 +710,6 @@ sentence says that the future is not given but has to be made; it is neither nai
 story's whole movement — from winter gloom and the wall between two men, to children who play without one — leads to
 this sentence: change is possible, but only if people walk together.
 :::
-
 
 ## Group D: Long answers (10 marks)
 

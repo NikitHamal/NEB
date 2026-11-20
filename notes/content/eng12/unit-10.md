@@ -58,16 +58,11 @@ at first in an unmarked grave before being identified and brought home to
 Carolina, where she is now a national figure.
 
 She wrote a generation **before the Nuyorican poetry movement** of Puerto Rican
-writers in New York, and is regarded as its precursor — which is what your
-textbook means by calling her "a precursor to the contemporary Latina/o
-writers".
+writers in New York, and is regarded as its precursor — making her a precursor to contemporary Latina/o writers.
 
 ## 10.2 The poem in translation
 
-This is the one thing about this poem that most notes leave out, and it is worth
-two or three marks in any question about form or sound.
-
-De Burgos wrote in **Spanish**. The prescribed text is an **English
+De Burgos wrote in **Spanish**. The text is an **English
 translation by Jack Agüeros**, made for *Song of the Simple Truth: The Complete
 Poems of Julia de Burgos* (Curbstone Press, 1997), the bilingual edition that
 introduced her to most English readers. The Spanish title is **"Yo misma fui mi
@@ -106,9 +101,6 @@ reward the awareness, not a long digression.
 :::
 
 ## 10.3 The poem, stanza by stanza
-
-The poem is in copyright, so short quotations only are given here. Keep the
-textbook open.
 
 ### Stanza 1 (nine lines) — the confession and the refusal
 
@@ -902,7 +894,6 @@ webs are made of threads, and a person who knows exactly which threads hold her
 can sometimes cut one. De Burgos did not abolish the old guard of Puerto Rico in
 1938. She did something smaller and more possible: when they called her name at
 their parade, she was not there.
-
 
 ## Group D: Long answers (10 marks)
 

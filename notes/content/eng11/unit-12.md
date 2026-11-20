@@ -199,9 +199,6 @@ ax.grid(axis="y", alpha=.4); ax.set_axisbelow(True)
 
 ## 12.5 Poetic devices
 
-Because the poem is modern and in copyright, the table names the images rather
-than reprinting the lines.
-
 | Device | Where it appears | Effect |
 |---|---|---|
 | Irony | the word "gift" used for blood, a corpse and medals | The politeness of the word exposes the horror of the thing; this is the poem's central device |

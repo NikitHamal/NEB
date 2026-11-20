@@ -55,7 +55,7 @@ figures → comparison) and a process (passive voice, sequence words).
   wild buffalo), involve communities, use good science, make development
   **wildlife-friendly**, and manage **corridors** linking habitats.
 
-(The prescribed text misprints NTNC as the "National Trust for Nature
+(The text misprints NTNC as the "National Trust for Nature
 *Conversation*"; it is **Conservation**.)
 
 ```figure caption="Tiger numbers in Nepal from the four national surveys. 2009 to 2022: 121 → 355, almost three times."

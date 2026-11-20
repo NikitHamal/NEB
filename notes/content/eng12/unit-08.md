@@ -80,11 +80,11 @@ above all her dashes. In her manuscript line 11 begins *That* little yellow boys
 and girls; the printed tradition gives *Which*. Do not lose marks over this — the
 textbook's word is the one to quote — but know that it happened.
 
-**That mark in line one is a dash.** The prescribed text prints:
+**That mark in line one is a dash.** The text prints:
 
 > I'll tell you how the sun rose, ___
 
-Dickinson wrote a comma and then one of her long dashes. The prescribed text's
+Dickinson wrote a comma and then one of her long dashes. The text's
 Reference-to-the-context question calls it "the hyphen"; the safe thing in the
 exam is to answer the question as asked while describing what the mark actually
 does, which is what §8.11 below models. A dash is Dickinson's fingerprint. It is
@@ -263,7 +263,7 @@ squirrels, hills, birds. The cause is the one thing she cannot look at.
 
 **Innocence and experience.** The speaker of stanzas 1–2 is a child with a story.
 By stanza 4 she has watched something she cannot narrate. The poem enacts the
-loss of confidence that comes with understanding. The prescribed text puts it as a
+loss of confidence that comes with understanding. The text puts it as a
 movement "from innocence to experience", and that is a defensible summary
 provided you can point to *But how he set, I know not* as the moment it happens.
 
@@ -754,7 +754,6 @@ producing one.
 tense throughout. Vary sentence length: after three long sentences, use a short
 one. And resist the urge to say what you learned — a personal essay shows, and
 lets the reader conclude.
-
 
 ## Group D: Long answers (10 marks)
 

@@ -1829,7 +1829,140 @@ the answer without any output statement — a program that computes the right
 value and prints nothing scores like a program that does nothing.
 :::
 
-## 15.5 Extended model answers (10 marks)
+## 15.5 Unit 4: Programming in C
+
+**Group B & C — Short and long answer (5 / 8 marks)**
+
+1. Define a user-defined function in C. Differentiate between call by value and call by reference with C program examples. <span class="marks">[5]</span>
+
+::: note Model answer — Unit 4 Q1
+A **user-defined function** is a self-contained block of statements written by the programmer to perform a specific task, declared with a return type, function name, and parameter list.
+
+| Feature | Call by value | Call by reference |
+|---|---|---|
+| Argument passed | Copy of the variable's value | Address (pointer) of the variable |
+| Effect on actual argument | Original variable in `main()` is **unchanged** | Original variable in `main()` is **modified directly** |
+| Memory | Separate memory locations for formal and actual parameters | Formal pointer points to the same memory address |
+
+```c
+#include <stdio.h>
+void swapRef(int *a, int *b) {
+    int t = *a; *a = *b; *b = t;
+}
+int main(void) {
+    int x = 10, y = 25;
+    swapRef(&x, &y);
+    printf("x = %d, y = %d\n", x, y); /* Output: x = 25, y = 10 */
+    return 0;
+}
+```
+:::
+
+2. Differentiate between a `structure` and a `union` in C. Write a C program using `struct` to input `roll`, `name`, and `marks` of 50 students and display the records of students who scored more than 80. <span class="marks">[8]</span>
+
+::: note Model answer — Unit 4 Q2
+- In a **`struct`**, every member is allocated its own separate storage and the total size is at least the sum of the sizes of all members; all members can be accessed simultaneously.
+- In a **`union`**, all members share the **same memory block** whose size equals the largest member; only one member holds a valid value at any instant.
+
+```c
+#include <stdio.h>
+struct Student {
+    int roll;
+    char name[40];
+    float marks;
+};
+int main(void) {
+    struct Student s[50];
+    int i;
+    for (i = 0; i < 50; i++) {
+        scanf("%d %39s %f", &s[i].roll, s[i].name, &s[i].marks);
+    }
+    printf("Students scoring above 80:\n");
+    for (i = 0; i < 50; i++) {
+        if (s[i].marks > 80.0f) {
+            printf("%d\t%s\t%.2f\n", s[i].roll, s[i].name, s[i].marks);
+        }
+    }
+    return 0;
+}
+```
+:::
+
+3. Write a C program using recursion to find the factorial of a positive integer $n$ and the $n\text{th}$ Fibonacci term, and write a C program to write and read employee records (`id`, `name`, `salary`) using a data file `emp.txt`. <span class="marks">[8]</span>
+
+::: note Model answer — Unit 4 Q3
+```c
+#include <stdio.h>
+long fact(int n) {
+    if (n <= 1) return 1;
+    return n * fact(n - 1);
+}
+int main(void) {
+    FILE *fp = fopen("emp.txt", "w");
+    int id = 101; char name[] = "Aarav"; float sal = 48000.0f;
+    if (fp != NULL) {
+        fprintf(fp, "%d %s %.2f\n", id, name, sal);
+        fclose(fp);
+    }
+    printf("5! = %ld\n", fact(5)); /* Output: 5! = 120 */
+    return 0;
+}
+```
+:::
+
+## 15.6 Unit 5: Object-Oriented Programming
+
+**Group B — Short answer (5 marks each)**
+
+1. Define Object-Oriented Programming (OOP) and explain its four core pillars: encapsulation, data abstraction, inheritance, and polymorphism. <span class="marks">[5]</span>
+
+::: note Model answer — Unit 5 Q1
+**Object-Oriented Programming (OOP)** organises software around **objects** (instances of **classes**) that bundle data attributes and the methods that operate on them:
+- **Encapsulation:** Binding data members and member functions together inside a single class and restricting direct external access using access specifiers (`private`, `protected`, `public`) for data hiding.
+- **Data abstraction:** Exposing only the essential interface to the user while hiding internal implementation details.
+- **Inheritance:** Mechanism by which a derived (child) class acquires the properties and behaviours of a base (parent) class—**single, multilevel, multiple, hierarchical, and hybrid**—promoting code reuse.
+- **Polymorphism:** Ability of a single function or operator name to act differently based on context—**compile-time** (function/operator overloading) and **run-time** (method overriding via virtual functions).
+:::
+
+## 15.7 Unit 6: Software Process Model
+
+**Group B — Short answer (5 marks each)**
+
+1. What is the System Development Life Cycle (SDLC)? Explain its phases and compare the Waterfall, Prototype, Spiral, and Agile models. <span class="marks">[5]</span>
+
+::: note Model answer — Unit 6 Q1
+The **System Development Life Cycle (SDLC)** is the structured sequence of stages followed to plan, analyse, design, build, test, deploy, and maintain an information system:
+1. **System Study / Problem Definition**
+2. **Feasibility Study** (*Technical*, *Economic / Cost-Benefit*, *Operational*, *Schedule*, and *Legal* feasibility)
+3. **System Analysis** (requirements gathering, DFDs, ER diagrams, data dictionary)
+4. **System Design** (logical and physical design: database schema, UI, architecture)
+5. **Coding / Implementation**
+6. **Testing** (Unit, Integration, System, Acceptance; **White-box** structural vs **Black-box** functional testing)
+7. **Deployment and Maintenance** (Corrective, Adaptive, Perfective, Preventive)
+
+- **Waterfall model:** Linear sequential phases; best when requirements are fixed and well understood.
+- **Prototype model:** Builds a quick working mock-up for user feedback when requirements are initially unclear.
+- **Spiral model:** Iterative risk-driven loops (Planning, Risk Analysis, Engineering, Evaluation) for large, high-risk systems.
+- **Agile model:** Short iterative sprints ($1\text{–}4$ weeks) delivering working increments with continuous customer collaboration.
+:::
+
+## 15.8 Unit 7: Recent Trends in Technology
+
+**Group B — Short answer (5 marks each)**
+
+1. Explain Cloud Computing service models (IaaS, PaaS, SaaS), the Internet of Things (IoT), Artificial Intelligence (AI), and Big Data (5 Vs). <span class="marks">[5]</span>
+
+::: note Model answer — Unit 7 Q1
+- **Cloud Computing:** On-demand delivery of computing resources over the internet with pay-as-you-go pricing:
+  - **IaaS (Infrastructure as a Service):** Virtual machines, storage, networks (e.g., AWS EC2, Google Compute Engine).
+  - **PaaS (Platform as a Service):** Runtime environment and deployment tools for developers (e.g., Google App Engine, Heroku).
+  - **SaaS (Software as a Service):** Ready-to-use applications in a browser (e.g., Google Workspace, Microsoft 365).
+- **Internet of Things (IoT):** Network of physical objects embedded with sensors, actuators, microcontrollers, and internet connectivity (e.g., smart agriculture soil-moisture sensors, wearable ECG monitors, smart grids).
+- **Artificial Intelligence (AI):** Systems capable of perception, reasoning, learning (Machine Learning / Deep Learning), and Natural Language Processing.
+- **Big Data:** Datasets too large and fast for traditional RDBMS, characterised by the **5 Vs**: **Volume**, **Velocity**, **Variety**, **Veracity**, and **Value**.
+:::
+
+## 15.9 Extended model answers (10 marks)
 
 The Computer Science written paper gives 8 marks to each long question, and the top answers in the Group C of the model papers run to a full page. The four models below are written to the 10-mark standard: a definition, a diagram or table, a structured body and a conclusion. The SQL results printed here were produced by running the statements on a real database.
 
@@ -1986,3 +2119,24 @@ HAVING AVG(marks) > 60;
 The result was: CS1 with 3 students and an average of 71.67, and CS2 with 2 students and an average of 67.5.
 
 **Conclusion.** A normalized design stores each fact once. Joins put the tables back together when a query needs the whole picture, as in a college information system such as the Tribhuvan University EMIS.
+
+## Chapter summary
+
+- **DBMS & Networking (Units 1–2):** Relational keys, 1NF/2NF/3NF normalization, SQL (`CREATE`, `INSERT`, `SELECT ... JOIN ... GROUP BY`), transmission media, topologies, OSI vs TCP/IP layers, and network devices form the core of the descriptive and SQL questions.
+- **Web Technology II & C Programming (Units 3–4):** JavaScript event-driven validation and loops, PHP `mysqli` CRUD scripts, C user-defined functions (call by value vs reference, recursion), arrays of `struct`, pointers, and file handling (`fopen`, `fprintf`, `fscanf`) supply the compulsory programming questions.
+- **OOP, SDLC & Recent Trends (Units 5–7):** Encapsulation, abstraction, inheritance, polymorphism, feasibility studies, Waterfall/Prototype/Spiral/Agile models, Cloud (IaaS/PaaS/SaaS), IoT, AI, E-Governance, and Big Data complete the subjective paper.
+
+## Practice questions
+
+**Group B — Short answer (5 marks each)**
+
+1. Define normalization and explain 1NF, 2NF, and 3NF with an example table. <span class="marks">[5]</span>
+2. Differentiate between client-side scripting and server-side scripting, and write a JavaScript function to check whether a number is prime. <span class="marks">[5]</span>
+3. Differentiate between `struct` and `union` in C with syntax and memory allocation diagrams. <span class="marks">[5]</span>
+4. Explain encapsulation, inheritance, and polymorphism in Object-Oriented Programming. <span class="marks">[5]</span>
+5. Explain technical, economic, and operational feasibility in the SDLC, and compare IaaS, PaaS, and SaaS in Cloud Computing. <span class="marks">[5]</span>
+
+**Group C — Long answer (8 marks each)**
+
+1. Explain the seven layers of the OSI reference model and compare Star, Bus, and Ring topologies. <span class="marks">[8]</span>
+2. Write a C program using `struct` to store `id`, `name`, and `salary` of $N$ employees in a file `emp.dat` and display those earning above Rs. 50,000. <span class="marks">[8]</span>

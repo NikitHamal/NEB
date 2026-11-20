@@ -60,10 +60,7 @@ well as psychological: the first half is a satire on middle-class Indian
 ambition, and the second half turns the same social world into a trap.
 :::
 
-::: caution Study-guide mistakes to avoid
-Several popular study guides repeat wrong details. Check them against the text
-before writing them in an answer.
-
+::: caution Common misconceptions to avoid
 1. **Varma was not a kerosene seller or a vegetable vendor.** He *worked for forty
    years at a kerosene dealer's depot*; it was **his father** who sold vegetables
    in the market. His wife spent her whole life in a kitchen.
@@ -867,7 +864,6 @@ stopped looking at the doctor, and that only the father, who lives with him, is 
 judge. It also introduces the story's real subject, which is not success but what success
 does to those closest to it.
 :::
-
 
 ## Group D: Long answers (10 marks)
 

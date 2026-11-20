@@ -120,7 +120,7 @@ i. Mandy is the girl whose car I am using today.
 **Problem.** Write a short biography of Pasang Lhamu Sherpa from the notes.
 
 **Solution.** Pasang Lhamu Sherpa was the first Nepali woman to climb Mount
-Everest. She was born in December 1961 in Solukhumbu (the prescribed text gives 16
+Everest. She was born in December 1961 in Solukhumbu (the text gives 16
 December; most sources give 10 December). She grew up in a mountaineering
 family and started climbing mountains in her teens.
 

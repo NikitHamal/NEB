@@ -49,7 +49,7 @@ schooldays, shows how long he had been thinking about classrooms, examinations
 and the war of nerves between master and pupil.
 
 *Refund* was written in **1938**. It was adapted by the American playwright
-**Percival Wilde** for a general audience, and the prescribed text is
+**Percival Wilde** for a general audience, and the text is
 Wilde's. The play brings out Karinthy's extraordinary sense of parody and word
 play, and it is full of humour arising from an extraordinarily absurd situation.
 
@@ -318,16 +318,6 @@ at his staff with the last line of the play:
 
 > "In the future it will be our proudest boast that in this school a pupil simply
 > cannot fail!"
-
-::: caution The arithmetic as printed
-Add the figures Wasserkopf reads out and the sub-totals in the prescribed text do not
-come out exactly — the printed running totals differ from the sum of the parts by a
-few crowns. This is a misprint in the reprinting, not a puzzle for you to solve. In
-an examination, **quote the grand total as the text gives it — 6,450 crowns 50
-heller, "knock off the heller and call it crowns"** — and do not lose time trying
-to correct the intermediate sums. What matters for the answer is that the
-Mathematics Master checks the figures and says "Exactly!"
-:::
 
 ## 20.4 The double trap
 

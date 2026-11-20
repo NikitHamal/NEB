@@ -180,9 +180,6 @@ almost every literature paper.
 
 ## 8.5 Poetic devices
 
-Because the poem is modern and in copyright, the table below names each device
-and the place in the poem where it works, rather than reprinting the lines.
-
 | Device | Where it appears | Effect |
 |---|---|---|
 | Personification | the virus speaks as "I" and reasons like a person | Makes the whole poem possible; an enemy is allowed to state its case |

@@ -63,7 +63,7 @@ verb* after a given verb. (4) Form wh- and yes/no questions from statements.
 - He died on **19 May 2021**; his passion lives on in the young naturalists he
   mentored.
 
-(The prescribed text misprints IUCN as "International Union for the *Conversation* of
+(The text misprints IUCN as "International Union for the *Conversation* of
 Nature"; it is the International Union for **Conservation** of Nature.)
 
 ### Vocabulary (Exercise A)

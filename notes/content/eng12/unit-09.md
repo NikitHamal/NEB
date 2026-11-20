@@ -86,7 +86,7 @@ the play as the light goes.
 
 ::: note Morning poem or evening poem?
 The poem begins "Every morning when I wake", so it is natural to call it a
-morning prayer, and the prescribed text does. But in the play it is Eli Jenkins's
+morning prayer, and the text does. But in the play it is Eli Jenkins's
 **evening** recitation — his sunset poem. That is not a contradiction. The poem
 *describes* what he does every morning and every evening; he *speaks* it at
 dusk. If an examiner asks when the speaker prays, the honest answer is: twice a
@@ -97,9 +97,6 @@ The poem has no title of its own in the play. "Every Morning I Wake" is simply
 its first line, used as a title when the passage is anthologised.
 
 ## 9.3 The poem, stanza by stanza
-
-The poem is in copyright, so it is quoted here in short pieces; keep your
-textbook open beside this page.
 
 ### Stanza 1 — the morning prayer
 
@@ -123,13 +120,6 @@ every living thing, on the sole qualification that it is mortal. "Poor" here
 means *pitiable*, not *penniless*; "creatures" means everything that has been
 created, animals included. In two lines the poem has replaced the idea of a God
 who rewards and punishes with the idea of a God who watches with pity.
-
-::: note A textual variant worth knowing
-The printed text gives "O please **do** keep Thy **loving** eye". The published
-text of *Under Milk Wood* reads "O please to keep Thy lovely eye". Quote your
-textbook's version in the exam — it is the version being examined — but if you
-meet the other wording in a library copy, you now know why.
-:::
 
 ### Stanza 2 — the evening blessing
 
@@ -255,7 +245,7 @@ still end on an exclamation mark.
 **A merciful God, imagined humbly.** God in this poem has a *loving eye*, is
 addressed as *Dear Lord* and *Thou*, and is expected to see the best side. There
 is no hell, no judgement seat, no list of sins. The magnificence of God, which
-the prescribed text question asks about, is shown entirely through generosity: He is
+the text question asks about, is shown entirely through generosity: He is
 great because He is kind, and because the whole of creation is small enough to
 fit under one loving glance.
 

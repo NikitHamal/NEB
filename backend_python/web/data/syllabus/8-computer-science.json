@@ -127,7 +127,7 @@
     "Stored-program concept"
    ],
    "stats": {
-    "words": 6580,
+    "words": 6574,
     "figures": 4,
     "examples": 5
    },
@@ -902,7 +902,7 @@
     "Bit, nibble and byte"
    ],
    "stats": {
-    "words": 8256,
+    "words": 8182,
     "figures": 5,
     "examples": 21
    },
@@ -1126,7 +1126,7 @@
     "Variable"
    ],
    "stats": {
-    "words": 6240,
+    "words": 6232,
     "figures": 2,
     "examples": 7
    },

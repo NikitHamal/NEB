@@ -274,7 +274,7 @@ day, May 5, the final match is played in the morning, and the tournament ends
 in the afternoon with the prize distribution and the closing ceremony.
 :::
 
-(Note: the prescribed text prints "10.00–12.00 am"; strictly, 12:00 is noon, so write
+(Note: the text prints "10.00–12.00 am"; strictly, 12:00 is noon, so write
 "from 10 a.m. to 12 noon".)
 
 ### Filling in a form (Writing B)

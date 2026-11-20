@@ -60,13 +60,21 @@ jobs:
           mkdir -p stage notes/pdf
           python3 notes/tools/export_syllabus.py
           python3 notes/tools/export_study.py $SLUGS
-          tar -C backend_python -cf stage/web_sync.tar web/data/syllabus web/data/study web/static/web/study
           python3 - <<'PY'
           import json, os, shutil, subprocess, sys
           sys.path.insert(0, "notes/pipeline")
-          import spine, build_pdf
+          sys.path.insert(0, "notes/tools")
+          import spine, build_pdf, export_study
 
           slugs = os.environ["SLUGS"].split()
+          sync_paths = ["web/data/syllabus"]
+          for s in slugs:
+              out_slug = export_study.SLUG_MAP.get(s, s)
+              for rel in (f"web/data/study/{out_slug}", f"web/static/web/study/{out_slug}"):
+                  if os.path.exists(os.path.join("backend_python", rel)):
+                      sync_paths.append(rel)
+          subprocess.check_call(["tar", "-C", "backend_python", "-czf", "stage/web_sync.tgz"] + sync_paths)
+
           built_map = {}
           for slug in slugs:
               print(f"=== Building {slug} ===", flush=True)
@@ -96,10 +104,10 @@ jobs:
           SSH="ssh -o StrictHostKeyChecking=no -o ConnectTimeout=30 -o ServerAliveInterval=15 -i $KEY consicac@$SSH_HOST"
           REMOTE=/home/consicac/nebians_api/tmp/newpdfs
           $SSH "rm -rf $REMOTE && mkdir -p $REMOTE"
-          tar -C stage -cf - . | $SSH "tar -C $REMOTE -xf -"
+          tar -C stage -czf - . | $SSH "tar -C $REMOTE -xzf -"
           FLAGS=""
           [ "$DRY" = "true" ] && FLAGS="--dry-run"
-          $SSH "cd /home/consicac/nebians_api && ([ '$DRY' = 'true' ] || (tar -C /home/consicac/nebians_api -xf $REMOTE/web_sync.tar && mkdir -p staticfiles/web/study && cp -rf web/static/web/study/. staticfiles/web/study/ && mkdir -p tmp && touch tmp/restart.txt)) && source /home/consicac/virtualenv/nebians_api/3.13/bin/activate && python manage.py replace_book_files $REMOTE --map $REMOTE/published.json --slug $SLUGS $FLAGS && ([ '$DRY' = 'true' ] || python manage.py approve_book_uploads nebians --yes || true) && rm -rf $REMOTE"
+          $SSH "cd /home/consicac/nebians_api && ([ '$DRY' = 'true' ] || (tar -C /home/consicac/nebians_api -xzf $REMOTE/web_sync.tgz && mkdir -p staticfiles/web/study && (tar -C /home/consicac/nebians_api/staticfiles -xzf $REMOTE/web_sync.tgz --strip-components=1 web/static/web/study 2>/dev/null || true) && mkdir -p tmp && touch tmp/restart.txt)) && source /home/consicac/virtualenv/nebians_api/3.13/bin/activate && python manage.py replace_book_files $REMOTE --map $REMOTE/published.json --slug $SLUGS $FLAGS && ([ '$DRY' = 'true' ] || python manage.py approve_book_uploads nebians --yes || true) && rm -rf $REMOTE"
 
       - name: Commit rebuilt PDFs and exported study data to repository
         if: ${{ inputs.dry_run != 'true' }}
@@ -111,7 +119,7 @@ jobs:
           git clean -fd notes/assets notes/pipeline 2>/dev/null || true
           git fetch origin main
           git rebase --autostash origin/main
-          tar -C backend_python -xf stage/web_sync.tar
+          tar -C backend_python -xzf stage/web_sync.tgz
           python3 notes/tools/export_syllabus.py
           python3 - <<'PY'
           import json, os, shutil, subprocess

@@ -79,12 +79,6 @@ small, roughly 6,000–7,000 workers, against tens of thousands in *A. mellifera
 3 cm; a single comb may hold 60 kg of honey, and it was confirmed as a full
 species distinct from *A. dorsata* only in 2020.
 
-::: caution Names that lose marks
-Write ***Apis cerana***. "*Apis indica*" and "*Apis cerana indica*" are obsolete
-names still printed in old textbooks. And *A. laboriosa* is the largest **honey
-bee**, not the largest bee — the leaf-cutter *Megachile pluto* is bigger.
-:::
-
 **The colony.** A honey bee colony is a rigid caste society of one **queen**, a
 few hundred **drones** and thousands of **workers**, all of them the queen's
 offspring.
@@ -263,10 +257,7 @@ eggs and die without ever feeding — the adult has vestigial mouthparts and
 cannot fly.
 
 ::: caution Five instars, four moults
-Textbooks routinely print "four instars" or "five moults". The larva has
-**five instars and four larval moults**; the fifth moult, larva to pupa, happens
-*inside* the cocoon. Also: the larva is monophagous on mulberry, so a
-sericulture failure is almost always a mulberry failure.
+The silkworm larva passes through **five instars and four larval moults**; the fifth moult (larva to pupa) takes place *inside* the cocoon. Because *Bombyx mori* is monophagous on mulberry leaves, healthy mulberry cultivation is essential for sericulture.
 :::
 
 ```photo id="bio12/silkworm-cocoon" caption="An adult *Bombyx mori* moth on a cocoon. This is the stage sericulture prevents from ever happening: a moth that completes its development bites its way out, and the single filament of that cocoon is left in short, unreelable pieces." width="90"
@@ -373,10 +364,7 @@ bighead carp *Hypophthalmichthys nobilis* — a zooplankton feeder — sometimes
 substitutes for a species in Nepal's six-species system.
 
 ::: caution Silver carp and bighead carp are not interchangeable
-**Silver carp eats phytoplankton; bighead carp eats zooplankton.** This pair is
-swapped in a large fraction of South Asian textbooks and is a favourite MCQ.
-Two more from the same family of errors: rohu is a **column** feeder, not a
-bottom feeder, and catla feeds on **zooplankton**, not phytoplankton.
+**Silver carp feeds on phytoplankton, whereas bighead carp feeds on zooplankton.** Similarly, **rohu (*Labeo rohita*)** is a middle-layer **column feeder**, **catla (*Catla catla*)** is a surface **zooplankton feeder**, and **mrigal** and **common carp** are **bottom (detritus) feeders**.
 :::
 
 ```photo id="bio12/fish-catla" caption="Catla (*Labeo catla*) — a surface feeder on zooplankton; the deep, broad head carries an upturned mouth." width="54"
@@ -684,9 +672,7 @@ The standard species is ***Eisenia fetida***, the tiger worm or red wiggler
 *Perionyx excavatus* and the South Asian *Lampito mauritii* are also used.
 
 ::: caution *Eisenia fetida*, not *foetida*
-*Eisenia fetida* is the accepted spelling; *E. foetida* is a synonym. And
-*Lumbricus terrestris*, which appears in many textbook lists, is an **anecic**
-species and is unsuitable for vermicomposting.
+*Eisenia fetida* (also spelled *E. foetida*) and *Eudrilus eugeniae* are surface-dwelling **epigeic** earthworms suited for vermicomposting, whereas deep-burrowing **anecic** species such as *Lumbricus terrestris* are unsuitable for compost bins.
 :::
 
 **Running a bed.** A shallow bed 1 m × 1 m × 0.5 m is stocked with about

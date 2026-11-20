@@ -16,7 +16,7 @@ lack, and that this description is itself part of what keeps them poor. Change
 the perception, Okri says, and you change what is possible.
 
 ::: key What the exam wants from this poem
-The **rhyme scheme**, because the prescribed text asks about it twice: **aa bb cc dd ee
+The **rhyme scheme**, because the text asks about it twice: **aa bb cc dd ee
 ff gg — seven rhyming couplets**. The fact that it has **fourteen lines** (which
 is why the exercises call it a sonnet) but **no regular metre** and **no
 standard sonnet rhyme scheme**. The key phrases: *the meridian line*, *poverty's
@@ -30,13 +30,6 @@ change.**
 
 **Sir Ben Okri** was born on **15 March 1959** in **Minna**, in central Nigeria,
 to an Urhobo family.
-
-::: note Author biography note
-Ben Okri
-was born in **1959**. If a question asks for the poet's dates, write 1959; if you
-are anxious about contradicting the book, write "born 1959 (the prescribed text's 1949
-is a misprint)".
-:::
 
 When he was a baby his father went to London to study law, and Okri spent his
 early childhood in **Peckham, south London**, before the family returned to
@@ -53,7 +46,7 @@ Enchantment* (1993) and *Infinite Riches* (1998).
 His writing is usually placed under the heading of **magical realism**, and Okri
 has always resisted the label, arguing that what Europeans call magic is simply
 the ordinary furniture of a West African world-view. In the interview quoted in
-the prescribed text he makes the point exactly: "I grew up in a tradition where there
+the text he makes the point exactly: "I grew up in a tradition where there
 are simply more dimensions to reality: legends and myths and ancestors and
 spirits and death. You can't use Jane Austen to speak about African reality."
 
@@ -85,13 +78,13 @@ running across the Sahara.
 
 It follows that two things commonly said about this poem need care:
 
-**It is not a poem about the Nigerian civil war.** The prescribed text's introduction
+**It is not a poem about the Nigerian civil war.** The text's introduction
 mentions that Okri's writing "treats his family's experience of the Nigerian
 civil war", which is true of his fiction, and many guides then read the war into
 this poem. There is no war in it. Its subject is the relationship between rich
 and poor countries at the end of the twentieth century.
 
-**It is not simply a poem about labour migration**, although the prescribed text's
+**It is not simply a poem about labour migration**, although the text's
 "Before reading" questions and the final essay topic push you that way. The
 travellers on the meridian are people connected across distance, not
 necessarily people who have emigrated. You can and should answer the migration
@@ -106,9 +99,6 @@ asked. Examiners reward the fact; they do not reward a quarrel.
 :::
 
 ## 11.3 The poem, couplet by couplet
-
-The poem is in copyright, so only short quotations are given. Keep the prescribed text
-open at page 239.
 
 ### Couplet 1 — the summons
 
@@ -320,7 +310,7 @@ promises a change of age, not a quick fix.
 
 ## 11.6 Form, rhyme and structure
 
-**Fourteen lines in seven couplets.** Set out in the prescribed text with a blank line
+**Fourteen lines in seven couplets.** Set out in the text with a blank line
 between each pair.
 
 **Rhyme scheme: aa bb cc dd ee ff gg.** Every couplet rhymes on its own sound and
@@ -518,7 +508,7 @@ shared, enough for all).
 
 ## Chapter summary
 
-Sir Ben Okri (born 1959 in Minna, Nigeria; the prescribed text's "1949" is a misprint)
+Sir Ben Okri (born 1959 in Minna, Nigeria; the text's "1949" is a misprint)
 spent his early childhood in London, returned to Nigeria during the civil war,
 and won the Booker Prize in 1991 for *The Famished Road*. "The Awakening Age" was
 written in 1999 for Oxfam's "On The Line" project, which linked communities along

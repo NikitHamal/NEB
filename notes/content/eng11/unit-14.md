@@ -63,13 +63,6 @@ of its charm is the irony he admits in his second sentence: the speaker never
 graduated from college himself.
 :::
 
-::: caution Two names for one speech
-Stanford calls it the **2005 Stanford Commencement Address**. The title used in
-the prescribed text, **"How to Live Before You Die"**, is the name under which the
-video was later published as a TED talk. They are the same speech. Many students
-also know it as the "Stay Hungry, Stay Foolish" speech, from its closing words.
-:::
-
 ## 14.2 The speech
 
 **The opening frame.** Jobs begins by disarming his audience. He says he is

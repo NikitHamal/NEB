@@ -160,7 +160,7 @@ ax.set_xticks([]); ax.set_yticks([])
 ```
 
 ::: caution A language is not a translator
-"Python is an interpreter" and "C is a compiler" are common slips, and one textbook even lists COBOL among compilers. Python, C and COBOL are **languages**. The **Python interpreter** is the program that runs Python code; **GCC** is a program that compiles C code. Write "Python programs are run by an interpreter", not "Python is a compiler".
+"Python is an interpreter" and "C is a compiler" are common slips. Python, C and COBOL are **languages**. The **Python interpreter** is the program that runs Python code; **GCC** is a program that compiles C code. Write "Python programs are run by an interpreter", not "Python is a compiler".
 :::
 
 ::: example Worked example 19.2 — compiler or interpreter?

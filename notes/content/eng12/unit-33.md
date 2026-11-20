@@ -196,7 +196,7 @@ their discipline is worth.
 The first charge against them is that they test recall, not thought. A student can
 score full marks on the definition of photosynthesis and still be unable to explain why
 a plant on a dark window sill turns yellow. Our question papers reward the sentence
-that has been memorised in the exact words of the prescribed text, and our answer keys
+that has been memorised in the exact words of the text, and our answer keys
 frequently punish the student who puts the same idea in his own. What is being
 measured, then, is speed of recall under pressure — a real skill, but a narrow one, and
 not the one the syllabus claims to teach.
@@ -452,7 +452,6 @@ you what my neighbour thinks about it.*
 **11.** A memoir is true and is told by the person it happened to, and it includes that person's later understanding of it.
 **12.** *We shall go on grading memory, then, until we are willing to set a harder kind of paper.* — restate in new words and end on something forward-looking.
 :::
-
 
 ## Group D: Long answers (10 marks)
 

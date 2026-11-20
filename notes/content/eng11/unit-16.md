@@ -35,7 +35,7 @@ southern United States. It was signed "Jo Goodwin Parker" and it came with a
 request that no byline — no author's biography — be printed with it. No further
 information about the essay or its sender was ever discovered.
 
-So the honest position is the one the prescribed text takes. The author may have been a
+So the honest position is the one the text takes. The author may have been a
 woman describing her own life exactly as she had lived it; she may have been a
 writer or social worker who had adopted the voice of such a woman in order to be
 heard. Nobody knows. Jo Goodwin Parker remains a mystery, and the essay is

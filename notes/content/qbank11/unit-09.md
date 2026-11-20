@@ -846,7 +846,134 @@ swimming sperm.
   names.
 :::
 
-## 9.3 Extended model answers (10 marks)
+## 9.3 Introductory Microbiology
+
+**Group B — Short answer (4 marks each)**
+
+1. Draw a well-labelled diagram of a bacteriophage and describe its structure. <span class="marks">[4]</span>
+
+**Answer.** A **bacteriophage** (such as the T₄ phage that infects *Escherichia coli*) is a virus that infects bacteria. It has a **tadpole-like** body composed of **protein (capsid)** and **double-stranded DNA**:
+- **Icosahedral head:** About $95\text{ nm} \times 65\text{ nm}$; a protein coat made of capsomeres enclosing a tightly coiled linear double-stranded DNA molecule.
+- **Neck and collar:** A short constriction with a protein disc joining the head to the tail.
+- **Contractile tail:** A hollow central core surrounded by a contractile protein sheath of 24 annular rings.
+- **Base plate, tail pins and tail fibres:** A hexagonal base plate bearing six short spikes (pins) and six long jointed tail fibres that recognise receptor sites on the host bacterial cell wall and release lysozyme to penetrate it.
+
+2. Differentiate between Gram-positive and Gram-negative bacteria. <span class="marks">[4]</span>
+
+**Answer.**
+
+| Feature | Gram-positive bacteria | Gram-negative bacteria |
+|---|---|---|
+| Gram stain colour | Retain crystal violet–iodine complex; appear **purple/violet** | Decolourised by alcohol and take safranin counterstain; appear **pink/red** |
+| Peptidoglycan layer | Thick ($20\text{–}80\text{ nm}$), multi-layered ($70\text{–}80\%$ of wall) | Thin ($2\text{–}3\text{ nm}$), single-layered ($10\text{–}20\%$ of wall) |
+| Outer lipid membrane | Absent; teichoic acid present | Present (lipopolysaccharide outer membrane); teichoic acid absent |
+| Susceptibility to penicillin | High (penicillin blocks peptidoglycan cross-linking) | Low (outer membrane blocks antibiotic entry) |
+| Examples | *Staphylococcus*, *Streptococcus*, *Lactobacillus*, *Bacillus* | *Escherichia coli*, *Salmonella*, *Vibrio cholerae*, *Rhizobium* |
+
+## 9.4 Ecology
+
+**Group B — Short answer (4 marks each)**
+
+1. Define ecological pyramid and explain why the pyramid of energy is always upright. <span class="marks">[4]</span>
+
+**Answer.** An **ecological pyramid** (Eltonian pyramid) is a graphical representation of an ecological parameter—number of individuals, biomass, or energy flow—at successive trophic levels of a food chain, with producers at the base and top carnivores at the apex.
+
+The **pyramid of energy is always upright** and can never be inverted because:
+- According to **Lindeman's 10% law** and the **Second Law of Thermodynamics**, when energy passes from one trophic level to the next, about $90\%$ of the energy is lost as metabolic heat during respiration, movement, and unassimilated waste, and only about $10\%$ is stored as biomass available to the next level.
+- For example, if producers fix $10{,}000\text{ J}$ of solar energy, primary consumers receive $1{,}000\text{ J}$, secondary consumers $100\text{ J}$, and tertiary consumers $10\text{ J}$. Because energy flow is unidirectional and decreases at every step, each higher bar is strictly narrower than the bar below it.
+
+2. Describe the nitrogen cycle in nature with the roles of nitrifying, nitrogen-fixing, and denitrifying bacteria. <span class="marks">[4]</span>
+
+**Answer.** The **nitrogen cycle** circulates nitrogen between the atmosphere ($78\%\text{ N}_2$), soil, and living organisms through five stages:
+- **Nitrogen fixation:** Conversion of atmospheric $\text{N}_2$ into ammonia ($\text{NH}_3$) by symbiotic *Rhizobium* in legume nodules, free-living *Azotobacter* and *Clostridium*, cyanobacteria (*Nostoc*, *Anabaena*), and lightning.
+- **Ammonification:** Decomposition of dead proteins and urea into ammonia/ammonium ions ($\text{NH}_4^+$) by *Bacillus ramosus* and *Bacillus vulgaris*.
+- **Nitrification:** Oxidation of $\text{NH}_4^+$ to nitrites ($\text{NO}_2^-$) by *Nitrosomonas* and *Nitrosococcus*, followed by oxidation of $\text{NO}_2^-$ to nitrates ($\text{NO}_3^-$) by *Nitrobacter*.
+- **Assimilation:** Uptake of $\text{NO}_3^-$ by plant roots to synthesise amino acids and proteins.
+- **Denitrification:** Reduction of soil nitrates back to $\text{N}_2$ gas by anaerobic *Pseudomonas denitrificans* and *Thiobacillus denitrificans*.
+
+## 9.5 Vegetation
+
+**Group B — Short answer (4 marks each)**
+
+1. Describe the major altitudinal vegetation zones of Nepal with two characteristic plant species of each zone. <span class="marks">[4]</span>
+
+**Answer.** Because altitude in Nepal rises from $60\text{ m}$ to $8{,}848.86\text{ m}$ within $200\text{ km}$, five major vegetation zones occur:
+- **Tropical zone (below $1{,}000\text{ m}$ — Terai, Bhabar, Dun):** Warm humid monsoon climate; dominated by **Sal** (*Shorea robusta*), **Sissoo** (*Dalbergia sissoo*), **Khair** (*Acacia catechu*), and **Simal** (*Bombax ceiba*).
+- **Sub-tropical zone ($1{,}000\text{–}2{,}000\text{ m}$ — Siwalik and lower mid-hills):** **Chir pine** (*Pinus roxburghii*) on dry southern slopes and **Schima–Castanopsis** (*Chilaune–Katus*) in moist valleys.
+- **Temperate zone ($2{,}000\text{–}3{,}000\text{ m}$ — Mahabharat range):** Broad-leaved evergreen **Oak** (*Quercus*) and **Rhododendron** (*Rhododendron arboreum*, Lali Gurans) with **Blue pine** (*Pinus wallichiana*), **Deodar**, and **Spruce**.
+- **Sub-alpine zone ($3{,}000\text{–}4{,}000\text{ m}$):** **Silver fir** (*Abies spectabilis*), **Birch** (*Betula utilis*, Bhojpatra), and shrubby **Juniper** and *Rhododendron*.
+- **Alpine zone ($4{,}000\text{–}5{,}000\text{ m}$, below snowline):** Treeless alpine meadows (*Bugyal/Kharka*) with cushion herbs (*Primula*, *Gentiana*, *Saxifraga*) and medicinal **Yarsagumba** (*Ophiocordyceps sinensis*).
+
+## 9.6 Introduction to Biology
+
+**Group B — Short answer (4 marks each)**
+
+1. Define biology and explain how botany and zoology are interrelated with chemistry, physics, and geology. <span class="marks">[4]</span>
+
+**Answer.** **Biology** (Greek *bios* = life, *logos* = discourse; term coined by Lamarck and Treviranus, 1802) is the natural science that studies living organisms, their structure, function, origin, evolution, and ecological relationships.
+- **Biochemistry:** Living protoplasm is composed of water, carbohydrates, lipids, proteins, and nucleic acids; photosynthesis, cellular respiration, and enzyme action obey chemical laws.
+- **Biophysics:** Absorption of light by chlorophyll, ascent of sap by transpiration pull and cohesion-tension, nerve impulse conduction, lens optics in the eye, and X-ray crystallography of DNA rely on physical principles.
+- **Palaeobiology and Biogeography:** Fossils preserved in sedimentary rock strata (geology) provide direct chronological evidence of organic evolution and continental drift.
+
+## 9.7 Evolutionary Biology
+
+**Group B — Short answer (4 marks each)**
+
+1. Describe Miller and Urey's spark-discharge experiment and state its significance for the Oparin–Haldane theory. <span class="marks">[4]</span>
+
+**Answer.** In 1953, **Stanley Miller and Harold Urey** tested Oparin and Haldane's hypothesis of **abiogenesis (chemosynthetic origin of life)** by simulating primitive Earth's reducing atmosphere in a closed glass apparatus:
+- **Gas mixture:** Methane ($\text{CH}_4$), ammonia ($\text{NH}_3$), hydrogen ($\text{H}_2$) in the ratio $2:1:2$, plus water vapour ($\text{H}_2\text{O}$) at $800\ ^\circ\text{C}$, with **no free oxygen ($\text{O}_2$)**.
+- **Energy source:** Continuous $75{,}000\text{ V}$ electric sparks between tungsten electrodes for one week to simulate primitive lightning, followed by a condenser to simulate rain.
+- **Observation and significance:** Analysis of the condensed liquid revealed **amino acids (glycine, alanine, aspartic acid)**, simple sugars, and organic acids. This experimentally proved that the first organic building blocks of life could form spontaneously from inorganic gases under reducing primitive conditions.
+
+## 9.8 Faunal Diversity
+
+**Group B/C — Short and long answer (4 / 8 marks)**
+
+1. Describe the digenetic life cycle of *Plasmodium vivax* in man (schizogony) or in the female *Anopheles* mosquito (gamogony and sporogony). <span class="marks">[8]</span>
+
+**Answer.** *Plasmodium vivax* is a digenetic intracellular sporozoan parasite causing **benign tertian malaria**.
+- **Primary (definitive) host:** Female *Anopheles* mosquito (sexual cycle).
+- **Secondary (intermediate) host:** Human (asexual cycle — schizogony).
+- **Infective stage to man:** Sickle-shaped **sporozoites** injected with mosquito saliva.
+- **Pre-erythrocytic and exo-erythrocytic schizogony in liver:** Sporozoites enter hepatic cells within 30 minutes, grow into **schizonts**, and divide by multiple fission into **cryptozoites / merozoites** (dormant **hypnozoites** cause relapse).
+- **Erythrocytic schizogony in RBCs (48-hour cycle):** Merozoites invade RBCs, pass through **signet-ring stage**, **amoeboid stage** (with **Schüffner's dots** and **haemozoin** toxin from digested globin), and **erythrocytic schizont** ($12\text{–}24$ merozoites). Synchronous rupture of RBCs every 48 hours releases **haemozoin**, causing the malarial paroxysm (chills, high fever, sweating). Some merozoites differentiate into **macrogametocytes** (female) and **microgametocytes** (male).
+- **Sexual cycle in mosquito stomach:** Microgametocyte undergoes **exflagellation** (forming $6\text{–}8$ microgametes); fertilisation produces a motile **ookinete** that penetrates the stomach wall to form an **oocyst**. Sporogony inside the oocyst produces thousands of **sporozoites** that migrate to the mosquito's **salivary glands**.
+
+2. Describe the digestive system or reproductive system of the earthworm (*Pheretima posthuma*) with segment numbers. <span class="marks">[8]</span>
+
+**Answer.** The alimentary canal of *Pheretima posthuma* is a straight tube from segment 1 to the last segment:
+- **Mouth and Buccal cavity (segments 1–3):** Protrusible buccal chamber opened by prostomium.
+- **Pharynx (segments 3–4):** Pear-shaped chamber with dorsal **salivary gland** mass secreting mucin and proteolytic enzyme.
+- **Oesophagus (segments 5–7):** Narrow tube leading to the gizzard.
+- **Gizzard (segment 8 or 8–9):** Thick-walled muscular organ lined with a tough **internal cuticle** that grinds soil particles and decaying leaves.
+- **Stomach (segments 9–14):** Vascular tube with **calciferous glands** that neutralise humic acid present in humus.
+- **Intestine (segment 15 to last):** Divided into **pre-typhlosolar region** (15–26, with a pair of conical **intestinal caeca** in segment 26 secreting amylase), **typhlosolar region** (segment 27 to 23–25 segments in front of anus, bearing a median dorsal internal fold called the **typhlosole** that increases absorptive area), and **post-typhlosolar rectum** opening at the terminal **anus**.
+
+## 9.9 Biota and Environment
+
+**Group B — Short answer (4 marks each)**
+
+1. Describe the flight (volant) adaptations of birds. <span class="marks">[4]</span>
+
+**Answer.** Birds show both morphological and anatomical adaptations for aerial life:
+- **Streamlined boat-shaped body** covered with light, insulating **feathers** (*remiges* on wings for flight, *rectrices* on tail for steering).
+- **Forelimbs modified into wings** powered by large **pectoralis major** (depressor) and **pectoralis minor** (elevator) muscles anchored to a deep sternal **keel (carina)**.
+- **Endoskeleton with pneumatic (hollow, air-filled) bones**, fused vertebrae (*synsacrum*), and fused collarbones (*furcula* / wishbone).
+- **Lungs connected to nine air sacs** providing continuous double respiration and buoyancy; **urinary bladder absent** (uricotelic excretion of semi-solid uric acid) and **single left ovary** in females to reduce body weight.
+
+## 9.10 Conservation Biology
+
+**Group B — Short answer (4 marks each)**
+
+1. Differentiate between *in-situ* and *ex-situ* conservation with examples from Nepal, and name the IUCN threat categories. <span class="marks">[4]</span>
+
+**Answer.**
+- ***In-situ* (on-site) conservation:** Protection of species inside their natural habitats and ecosystems. In Nepal this includes **12 National Parks** (e.g., Chitwan NP for One-horned Rhinoceros and Bengal Tiger; Sagarmatha NP for Snow Leopard), **1 Wildlife Reserve** (Koshi Tappu WR for Wild Water Buffalo / *Arna*), **1 Hunting Reserve** (Dhorpatan HR), **6 Conservation Areas** (Annapurna, Kanchenjunga, Manaslu, Api Nampa, Gaurishankar, Blackbuck), and **13 Buffer Zones**.
+- ***Ex-situ* (off-site) conservation:** Protection of threatened species outside their natural habitat in controlled facilities—**Central Zoo (Jawalakhel)**, **National Botanical Garden (Godawari)**, **seed banks**, **cryopreservation** (at $-196\ ^\circ\text{C}$ in liquid $\text{N}_2$), and **tissue culture**, as well as the Gharial Breeding Centre at Kasara.
+- **IUCN Red List categories (in order of decreasing risk):** Extinct (EX), Extinct in the Wild (EW), Critically Endangered (CR), Endangered (EN), Vulnerable (VU), Near Threatened (NT), Least Concern (LC).
+
+## 9.11 Extended model answers (10 marks)
 
 A Grade 11 Biology long answer is marked for a definition, a labelled diagram, a table of differences or an ordered description, an example, and a conclusion. The four models below show the length of a full 10-mark answer.
 
@@ -973,3 +1100,24 @@ $$\text{E} + \text{S} \rightleftharpoons \text{ES} \rightarrow \text{E} + \text{
 | Ornamental | Sweet pea, *Bauhinia* |
 
 **Conclusion.** The papilionaceous corolla and diadelphous stamens identify the family, and the nodules make legumes important in crop rotation in Nepali farms.
+
+## Chapter summary
+
+- **Botany (Units 1–5):** Cell biology and mitosis/meiosis (Unit 1), life cycles of *Spirogyra*, *Marchantia*, *Dryopteris*, *Pinus* and floral descriptions of Brassicaceae, Fabaceae, Solanaceae and Liliaceae (Unit 2), bacteriophage and bacteria (Unit 3), ecological pyramids and nitrogen/carbon cycles (Unit 4), and Nepal's altitudinal vegetation zones (Unit 5) supply half the written marks.
+- **Zoology (Units 6–10):** Origin of life and Darwin/Lamarck/Miller-Urey (Units 6–7), life cycles of *Paramecium* and *Plasmodium* plus anatomy of *Pheretima posthuma* and *Hoplobatrachus tigerinus* (Unit 8), aquatic/volant/desert adaptations and pollution (Unit 9), and *in-situ* vs *ex-situ* conservation in Nepal (Unit 10) supply the other half.
+
+## Practice questions
+
+**Group B — Short answer (4 marks each)**
+
+1. Differentiate between prokaryotic and eukaryotic cells under any four heads. <span class="marks">[4]</span>
+2. Write the floral formula and diagnostic characters of family Solanaceae. <span class="marks">[4]</span>
+3. Explain the carbon cycle or nitrogen cycle with a schematic flow diagram. <span class="marks">[4]</span>
+4. Describe Miller and Urey's experiment on the origin of life. <span class="marks">[4]</span>
+5. Differentiate between *in-situ* and *ex-situ* conservation with examples from Nepal. <span class="marks">[4]</span>
+
+**Group C — Long answer (8 marks each)**
+
+1. Describe the stages of meiosis I with labelled diagrams and state the significance of crossing over. <span class="marks">[8]</span>
+2. Describe the sexual and asexual life cycles of *Plasmodium vivax* with a labelled diagram. <span class="marks">[8]</span>
+3. Give a detailed account of the digestive or reproductive system of *Pheretima posthuma*. <span class="marks">[8]</span>

@@ -14,7 +14,7 @@ has no hope of a better life, but he has a plan. By the end of the play he has
 arranged that his daughters will be rescued from poverty by an insurance payment
 after his death, and he has done it so quietly that only the eldest daughter
 understands what is happening. It is a play about money, family and love that goes
-unrecognised, and the prescribed text asks you to call it a **modern tragedy**. This chapter
+unrecognised, and the text asks you to call it a **modern tragedy**. This chapter
 shows you what that phrase means, how the play works, and how to answer every kind of
 question about it.
 
@@ -265,8 +265,8 @@ ax.text(7.45, 2.35, 'offers help;\nis refused', fontsize=6.3, color=INK, ha='cen
 fig.tight_layout()
 ```
 
-::: caution Study-guide mistakes to avoid
-- Some guides say Durand has a **life insurance** that pays 5000 francs. Read the text:
+::: caution Common misconceptions to avoid
+- Durand does not leave a **life insurance** policy paying 5000 francs:
   to Thérèse he says he will get "six hundred francs if I sell it, and five thousand if I
   die", but to Adèle he says he **sold that policy long ago** and hands her the
   **fire-insurance** papers. The 5000 francs is the figure he gives Thérèse; the plan that
@@ -416,9 +416,6 @@ family, in plain speech, about money.
 :::
 
 ## 19.9 Comprehension and critical thinking — "Facing Death"
-
-The wording follows the CDC Grade 12 textbook as reproduced in common guides; your
-printing may differ slightly.
 
 **Before you read**
 

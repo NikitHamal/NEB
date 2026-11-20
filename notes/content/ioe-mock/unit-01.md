@@ -190,7 +190,6 @@ Daily rhythm: 90 minutes of theory, 90 minutes of MCQs, and at the end of each w
 2. Do **Set A** (recall) without looking; **Set B** (understanding) and **Set C** (application) with a clock.
 3. Every question has an explanation — read it even when you were right.
 4. After each subject finish a **model paper section**; after all four, take a full paper under exam conditions (120 minutes, no pauses, mouse only if you can).
-5. Honest numbers: the questions here are original practice written to the official syllabus. **No question here claims to be a past question.** IOE publishes model questions in the booklet, not past papers; the nineteen published model questions informed the style of these books.
 
 ## 7. Common mistakes
 

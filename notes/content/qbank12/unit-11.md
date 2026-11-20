@@ -1614,17 +1614,6 @@ all four verified papers. Three of those four were a **Gauss elimination** step:
 you are shown two equations and asked what the elimination produces. Nothing is
 being tested except arithmetic discipline, so this is a mark you should never drop.
 
-::: note An anomaly worth knowing about
-The 2079 and 2080 papers carry an economics / input–output ("Leontief") alternative
-at Q11 and Q19 — demand-and-supply equilibrium and inter-industry output — which is
-**not in the published CDC curriculum for Grade 12 Mathematics**. The 2080 version
-asks for the equilibrium of a demand and supply pair and reduces to
-$y^{2}+4y-44=0$. It has not reappeared in 2081 or 2082 and the specification grid
-has no room for it. Read this paragraph, recognise the format if it appears, and
-spend no more time on it: build your preparation on linear programming, Gauss
-elimination, Gauss–Seidel and the simplex method, which are all in the curriculum.
-:::
-
 | Method | Key point |
 |---|---|
 | Gauss elimination | reduce the augmented matrix to **upper triangular**, then back-substitute |

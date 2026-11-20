@@ -708,21 +708,13 @@ for i, (u, rel) in enumerate(units):
 ax.text(5.6, 9.05, "whole countries and of the Internet", ha="left", va="center", fontsize=7.2, color=MUTED)
 ```
 
-::: caution Two units are missing from some tables
-The grade 9 textbook's table of memory units goes from the petabyte straight to
-the yottabyte and says that 1 YB = 1024 PB. Two units come in between: the
-**exabyte (EB)** and the **zettabyte (ZB)**. The correct order is bit, nibble,
-byte, KB, MB, GB, TB, PB, **EB, ZB**, YB, and 1 YB = 1024 ZB.
-:::
-
 ::: note Why a "1 TB" disk shows about 931 GB
 Makers of hard disks and pen drives, and network speeds (Lesson 14), use the
 decimal meaning: 1 KB = 1000 bytes, 1 GB = 1,000,000,000 bytes and 1 TB =
 1,000,000,000,000 bytes. A computer divides by 1024 at each step, so a "1 TB"
 disk appears as $10^{12} \div 1024^3 \approx 931$ GB. Nothing is missing; the
 two numbers use different units. Scientists now write KiB, MiB and GiB for the
-1024 units, and you may see these in some programs. In this course, as in the
-CDC textbooks, **1 KB = 1024 bytes** for memory.
+1024 units, and you may see these in some programs. For computer memory, **1 KB = 1024 bytes**.
 :::
 
 ::: example Worked example 15.18 — changing memory units

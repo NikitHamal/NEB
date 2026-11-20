@@ -15,7 +15,7 @@ Attempt the short questions with a five-minute limit each and the long questions
 
 ## 6.1 Volumetric Analysis
 
-CDC allots **8 teaching hours**. The examinable core is equivalent weight, the concentration units, primary and secondary standards, the normality equation, and the redox and acid–base titrations with their calculations. The unit has supplied one full Group B or Group C question in almost every sitting.
+**8 teaching hours**. The examinable core is equivalent weight, the concentration units, primary and secondary standards, the normality equation, and the redox and acid–base titrations with their calculations. The unit has supplied one full Group B or Group C question in almost every sitting.
 
 **Short answer questions [5 marks each]**
 
@@ -105,7 +105,7 @@ Write the **n-factor from the reaction**, not from the formula: KMnO₄ is 158/5
 
 ## 6.2 Ionic Equilibrium
 
-CDC allots **10 teaching hours**, the second largest of the general and physical units. The examiner draws on it every year: a pH calculation, Ostwald's dilution law, and a solubility product or precipitation question.
+**10 teaching hours**, the second largest of the general and physical units. The examiner draws on it every year: a pH calculation, Ostwald's dilution law, and a solubility product or precipitation question.
 
 **Short answer questions [5 marks each]**
 
@@ -228,7 +228,7 @@ Always **halve the concentration when equal volumes are mixed** before computing
 
 ## 6.3 Chemical Kinetics
 
-CDC allots **7 teaching hours**. A kinetics numerical has appeared in Group B or Group C in every paper from 2078 to 2083: determining the order from a table of initial rates, finding k with its unit, and using the first-order integrated equation.
+**7 teaching hours**. A kinetics numerical has appeared in Group B or Group C in every paper from 2078 to 2083: determining the order from a table of initial rates, finding k with its unit, and using the first-order integrated equation.
 
 **Short answer questions [5 marks each]**
 
@@ -347,7 +347,7 @@ Write the **unit of k** every time: mol L⁻¹ s⁻¹ for zero order, s⁻¹ for
 
 ## 6.4 Thermodynamics
 
-CDC allots **8 teaching hours**. Enthalpy calculations from Hess's law (formation and combustion data) are an annual Group B or Group C item, and the Gibbs–Helmholtz equation appears in the objective section and in numerical form.
+**8 teaching hours**. Enthalpy calculations from Hess's law (formation and combustion data) are an annual Group B or Group C item, and the Gibbs–Helmholtz equation appears in the objective section and in numerical form.
 
 **Short answer questions [5 marks each]**
 
@@ -443,7 +443,7 @@ In every Hess's-law answer write the **target equation first**, then show how ea
 
 ## 6.5 Electrochemistry
 
-CDC allots **7 teaching hours**. Almost every sitting has a cell-notation question: a pair of standard electrode potentials is given, and the student must name the anode and cathode, write the notation and the cell reaction, and find the emf.
+**7 teaching hours**. Almost every sitting has a cell-notation question: a pair of standard electrode potentials is given, and the student must name the anode and cathode, write the notation and the cell reaction, and find the emf.
 
 **Short answer questions [5 marks each]**
 
@@ -533,7 +533,7 @@ Write E°cell = E°cathode − E°anode **with the numbers in it**, and check th
 
 ## 6.6 Transition Metals
 
-CDC allots **5 teaching hours**. Expect one Group B question built on crystal field theory or on the properties of transition metals, and a Group A item on colour, oxidation states or catalysis.
+**5 teaching hours**. Expect one Group B question built on crystal field theory or on the properties of transition metals, and a Group A item on colour, oxidation states or catalysis.
 
 **Short answer questions [5 marks each]**
 
@@ -612,7 +612,7 @@ Always link **colour to a partly filled d subshell** and say "d–d transition" 
 
 ## 6.7 Studies of Heavy Metals
 
-CDC allots **15 teaching hours**, the largest inorganic unit. The five-mark extraction and compound questions on copper, zinc, mercury and iron are as regular as the organic reaction chains: the 2079, 2081, 2082 and 2083 papers each carry two or three of them.
+**15 teaching hours**, the largest inorganic unit. The five-mark extraction and compound questions on copper, zinc, mercury and iron are as regular as the organic reaction chains: the 2079, 2081, 2082 and 2083 papers each carry two or three of them.
 
 **Short answer questions [5 marks each]**
 
@@ -733,7 +733,7 @@ Every extraction answer follows the same headings: **concentration, roasting (or
 
 ## 6.8 Haloalkanes
 
-CDC allots **8 teaching hours**. Chloroform (trichloromethane) is the examiner's favourite compound in this unit — it appeared in the 2079 model, 2081, 2082 and 2083 papers — followed by nucleophilic substitution (SN1 and SN2) and elimination.
+**8 teaching hours**. Chloroform (trichloromethane) is the examiner's favourite compound in this unit — it appeared in the 2079 model, 2081, 2082 and 2083 papers — followed by nucleophilic substitution (SN1 and SN2) and elimination.
 
 **Short answer questions [5 marks each]**
 
@@ -807,7 +807,7 @@ Name the **medium** in every substitution–elimination answer: aqueous KOH give
 
 ## 6.9 Haloarenes
 
-CDC allots **3 teaching hours**. The unit is short but supplies a regular one- or two-mark part: DDT, the lower reactivity of chlorobenzene, the Sandmeyer route and the Fittig reactions.
+**3 teaching hours**. The unit is short but supplies a regular one- or two-mark part: DDT, the lower reactivity of chlorobenzene, the Sandmeyer route and the Fittig reactions.
 
 **Short answer questions [5 marks each]**
 
@@ -850,7 +850,7 @@ Give **two** reasons (resonance and sp² hybridisation) whenever the question as
 
 ## 6.10 Alcohols
 
-CDC allots **7 teaching hours**. Victor Meyer's test to distinguish 1°, 2° and 3° alcohols is the most repeated organic question in the syllabus: it was set in the 2078 model, 2079 model, 2081 and 2083 papers. Fermentation and the industrial preparations come next.
+**7 teaching hours**. Victor Meyer's test to distinguish 1°, 2° and 3° alcohols is the most repeated organic question in the syllabus: it was set in the 2078 model, 2079 model, 2081 and 2083 papers. Fermentation and the industrial preparations come next.
 
 **Short answer questions [5 marks each]**
 
@@ -909,7 +909,7 @@ In Victor Meyer's test write **all four steps** and the colours: red (primary), 
 
 ## 6.11 Phenols
 
-CDC allots **4 teaching hours**. Phenol appears in short parts about its acidity, its preparation, the named reactions (Reimer–Tiemann, Kolbe) and its tests.
+**4 teaching hours**. Phenol appears in short parts about its acidity, its preparation, the named reactions (Reimer–Tiemann, Kolbe) and its tests.
 
 **Short answer questions [5 marks each]**
 
@@ -953,7 +953,7 @@ For "why is phenol acidic" write the word **resonance** and draw or describe the
 
 ## 6.12 Ethers
 
-CDC allots **2 teaching hours**. Expect a three-mark part on Williamson's synthesis, and the behaviour of ethoxyethane with HI and with air.
+**2 teaching hours**. Expect a three-mark part on Williamson's synthesis, and the behaviour of ethoxyethane with HI and with air.
 
 **Short answer questions [5 marks each]**
 
@@ -995,7 +995,7 @@ Williamson's synthesis needs a **primary** halide; write "sodium alkoxide + alky
 
 ## 6.13 Aldehydes and Ketones
 
-CDC allots **10 teaching hours**, the largest organic unit, and it supplies the most questions of any unit. Two items recur in nearly every paper: the five-part "write an equation for each named reaction" question (2079, 2081, 2082, 2083) and the X–Y–Z identification chain built on the iodoform test (2079 model, 2081 MCQ, 2082, model set A).
+**10 teaching hours**, the largest organic unit, and it supplies the most questions of any unit. Two items recur in nearly every paper: the five-part "write an equation for each named reaction" question (2079, 2081, 2082, 2083) and the X–Y–Z identification chain built on the iodoform test (2079 model, 2081 MCQ, 2082, model set A).
 
 **Short answer questions [5 marks each]**
 
@@ -1064,7 +1064,7 @@ In an "example of each reaction" question write **one balanced equation with its
 
 ## 6.14 Carboxylic Acid and its Derivatives
 
-CDC allots **9 teaching hours**. Reaction chains through the acid chloride, amide and Hofmann bromamide reaction (2082) and the comparison of acid strengths (2079 model) are the standard forms.
+**9 teaching hours**. Reaction chains through the acid chloride, amide and Hofmann bromamide reaction (2082) and the comparison of acid strengths (2079 model) are the standard forms.
 
 **Short answer questions [5 marks each]**
 
@@ -1121,7 +1121,7 @@ In "arrange in order of acidic strength" questions give the **order**, then one 
 
 ## 6.15 Nitro Compounds
 
-CDC allots **3 teaching hours**. The examiner asks for the reduction of nitrobenzene in different media almost every year (2078 model, 2079 model, 2081, 2082, 2083) and often as a chain question that starts from benzene.
+**3 teaching hours**. The examiner asks for the reduction of nitrobenzene in different media almost every year (2078 model, 2079 model, 2081, 2082, 2083) and often as a chain question that starts from benzene.
 
 **Short answer questions [5 marks each]**
 
@@ -1173,7 +1173,7 @@ Give the **medium together with the product** — "Sn/HCl → aniline; Zn/NH₄C
 
 ## 6.16 Amines
 
-CDC allots **7 teaching hours**. Hoffmann's method of separating amines has been asked in the 2079 model, 2079, 2082, 2083 and model set B papers, and the conversion chains through aniline and the diazonium salt in 2078 model, 2081, 2082 and model set A.
+**7 teaching hours**. Hoffmann's method of separating amines has been asked in the 2079 model, 2079, 2082, 2083 and model set B papers, and the conversion chains through aniline and the diazonium salt in 2078 model, 2081, 2082 and model set A.
 
 **Short answer questions [5 marks each]**
 
@@ -1230,7 +1230,7 @@ In Hoffmann's method name the reagent (**diethyl oxalate**), state what each cla
 
 ## 6.17 Organometallic Compounds
 
-CDC allots **2 teaching hours**. The unit is short, but Grignard reagents supply reactions in the chains of other units (alcohols, ketones, acids) in every paper.
+**2 teaching hours**. The unit is short, but Grignard reagents supply reactions in the chains of other units (alcohols, ketones, acids) in every paper.
 
 **Short answer questions [5 marks each]**
 
@@ -1279,7 +1279,7 @@ The **definition** is a metal–**carbon** bond: use it to reject sodium ethoxid
 
 ## 6.18 Chemistry in the service of mankind
 
-CDC allots **4 teaching hours**. The unit supplies a regular three-to-four-mark part of the last Group C question (Q22): polymers first — addition against condensation, the monomers of Bakelite, nylon and polystyrene — then drugs, dyes and pesticides.
+**4 teaching hours**. The unit supplies a regular three-to-four-mark part of the last Group C question (Q22): polymers first — addition against condensation, the monomers of Bakelite, nylon and polystyrene — then drugs, dyes and pesticides.
 
 **Short answer questions [5 marks each]**
 
@@ -1338,7 +1338,7 @@ In every polymer question write **monomer → polymer with "n"** and name the ty
 
 ## 6.19 Cement
 
-CDC allots **4 teaching hours**. Cement has been in Group C question 22 in every paper — the definition and components of Portland cement, the manufacturing flow sheet, OPC against PPC, and quality control.
+**4 teaching hours**. Cement has been in Group C question 22 in every paper — the definition and components of Portland cement, the manufacturing flow sheet, OPC against PPC, and quality control.
 
 **Short answer questions [5 marks each]**
 
@@ -1412,7 +1412,7 @@ A flow-sheet mark goes for **boxes in order with the temperature on the kiln box
 
 ## 6.20 Paper and Pulp
 
-CDC allots **3 teaching hours**. The examiner asks for the raw materials, fibrous against non-fibrous materials and paper against pulp, usually as a two-mark part of Group C question 22.
+**3 teaching hours**. The examiner asks for the raw materials, fibrous against non-fibrous materials and paper against pulp, usually as a two-mark part of Group C question 22.
 
 **Short answer questions [5 marks each]**
 
@@ -1463,7 +1463,7 @@ Answer "raw materials" in **two groups** — fibrous and non-fibrous — rather 
 
 ## 6.21 Nuclear Chemistry and Applications of Radioactivity
 
-CDC allots **2 teaching hours**. The unit is usually the last two-mark part of the paper: nuclear against chemical reactions, natural against artificial radioactivity, units, and fusion.
+**2 teaching hours**. The unit is usually the last two-mark part of the paper: nuclear against chemical reactions, natural against artificial radioactivity, units, and fusion.
 
 **Short answer questions [5 marks each]**
 

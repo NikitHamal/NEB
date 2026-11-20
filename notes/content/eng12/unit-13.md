@@ -48,7 +48,7 @@ What made Sacks famous was not only his medicine but his prose. In the hospital 
 patients that other doctors had given up on — the survivors of the 1920s sleeping-sickness
 epidemic whom he woke with a new drug, people who could not recognise faces, people who
 heard music that was not there — and he wrote about them as human beings rather than as
-cases. The books that came out of this work are the ones the prescribed text names:
+cases. The books that came out of this work are the ones the text names:
 
 | Book | Year | What it is about |
 |---|---|---|
@@ -59,7 +59,7 @@ cases. The books that came out of this work are the ones the prescribed text nam
 | *Hallucinations* | 2012 | why healthy and sick minds see and hear what is not there |
 | *On the Move* | 2015 | his memoir, published shortly before his death |
 
-The *New York Times* called him "the poet laureate of medicine", and the prescribed text
+The *New York Times* called him "the poet laureate of medicine", and the text
 adds that he won honours from the Guggenheim Foundation, the National Science
 Foundation, the American Academy of Arts and Letters and the Royal College of
 Physicians. After his death a further book of essays, ***Everything in Its Place: First
@@ -77,9 +77,7 @@ For him there was no wall between the sciences and the humanities — the librar
 where they met.
 :::
 
-::: caution Study-guide mistakes to avoid
-Several popular guides to this essay contain errors that will cost you marks if you
-copy them. **Dickens is Charles Dickens**, the English novelist — not "Emily" Dickens
+::: caution Common misconceptions to avoid
 and not an American poet. **Kipling** was English, born in Bombay, not an Irish
 playwright. **Willesden Public Library** was the library of Sacks's *growing-up years*,
 not of his "adult life". And the essay says he was **a good learner, not a good
@@ -384,7 +382,7 @@ words — stands for everything a screen cannot carry: memory, place, continuity
 | fantasies | imaginary adventures; things one dreams up |
 | morocco | fine, soft goat-skin leather used for binding books |
 | curl up | to sit or lie with the legs drawn up in a comfortable position |
-| absorbed | so deeply interested that nothing else is noticed (an *adjective*; the prescribed text wrongly marks it as an adverb) |
+| absorbed | so deeply interested that nothing else is noticed (*adjective*) |
 | vied with | competed with |
 | Ur-library | (*Ur-* is German) the original, first and archetypal library |
 | astronomy | the scientific study of the sun, moon, stars and planets |
@@ -406,7 +404,7 @@ words — stands for everything a screen cannot carry: memory, place, continuity
 | aloft | high up; in the air |
 | camaraderie | friendship and trust among people who spend time together |
 | rummaging | searching by turning things over |
-| heft | weight; the feel of something heavy in the hand (the prescribed text glossary misprints this as "helt") |
+| heft | weight; the feel of something heavy in the hand |
 | digitised | converted into computer-readable form |
 | irreplaceable | impossible to replace once lost |
 
@@ -507,7 +505,7 @@ destruction of centuries of knowledge.
 
 *a. The author says, "I was not a good pupil, but I was a good listener." Justify it with textual evidence.*
 
-Note first that the prescribed text has misquoted the essay: Sacks writes "a good **learner**",
+Note first that the text has misquoted the essay: Sacks writes "a good **learner**",
 not "listener". Answer the question as it is set, but if you can, use the right word.
 Sacks disliked school because passive instruction bored him: "information seemed to go in
 one ear and out by the other." A good pupil accepts what the teacher offers; Sacks could
@@ -738,7 +736,6 @@ turn from memories to the loss of libraries; (b) after the New York friendships,
 the students who ignore the shelves; (c) the way people used libraries was changing;
 (d) it is the hinge of the essay, from praise to grief.
 :::
-
 
 ## Group D: Long answers (10 marks)
 

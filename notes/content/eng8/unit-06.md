@@ -244,7 +244,7 @@ library: *The librarian doesn't let us eat food there; she makes us keep quiet.*
 
 **British and American words (Extra bit):** biscuit/cookie, lift/elevator,
 lorry/truck, petrol/gasoline, holiday/vacation, rubbish/trash, ground
-floor/first floor, **postbox/mailbox** (the prescribed text table prints this pair the
+floor/first floor, **postbox/mailbox** (the text table prints this pair the
 wrong way round: *postbox* is British, *mailbox* American).
 
 **Project work:** collect pictures and information about five useful inventions

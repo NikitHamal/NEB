@@ -53,7 +53,7 @@ His main books are:
 
 A shorter version of this essay was published on **27 October 2015** on the website
 *OpenGlobalRights* under the title "Human rights and the age of inequality". The text
-in the prescribed text is a longer form of the same argument and opens with an ancient
+in the text is a longer form of the same argument and opens with an ancient
 story about King Croesus, which is explained in section 17.3.
 
 ::: note Why the author matters for the exam
@@ -175,7 +175,7 @@ the 1940s, to the present. Keep this outline in your head.
 
 ### Step 1 — Croesus's world
 
-The prescribed text version opens with the parable of **Croesus**. Moyn asks us to imagine a
+The text version opens with the parable of **Croesus**. Moyn asks us to imagine a
 modern Croesus: a ruler fabulously wealthy, yet kind, who hates cruelty, insists
 that nobody in his kingdom should starve, and so guarantees a "floor of protection".
 Who could object to such a man? Moyn can, and does. A world in which one man owns
@@ -310,15 +310,13 @@ people try to use them for every problem, including inequality. His conclusion:
 demands not a substitute but a supplement." That is to say, keep human rights, but
 add a separate politics that can actually make wealth move.
 
-The Croesus story comes back at this point in the prescribed text version. In Herodotus,
+The Croesus story comes back at this point in the text version. In Herodotus,
 Solon's wise words did not change Croesus; it was the army of Cyrus that ended his
 world. Moyn's lesson is that **redistribution has always needed pressure strong
 enough to frighten the rich, never polite appeals alone**. Exactly how to apply that
 pressure today is a question the essay deliberately leaves open.
 
-::: caution Study-guide mistakes to avoid
-Several online guides repeat errors. Check them against the essay.
-
+::: caution Common misconceptions to avoid
 - Some say Moyn argues that "another human rights movement is required". He says the
   opposite: he **doubts** that any version of human rights can close the gap and
   asks for a **supplement**.
@@ -448,9 +446,6 @@ floor.
 :::
 
 ## 17.8 Comprehension and critical thinking — "Human Rights and the Age of Inequality"
-
-The wording below follows the CDC Grade 12 textbook; printings and guides differ in
-small details, so read the question carefully in your own copy.
 
 **Understanding the text**
 

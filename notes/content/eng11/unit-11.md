@@ -209,8 +209,6 @@ ax.set_xlim(0,1); ax.set_ylim(0,1); ax.axis("off")
 
 ## 11.5 Poetic devices
 
-The poem is modern and in copyright, so only short phrases are quoted below.
-
 | Device | Example | Effect |
 |---|---|---|
 | Apostrophe (self-address) | "who are you,little i" | The poet speaks to his own past self, turning memory into a conversation |

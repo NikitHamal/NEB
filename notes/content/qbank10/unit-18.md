@@ -631,7 +631,7 @@ exactly why the coefficient exists.
    consistent**.
 :::
 
-## 18.12 Functions and Polynomials
+## 18.12 Functions, Trigonometric Graphs and Polynomials
 
 ::: example Model question: an inverse function and its check
 **Problem.** The function $f(x)=\frac{2x+1}{x-2}$ is defined for $x\ne2$. Find
@@ -662,6 +662,7 @@ $f^{-1}(-0.5)=\frac{1-1}{-2.5}=0$ ✓.
    <span class="marks">[4]</span>
 6. If $f(x)=\frac{3x-1}{2}$, find $f^{-1}(x)$ and verify that
    $f(f^{-1}(5))=5$. <span class="marks">[4]</span>
+7. Construct a table of values and state the domain, range, amplitude, and period of $y=\sin x$ and $y=\cos x$ on $[0^\circ,360^\circ]$. <span class="marks">[3]</span>
 
 ::: note Solutions to 18.12
 **1.** $1+3+2=6$.
@@ -674,6 +675,7 @@ $f^{-1}(-0.5)=\frac{1-1}{-2.5}=0$ ✓.
 **6.** Put $y=\frac{3x-1}{2}$; then $2y=3x-1$ and $x=\frac{2y+1}{3}$, so
    $f^{-1}(x)=\frac{2x+1}{3}$. Check: $f^{-1}(5)=\frac{11}{3}$ and
    $f\left(\frac{11}{3}\right)=\frac{11-1}{2}=5$ ✓.
+**7.** At $x=0^\circ,90^\circ,180^\circ,270^\circ,360^\circ$: $\sin x = 0, 1, 0, -1, 0$ and $\cos x = 1, 0, -1, 0, 1$. Both functions have domain $\mathbb{R}$, range $[-1,1]$, amplitude $1$, and period $360^\circ$ ($2\pi$).
 :::
 
 ## 18.13 Extended model answers (10 marks)

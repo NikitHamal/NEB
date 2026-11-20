@@ -53,7 +53,7 @@ Haldane was a declared socialist, Marxist, atheist and humanist. He wrote for th
 board — which is where this essay first appeared. He spent six weeks in Madrid
 during the siege of the Spanish Civil War, advising the Republican side on
 protection against air raids. He later broke with the Communist Party. In the
-mid-1950s — the prescribed text gives 1956 — he left Britain for India, joined the
+mid-1950s — the text gives 1956 — he left Britain for India, joined the
 Indian Statistical Institute in Kolkata, and became a naturalised Indian citizen
 in 1961. He died of cancer on 1 December 1964, having written a comic poem about
 his own illness.

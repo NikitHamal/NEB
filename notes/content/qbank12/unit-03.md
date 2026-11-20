@@ -26,7 +26,7 @@ it lists what the marker looks for and the mistakes that cost marks in real pape
 
 ## 3.1 Rotational dynamics
 
-CDC allots **7 teaching hours**. The unit produces a Group B question almost every
+**7 teaching hours**. The unit produces a Group B question almost every
 year: the moment of inertia of a rod, a conservation-of-angular-momentum argument
 (the ballet dancer, the rotating platform, the Earth), or a torque–energy numerical
 on a flywheel. It supplies the opening part of longer questions too.
@@ -147,7 +147,7 @@ Quote the **starting principle** before the algebra — "no external torque, so 
 
 ## 3.2 Periodic motion
 
-CDC allots **6 teaching hours**. Expect the vertical-spring derivation, an energy argument for SHM (often with a graph), a simple-pendulum item and, in recent papers, a build-your-own-SHM argument from a restoring force such as the earthquake question of 2078.
+**6 teaching hours**. Expect the vertical-spring derivation, an energy argument for SHM (often with a graph), a simple-pendulum item and, in recent papers, a build-your-own-SHM argument from a restoring force such as the earthquake question of 2078.
 
 **Short answer questions [5 marks each]**
 
@@ -284,7 +284,7 @@ The defining equation comes first: for any "prove it is SHM" question, reduce th
 
 ## 3.3 Fluid statics
 
-CDC allots **9 teaching hours** — one of the heaviest units, covering pressure and buoyancy, surface tension, capillarity, viscosity and the two principles of fluid flow. Every recent paper has one Group B item on each of surface tension, viscosity/Stokes' law and Bernoulli's equation.
+**9 teaching hours** — one of the heaviest units, covering pressure and buoyancy, surface tension, capillarity, viscosity and the two principles of fluid flow. Every recent paper has one Group B item on each of surface tension, viscosity/Stokes' law and Bernoulli's equation.
 
 **Short answer questions [5 marks each]**
 
@@ -411,7 +411,7 @@ State **which law** is used at each step: continuity first, then Bernoulli. In t
 
 ## 3.4 First Law of Thermodynamics
 
-CDC allots **6 teaching hours**. The first law, $C_P-C_V = R$ and the isothermal and adiabatic processes are all standard Group B items; the $p$–$V$ diagram is also used for graph-reading questions in Group A.
+**6 teaching hours**. The first law, $C_P-C_V = R$ and the isothermal and adiabatic processes are all standard Group B items; the $p$–$V$ diagram is also used for graph-reading questions in Group A.
 
 **Short answer questions [5 marks each]**
 
@@ -547,7 +547,7 @@ Write the sign convention once, at the top: $Q$ positive when heat enters, $W$ p
 
 ## 3.5 Second Law of Thermodynamics
 
-CDC allots **6 teaching hours**. Expect the statement of the second law, a heat-engine or refrigerator item (often with the efficiency expression), the petrol-engine cycle against the diesel cycle, and a Carnot numerical.
+**6 teaching hours**. Expect the statement of the second law, a heat-engine or refrigerator item (often with the efficiency expression), the petrol-engine cycle against the diesel cycle, and a Carnot numerical.
 
 **Short answer questions [5 marks each]**
 
@@ -708,7 +708,7 @@ Always convert to **kelvin** before using $1-T_2/T_1$. In the Carnot derivation,
 
 ## 3.6 Wave motion
 
-CDC allots only **2 teaching hours**, but progressive and stationary waves underpin units 7 to 9, and the node-spacing proof appeared in a Group C question in 2082.
+**2 teaching hours**, but progressive and stationary waves underpin units 7 to 9, and the node-spacing proof appeared in a Group C question in 2082.
 
 **Short answer questions [5 marks each]**
 
@@ -797,7 +797,7 @@ Mark-earners are the **two component waves written out**, the use of the sum-to-
 
 ## 3.7 Mechanical waves
 
-CDC allots **4 teaching hours**. The Newton–Laplace story has been asked in 2080 and 2081, and it is the single most predictable Group B item in Waves; the effect of temperature and pressure (asked in 2082) follows from the same formula.
+**4 teaching hours**. The Newton–Laplace story has been asked in 2080 and 2081, and it is the single most predictable Group B item in Waves; the effect of temperature and pressure (asked in 2082) follows from the same formula.
 
 **Short answer questions [5 marks each]**
 
@@ -880,7 +880,7 @@ Both stories must be told: **what Newton assumed** (isothermal, $B = P$), **the 
 
 ## 3.8 Wave in pipes and strings
 
-CDC allots **4 teaching hours**. Stationary waves in pipes and strings are examined every year (2080 Group B, 2081 and 2082 Group C); the sonometer beat problem of the 2079 model and the $v = \sqrt{T/\mu}$ scaling arguments are the most repeated numerical forms.
+**4 teaching hours**. Stationary waves in pipes and strings are examined every year (2080 Group B, 2081 and 2082 Group C); the sonometer beat problem of the 2079 model and the $v = \sqrt{T/\mu}$ scaling arguments are the most repeated numerical forms.
 
 **Short answer questions [5 marks each]**
 
@@ -1008,7 +1008,7 @@ In pipe questions **draw the pattern first**: one sketch tells you where the nod
 
 ## 3.9 Acoustic phenomena
 
-CDC allots **5 teaching hours**. Doppler numericals have appeared in 2078, 2079 model, 2081 and 2082; intensity, pressure amplitude and the characteristics of sound make up the rest.
+**5 teaching hours**. Doppler numericals have appeared in 2078, 2079 model, 2081 and 2082; intensity, pressure amplitude and the characteristics of sound make up the rest.
 
 **Short answer questions [5 marks each]**
 
@@ -1100,7 +1100,7 @@ Write the Doppler formula in its **general** form and then put in signs delibera
 
 ## 3.10 Nature and propagation of light
 
-CDC allots **3 teaching hours**. Huygens' principle and the wave-theory derivations of reflection and refraction are "prove" questions; 2081 asked for a plane wavefront becoming spherical, and 2082 asked which phenomenon Huygens' construction does not explain.
+**3 teaching hours**. Huygens' principle and the wave-theory derivations of reflection and refraction are "prove" questions; 2081 asked for a plane wavefront becoming spherical, and 2082 asked which phenomenon Huygens' construction does not explain.
 
 **Short answer questions [5 marks each]**
 
@@ -1172,7 +1172,7 @@ For the wave-theory proofs, **draw the construction**: wavefront $AB$, the bound
 
 ## 3.11 Interference
 
-CDC allots **2 teaching hours**. Young's double slit is asked almost every year, often with a fringe-width numerical and the effect of immersing the apparatus in a liquid (2080), or the equal spacing of bright and dark fringes (2082 Group C).
+**2 teaching hours**. Young's double slit is asked almost every year, often with a fringe-width numerical and the effect of immersing the apparatus in a liquid (2080), or the equal spacing of bright and dark fringes (2082 Group C).
 
 **Short answer questions [5 marks each]**
 
@@ -1246,7 +1246,7 @@ In the fringe-width derivation the marks are for **path difference $\approx yd/D
 
 ## 3.12 Diffraction
 
-CDC allots **3 teaching hours**. A grating numerical appears in almost every paper (2079 model, 2080, 2081, 2082); single-slit theory and resolving power are the usual other parts.
+**3 teaching hours**. A grating numerical appears in almost every paper (2079 model, 2080, 2081, 2082); single-slit theory and resolving power are the usual other parts.
 
 **Short answer questions [5 marks each]**
 
@@ -1319,7 +1319,7 @@ In grating numericals the first step is **$d = 1/N$ in metres** ($N$ in lines pe
 
 ## 3.13 Polarization
 
-CDC allots **3 teaching hours**. Brewster's law has been asked with proof (2082) and as a numerical for water (2079 model); the sunglasses question of 2079 is a typical application.
+**3 teaching hours**. Brewster's law has been asked with proof (2082) and as a numerical for water (2079 model); the sunglasses question of 2079 is a typical application.
 
 **Short answer questions [5 marks each]**
 
@@ -1388,7 +1388,7 @@ In the proof of Brewster's law, **state the perpendicularity of the reflected an
 
 ## 3.14 Electrical circuits
 
-CDC allots **6 teaching hours**. The Wheatstone bridge and meter bridge (2079 model), the potentiometer (2078, 2079 model, 2081, 2082) and the conversion of a galvanometer to an ammeter or voltmeter (2081) make this one of the most reliably examined units in Electricity.
+**6 teaching hours**. The Wheatstone bridge and meter bridge (2079 model), the potentiometer (2078, 2079 model, 2081, 2082) and the conversion of a galvanometer to an ammeter or voltmeter (2081) make this one of the most reliably examined units in Electricity.
 
 **Short answer questions [5 marks each]**
 
@@ -1514,7 +1514,7 @@ For the Wheatstone bridge, **apply the loop law to two loops** and divide: that 
 
 ## 3.15 Thermoelectric effects
 
-CDC allots **3 teaching hours**. The neutral and inversion temperatures are examined in a Group A item nearly every year, and a full Group B question (2080) and a Group C alternative (2082) have asked for the $e$–$\theta$ graph.
+**3 teaching hours**. The neutral and inversion temperatures are examined in a Group A item nearly every year, and a full Group B question (2080) and a Group C alternative (2082) have asked for the $e$–$\theta$ graph.
 
 **Short answer questions [5 marks each]**
 
@@ -1611,7 +1611,7 @@ Do not define the neutral temperature as "the temperature at which the e.m.f. is
 
 ## 3.16 Magnetic field
 
-CDC allots **9 teaching hours** — the largest unit in Electricity and Magnetism. Biot–Savart and Ampère's law, the galvanometer, the Hall effect and the force between parallel currents account for a Group B or Group C question in every paper (2078, 2079 model, 2080, 2081, 2082).
+**9 teaching hours** — the largest unit in Electricity and Magnetism. Biot–Savart and Ampère's law, the galvanometer, the Hall effect and the force between parallel currents account for a Group B or Group C question in every paper (2078, 2079 model, 2080, 2081, 2082).
 
 **Short answer questions [5 marks each]**
 
@@ -1728,7 +1728,7 @@ For Biot–Savart derivations, say why $\sin\theta = 1$ (every element is perpen
 
 ## 3.17 Magnetic properties of materials
 
-CDC allots **5 teaching hours**. It supplies a very predictable Group B question:
+**5 teaching hours**. It supplies a very predictable Group B question:
 define $\mu_r$, $\chi_m$ and their relation, compare dia-, para- and ferromagnetic
 materials in a table, and explain the hysteresis loop and the choice of material
 for a transformer core or a permanent magnet.
@@ -1903,7 +1903,7 @@ choosing soft magnetic material, **eddy-current** loss by laminating.
 
 ## 3.18 Electromagnetic Induction
 
-CDC allots **6 teaching hours**. Faraday's and Lenz's laws, motional e.m.f., the
+**6 teaching hours**. Faraday's and Lenz's laws, motional e.m.f., the
 a.c. generator, self and mutual inductance, the energy stored in an inductor and
 the transformer are all examinable, and this unit appeared in Group C in 2080 and
 2082.
@@ -2158,7 +2158,7 @@ turns ratio for voltage but remember the current ratio is **inverted**.
 
 ## 3.19 Alternating Currents
 
-CDC allots **6 teaching hours**. Peak and r.m.s. values, the behaviour of $R$, $L$
+**6 teaching hours**. Peak and r.m.s. values, the behaviour of $R$, $L$
 and $C$ separately, the series LCR circuit with its phasor diagram, resonance,
 power factor and wattless current are the standard questions; the series LCR
 circuit is a very frequent Group C question and appeared in 2079 model and 2081.
@@ -2451,7 +2451,7 @@ a favourite "surprising" part (c) and is not an error in your arithmetic.
 
 ## 3.20 Electrons
 
-CDC allots **4 teaching hours**. The examinable core is the motion of an electron
+**4 teaching hours**. The examinable core is the motion of an electron
 in electric and magnetic fields, Thomson's measurement of $e/m$, Millikan's oil-drop
 experiment and the definition of the electronvolt.
 
@@ -2691,7 +2691,7 @@ $500\ \text{eV}$, full stop.
 
 ## 3.21 Photons
 
-CDC allots **3 teaching hours**. Small but very reliable: Einstein's photoelectric
+**3 teaching hours**. Small but very reliable: Einstein's photoelectric
 equation, the laws of photoelectric emission, threshold frequency, stopping
 potential and the energy and momentum of a photon.
 
@@ -2918,7 +2918,7 @@ and remember that lines for different metals are **parallel**.
 
 ## 3.22 Semiconductor devices
 
-CDC allots **6 teaching hours**. Intrinsic and extrinsic semiconductors, the p-n
+**6 teaching hours**. Intrinsic and extrinsic semiconductors, the p-n
 junction and its biasing, half-wave and full-wave rectification, the transistor and
 its characteristics and gain, and the basic logic gates are all examinable; this
 unit supplies a Group C question most years.
@@ -3108,7 +3108,7 @@ common error in this unit.
 
 ## 3.23 Quantization of energy
 
-CDC allots **8 teaching hours** — the largest single unit in the Grade 12 course.
+**8 teaching hours** — the largest single unit in the Grade 12 course.
 Bohr's theory of the hydrogen atom, the radius and energy of the orbits, the
 spectral series, energy-level diagrams, excitation and ionisation, de Broglie waves
 and the production and properties of X-rays are all examinable, and something from
@@ -3410,7 +3410,7 @@ exactly that distinction.
 
 ## 3.24 Radioactivity and nuclear reaction
 
-CDC allots **6 teaching hours**. The properties of $\alpha$, $\beta$ and $\gamma$
+**6 teaching hours**. The properties of $\alpha$, $\beta$ and $\gamma$
 radiations, the laws of radioactive disintegration and the exponential decay law,
 half-life, mean life and decay constant, the Geiger-Müller tube, carbon dating and
 the medical uses and hazards of radiation are the examinable core.
@@ -3692,7 +3692,7 @@ that penetrating power and ionising power always run in **opposite** order.
 
 ## 3.25 Recent trends in physics
 
-CDC allots **6 teaching hours**. This unit is descriptive, so the marks are easy —
+**6 teaching hours**. This unit is descriptive, so the marks are easy —
 seismic waves and the Gorkha earthquake of 2015, gravitational waves,
 nanotechnology and the Higgs boson. Learn the definitions and the two or three key
 numbers for each topic and the questions answer themselves.

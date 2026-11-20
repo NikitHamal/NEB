@@ -596,14 +596,17 @@ ax.set_axisbelow(True)
 fig.tight_layout()
 ```
 
-## 17.12 Functions and Polynomials
+## 17.12 Functions, Trigonometric Graphs and Polynomials
 
 **Facts.** A relation is a set of ordered pairs; a function sends each input to
 exactly one output, which the vertical line test checks on a graph. For
 $f(x)=ax^2+bx+c$ the remainder on division by $x-a$ is $f(a)$ (remainder
 theorem), and $x-a$ is a factor exactly when $f(a)=0$ (factor theorem). For
 $f:A\to B$ and $g:B\to C$, the composite is $(g\circ f)(x)=g(f(x))$, and $f$
-has an inverse only when it is one-to-one and onto.
+has an inverse only when it is one-to-one and onto. For trigonometric functions,
+$y=\sin x$ and $y=\cos x$ have domain $\mathbb{R}$, range $[-1,1]$, amplitude $1$,
+and period $2\pi$ ($360^\circ$), while $y=\tan x$ has range $\mathbb{R}$, period
+$\pi$ ($180^\circ$), and vertical asymptotes at $x=(2n+1)\frac{\pi}{2}$.
 
 1. The domain of $f(x)=\frac{1}{x-2}$ is <span class="marks">[1]</span>
    (a) all real numbers (b) all real numbers except 2
@@ -626,6 +629,11 @@ has an inverse only when it is one-to-one and onto.
 8. The function $f(x)=x^2$ on all real numbers is
    <span class="marks">[1]</span>
    (a) one-to-one (b) not one-to-one (c) constant (d) the identity
+9. What are the range and period of the trigonometric function $y=\sin x$?
+   <span class="marks">[1]</span>
+   (a) $[-1,1]$ and $\pi$ (b) $[-1,1]$ and $2\pi$ (c) $\mathbb{R}$ and $2\pi$ (d) $[0,1]$ and $2\pi$
+10. What is the fundamental period of $y=\tan x$? <span class="marks">[1]</span>
+   (a) $\frac{\pi}{2}$ (b) $\pi$ (c) $2\pi$ (d) $4\pi$
 
 ::: note Answers to 17.12
 **1.** (b) — at $x=2$ the denominator is zero.
@@ -636,6 +644,8 @@ has an inverse only when it is one-to-one and onto.
 **6.** (a) — solve $y=3x-2$ for $x=\frac{y+2}{3}$.
 **7.** (b) — one crossing at most is the definition the test checks.
 **8.** (b) — $f(2)=f(-2)=4$, so two inputs share an output.
+**9.** (b) — $\sin x$ oscillates between $-1$ and $1$ and repeats every $2\pi$ radians ($360^\circ$).
+**10.** (b) — $\tan(x+\pi)=\tan x$, so its fundamental period is $\pi$ ($180^\circ$).
 :::
 
 ## Chapter summary

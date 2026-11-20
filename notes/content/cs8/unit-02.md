@@ -410,8 +410,7 @@ programming language **Ada**, made for the United States Department of
 Defense in 1980, is named after her.
 
 ::: caution Babbage's engines were decimal, not binary
-Some guides say that Ada Lovelace suggested binary numbers for the Analytical
-Engine. That is not true: Babbage's engines counted in **decimal**, with wheels
+Ada Lovelace did not suggest binary numbers for the Analytical Engine: Babbage's engines counted in **decimal**, with wheels
 marked 0 to 9. Binary was described by **Leibniz** (published 1703) and first
 used in electronic computers such as the ABC and EDVAC. Do not mix up the two.
 :::
