@@ -83,3 +83,20 @@ class ForumSerializerTests(TestCase):
         admin = _user('boss', is_admin=True)
         self.assertTrue(self._data(ReplySerializer, self.reply, admin)['canLabel'])
         self.assertFalse(self._data(ReplySerializer, self.reply)['canLabel'])
+
+    def test_hot_feed_ranking_and_author_diversity(self):
+        now = now_ms()
+        peer = _user('peer')
+        p_engaging = Post.objects.create(
+            id=uuid_str(), user=peer, title='Physics kinematics derivations',
+            content='Detailed step-by-step projectile motion derivation for Class 11 NEB students with worked examples and equations.',
+            category='Physics', thumbs_up_count=6, reply_count=4, view_count=120, created_at=now - 1800_000,
+        )
+        p_stale = Post.objects.create(
+            id=uuid_str(), user=self.author, title='Old post',
+            content='Short note', category='General', thumbs_up_count=0, reply_count=0, created_at=now - 86400_000 * 5,
+        )
+        res = self.client.get('/api/posts?sort=hot')
+        self.assertEqual(res.status_code, 200)
+        ids = [item['id'] for item in res.json()['results']]
+        self.assertLess(ids.index(p_engaging.id), ids.index(p_stale.id))
