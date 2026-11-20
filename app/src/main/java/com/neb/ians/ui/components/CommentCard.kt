@@ -81,9 +81,9 @@ fun CommentCard(
     val accepted = reply.label == "accepted"
     val acceptedFill = ReplyTones.good(dark).copy(alpha = 0.55f)
     val acceptedLine = ReplyTones.goodLine(dark)
-    var everHighlighted by remember { androidx.compose.runtime.mutableStateOf(false) }
-    if (highlighted) everHighlighted = true
-    val flash = if (everHighlighted) {
+    val everHighlighted = remember { androidx.compose.runtime.mutableStateOf(false) }
+    if (highlighted) everHighlighted.value = true
+    val flash = if (everHighlighted.value) {
         animateColorAsState(
             targetValue = if (highlighted) scheme.primaryContainer else androidx.compose.ui.graphics.Color.Transparent,
             animationSpec = tween(if (highlighted) 160 else 1800),
