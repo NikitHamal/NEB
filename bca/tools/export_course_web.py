@@ -41,7 +41,7 @@ INFO = {
     "kind": "course",
 }
 ASSESSMENT = ("TU assessment: 60% final examination set by the university, 40% internal "
-              "(assignments, lab work, attendance). Confirm the split in your college's notice.")
+              "(assignments, lab work, attendance).")
 ROMAN = {1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI", 7: "VII", 8: "VIII"}
 ICONS = {
     "programming-in-c": "terminal", "digital-logic": "memory", "computer-fundamentals": "computer",
@@ -53,13 +53,16 @@ ICONS = {
     "system-analysis-and-design": "analytics", "probability-and-statistics": "analytics",
     "applied-economics": "trending_up", "operating-systems": "dns", "numerical-methods": "calculate",
     "software-engineering": "engineering", "python-programming": "terminal", "web-technology-2": "language",
-    "computer-networking": "lan", "network-administration": "lan", "geographical-information-system": "map", "image-processing": "image", "e-governance": "account_balance", "artificial-intelligence": "smart_toy", "advanced-java": "code",
-    "mis-and-e-business": "storage", "society-and-technology": "public", "computer-graphics": "draw",
-    "mobile-programming": "smartphone", "cryptography-network-security": "lock",
+    "computer-networking": "lan", "network-administration": "lan", "geographical-information-system": "map",
+    "image-processing": "image", "e-governance": "account_balance", "artificial-intelligence": "smart_toy",
+    "advanced-java": "code", "mis-and-e-business": "storage", "society-and-technology": "public",
+    "computer-graphics": "draw", "mobile-programming": "smartphone", "cryptography-network-security": "lock",
     "technical-writing": "edit_note", "distributed-system": "hub", "financial-accounting": "account_balance",
-    "cloud-computing": "cloud", "cyber-security-and-ethical-hacking": "security", "project-1": "assignment",
-    "project-2": "assignment", "project-3": "assignment", "project-4": "rocket_launch",
-    "internship": "school",
+    "cloud-computing": "cloud", "cyber-security-and-ethical-hacking": "security",
+    "software-project-management": "manage_accounts", "machine-learning": "neurology",
+    "dotnet-technology": "code", "database-programming": "database", "internet-of-things": "sensors",
+    "project-1": "assignment", "project-2": "assignment", "project-3": "assignment",
+    "project-4": "rocket_launch", "internship": "school",
 }
 
 

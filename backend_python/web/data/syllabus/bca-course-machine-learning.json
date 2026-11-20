@@ -7,7 +7,7 @@
  "subject": "machine-learning",
  "name": "Machine Learning",
  "name_ne": "",
- "icon": "menu_book",
+ "icon": "neurology",
  "group": "semester-7",
  "group_label": "Semester VII",
  "color": "#B45309",
@@ -17,7 +17,7 @@
  "semester": 7,
  "hours": 50,
  "questions": null,
- "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance).",
  "areas": [],
  "units": [
   {

@@ -105,7 +105,7 @@ def _course_spine(rel, meta, d):
     code = meta["code"].replace(" ", "-")   # the cover prints the first token of CODE
     lines = [f"# SUBJECT: {meta['name']} | CODE: {code} | CREDITS: {meta['credits']}",
              "# EXAM: TU assessment: 60% final examination set by the university, 40% internal "
-             "(assignments, lab, attendance): confirm the split in your college's notice",
+             "(assignments, lab, attendance)",
              f"# AREA: {meta['code']} · {meta['name']} (Semester {meta['semester']})"]
     for f in _units(d):
         fm, txt = _front(os.path.join(d, f))
