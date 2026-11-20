@@ -1,5 +1,8 @@
 package com.neb.ians.ui.screens.auth
 
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
@@ -44,8 +47,16 @@ import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialCancellationException
 import androidx.credentials.exceptions.GetCredentialException
+import androidx.credentials.exceptions.NoCredentialException
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+
+private tailrec fun Context.findActivity(): Activity? = when (this) {
+    is Activity -> this
+    is ContextWrapper -> baseContext.findActivity()
+    else -> null
+}
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.OAuthResult
 import com.neb.ians.ui.screens.onboarding.Reveal
@@ -106,16 +117,26 @@ fun LoginScreen(
             loadingProvider = "google"
             scope.launch {
                 try {
-                    val credentialManager = CredentialManager.create(context)
-                    val googleOption = GetSignInWithGoogleOption.Builder(AuthRepository.GOOGLE_SERVER_CLIENT_ID)
-                        .build()
-                    val request = GetCredentialRequest.Builder()
-                        .addCredentialOption(googleOption)
-                        .build()
-                    val result = credentialManager.getCredential(
-                        request = request,
-                        context = context
-                    )
+                    val activityContext = context.findActivity() ?: context
+                    val credentialManager = CredentialManager.create(activityContext)
+                    val result = try {
+                        val oneTapOption = GetGoogleIdOption.Builder()
+                            .setFilterByAuthorizedAccounts(false)
+                            .setServerClientId(AuthRepository.GOOGLE_SERVER_CLIENT_ID)
+                            .setAutoSelectEnabled(false)
+                            .build()
+                        credentialManager.getCredential(
+                            request = GetCredentialRequest.Builder().addCredentialOption(oneTapOption).build(),
+                            context = activityContext
+                        )
+                    } catch (_: NoCredentialException) {
+                        val signInOption = GetSignInWithGoogleOption.Builder(AuthRepository.GOOGLE_SERVER_CLIENT_ID)
+                            .build()
+                        credentialManager.getCredential(
+                            request = GetCredentialRequest.Builder().addCredentialOption(signInOption).build(),
+                            context = activityContext
+                        )
+                    }
                     val credential = result.credential
                     if (credential is CustomCredential &&
                         credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL

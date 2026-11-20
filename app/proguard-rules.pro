@@ -213,3 +213,21 @@
 -keep class com.neb.ians.speech.NativeSpeech { *; }
 -keep class com.neb.ians.speech.PcmSink { *; }
 -keep class * implements com.neb.ians.speech.PcmSink { public boolean onPcm(float[]); }
+
+# ----------------------------------------------------------------------------
+# AndroidX Credentials & Google Identity (Loaded reflectively in R8 full mode)
+# ----------------------------------------------------------------------------
+-keep class androidx.credentials.CredentialProviderFactory { *; }
+-keep class * implements androidx.credentials.CredentialProvider {
+    public <init>(android.content.Context);
+    public <init>();
+    *;
+}
+-keep class androidx.credentials.playservices.** {
+    public <init>(android.content.Context);
+    public <init>();
+    *;
+}
+-keep class com.google.android.libraries.identity.googleid.** { *; }
+-dontwarn androidx.credentials.**
+-dontwarn com.google.android.libraries.identity.googleid.**

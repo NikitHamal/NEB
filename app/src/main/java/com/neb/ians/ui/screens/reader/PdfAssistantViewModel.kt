@@ -63,10 +63,23 @@ class PdfAssistantViewModel @Inject constructor(
 ) : AndroidViewModel(application) {
     private val resourceId: String = savedStateHandle.get<String>("resourceId").orEmpty()
     private val json = Json { ignoreUnknownKeys = true }
-    private val prefs = application.getSharedPreferences("pdf_ai_history", 0)
+    private val prefs by lazy { application.getSharedPreferences("pdf_ai_history", 0) }
     private val storageKey = "sessions_$resourceId"
-    private val _uiState = MutableStateFlow(initialState())
+    private val _uiState = MutableStateFlow(
+        emptySession().let { PdfAssistantUiState(sessions = listOf(it), currentSessionId = it.id, messages = emptyList()) }
+    )
     val uiState: StateFlow<PdfAssistantUiState> = _uiState.asStateFlow()
+
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            val loaded = initialState()
+            _uiState.update { state ->
+                if (state.messages.isEmpty() && !state.isThinking) {
+                    state.copy(sessions = loaded.sessions, currentSessionId = loaded.currentSessionId, messages = loaded.messages)
+                } else state
+            }
+        }
+    }
 
     fun openPrompt() {
         _uiState.update { it.copy(isPromptOpen = true, isPanelOpen = true, isMinimized = false) }
@@ -250,6 +263,9 @@ class PdfAssistantViewModel @Inject constructor(
     }
 
     private fun persist(sessions: List<PdfAiSession>) {
-        prefs.edit().putString(storageKey, json.encodeToString(sessions.take(20))).apply()
+        val snapshot = sessions.take(20)
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching { prefs.edit().putString(storageKey, json.encodeToString(snapshot)).apply() }
+        }
     }
 }

@@ -69,25 +69,28 @@ enum class SyllabusTab { Chapters, Bank, Exam }
 class SyllabusViewModel @Inject constructor(
     private val apiService: ApiService,
     private val progress: StudyProgress,
-    application: Application
+    private val application: Application
 ) : ViewModel() {
 
-    private val prefs = application.getSharedPreferences(PREFS, 0)
-    private val _uiState = MutableStateFlow(
-        SyllabusUiState(
-            grade = prefs.getString(KEY_GRADE, null) ?: "12",
-            done = readDone(),
-            lastKey = prefs.getString(KEY_LAST, null)
-        )
-    )
+    private val prefs by lazy { application.getSharedPreferences(PREFS, 0) }
+    private val _uiState = MutableStateFlow(SyllabusUiState())
     val uiState: StateFlow<SyllabusUiState> = _uiState.asStateFlow()
     private var searchJob: Job? = null
 
     init {
+        viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+            val savedGrade = prefs.getString(KEY_GRADE, null) ?: "12"
+            val savedDone = readDone()
+            val savedLast = prefs.getString(KEY_LAST, null)
+            _uiState.update { it.copy(grade = savedGrade, done = savedDone, lastKey = savedLast) }
+        }
         load()
         viewModelScope.launch {
             progress.version.collect {
-                _uiState.update { it.copy(marks = progress.snapshot(), lastRead = progress.last()) }
+                val (snap, lastRead) = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                    progress.snapshot() to progress.last()
+                }
+                _uiState.update { it.copy(marks = snap, lastRead = lastRead) }
             }
         }
     }

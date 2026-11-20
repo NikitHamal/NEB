@@ -7,13 +7,16 @@ import com.neb.ians.data.local.entity.NoteEntity
 import com.neb.ians.data.repository.NotesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 enum class NoteFilter(val label: String) { All("All"), Pinned("Pinned"), Archive("Archive"), Trash("Bin") }
@@ -48,15 +51,10 @@ data class NotesUi(
 @HiltViewModel
 class NotesViewModel @Inject constructor(
     private val repo: NotesRepository,
-    @ApplicationContext context: Context,
+    @ApplicationContext private val context: Context,
 ) : ViewModel() {
-    private val prefs = context.getSharedPreferences("neb_notes", Context.MODE_PRIVATE)
-    private val controls = MutableStateFlow(
-        Controls(
-            sort = NoteSort.entries.getOrElse(prefs.getInt("sort", 0)) { NoteSort.Edited },
-            grid = prefs.getBoolean("grid", true),
-        )
-    )
+    private val prefs by lazy { context.getSharedPreferences("neb_notes", Context.MODE_PRIVATE) }
+    private val controls = MutableStateFlow(Controls())
 
     val ui: StateFlow<NotesUi> = combine(repo.notes, controls) { all, c ->
         val live = all.filter { !it.isTrashed }
@@ -84,10 +82,15 @@ class NotesViewModel @Inject constructor(
             sort = c.sort, grid = c.grid, selection = c.selection.intersect(ordered.map { it.id }.toSet()),
             searching = c.searching, binCount = all.count { it.isTrashed }, totalLive = live.size,
         )
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), NotesUi())
+    }.flowOn(Dispatchers.Default).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), NotesUi())
 
     init {
-        viewModelScope.launch { repo.purgeOldTrash() }
+        viewModelScope.launch(Dispatchers.IO) {
+            val savedSort = NoteSort.entries.getOrElse(prefs.getInt("sort", 0)) { NoteSort.Edited }
+            val savedGrid = prefs.getBoolean("grid", true)
+            controls.update { it.copy(sort = savedSort, grid = savedGrid) }
+            repo.purgeOldTrash()
+        }
     }
 
     fun setQuery(q: String) = controls.update { it.copy(query = q) }

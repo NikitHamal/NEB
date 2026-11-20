@@ -87,7 +87,7 @@ fun MarkdownText(
     val inlineContents = rememberInlineImageContents(markdown, onInlineImageClick)
 
     val laidOut = remember(blocks) { layoutMarkdownBlocks(blocks) }
-    val hasChecks = remember(laidOut) { laidOut.any { it.first is MdBlock.Check } }
+    val hasChecks = remember(blocks) { blocks.any { it is MdBlock.Check } }
     val appContext = androidx.compose.ui.platform.LocalContext.current.applicationContext
     val flipped = remember(markdown, tickKey, hasChecks) {
         mutableStateMapOf<Int, Boolean>().also { map ->
