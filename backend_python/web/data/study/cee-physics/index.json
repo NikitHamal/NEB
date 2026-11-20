@@ -5,7 +5,7 @@
    "no": 1,
    "title": "Physical Quantities, Vectors and Kinematics",
    "area": "Mechanics",
-   "words": 7442,
+   "words": 7436,
    "read_min": 41,
    "figures": 8,
    "has_questions": true
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "Dynamics: Force, Momentum, Work, Energy and Power",
    "area": "Mechanics",
-   "words": 7160,
+   "words": 7159,
    "read_min": 40,
    "figures": 6,
    "has_questions": true
@@ -23,7 +23,7 @@
    "no": 3,
    "title": "Rotational Dynamics",
    "area": "Mechanics",
-   "words": 5942,
+   "words": 5940,
    "read_min": 33,
    "figures": 5,
    "has_questions": true
@@ -32,7 +32,7 @@
    "no": 4,
    "title": "Fluid Statics and Dynamics",
    "area": "Mechanics",
-   "words": 6918,
+   "words": 6915,
    "read_min": 38,
    "figures": 7,
    "has_questions": true
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "Circular Motion and Simple Harmonic Motion",
    "area": "Mechanics",
-   "words": 6433,
+   "words": 6430,
    "read_min": 36,
    "figures": 7,
    "has_questions": true
@@ -50,7 +50,7 @@
    "no": 6,
    "title": "Gravitation",
    "area": "Mechanics",
-   "words": 6537,
+   "words": 6534,
    "read_min": 36,
    "figures": 6,
    "has_questions": true
@@ -59,7 +59,7 @@
    "no": 7,
    "title": "Elasticity",
    "area": "Mechanics",
-   "words": 6055,
+   "words": 6053,
    "read_min": 34,
    "figures": 7,
    "has_questions": true
@@ -68,7 +68,7 @@
    "no": 8,
    "title": "Heat, Temperature and Heat Transfer",
    "area": "Heat and Thermodynamics",
-   "words": 6451,
+   "words": 6448,
    "read_min": 36,
    "figures": 7,
    "has_questions": true
@@ -77,7 +77,7 @@
    "no": 9,
    "title": "Thermal Expansion and Quantity of Heat",
    "area": "Heat and Thermodynamics",
-   "words": 8680,
+   "words": 8676,
    "read_min": 48,
    "figures": 7,
    "has_questions": true
@@ -95,7 +95,7 @@
    "no": 11,
    "title": "Waves and Sound",
    "area": "Waves and Optics",
-   "words": 8393,
+   "words": 8389,
    "read_min": 47,
    "figures": 8,
    "has_questions": true
@@ -104,7 +104,7 @@
    "no": 12,
    "title": "Ray Optics: Reflection, Refraction and Dispersion",
    "area": "Waves and Optics",
-   "words": 8151,
+   "words": 8147,
    "read_min": 45,
    "figures": 9,
    "has_questions": true
@@ -113,7 +113,7 @@
    "no": 13,
    "title": "Wave Optics: Interference, Diffraction and Polarization",
    "area": "Waves and Optics",
-   "words": 7937,
+   "words": 7933,
    "read_min": 44,
    "figures": 9,
    "has_questions": true
@@ -122,7 +122,7 @@
    "no": 14,
    "title": "Current Electricity and Thermoelectricity",
    "area": "Current Electricity and Magnetism",
-   "words": 7938,
+   "words": 7933,
    "read_min": 44,
    "figures": 8,
    "has_questions": true
@@ -131,7 +131,7 @@
    "no": 15,
    "title": "Magnetic Field and Magnetic Properties of Materials",
    "area": "Current Electricity and Magnetism",
-   "words": 7438,
+   "words": 7433,
    "read_min": 41,
    "figures": 8,
    "has_questions": true
@@ -158,7 +158,7 @@
    "no": 18,
    "title": "Electrons and Photons",
    "area": "Modern Physics",
-   "words": 7481,
+   "words": 7476,
    "read_min": 42,
    "figures": 9,
    "has_questions": true
@@ -167,7 +167,7 @@
    "no": 19,
    "title": "Atomic Physics and X-rays",
    "area": "Modern Physics",
-   "words": 6245,
+   "words": 6240,
    "read_min": 35,
    "figures": 7,
    "has_questions": true
@@ -176,7 +176,7 @@
    "no": 20,
    "title": "Nuclear Physics and Radioactivity",
    "area": "Modern Physics",
-   "words": 6078,
+   "words": 6077,
    "read_min": 34,
    "figures": 6,
    "has_questions": true
@@ -185,7 +185,7 @@
    "no": 21,
    "title": "Semiconductors and Logic Gates",
    "area": "Modern Physics",
-   "words": 6128,
+   "words": 6124,
    "read_min": 34,
    "figures": 7,
    "has_questions": true
@@ -194,7 +194,7 @@
    "no": 22,
    "title": "Particle Physics and Recent Trends",
    "area": "Modern Physics",
-   "words": 5652,
+   "words": 5649,
    "read_min": 31,
    "figures": 8,
    "has_questions": true
