@@ -345,8 +345,9 @@ internal fun ForumPostCardPlain(
                             )
                         }
                         Spacer(modifier = Modifier.width(8.dp))
+                        val timeAgo = remember(post.createdAt) { formatTimeAgo(post.createdAt) }
                         Text(
-                            text = formatTimeAgo(post.createdAt),
+                            text = timeAgo,
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             maxLines = 1
@@ -405,6 +406,7 @@ internal fun ForumPostCardPlain(
                 Spacer(modifier = Modifier.height(10.dp))
                 val sortedImages = remember(post.images) { post.images.sortedBy { it.order } }
                 val allResolvedUrls = remember(sortedImages) { sortedImages.mapNotNull { resolveMediaUrl(it.imageUrl) } }
+                val imgContext = androidx.compose.ui.platform.LocalContext.current
 
                 Row(
                     modifier = Modifier
@@ -413,6 +415,14 @@ internal fun ForumPostCardPlain(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     sortedImages.forEachIndexed { index, image ->
+                        val resolvedUrl = remember(image.imageUrl) { resolveMediaUrl(image.imageUrl) }
+                        val thumbReq = remember(imgContext, resolvedUrl) {
+                            coil.request.ImageRequest.Builder(imgContext)
+                                .data(resolvedUrl)
+                                .size(360, 258)
+                                .crossfade(false)
+                                .build()
+                        }
                         Box(
                             modifier = Modifier
                                 .size(120.dp, 86.dp)
@@ -423,7 +433,7 @@ internal fun ForumPostCardPlain(
                                 }
                         ) {
                             AsyncImage(
-                                model = resolveMediaUrl(image.imageUrl),
+                                model = thumbReq,
                                 contentDescription = "Image ${index + 1}",
                                 modifier = Modifier.fillMaxSize(),
                                 contentScale = ContentScale.Crop

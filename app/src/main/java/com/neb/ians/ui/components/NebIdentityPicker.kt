@@ -204,14 +204,18 @@ private fun IdentityDropdown(
     }
 }
 
-/** The menu fill: tonal in light (the page is white), a raised step in dark. */
-@Composable
-fun nebMenuColor(): Color = com.neb.ians.ui.theme.nebFloatColor()
+object PostIdentityPreference {
+    var anonymous by mutableStateOf(false)
+}
 
 @Composable
-private fun nebMenuColorLegacy(): Color {
-    val scheme = MaterialTheme.colorScheme
-    return if (scheme.surface.luminance() > 0.5f) scheme.surfaceContainerLow else scheme.surfaceContainerHigh
+fun NebHairline(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(1.dp)
+            .background(MaterialTheme.colorScheme.outlineVariant)
+    )
 }
 
 @Composable

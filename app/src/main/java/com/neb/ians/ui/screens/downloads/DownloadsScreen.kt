@@ -199,9 +199,6 @@ private fun savedLabel(count: Int): String = when (count) {
 private fun DownloadedResource.isPdf(): Boolean =
     mimeType.contains("pdf", true) || type.contains("pdf", true) || localPath.endsWith(".pdf", true)
 
-private fun DownloadedResource.isAudio(): Boolean =
-    mimeType.startsWith("audio/") || type.contains("audio", true)
-
 private fun formatBytes(bytes: Long): String = when {
     bytes >= 1024L * 1024L * 1024L -> "%.1f GB".format(bytes / (1024f * 1024f * 1024f))
     bytes >= 1024L * 1024L -> "%.1f MB".format(bytes / (1024f * 1024f))

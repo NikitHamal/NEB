@@ -518,25 +518,7 @@ fun WebPrimaryButton(
     )
 }
 
-@Composable
-fun WebOutlinedButton(
-    text: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    imageVector: ImageVector? = null,
-    enabled: Boolean = true,
-    fillWidth: Boolean = false
-) {
-    NebButton(
-        text = text,
-        onClick = onClick,
-        modifier = modifier,
-        tone = NebButtonTone.Outlined,
-        icon = imageVector,
-        enabled = enabled,
-        fillWidth = fillWidth
-    )
-}
+
 
 
 
@@ -1114,18 +1096,5 @@ fun compactCount(value: Int): String {
         value >= 10_000 -> "${value / 1_000}K"
         value >= 1_000 -> String.format("%.1f", value / 1000f).removeSuffix(".0") + "K"
         else -> value.toString()
-    }
-}
-
-fun fileSizeLabel(bytes: Long): String {
-    if (bytes <= 0L) return ""
-    val kb = bytes / 1024.0
-    val mb = kb / 1024.0
-    val gb = mb / 1024.0
-    return when {
-        gb >= 1 -> String.format("%.1f GB", gb)
-        mb >= 1 -> String.format("%.1f MB", mb)
-        kb >= 1 -> String.format("%.0f KB", kb)
-        else -> "$bytes B"
     }
 }

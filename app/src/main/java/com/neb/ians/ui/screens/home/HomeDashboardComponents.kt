@@ -114,12 +114,13 @@ internal fun HomeResourceCarousel(
     resources: List<ApiResource>,
     onResourceClick: (String) -> Unit
 ) {
+    val visible = remember(resources) { resources.take(8) }
     LazyRow(
         modifier = Modifier.boundedWidth(),
         contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        items(resources.take(8), key = { it.id }) { resource ->
+        items(visible, key = { it.id }) { resource ->
             WebResourceCard(
                 resource = resource,
                 onClick = { onResourceClick(resource.id) },
@@ -138,10 +139,11 @@ internal fun HomeNewResourcesRail(
     onResourceClick: (String) -> Unit
 ) {
     if (resources.isEmpty()) return
+    val visible = remember(resources) { resources.take(8) }
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         HomeSectionTitle(
-            title = "New in Library",
-            actionLabel = "See All",
+            title = "New in library",
+            actionLabel = "See all",
             onActionClick = onViewAllClick
         )
         LazyRow(
@@ -149,7 +151,7 @@ internal fun HomeNewResourcesRail(
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(resources.take(8), key = { "new_in_lib_" + it.id }) { resource ->
+            items(visible, key = { "new_in_lib_" + it.id }) { resource ->
                 WebResourceCard(
                     resource = resource,
                     onClick = { onResourceClick(resource.id) },
@@ -545,8 +547,8 @@ internal fun HomeSuggestedPeersRail(
 
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         HomeSectionTitle(
-            title = "People You May Know",
-            actionLabel = "See All",
+            title = "People you may know",
+            actionLabel = "See all",
             onActionClick = onSeeAllClick
         )
         LazyRow(

@@ -282,7 +282,7 @@ fun HomeScreen(
                                     ) {
                                         HomeSectionTitle(
                                             title = "Suggested for you",
-                                            actionLabel = "See All",
+                                            actionLabel = "See all",
                                             onActionClick = onViewAllClick
                                         )
                                         HomeResourceCarousel(
@@ -307,8 +307,8 @@ fun HomeScreen(
                                     is HomeFeedEntry.ResourceHighlight -> if (entry.titled) {
                                         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                             HomeSectionTitle(
-                                                title = "Featured Study Guide",
-                                                actionLabel = "See All",
+                                                title = "Featured study guide",
+                                                actionLabel = "See all",
                                                 onActionClick = onViewAllClick
                                             )
                                             HomeFeedResourceHighlight(

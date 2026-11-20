@@ -738,20 +738,6 @@ private fun RdChoice(row: OptionRow, page: Int, t: ReadType, ctx: RdCtx) {
     }
 }
 
-@Composable
-private fun RdPageMark(page: Int, p: ReadingPalette, onOpen: () -> Unit) {
-    Row(
-        Modifier.fillMaxWidth().padding(top = 22.dp, bottom = 14.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        HorizontalDivider(Modifier.weight(1f), color = p.line)
-        Box(Modifier.padding(horizontal = 10.dp).clip(RoundedCornerShape(50)).clickable(onClick = onOpen).padding(horizontal = 10.dp, vertical = 4.dp)) {
-            Text("Page ${page + 1}", style = MaterialTheme.typography.labelSmall, color = p.muted)
-        }
-        HorizontalDivider(Modifier.weight(1f), color = p.line)
-    }
-}
-
 /** The article view of a PDF: a single column of reflowed text and pictures, set in the reader's own type. */
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable

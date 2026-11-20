@@ -58,14 +58,7 @@ fun parseAchievements(raw: String?): List<AchievementPill> {
         }
 }
 
-fun plainTextPreview(content: String): String {
-    return content
-        .replace(Regex("!\\[[^\\]]*\\]\\([^)]*\\)"), "")
-        .replace(Regex("\\[([^\\]]*)\\]\\([^)]*\\)"), "$1")
-        .replace(Regex("[*_`#>~]"), "")
-        .replace(Regex("\\s+"), " ")
-        .trim()
-}
+
 
 fun formatJoined(createdAtMs: Long): String {
     if (createdAtMs <= 0) return ""

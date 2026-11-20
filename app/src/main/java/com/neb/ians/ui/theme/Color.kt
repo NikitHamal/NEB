@@ -51,26 +51,6 @@ val NebBrandBlue: Color = NebBrandRamp.B40
 /** The brand blue as it must appear on a dark surface. */
 val NebBrandBlueOnDark: Color = NebBrandRamp.B80
 
-/** The brand blue resolved against whatever surface the caller is sitting on. */
-@Composable
-@ReadOnlyComposable
-fun nebBrand(): Color =
-    if (MaterialTheme.colorScheme.surface.luminance() < 0.5f) NebBrandBlueOnDark else NebBrandBlue
-
-/**
- * The third text tier: placeholders, timestamps, disabled labels.
- *
- * Material's scheme stops at onSurfaceVariant, so everything quieter than
- * secondary text used to be onSurfaceVariant at some alpha -- which is how a
- * timestamp ended up at 2.31:1 in the light theme. This is a real colour,
- * audited like the rest, and it clears 3.2:1 on every surface.
- */
-@Composable
-@ReadOnlyComposable
-fun nebOnSurfaceTertiary(): Color =
-    if (MaterialTheme.colorScheme.surface.luminance() < 0.5f) md_theme_dark_onSurfaceTertiary
-    else md_theme_light_onSurfaceTertiary
-
 /**
  * How a subject, category or level is dressed.
  *

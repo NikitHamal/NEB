@@ -54,11 +54,12 @@ fun HomeNewsSection(
     modifier: Modifier = Modifier
 ) {
     if (items.isEmpty()) return
+    val visible = remember(items) { items.take(5) }
 
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(10.dp)) {
         HomeSectionTitle(
             title = "News & updates",
-            actionLabel = "See All",
+            actionLabel = "See all",
             onActionClick = onViewAllClick
         )
         LazyRow(
@@ -66,7 +67,7 @@ fun HomeNewsSection(
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(items.take(5), key = { it.id }) { news ->
+            items(visible, key = { it.id }) { news ->
                 CompactNewsCard(
                     item = news,
                     onClick = { onNewsClick(news) }

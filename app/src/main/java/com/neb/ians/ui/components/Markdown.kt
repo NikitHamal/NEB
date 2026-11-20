@@ -959,15 +959,7 @@ private fun androidx.compose.ui.text.AnnotatedString.Builder.withStyleAppend(sty
     pop()
 }
 
-/** Strip markdown markers for inline previews (post cards). Mirrors web render_content_inline. */
-fun markdownToPlainPreview(markdown: String): String {
-    return InlineImageTokens.plainText(markdown)
-        .replace(PlainPreviewImageRegex, "")
-        .replace(PlainPreviewLinkRegex, "$1")
-        .replace(PlainPreviewMarksRegex, "")
-        .replace(PlainPreviewNewlinesRegex, "\n")
-        .trim()
-}
+
 
 @Composable
 fun ExpandableMarkdownText(
@@ -1102,19 +1094,6 @@ fun String.clippedForCard(): String {
     if (length <= CARD_PREVIEW_MAX_CHARS) return this
     val end = if (Character.isHighSurrogate(this[CARD_PREVIEW_MAX_CHARS - 1])) CARD_PREVIEW_MAX_CHARS - 1 else CARD_PREVIEW_MAX_CHARS
     return substring(0, end)
-}
-
-/** One background worker: warming previews never takes more than a core from the UI. */
-@OptIn(ExperimentalCoroutinesApi::class)
-private val previewWarmer = CoroutineScope(SupervisorJob() + Dispatchers.Default.limitedParallelism(1))
-
-/**
- * Works out the [markdownToInlinePreview] of each post as a page arrives, so a card scrolling in
- * finds it cached instead of parsing markdown and maths on the main thread mid-scroll.
- */
-fun prewarmCardPreviews(contents: List<String>) {
-    if (contents.isEmpty()) return
-    previewWarmer.launch { contents.forEach { markdownToInlinePreview(it) } }
 }
 
 suspend fun prewarmCardPreviewsNow(contents: List<String>) {
