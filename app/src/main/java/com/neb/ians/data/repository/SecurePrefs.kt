@@ -17,6 +17,9 @@ object SecurePrefs {
     private var prefs: SharedPreferences? = null
 
     @Volatile
+    private var initAttempted = false
+
+    @Volatile
     private var fallbackPrefs: SharedPreferences? = null
 
     // The token, decrypted once. Every API call asks for it, often from the main thread, and an
@@ -33,7 +36,7 @@ object SecurePrefs {
 
     private fun getFallback(context: Context): SharedPreferences {
         fallbackPrefs?.let { return it }
-        val sp = context.getSharedPreferences(FALLBACK_FILE, Context.MODE_PRIVATE)
+        val sp = context.applicationContext.getSharedPreferences(FALLBACK_FILE, Context.MODE_PRIVATE)
         fallbackPrefs = sp
         return sp
     }
@@ -42,12 +45,15 @@ object SecurePrefs {
     @Synchronized
     fun init(context: Context): SharedPreferences? {
         prefs?.let { return it }
+        if (initAttempted) return null
+        initAttempted = true
+        val appCtx = context.applicationContext
         try {
-            val masterKey = MasterKey.Builder(context)
+            val masterKey = MasterKey.Builder(appCtx)
                 .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
                 .build()
             val sp = EncryptedSharedPreferences.create(
-                context,
+                appCtx,
                 FILE_NAME,
                 masterKey,
                 EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
@@ -76,7 +82,7 @@ object SecurePrefs {
         val sp = init(context)
         if (sp != null) {
             try {
-                return sp.getString(KEY_AUTH_TOKEN, null)
+                sp.getString(KEY_AUTH_TOKEN, null)?.let { return it }
             } catch (e: Exception) {
                 Log.w("SecurePrefs", "Failed to read from EncryptedSharedPreferences", e)
             }
@@ -84,38 +90,40 @@ object SecurePrefs {
         return getFallback(context).getString(FALLBACK_AUTH_TOKEN, null)
     }
 
-    @Synchronized
     fun setAuthToken(context: Context, token: String?) {
         this.token = token
         tokenRead = true
-        val sp = init(context)
-        if (sp != null) {
-            try {
-                sp.edit().apply {
-                    if (token != null) putString(KEY_AUTH_TOKEN, token) else remove(KEY_AUTH_TOKEN)
-                }.apply()
-                return
-            } catch (e: Exception) {
-                Log.w("SecurePrefs", "Failed to write to EncryptedSharedPreferences", e)
+        synchronized(this) {
+            val sp = init(context)
+            if (sp != null) {
+                try {
+                    sp.edit().apply {
+                        if (token != null) putString(KEY_AUTH_TOKEN, token) else remove(KEY_AUTH_TOKEN)
+                    }.apply()
+                    return
+                } catch (e: Exception) {
+                    Log.w("SecurePrefs", "Failed to write to EncryptedSharedPreferences", e)
+                }
             }
+            getFallback(context).edit().apply {
+                if (token != null) putString(FALLBACK_AUTH_TOKEN, token) else remove(FALLBACK_AUTH_TOKEN)
+            }.apply()
         }
-        getFallback(context).edit().apply {
-            if (token != null) putString(FALLBACK_AUTH_TOKEN, token) else remove(FALLBACK_AUTH_TOKEN)
-        }.apply()
     }
 
-    @Synchronized
     fun clearAuthToken(context: Context) {
         token = null
         tokenRead = true
-        val sp = init(context)
-        if (sp != null) {
-            try {
-                sp.edit().remove(KEY_AUTH_TOKEN).apply()
-            } catch (e: Exception) {
-                Log.w("SecurePrefs", "Failed to clear from EncryptedSharedPreferences", e)
+        synchronized(this) {
+            val sp = init(context)
+            if (sp != null) {
+                try {
+                    sp.edit().remove(KEY_AUTH_TOKEN).apply()
+                } catch (e: Exception) {
+                    Log.w("SecurePrefs", "Failed to clear from EncryptedSharedPreferences", e)
+                }
             }
+            getFallback(context).edit().remove(FALLBACK_AUTH_TOKEN).apply()
         }
-        getFallback(context).edit().remove(FALLBACK_AUTH_TOKEN).apply()
     }
 }

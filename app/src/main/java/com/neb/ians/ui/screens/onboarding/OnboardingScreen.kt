@@ -128,7 +128,16 @@ fun OnboardingScreen(
         NebAuthTopBar(
             onBack = if (safeIndex > 0) ({ goBack() }) else null,
             onClose = if (safeIndex == 0) ({ viewModel.skipOnboarding(onFinished) }) else null,
-            progress = (safeIndex + 1).toFloat() / steps.size
+            progress = (safeIndex + 1).toFloat() / steps.size,
+            trailing = if (safeIndex in 1 until steps.lastIndex) {
+                {
+                    NebTextLink(
+                        text = "Skip",
+                        onClick = { viewModel.skipOnboarding(onFinished) },
+                        enabled = !uiState.isSubmitting
+                    )
+                }
+            } else null
         )
 
         val stepSlide = nebSpatialSpec<IntOffset>()
@@ -141,10 +150,11 @@ fun OnboardingScreen(
                 .fillMaxWidth()
                 .weight(1f)
         ) { target ->
+            val scrollMod = if (target == OnboardingStep.Birthday) Modifier else Modifier.verticalScroll(rememberScrollState())
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
+                    .then(scrollMod)
                     .padding(horizontal = NebAuthTokens.PageGutter)
             ) {
                 OnboardingStepContent(

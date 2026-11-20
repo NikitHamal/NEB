@@ -133,6 +133,8 @@ class PhononEngine @Inject constructor(
     fun stop() {
         run?.cancelled = true
         run = null
+        _state.value = ReadState.Idle
+        _progress.value = null
         runCatching { track?.pause(); track?.flush() }
     }
 
@@ -213,6 +215,9 @@ class PhononEngine @Inject constructor(
     private fun writeAll(t: AudioTrack, pcm: FloatArray, r: Run, counter: LongArray): Boolean {
         var off = 0
         while (off < pcm.size) {
+            while (r.paused && !r.cancelled && r.jump < 0) {
+                try { Thread.sleep(40) } catch (_: InterruptedException) { return false }
+            }
             if (r.cancelled || r.jump >= 0) return false
             val w = t.write(pcm, off, pcm.size - off, AudioTrack.WRITE_NON_BLOCKING)
             if (w < 0) return false

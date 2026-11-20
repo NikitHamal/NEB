@@ -122,6 +122,9 @@ class WhistleEngine @Inject constructor(
     /** Ends the session after the words still in flight are transcribed. */
     fun stop() {
         stopRequested = true
+        if (_state.value == DictationState.Listening) {
+            _state.value = DictationState.Finishing
+        }
     }
 
     /** Ends the session now. */

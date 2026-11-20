@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
             try {
                 val token = authRepository.getToken()
                 if (token != null && token.isNotBlank()) {
-                    authRepository.refreshProfile()
+                    authRepository.ensureProfile(attempts = 1)
                     authRepository.syncFcmToken()
                 }
             } catch (_: Exception) {}
@@ -229,10 +229,22 @@ class MainActivity : ComponentActivity() {
             val authToken = data.getQueryParameter("authToken")
             val isNewUser = data.getQueryParameter("isNewUser")?.toBoolean() ?: false
             val username = data.getQueryParameter("username")
+            val userId = data.getQueryParameter("userId")
+            val email = data.getQueryParameter("email")
+            val displayName = data.getQueryParameter("displayName")
+            val photoUrl = data.getQueryParameter("photoUrl")
 
             if (authToken != null) {
                 lifecycleScope.launch {
-                    val success = authRepository.signInWithWebToken(authToken, isNewUser, username)
+                    val success = authRepository.signInWithWebToken(
+                        token = authToken,
+                        isNewUser = isNewUser,
+                        username = username,
+                        userId = userId,
+                        email = email,
+                        displayName = displayName,
+                        photoUrl = photoUrl
+                    )
                     if (!success) {
                         this@MainActivity.nebToast("Sign-in failed. Please try again.")
                     }

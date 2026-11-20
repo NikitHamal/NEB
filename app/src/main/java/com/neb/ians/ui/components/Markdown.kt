@@ -1111,6 +1111,13 @@ fun prewarmCardPreviews(contents: List<String>) {
     previewWarmer.launch { contents.forEach { markdownToInlinePreview(it) } }
 }
 
+suspend fun prewarmCardPreviewsNow(contents: List<String>) {
+    if (contents.isEmpty()) return
+    kotlinx.coroutines.withContext(Dispatchers.Default) {
+        contents.forEach { markdownToInlinePreview(it) }
+    }
+}
+
 /**
  * Compact single-flow inline markdown for cards (suggested feed, lists):
  * bold/italic/inline-code/strikethrough/links/@mentions rendered inline like

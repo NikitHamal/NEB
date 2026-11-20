@@ -449,8 +449,8 @@ fun rememberGlassBackdrop(): GlassBackdrop {
     return remember(layer, enabled) { GlassBackdrop(layer, enabled) }
 }
 
-/** Marks the content that sits behind glass: it still draws normally and is also recorded. */
-fun Modifier.glassSource(backdrop: GlassBackdrop): Modifier = if (!backdrop.enabled) this else this
+/** Marks the content that sits behind glass: it still draws normally and is also recorded when [active] is true. */
+fun Modifier.glassSource(backdrop: GlassBackdrop, active: Boolean = true): Modifier = if (!backdrop.enabled || !active) this else this
     .onGloballyPositioned { backdrop.origin = it.positionInRoot() }
     .drawWithContent {
         backdrop.layer.record(this, layoutDirection, IntSize(size.width.toInt(), size.height.toInt())) {

@@ -66,7 +66,6 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
                             connectionSpecs(listOf(okhttp3.ConnectionSpec.MODERN_TLS, okhttp3.ConnectionSpec.COMPATIBLE_TLS))
                         }
                     }
-                    .addInterceptor(WafChallengeInterceptor(this))
                     .addNetworkInterceptor { chain ->
                         // M3X art files never change under one name: keep them on disk for a year, no revalidation
                         val response = chain.proceed(chain.request())
@@ -75,11 +74,16 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
                         } else response
                     }
                     .addInterceptor { chain ->
+                        val cookies = WafChallengeInterceptor.cachedCookieHeader()
                         val request = chain.request().newBuilder()
-                            .header("User-Agent", "Mozilla/5.0 (Linux; Android 11; Build/RQ3A.210705.001) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36")
+                            .header("User-Agent", "Mozilla/5.0 (Linux; Android 13; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36")
                             .header("Accept", "image/webp,image/apng,image/*,*/*;q=0.8")
                             .header("Accept-Language", "en-US,en;q=0.9")
                             .header("Connection", "keep-alive")
+                            .header("Referer", "https://nebians.consica.com.np/")
+                            .apply {
+                                if (!cookies.isNullOrBlank()) header("Cookie", cookies)
+                            }
                             .build()
                         chain.proceed(request)
                     }

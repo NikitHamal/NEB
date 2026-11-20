@@ -293,9 +293,9 @@ fun NEBiansNavHost(
     val leaveAuth: () -> Unit = {
         val poppedLogin = navController.popBackStack(Screen.Login.route, true)
         val poppedEmail = if (!poppedLogin) navController.popBackStack(Screen.EmailAuth.route, true) else false
-        val poppedComplete = if (!poppedLogin && !poppedEmail) navController.popBackStack(Screen.CompleteProfile.route, true) else false
-        val afterRoute = navController.currentBackStackEntry?.destination?.route
-        if ((!poppedLogin && !poppedEmail && !poppedComplete && afterRoute in PRE_APP_ROUTES) || afterRoute == null) {
+        if (!poppedLogin && !poppedEmail) navController.popBackStack(Screen.CompleteProfile.route, true)
+        val afterRoute = navController.currentBackStackEntry?.destination?.route?.substringBefore("?")
+        if (afterRoute in PRE_APP_ROUTES || afterRoute == null) {
             navController.navigate(Screen.Home.route) {
                 popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
                 launchSingleTop = true
@@ -480,7 +480,7 @@ fun NEBiansNavHost(
             startDestination = Screen.Splash.route,
             modifier = Modifier
                 .fillMaxSize()
-                .glassSource(glassBackdrop),
+                .glassSource(glassBackdrop, active = showBottomBar),
             // Shared-axis motion on springs: the next screen travels a short, decisive distance and
             // settles with a little life, the one behind drifts the other way and fades.
             enterTransition = {

@@ -124,6 +124,9 @@ fun stepsForRole(role: String): List<OnboardingStep> = buildList {
 
 /** Steps the user may pass through without answering. */
 fun isStepSkippable(step: OnboardingStep): Boolean = when (step) {
+    OnboardingStep.Birthday,
+    OnboardingStep.Gender,
+    OnboardingStep.Level,
     OnboardingStep.Subjects,
     OnboardingStep.Place,
     OnboardingStep.Campus,

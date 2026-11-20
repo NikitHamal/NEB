@@ -208,7 +208,10 @@ internal fun PwSearch(d: PwData, vm: PathwaysViewModel, nav: PwNav) {
             "Career" -> nav.push("career:${h.id}")
             "Exam" -> nav.push("exam:${h.id}")
             "Guide" -> nav.push("guide:${h.id}")
-            "College" -> d.routes.firstOrNull { h.id in it.where }?.let { nav.push("colleges:${it.id}") }
+            "College" -> {
+                d.providers[h.id]?.district?.takeIf { it.isNotBlank() }?.let { vm.setDistrict(it, "college") }
+                d.routes.firstOrNull { h.id in it.where }?.let { nav.push("colleges:${it.id}") }
+            }
             "Scholarship" -> { s.study = "funding"; s.schCountry = ""; s.schOpen = h.id; nav.tab("study") }
             "Country" -> { s.study = "abroad"; s.abroadOpen = h.id; nav.tab("study") }
             "Question" -> { s.faqOpen = h.id; nav.tab("guides") }

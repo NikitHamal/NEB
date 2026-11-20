@@ -37,6 +37,9 @@ internal fun guideDone(vm: PathwaysViewModel, g: PwGuide): Int = g.steps.indices
 internal fun PwGuides(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: PwNav) {
     var cat by rememberSaveable { mutableStateOf("All") }
     var view by rememberSaveable { mutableStateOf(if (vm.sel.faqOpen.isNotEmpty()) "faq" else "guides") }
+    androidx.compose.runtime.LaunchedEffect(vm.sel.faqOpen) {
+        if (vm.sel.faqOpen.isNotEmpty()) view = "faq"
+    }
     val hasBoth = d.guides.isNotEmpty() && d.faq.isNotEmpty()
     val shown = if (!hasBoth) (if (d.guides.isNotEmpty()) "guides" else "faq") else view
     PwScrollPage(24.dp) {

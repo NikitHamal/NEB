@@ -243,6 +243,7 @@ class HomeViewModel @Inject constructor(
                     }
                     cachedPosts.await().onSuccess { result ->
                         val posts = result.posts.distinctBy { it.id }
+                        com.neb.ians.ui.components.prewarmCardPreviewsNow(posts.map { it.content })
                         appCache.recentPosts = posts
                         _recentPosts.value = posts
                     }
@@ -275,6 +276,7 @@ class HomeViewModel @Inject constructor(
                 val popular = results.popular.getOrNull()?.resources ?: appCache.popularResources
                 val posts = (results.posts.getOrNull()?.posts ?: appCache.recentPosts).distinctBy { it.id }
                 val news = results.news
+                com.neb.ians.ui.components.prewarmCardPreviewsNow(posts.map { it.content })
 
                 _recentResources.value = resources
                 _popularResources.value = popular

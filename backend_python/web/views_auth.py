@@ -28,6 +28,20 @@ def deep_link(url):
     return DeepLinkRedirect(url)
 
 
+def _mobile_auth_deep_link(token, is_new_user, user):
+    from urllib.parse import urlencode
+    params = {
+        'authToken': token,
+        'isNewUser': 'true' if is_new_user else 'false',
+        'username': getattr(user, 'username', '') or '',
+        'userId': str(getattr(user, 'id', '') or ''),
+        'email': getattr(user, 'email', '') or '',
+        'displayName': getattr(user, 'display_name', '') or '',
+        'photoUrl': getattr(user, 'photo_url', '') or '',
+    }
+    return deep_link('nebians://auth-callback?' + urlencode(params))
+
+
 def _safe_next_url(raw):
     """Return a validated same-origin relative path, or None (blocks OAuth/login open redirects)."""
     if not raw or not isinstance(raw, str):
@@ -229,6 +243,8 @@ def google_oauth_callback(request):
     try:
         db_user = User.objects.get(pk=user_id)
         if getattr(db_user, 'is_banned', False):
+            if is_mobile:
+                return deep_link('nebians://auth-callback?error=account_banned')
             messages.error(request, 'This account has been banned.')
             return redirect('web:login')
         token = issue_auth_token(db_user)
@@ -237,7 +253,7 @@ def google_oauth_callback(request):
         api.set_session_auth(request, token, user_data)
         logger.info('google_oauth_callback: existing user signed in: %s', db_user.username or db_user.id)
         if is_mobile:
-            return deep_link(f'nebians://auth-callback?authToken={token}&isNewUser=false&username={db_user.username}')
+            return _mobile_auth_deep_link(token, False, db_user)
         if next_url:
             return redirect(next_url)
         return redirect('web:home')
@@ -248,12 +264,14 @@ def google_oauth_callback(request):
         if is_mobile:
             linked_token = api.get_session_token(request) or ''
             linked_user = User.objects.get(email__iexact=email)
-            return deep_link(f'nebians://auth-callback?authToken={linked_token}&isNewUser=false&username={linked_user.username}')
+            return _mobile_auth_deep_link(linked_token, False, linked_user)
         if next_url:
             return redirect(next_url)
         return redirect_result
     temp_username = f"user_{user_id[:8]}"
     if email and User.objects.filter(email__iexact=email).exists():
+        if is_mobile:
+            return deep_link('nebians://auth-callback?error=email_already_exists')
         messages.error(request, 'An account with this email already exists. Please log in with your original sign-in method first.')
         return redirect('web:login')
     db_user = User(
@@ -272,7 +290,7 @@ def google_oauth_callback(request):
     api.set_session_auth(request, token, user_data)
     logger.info('google_oauth_callback: new user created: %s (temp_username=%s)', user_id, temp_username)
     if is_mobile:
-        return deep_link(f'nebians://auth-callback?authToken={token}&isNewUser=true&username={temp_username}')
+        return _mobile_auth_deep_link(token, True, db_user)
     if next_url:
         return redirect(f"{reverse('web:onboarding')}?next={next_url}")
     return redirect('web:onboarding')
@@ -379,6 +397,8 @@ def github_callback(request):
     try:
         db_user = User.objects.get(pk=user_pk)
         if getattr(db_user, 'is_banned', False):
+            if is_mobile:
+                return deep_link('nebians://auth-callback?error=account_banned')
             messages.error(request, 'This account has been banned.')
             return redirect('web:login')
         token = issue_auth_token(db_user)
@@ -387,7 +407,7 @@ def github_callback(request):
         api.set_session_auth(request, token, user_data)
         logger.info('github_callback: existing user signed in: %s', db_user.username or db_user.id)
         if is_mobile:
-            return deep_link(f'nebians://auth-callback?authToken={token}&isNewUser=false&username={db_user.username}')
+            return _mobile_auth_deep_link(token, False, db_user)
         if next_url:
             return redirect(next_url)
         return redirect('web:home')
@@ -398,7 +418,7 @@ def github_callback(request):
         if is_mobile:
             linked_token = api.get_session_token(request) or ''
             linked_user = User.objects.get(email__iexact=email)
-            return deep_link(f'nebians://auth-callback?authToken={linked_token}&isNewUser=false&username={linked_user.username}')
+            return _mobile_auth_deep_link(linked_token, False, linked_user)
         if next_url:
             return redirect(next_url)
         return redirect_result
@@ -409,6 +429,8 @@ def github_callback(request):
         temp_username = f"{base_username}_{suffix}"
         suffix += 1
     if email and User.objects.filter(email__iexact=email).exists():
+        if is_mobile:
+            return deep_link('nebians://auth-callback?error=email_already_exists')
         messages.error(request, 'An account with this email already exists. Please log in with your original sign-in method first.')
         return redirect('web:login')
     db_user = User(
@@ -427,7 +449,7 @@ def github_callback(request):
     api.set_session_auth(request, token, user_data)
     logger.info('github_callback: new user created: %s', user_pk)
     if is_mobile:
-        return deep_link(f'nebians://auth-callback?authToken={token}&isNewUser=true&username={temp_username}')
+        return _mobile_auth_deep_link(token, True, db_user)
     if next_url:
         return redirect(f"{reverse('web:onboarding')}?next={next_url}")
     return redirect('web:onboarding')

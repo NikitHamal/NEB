@@ -148,7 +148,7 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
         if (!likelyText) return null
 
         val sample = try {
-            response.peekBody(64 * 1024).string()
+            response.peekBody(24 * 1024).string()
         } catch (_: Exception) {
             ""
         }
@@ -161,10 +161,11 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
 
     private fun isHardCaptchaBlock(request: Request, response: Response): Boolean {
         if (!request.url.encodedPath.startsWith("/api/")) return false
+        if (response.code !in listOf(403, 409, 429, 503)) return false
         val contentType = response.body?.contentType()?.toString().orEmpty()
         if (contentType.contains("application/json", true)) return false
         val sample = try {
-            response.peekBody(192 * 1024).string()
+            response.peekBody(24 * 1024).string()
         } catch (_: Exception) {
             ""
         }
@@ -176,7 +177,7 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
         if (!request.url.encodedPath.startsWith("/api/")) return false
         if (!contentType.contains("text/html", true)) return false
         val sample = try {
-            response.peekBody(32 * 1024).string()
+            response.peekBody(16 * 1024).string()
         } catch (_: Exception) {
             ""
         }
@@ -219,9 +220,9 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
         fun finish(value: String?) {
             if (finished.compareAndSet(false, true)) {
                 result.set(value)
-                CookieManager.getInstance().flush()
                 tryDestroyWebView(webViewRef.get())
                 latch.countDown()
+                Thread { runCatching { CookieManager.getInstance().flush() } }.start()
             }
         }
 

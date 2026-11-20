@@ -63,6 +63,13 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
     val lo = if (feesHi.isEmpty()) 0f else floor(feesHi.min() / 100_000f)
     val hi = if (feesHi.isEmpty()) 0f else ceil(feesHi.max() / 100_000f).coerceAtLeast(lo + 1f)
     var district by rememberSaveable(r.id) { mutableStateOf(ui.district) }
+    var filterQ by rememberSaveable(r.id) { mutableStateOf("") }
+    LaunchedEffect(ui.district) {
+        if (district.isEmpty() && ui.district.isNotEmpty()) district = ui.district
+    }
+    LaunchedEffect(district, r.id) {
+        if (district.isNotEmpty()) vm.setDistrict(district, kindFor(r))
+    }
     var cmax by rememberSaveable(r.id) { mutableFloatStateOf(hi) }
     var sort by rememberSaveable { mutableStateOf("fee") }
     var shown by rememberSaveable(r.id) { mutableIntStateOf(30) }
@@ -76,9 +83,28 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
     Column(Modifier.padding(horizontal = 16.dp)) {
         PwNepalMapCard(counts, district, { name ->
             district = if (name.isEmpty() || name == district) "" else name; shown = 30
-            if (district.isNotEmpty()) vm.setDistrict(district, kindFor(r))
+            if (district.isNotEmpty()) vm.setDistrict(district, kindFor(r)) else vm.setDistrict("", "")
         })
         Spacer(Modifier.height(14.dp))
+        androidx.compose.foundation.text.BasicTextField(
+            value = filterQ,
+            onValueChange = { filterQ = it; shown = 30 },
+            singleLine = true,
+            textStyle = MaterialTheme.typography.bodyMedium.copy(color = c.onSurface, fontWeight = FontWeight.Medium),
+            cursorBrush = androidx.compose.ui.graphics.SolidColor(c.primary),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 10.dp)
+                .height(44.dp)
+                .background(c.surfaceContainerLow, RoundedCornerShape(22.dp))
+                .padding(horizontal = 16.dp),
+            decorationBox = { inner ->
+                Box(contentAlignment = Alignment.CenterStart) {
+                    if (filterQ.isEmpty()) Text("Filter by college, town or NEB code", color = c.onSurfaceVariant, fontSize = 13.5.sp)
+                    inner()
+                }
+            }
+        )
         if (hi > lo) Row(Modifier.padding(bottom = 8.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
             Box(Modifier.weight(1f)) { PwSlider(cmax.coerceIn(lo, hi), { cmax = it; shown = 30 }, lo..hi, 0, lakhText(cmax)) }
             PwSeg(listOf("fee" to "Fee", "seats" to "Seats"), sort, { sort = it }, fill = false, height = 40.dp)
@@ -88,9 +114,14 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
             if (isPlus2 && ui.plus2Counts.isNotEmpty()) (inProv.map { it.district } + ui.plus2Counts.keys).distinct().sorted()
             else inProv.map { it.district }.distinct().sorted()
         }
-        if (districts.size > 1) PwChipRow(districts.map { it to it }, { it == district }, { district = if (it == district) "" else it; if (district.isNotEmpty()) vm.setDistrict(district, kindFor(r)) }, inset = 0.dp)
-        val list = remember(inProv, district, cmax, sort, matches) {
-            inProv.filter { p -> (district.isEmpty() || p.district == district) && (p.fees[r.id]?.second?.let { it / 100_000f <= cmax } ?: true) }
+        if (districts.size > 1) PwChipRow(districts.map { it to it }, { it == district }, { district = if (it == district) "" else it; if (district.isNotEmpty()) vm.setDistrict(district, kindFor(r)) else vm.setDistrict("", "") }, inset = 0.dp)
+        val needle = filterQ.trim().lowercase()
+        val list = remember(inProv, district, cmax, sort, matches, needle) {
+            inProv.filter { p ->
+                (district.isEmpty() || p.district == district) &&
+                    (p.fees[r.id]?.second?.let { it / 100_000f <= cmax } ?: true) &&
+                    (needle.isEmpty() || "${p.name} ${p.place} ${p.district}".lowercase().contains(needle))
+            }
                 .sortedWith(if (sort == "fee") compareBy<PwProvider>({ if (it.id in matches) 0 else 1 }, { it.fees[r.id]?.second ?: Long.MAX_VALUE }, { it.name }) else compareBy<PwProvider>({ if (it.id in matches) 0 else 1 }, { -it.seats }, { it.name }))
         }
         Spacer(Modifier.height(6.dp))
@@ -127,10 +158,14 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
             }
             if (list.size > shown) PwButton("Show ${minOf(30, list.size - shown)} more", null, false, { shown += 30 }, Modifier.fillMaxWidth())
         }
-        if (isPlus2 && district.isNotEmpty() && ui.district == district && ui.plus2Schools.isNotEmpty()) {
-            PwH4("NEB +2 schools in $district (${ui.plus2Total})")
+        val filteredPlus2 = remember(ui.plus2Schools, needle) {
+            if (needle.isEmpty()) ui.plus2Schools
+            else ui.plus2Schools.filter { "${it.name} ${it.nameNe} ${it.address} ${it.code}".lowercase().contains(needle) }
+        }
+        if (isPlus2 && district.isNotEmpty() && ui.district == district && filteredPlus2.isNotEmpty()) {
+            PwH4("NEB +2 schools in $district (${if (needle.isEmpty()) ui.plus2Total else filteredPlus2.size})")
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                ui.plus2Schools.take(shown).forEach { sc ->
+                filteredPlus2.take(shown).forEach { sc ->
                     PwSurface(Modifier.fillMaxWidth(), radius = 20.dp) {
                         Row(Modifier.padding(14.dp, 12.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                             Column(Modifier.weight(1f)) {
@@ -142,7 +177,7 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
                         }
                     }
                 }
-                if (ui.plus2Schools.size > shown) PwButton("Show more +2 schools", null, false, { shown += 30 }, Modifier.fillMaxWidth())
+                if (filteredPlus2.size > shown) PwButton("Show more +2 schools", null, false, { shown += 30 }, Modifier.fillMaxWidth())
             }
         }
         if (district.isNotEmpty() && ui.district == district && ui.live.isNotEmpty()) {

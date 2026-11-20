@@ -88,6 +88,30 @@ fun LoginScreen(
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var activeLegalSheet by remember { mutableStateOf<LegalSheetType?>(null) }
 
+    val customTabsPkg = remember(context) {
+        runCatching {
+            val preferred = listOf(
+                "com.android.chrome",
+                "com.brave.browser",
+                "com.microsoft.emmx",
+                "com.sec.android.app.sbrowser",
+                "org.mozilla.firefox"
+            )
+            androidx.browser.customtabs.CustomTabsClient.getPackageName(context, preferred, true)
+                ?: androidx.browser.customtabs.CustomTabsClient.getPackageName(context, null)
+        }.getOrNull()
+    }
+
+    androidx.compose.runtime.LaunchedEffect(customTabsPkg) {
+        if (!customTabsPkg.isNullOrBlank()) {
+            kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                runCatching {
+                    androidx.browser.customtabs.CustomTabsClient.connectAndInitialize(context.applicationContext, customTabsPkg)
+                }
+            }
+        }
+    }
+
     fun launchBrowserOAuth(provider: String) {
         val url = if (provider == "google") {
             "https://nebians.consica.com.np/auth/google/login/?state=mobile_google"
@@ -104,6 +128,9 @@ fun LoginScreen(
                 .setColorScheme(if (isDark) CustomTabsIntent.COLOR_SCHEME_DARK else CustomTabsIntent.COLOR_SCHEME_LIGHT)
                 .setInitialActivityHeightPx(sheetHeightPx, CustomTabsIntent.ACTIVITY_HEIGHT_DEFAULT)
                 .build()
+            if (!customTabsPkg.isNullOrBlank()) {
+                customTabsIntent.intent.setPackage(customTabsPkg)
+            }
             customTabsIntent.launchUrl(context, Uri.parse(url))
         } catch (_: Exception) {
             try {
@@ -124,24 +151,29 @@ fun LoginScreen(
                 try {
                     val activityContext = context.findActivity() ?: context
                     val credentialManager = CredentialManager.create(activityContext)
-                    val result = try {
-                        val oneTapOption = GetGoogleIdOption.Builder()
-                            .setFilterByAuthorizedAccounts(false)
-                            .setServerClientId(AuthRepository.GOOGLE_SERVER_CLIENT_ID)
-                            .setAutoSelectEnabled(false)
-                            .build()
-                        credentialManager.getCredential(
-                            request = GetCredentialRequest.Builder().addCredentialOption(oneTapOption).build(),
-                            context = activityContext
-                        )
-                    } catch (e: GetCredentialException) {
-                        if (e is GetCredentialCancellationException) throw e
-                        val signInOption = GetSignInWithGoogleOption.Builder(AuthRepository.GOOGLE_SERVER_CLIENT_ID)
-                            .build()
-                        credentialManager.getCredential(
-                            request = GetCredentialRequest.Builder().addCredentialOption(signInOption).build(),
-                            context = activityContext
-                        )
+                    val result = kotlinx.coroutines.withTimeoutOrNull(18_000L) {
+                        try {
+                            val oneTapOption = GetGoogleIdOption.Builder()
+                                .setFilterByAuthorizedAccounts(false)
+                                .setServerClientId(AuthRepository.GOOGLE_SERVER_CLIENT_ID)
+                                .setAutoSelectEnabled(false)
+                                .build()
+                            credentialManager.getCredential(
+                                request = GetCredentialRequest.Builder().addCredentialOption(oneTapOption).build(),
+                                context = activityContext
+                            )
+                        } catch (e: GetCredentialException) {
+                            if (e is GetCredentialCancellationException) throw e
+                            val signInOption = GetSignInWithGoogleOption.Builder(AuthRepository.GOOGLE_SERVER_CLIENT_ID)
+                                .build()
+                            credentialManager.getCredential(
+                                request = GetCredentialRequest.Builder().addCredentialOption(signInOption).build(),
+                                context = activityContext
+                            )
+                        }
+                    } ?: run {
+                        launchBrowserOAuth("google")
+                        return@launch
                     }
                     val credential = result.credential
                     if (credential is CustomCredential &&

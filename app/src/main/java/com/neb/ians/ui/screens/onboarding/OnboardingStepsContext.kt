@@ -200,6 +200,7 @@ fun CampusStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMode
     var showRegistered by remember { mutableStateOf(false) }
     var showCatalogue by remember { mutableStateOf(false) }
     val isInstitution = state.role == "institution"
+    androidx.compose.runtime.LaunchedEffect(Unit) { viewModel.fetchInstitutions() }
     val registeredNames = remember(state.institutions) { state.institutions.map { it.displayName } }
 
     Column(modifier = Modifier.fillMaxWidth()) {

@@ -92,8 +92,8 @@ class SpeechModelManager @Inject constructor(
     @ApplicationContext private val context: Context,
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    private val root = File(context.filesDir, "speech")
-    private val prefs = context.getSharedPreferences("neb_speech", Context.MODE_PRIVATE)
+    private val root by lazy { File(context.filesDir, "speech") }
+    private val prefs by lazy { context.getSharedPreferences("neb_speech", Context.MODE_PRIVATE) }
 
     // A separate lazy client: nothing from the app's API client (auth headers) should reach a CDN.
     private val client by lazy {

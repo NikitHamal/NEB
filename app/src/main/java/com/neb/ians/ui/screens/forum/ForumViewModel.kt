@@ -216,6 +216,7 @@ class ForumViewModel @Inject constructor(
                     search = state.searchQuery,
                     cacheOnly = true
                 ).onSuccess { cached ->
+                    com.neb.ians.ui.components.prewarmCardPreviewsNow(cached.posts.map { it.content })
                     _forumState.update { it.copy(posts = cached.posts, hasMore = cached.hasMore, isLoading = false) }
                     if (isDefaultQuery) {
                         appCache.forumPosts = cached.posts
@@ -232,6 +233,7 @@ class ForumViewModel @Inject constructor(
                 search = state.searchQuery,
                 forceRefresh = forceRefresh
             ).onSuccess { result ->
+                com.neb.ians.ui.components.prewarmCardPreviewsNow(result.posts.map { it.content })
                 _forumState.update { current ->
                     val merged = if (reset) result.posts else current.posts + result.posts.filter { newPost ->
                         current.posts.none { it.id == newPost.id }

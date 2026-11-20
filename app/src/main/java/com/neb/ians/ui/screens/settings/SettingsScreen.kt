@@ -90,6 +90,9 @@ fun SettingsScreen(
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val profile = userProfile?.takeIf { it.id != "guest_user" }
+    androidx.compose.runtime.LaunchedEffect(profile?.id) {
+        if (profile != null) settingsViewModel.loadNewResourceAlerts()
+    }
 
     val context = LocalContext.current
     val permissionLauncher = rememberLauncherForActivityResult(

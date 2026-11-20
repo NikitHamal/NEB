@@ -216,30 +216,31 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    suspend fun signInWithWebToken(token: String, isNewUser: Boolean, username: String?): Boolean {
+    suspend fun signInWithWebToken(
+        token: String,
+        isNewUser: Boolean,
+        username: String?,
+        userId: String? = null,
+        email: String? = null,
+        displayName: String? = null,
+        photoUrl: String? = null
+    ): Boolean {
         return try {
-            withContext(Dispatchers.IO) { SecurePrefs.setAuthToken(appContext, token) }
-            val fetched = if (!username.isNullOrBlank()) {
-                withContext(Dispatchers.IO) {
-                    withTimeoutOrNull(4500L) {
-                        runCatching { apiService.getProfile("Bearer $token", username) }.getOrNull()
-                    }
-                }
-            } else null
-
-            if (fetched != null) {
-                withContext(Dispatchers.IO) { cacheUser(fetched, token, isNewUser) }
-            } else {
+            withContext(Dispatchers.IO) {
+                SecurePrefs.setAuthToken(appContext, token)
                 dataStore.edit { prefs ->
                     prefs[AUTH_STATUS] = "authenticated"
                     prefs[PROFILE_COMPLETED] = !isNewUser
-                    if (!username.isNullOrEmpty()) prefs[USER_NAME] = username
-                    else if (prefs[USER_NAME] == "Guest") prefs[USER_NAME] = ""
-                    prefs.remove(USER_ID)
+                    if (!username.isNullOrBlank()) prefs[USER_NAME] = username
+                    else if (prefs[USER_NAME] == "Guest" || prefs[USER_NAME] == "Student") prefs[USER_NAME] = ""
+                    if (!userId.isNullOrBlank()) prefs[USER_ID] = userId else prefs.remove(USER_ID)
+                    if (!email.isNullOrBlank()) prefs[USER_EMAIL] = email
+                    if (!displayName.isNullOrBlank()) prefs[USER_DISPLAY_NAME] = displayName
+                    if (!photoUrl.isNullOrBlank()) prefs[USER_PHOTO_URL] = photoUrl
                 }
-                ioScope.launch { ensureProfile() }
-                syncFcmToken()
             }
+            ioScope.launch { ensureProfile() }
+            syncFcmToken()
             true
         } catch (e: Exception) {
             false
@@ -253,7 +254,7 @@ class AuthRepository @Inject constructor(
     }
 
     private fun needsOnboarding(user: com.neb.ians.data.api.UserProfileResponse, isNewUser: Boolean): Boolean =
-        isNewUser || user.username.isBlank() || (user.role != "institution" && user.dob.isBlank())
+        isNewUser || user.username.isBlank()
 
     private suspend fun cacheUser(user: com.neb.ians.data.api.UserProfileResponse, authToken: String, isNewUser: Boolean) {
         SecurePrefs.setAuthToken(appContext, authToken)
@@ -627,7 +628,7 @@ class AuthRepository @Inject constructor(
     suspend fun refreshProfile() {
         try {
             val bearer = getBearerToken() ?: return
-            val username = dataStore.data.first()[USER_NAME] ?: return
+            val username = dataStore.data.first()[USER_NAME]?.takeIf { it.isNotBlank() && it != "Guest" && it != "Student" } ?: return
             val response = withContext(Dispatchers.IO) { apiService.getProfile(bearer, username) }
             withContext(Dispatchers.IO) {
                 dataStore.edit { prefs ->

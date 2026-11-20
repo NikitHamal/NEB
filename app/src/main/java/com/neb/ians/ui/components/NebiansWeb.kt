@@ -608,43 +608,7 @@ fun WebOutlinedButton(
     )
 }
 
-@Composable
-/**
- * The corner badge. It reads the same [subjectFamily] the banner art and the
- * subject hue read, so a resource cannot end up with a flask on the badge and a
- * pulse line behind it. The icon set is small, so several families share one.
- */
-private fun getSubjectIcon(subject: String): Int {
-    return when (subjectFamily(subject)) {
-        SubjectFamily.PHYSICS,
-        SubjectFamily.CHEMISTRY,
-        SubjectFamily.BIOLOGY,
-        SubjectFamily.SCIENCE -> R.drawable.ic_science
 
-        SubjectFamily.MATH,
-        SubjectFamily.HEALTH,
-        SubjectFamily.EXAM -> R.drawable.ic_school
-
-        SubjectFamily.LANGUAGE -> R.drawable.ic_book
-        SubjectFamily.COMPUTING -> R.drawable.ic_pen
-        SubjectFamily.SOCIAL,
-        SubjectFamily.COMMERCE -> R.drawable.ic_globe
-        SubjectFamily.GENERAL -> R.drawable.ic_document
-    }
-}
-
-private fun formatFileSize(bytes: Long): String {
-    if (bytes <= 0) return "0 B"
-    val sizeKb = bytes / 1024.0
-    val sizeMb = sizeKb / 1024.0
-    return if (sizeMb >= 1.0) {
-        String.format("%.1f MB", sizeMb)
-    } else if (sizeKb >= 1.0) {
-        String.format("%.1f KB", sizeKb)
-    } else {
-        "$bytes B"
-    }
-}
 
 /**
  * Gives the card's banner its height from the card's own width, in the layout pass: a

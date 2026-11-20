@@ -89,8 +89,9 @@ class CompleteProfileViewModel @Inject constructor(
 
     private var cachedUsername: String = ""
 
+    private var institutionsRequested = false
+
     init {
-        fetchInstitutions()
         viewModelScope.launch {
             var initializedOnce = false
             authRepository.userProfileFlow.collect { cached ->
@@ -99,12 +100,15 @@ class CompleteProfileViewModel @Inject constructor(
                     cachedUsername = cached.username
                 }
                 val isCompleted = authRepository.isProfileCompletedFlow.first()
+                val fallbackDisplayName = cached.displayName?.takeIf { it.isNotBlank() }
+                    ?: cached.email?.substringBefore("@")?.takeIf { it.length >= 2 }
+                    ?: cached.username
                 _uiState.update { state ->
                     if (!initializedOnce) {
                         state.copy(
                             isEditing = isCompleted,
                             username = cached.username,
-                            displayName = cached.displayName ?: "",
+                            displayName = fallbackDisplayName,
                             email = cached.email ?: "",
                             bio = cached.bio ?: "",
                             dob = cached.dob,
@@ -584,12 +588,14 @@ class CompleteProfileViewModel @Inject constructor(
     }
 
     fun fetchInstitutions() {
+        if (institutionsRequested && _uiState.value.institutions.isNotEmpty()) return
+        institutionsRequested = true
         viewModelScope.launch {
             try {
                 val response = apiService.getInstitutions()
                 _uiState.update { it.copy(institutions = response.institutions) }
             } catch (e: Exception) {
-                // Ignore
+                institutionsRequested = false
             }
         }
     }

@@ -80,3 +80,23 @@ class NativeGoogleOAuthTests(TestCase):
         self.assertTrue(body.get('authToken'))
         self.assertEqual(body['user']['id'], existing.id)
         self.assertEqual(body['user']['username'], 'student_np')
+
+    def test_mobile_oauth_deep_link_includes_profile_fields(self):
+        from types import SimpleNamespace
+        from web.views_auth import _mobile_auth_deep_link
+
+        u = SimpleNamespace(
+            id='u_123',
+            username='aarati_np',
+            email='aarati@example.com',
+            display_name='Aarati Sharma',
+            photo_url='https://example.com/a.jpg',
+        )
+        resp = _mobile_auth_deep_link('tok_abc', False, u)
+        self.assertEqual(resp.status_code, 302)
+        loc = resp['Location']
+        self.assertTrue(loc.startswith('nebians://auth-callback?'))
+        self.assertIn('authToken=tok_abc', loc)
+        self.assertIn('userId=u_123', loc)
+        self.assertIn('username=aarati_np', loc)
+        self.assertIn('displayName=Aarati+Sharma', loc)

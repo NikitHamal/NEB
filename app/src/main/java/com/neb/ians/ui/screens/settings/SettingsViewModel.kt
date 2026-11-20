@@ -37,8 +37,11 @@ class SettingsViewModel @Inject constructor(
     /** Library autopilot: a message when a resource lands for the member's class and subjects. Stored on the account. */
     private val _newResourceAlerts = MutableStateFlow(true)
     val newResourceAlerts: StateFlow<Boolean> = _newResourceAlerts.asStateFlow()
+    private var alertsLoaded = false
 
-    init {
+    fun loadNewResourceAlerts() {
+        if (alertsLoaded) return
+        alertsLoaded = true
         viewModelScope.launch { authRepository.newResourceAlerts()?.let { _newResourceAlerts.value = it } }
     }
 

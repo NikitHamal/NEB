@@ -135,9 +135,10 @@ fun RoleStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel)
 @Composable
 fun NameStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel) {
     val name = state.displayName
+    val bucket = ((name.trim().length.coerceIn(0, 16) / 3) * 200).coerceAtMost(1000)
     Column(modifier = Modifier.fillMaxWidth()) {
         NebArtSlot {
-            com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Name, a = ((name.trim().length / 16f).coerceIn(0f, 1f) * 1000).toInt(), height = 140.dp)
+            com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Name, a = bucket, height = 140.dp)
         }
         Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
@@ -221,6 +222,12 @@ fun BirthdayStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMo
     val year = parsed?.first ?: defaultYear
     val month = parsed?.second ?: 1
     val day = parsed?.third ?: 1
+
+    androidx.compose.runtime.LaunchedEffect(Unit) {
+        if (state.dob.isBlank()) {
+            viewModel.onDobChange(formatIsoDate(year, month, day))
+        }
+    }
 
     Column(modifier = Modifier.fillMaxWidth()) {
         NebArtSlot(collapseOnKeyboard = false) { com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Birthday, a = parsed?.third ?: -1, height = 150.dp) }
