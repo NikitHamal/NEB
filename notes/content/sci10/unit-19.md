@@ -80,7 +80,7 @@ Before synthetic cleansers, Nepali households used eco-friendly natural substanc
 - **Saponification** is the chemical reaction in which vegetable oil or animal fat (a triglyceride ester of glycerol and fatty acids) is heated with an aqueous alkali ($\text{NaOH}$ or $\text{KOH}$) to produce **soap and glycerol**.
 :::
 
-$$\text{Fat or Vegetable Oil (Ester)} + 3\text{NaOH} \xrightarrow{\Delta} \text{Soap (e.g. } 3\text{C}_{17}\text{H}_{35}\text{COONa)} + \text{Glycerol }\text{C}_3\text{H}_5\text{(OH)}_3$$
+$$\text{Fat or Oil} + 3\text{NaOH} \xrightarrow{\Delta} 3\text{C}_{17}\text{H}_{35}\text{COONa (Soap)} + \text{C}_3\text{H}_5\text{(OH)}_3$$
 
 ```photo id="sci10/soap" caption="Bars of ordinary hard soap (sodium salt of fatty acids), manufactured by heating vegetable oil or animal fat with sodium hydroxide and salting out with common salt." width="54"
 ```
@@ -244,7 +244,7 @@ fig.tight_layout()
 **Problem.** When sodium stearate soap ($\text{C}_{17}\text{H}_{35}\text{COONa}$) is used in well water containing calcium chloride ($\text{CaCl}_2$), lather does not form easily, whereas sodium lauryl sulphate detergent lathers immediately. Explain with the chemical equation.
 
 **Solution.** Sodium stearate reacts with $\text{Ca}^{2+}$ ions in hard well water to form insoluble white **calcium stearate scum**:
-$$2\text{C}_{17}\text{H}_{35}\text{COONa} + \text{CaCl}_2 \longrightarrow (\text{C}_{17}\text{H}_{35}\text{COO})_2\text{Ca} \downarrow \text{(insoluble scum)} + 2\text{NaCl}$$
+$$2\text{C}_{17}\text{H}_{35}\text{COONa} + \text{CaCl}_2 \longrightarrow (\text{C}_{17}\text{H}_{35}\text{COO})_2\text{Ca} \downarrow + 2\text{NaCl}$$
 Detergents form water-soluble calcium and magnesium salts, so no scum precipitates and lather forms immediately.
 :::
 

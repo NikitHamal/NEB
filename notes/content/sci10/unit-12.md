@@ -10,10 +10,20 @@ area: Science and Technology
 On a clear night in the hills of Nepal, you can see thousands of stars and a pale band of light across the sky, the Milky Way. People have watched the sky for thousands of years and asked: what are the stars? How did everything begin? Are we alone? In this unit you will learn about the stars, galaxies and the solar system, the Big Bang theory of how the universe began, and how humans explore space with telescopes, satellites, rockets and probes.
 
 ::: key What SEE asks from this unit
-Definitions (universe, galaxy, star, light year, constellation, planet, dwarf planet, asteroid, comet), the planets in order with their features, the life cycle of a star, the Big Bang theory and the evidence for it, uses of artificial satellites, and famous space missions. Numericals on light years and light travel time are common.
+Expect: the **importance of gravitational force in the universe** (2 marks); the **Big Bang theory** and **Hubble's study / Hubble's law ($v = Hd$)** with its velocity–distance graph and redshift (2–4 marks); **critical density** and the **future of the universe: open universe, flat universe, closed universe and Big Crunch** with the size-vs-time graph (2–4 marks); and short questions on **light year**, **astronomical unit**, **stars, galaxies and satellites**.
 :::
 
-## 12.1 Stars, galaxies, solar system
+## 12.1 Universe and the importance of gravitational force
+
+### Importance of gravitational force in the universe
+
+Although gravitational force is the weakest of the four fundamental forces of nature, it acts over infinite distances and is always attractive. Therefore, **gravitational force is the master force that shapes the structure, stability and evolution of the entire universe**:
+
+1. **Birth of stars and galaxies:** Gravity pulls vast clouds of hydrogen and helium gas and cosmic dust (**nebulae**) together, compressing and heating their cores until nuclear fusion ignites and **stars** and **galaxies** are born.
+2. **Orbital stability of solar and planetary systems:** The Sun's gravitational pull keeps the eight planets, dwarf planets, asteroids and comets in stable elliptical orbits; likewise, planetary gravity holds natural moons and artificial satellites in orbit.
+3. **Large-scale cosmic structure:** Gravity binds billions of stars into **galaxies** (such as the Milky Way) and holds thousands of galaxies together in **galaxy clusters and superclusters**, preventing celestial bodies from scattering into empty space.
+4. **Life-sustaining conditions on Earth:** Earth's gravity retains the **atmosphere** and **hydrosphere (oceans)** around the planet, drives **rainfall, snowfall and river flow**, and together with the Moon's and Sun's gravity produces **ocean tides**.
+5. **Determining the future fate of the universe:** The inward pull of gravity of all matter in the cosmos opposes the outward expansion of the universe; whether the universe expands forever (**open/flat universe**) or collapses back (**closed universe / Big Crunch**) depends on the strength of gravitational attraction relative to the expansion rate.
 
 ### The universe and its size
 
@@ -198,7 +208,7 @@ fig.tight_layout()
 | Meteors ("shooting stars") | Meteoroids burning up as they enter the Earth's atmosphere |
 | Meteorites | Meteors that reach the ground |
 
-## 12.2 Formation of the universe
+## 12.2 Big Bang theory and Hubble's study
 
 ### The Big Bang theory
 
@@ -237,23 +247,86 @@ ax.spines[['top','right','left']].set_visible(False)
 fig.tight_layout()
 ```
 
-### Evidence for the Big Bang
+### Hubble's Study and Hubble's Law
 
-- **Expanding universe (Hubble, 1929).** Edwin Hubble found that distant galaxies are moving away from us, and the farther the galaxy, the faster it recedes ($v = H_0 d$, where $H_0 \approx 70$ km s⁻¹ per megaparsec). The light of receding galaxies is shifted toward the red end of the spectrum (**red shift**), like a siren that sounds lower when the ambulance moves away (the Doppler effect). If the galaxies are moving apart now, they must have been together in the past.
-- **Cosmic microwave background radiation.** Discovered by Penzias and Wilson in 1965: a faint microwave glow coming equally from all directions, at a temperature of about 2.7 K. It is the cooled afterglow of the early hot universe.
-- **Abundance of light elements.** About 75 % hydrogen and 25 % helium by mass in the universe, as the theory predicts.
+In 1929 the American astronomer **Edwin Hubble** analysed the spectra of light coming from distant galaxies using the Mount Wilson telescope and made two landmark discoveries:
 
-### Fate and other ideas
+1. **Redshift of galactic light:** The spectral lines of light from distant galaxies are shifted towards the longer-wavelength **red end** of the visible spectrum (**Doppler redshift**), proving that galaxies are moving away from us and from one another in every direction.
+2. **Hubble's Law:** The farther a galaxy is from the observer, the faster it recedes.
 
-Observations show that the expansion is speeding up, driven by something called **dark energy**. Galaxies also contain much more mass than we can see; the unseen matter is called **dark matter**. Together dark matter and dark energy make up about 95 % of the universe, and their nature is not yet known. An older competing idea, the Steady State theory, said that the universe has no beginning and looks the same at all times, but it could not explain the microwave background and has been given up.
-
-::: example Recession speed of a galaxy
-**Problem.** A galaxy is 100 megaparsecs away. Using $H_0 = 70$ km s⁻¹ Mpc⁻¹, find the speed with which it moves away.
-
-**Solution.** $v = H_0 d = 70 \times 100 = 7000$ km s⁻¹.
+::: definition Hubble's Law
+**Hubble's law** states that the **recession velocity ($v$)** of a distant galaxy moving away from us is **directly proportional to its distance ($d$)** from us:
+$$v \propto d \quad \Longrightarrow \quad v = H d$$
+where **$H$** (or $H_0$) is the **Hubble constant** ($H \approx 70\text{–}73.8\ \text{km s}^{-1}\text{Mpc}^{-1}$; $1\ \text{Mpc} \approx 3.26 \times 10^6\ \text{light years}$).
 :::
 
-## 12.3 Space exploration
+- **Significance of Hubble's law and the $v$ vs $d$ graph:**
+  - Plotting recession velocity ($v$) on the $y$-axis against distance ($d$) on the $x$-axis gives a **straight line passing through the origin**, whose slope equals the **Hubble constant ($H = v/d$)**.
+  - Because $H$ has dimensions of $1/\text{time}$, the reciprocal **$1/H$ estimates the age of the universe** ($\approx 13.8\ \text{billion years}$).
+  - It provides the strongest observational proof of the **expanding universe** and the **Big Bang theory**.
+- **Other evidence for the Big Bang:** (i) **Cosmic Microwave Background Radiation (CMBR)** at $2.7\ \text{K}$ discovered by Penzias and Wilson (1965), the cooled afterglow of the early universe; (ii) **primordial abundance** of about $75\%$ hydrogen and $25\%$ helium by mass.
+
+::: example Recession speed of a galaxy (Hubble's law)
+**Problem.** A galaxy is at a distance of $100\ \text{Mpc}$ (megaparsecs). Using $H = 70\ \text{km s}^{-1}\text{Mpc}^{-1}$, find the velocity with which it recedes from us. What happens to its recession velocity if another galaxy is twice as far ($200\ \text{Mpc}$)?
+
+**Solution.** By Hubble's law, $v = H d = 70 \times 100 = 7000\ \text{km s}^{-1}$. For a galaxy at $200\ \text{Mpc}$, the recession velocity doubles to $v = 70 \times 200 = 14000\ \text{km s}^{-1}$.
+:::
+
+## 12.3 Future of the universe: open, flat and closed universe and Big Crunch
+
+### Critical Density ($\rho_c$) and the Three Models of the Future Universe
+
+While the momentum of the Big Bang makes galaxies fly apart, the **gravitational attraction** of all matter in the universe pulls them inward and slows the expansion. The ultimate fate of the universe depends on how the **actual average density of the universe ($\rho$)** compares with a threshold value called the **critical density ($\rho_c$)**.
+
+::: definition Critical density
+**Critical density ($\rho_c$)** is the exact average mass density of the universe Required for gravitational attraction to just balance the outward expansion so that the expansion gradually slows toward zero without ever re-collapsing. Its estimated value is:
+$$\rho_c = \frac{3H^2}{8\pi G} \approx (1\text{ to }3) \times 10^{-26}\ \text{kg m}^{-3}$$
+(roughly $3\text{ to }6$ hydrogen atoms per cubic metre of space).
+:::
+
+```figure caption="(a) Hubble's law graph: recession velocity v increases linearly with distance d (v = Hd). (b) Future of the universe depending on average density ρ relative to critical density ρc: Open universe (ρ < ρc, expands forever), Flat universe (ρ = ρc, expansion slows to a steady limit), and Closed universe (ρ > ρc, expansion stops and reverses into a Big Crunch)."
+import numpy as np, matplotlib.pyplot as plt
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.2, 2.4))
+d = np.linspace(0, 300, 100)
+ax1.plot(d, 70*d, color=ACCENT, lw=1.8)
+ax1.scatter([60, 140, 220, 270], [4100, 9900, 15200, 19000], color=SERIES[1], s=16, zorder=3)
+ax1.set_title("(a) Hubble's law: v = H d", fontsize=8.2, fontweight="bold", color=INK)
+ax1.set_xlabel("Distance of galaxy d (Mpc)", fontsize=7.5, color=INK)
+ax1.set_ylabel("Recession velocity v (km/s)", fontsize=7.5, color=INK)
+ax1.tick_params(labelsize=6.8); ax1.spines[['top','right']].set_visible(False)
+ax1.text(110, 16000, "Slope = H", fontsize=7.3, color=ACCENT, fontweight="bold")
+
+t = np.linspace(0, 10, 250)
+y_open = 0.65*t + 0.035*t**2
+y_flat = 2.6 * (t/3.0)**(2/3)
+t_cl = np.linspace(0, 8.2, 200)
+y_closed = 3.6 * np.sin(np.pi * t_cl / 8.2)
+ax2.plot(t, y_open, color=ACCENT, lw=1.7, label="Open (ρ < ρc)")
+ax2.plot(t, y_flat, color=SERIES[2], lw=1.7, label="Flat (ρ = ρc)")
+ax2.plot(t_cl, y_closed, color=SERIES[1], lw=1.7, label="Closed (ρ > ρc)")
+ax2.plot([3.0], [2.6], 'o', color=INK, ms=4.5)
+ax2.annotate("Present", xy=(3.0, 2.6), xytext=(2.4, 0.7), fontsize=6.8, color=INK, arrowprops=dict(arrowstyle="->", lw=0.8, color=INK))
+ax2.annotate("Big Crunch", xy=(8.2, 0.05), xytext=(5.8, 0.9), fontsize=6.9, color=SERIES[1], fontweight="bold", arrowprops=dict(arrowstyle="->", lw=0.9, color=SERIES[1]))
+ax2.set_title("(b) Fate of the universe", fontsize=8.2, fontweight="bold", color=INK)
+ax2.set_xlabel("Time since Big Bang", fontsize=7.5, color=INK)
+ax2.set_ylabel("Relative size of universe", fontsize=7.5, color=INK)
+ax2.set_xticks([]); ax2.set_yticks([]); ax2.set_ylim(0, 7.6)
+ax2.spines[['top','right']].set_visible(False)
+ax2.legend(fontsize=6.5, frameon=False, loc="upper left")
+fig.tight_layout()
+```
+
+| Model of Universe | Density Condition | Curvature of Space | Future Fate of the Universe |
+|---|---|---|---|
+| **1. Open Universe** | Actual density is **less** than critical density ($\rho < \rho_c$) | Negatively curved (saddle-shaped / hyperbolic) | Gravity is too weak to halt expansion; the universe **keeps expanding forever** at a steady/accelerating rate, eventually cooling into a **Big Freeze / Cold Death** |
+| **2. Flat Universe** | Actual density **equals** critical density ($\rho = \rho_c$) | Zero curvature (flat Euclidean geometry) | Gravity exactly balances expansion; the expansion **slows down continuously and approaches zero speed only at infinite time**, never re-collapsing |
+| **3. Closed Universe** | Actual density is **greater** than critical density ($\rho > \rho_c$) | Positively curved (spherical, finite volume) | Strong gravity eventually **stops the expansion** and pulls all galaxies back together into a single super-hot, super-dense point (**singularity**) in an event called the **Big Crunch** |
+
+::: definition Big Crunch
+If the average density of the universe exceeds the critical density ($\rho > \rho_c$), gravitational pull eventually halts the outward expansion of galaxies and reverses it into a cosmic contraction, collapsing all matter and space back into a single hot, dense singularity. This hypothetical end of a closed universe is called the **Big Crunch** (which some oscillating-universe models suggest could be followed by another Big Bang).
+:::
+
+### Space exploration and artificial satellites
 
 ### Why explore space?
 
@@ -329,13 +402,13 @@ When asked to "explain how a geostationary satellite is useful", give: orbit at 
 
 ## Chapter summary
 
-- The universe is everything. 1 light year $= 9.46\times10^{12}$ km (distance); 1 AU $= 1.5\times10^{8}$ km. Sunlight takes 8 min 20 s to reach the Earth.
-- A star is a ball of hot gas shining by nuclear fusion of hydrogen. Life cycle: nebula → protostar → main sequence → red giant → white dwarf (Sun-like) or supernova → neutron star / black hole (massive).
-- A galaxy is a system of billions of stars. The Milky Way is a spiral galaxy. Constellations are patterns of stars; the Pole Star shows north.
-- The solar system has eight planets: Mercury, Venus, Earth, Mars (terrestrial), Jupiter, Saturn, Uranus, Neptune (giants), plus dwarf planets, asteroids, comets and meteors. $T^2 = r^3$ (years, AU).
-- Big Bang: the universe began about 13.8 billion years ago and is still expanding. Evidence: red shift of galaxies, cosmic microwave background, abundance of H and He.
-- Satellites stay in orbit because gravity supplies the circular-motion force. Geostationary satellites orbit at 36,000 km with a 24 h period.
-- Milestones: Sputnik 1 (1957), Gagarin (1961), Apollo 11 (1969), Hubble (1990), ISS (1998), NepaliSat-1 (2019).
+- **Gravitational force** forms stars from nebulae, binds stars into galaxies and galaxy clusters, keeps planets and satellites in orbit, retains Earth's atmosphere/hydrosphere, and governs the future fate of the universe.
+- The universe is everything that exists. $1\ \text{light year} = 9.46\times10^{12}\ \text{km}$ (distance); $1\ \text{AU} = 1.5\times10^{8}\ \text{km}$.
+- **Big Bang theory:** The universe began about $13.8\ \text{billion years}$ ago from an extremely hot, dense singularity and has been expanding and cooling ever since.
+- **Hubble's law:** The recession velocity ($v$) of a distant galaxy is directly proportional to its distance ($d$): **$v = Hd$**, where $H \approx 70\text{–}73.8\ \text{km s}^{-1}\text{Mpc}^{-1}$ is the Hubble constant. Spectral **redshift** proves galaxies are moving apart.
+- **Critical density ($\rho_c \approx (1\text{–}3)\times 10^{-26}\ \text{kg m}^{-3}$):** The boundary density at which gravity just balances expansion.
+- **Future of the universe:** **Open universe ($\rho < \rho_c$)** expands forever; **Flat universe ($\rho = \rho_c$)** expands at a decreasing rate approaching zero at infinity; **Closed universe ($\rho > \rho_c$)** stops expanding and contracts back into a singularity (**Big Crunch**).
+- Satellites stay in orbit because gravity supplies the centripetal force. Geostationary satellites orbit at $36,000\ \text{km}$ with a $24\ \text{h}$ period; **NepaliSat-1** (2019) was Nepal's first satellite.
 
 ## Practice questions
 
@@ -381,15 +454,17 @@ When asked to "explain how a geostationary satellite is useful", give: orbit at 
 1. Describe the life cycle of a star like the Sun and of a massive star. <span class="marks">[4]</span>
 2. State the Big Bang theory and give two pieces of evidence for it. <span class="marks">[4]</span>
 3. A star is 8.6 light years away. Find its distance in kilometres and the time light from it takes to reach us. <span class="marks">[4]</span>
-4. A planet is 9 AU from the Sun. Find the time it takes to go once round the Sun. <span class="marks">[4]</span>
-5. What is a geostationary satellite? Write the conditions it must satisfy and two uses. <span class="marks">[4]</span>
+4. State Hubble's law and write its mathematical formula. How does Hubble's study support the Big Bang theory? <span class="marks">[4]</span>
+5. What is critical density? Explain the open, flat and closed models of the future universe and define the Big Crunch with a diagram. <span class="marks">[4]</span>
+6. Write any four points showing the importance of gravitational force in the universe. <span class="marks">[4]</span>
 
 ::: note Answers to Group C
 **1.** Sun-like: nebula → protostar → main sequence → red giant → planetary nebula → white dwarf. Massive: nebula → protostar → main sequence → red supergiant → supernova → neutron star or black hole.
 **2.** Statement: the universe began about 13.8 billion years ago from a hot, dense state and has been expanding. Evidence: red shift of distant galaxies (they recede, faster if farther); cosmic microwave background of 2.7 K; abundance of hydrogen and helium.
 **3.** $d = 8.6 \times 9.46\times10^{12} = 8.14\times10^{13}$ km. Time $= 8.6$ years.
-**4.** $T^2 = r^3 = 9^3 = 729$, so $T = 27$ years.
-**5.** A satellite that appears fixed above one point of the Earth. Conditions: orbit above the equator at about 36,000 km, revolves west to east, period 24 h. Uses: TV and communication, weather watching.
+**4.** **Hubble's law:** The recession velocity ($v$) of a distant galaxy is directly proportional to its distance ($d$) from us: $v = Hd$, where $H$ is the Hubble constant. Hubble observed that light from distant galaxies is redshifted, proving that all galaxies are moving away from one another; reversing this expansion in time shows that all matter was once concentrated at a single point, strongly supporting the Big Bang theory.
+**5.** **Critical density ($\rho_c \approx (1\text{–}3)\times 10^{-26}\ \text{kg m}^{-3}$)** is the average cosmic density at which gravity just balances expansion. (i) **Open universe ($\rho < \rho_c$):** gravity is too weak, so the universe expands forever; (ii) **Flat universe ($\rho = \rho_c$):** expansion slows and approaches zero velocity at infinity; (iii) **Closed universe ($\rho > \rho_c$):** strong gravity stops expansion and pulls all galaxies back into a single hot, dense singularity called the **Big Crunch**. (Draw Figure 2b.)
+**6.** Gravitational force: (i) compresses nebulae to form stars and galaxies; (ii) keeps planets, moons and satellites in stable orbits; (iii) binds stars into galaxies and galaxy clusters; (iv) retains Earth's atmosphere and oceans and determines whether the universe will expand forever or re-collapse.
 :::
 
 **Group D — Model answers for long questions (10 marks each, for deeper revision)**

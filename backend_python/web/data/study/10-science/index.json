@@ -41,9 +41,9 @@
    "no": 5,
    "title": "Physiological Structure and Life Process",
    "area": "Science and Technology",
-   "words": 5539,
-   "read_min": 31,
-   "figures": 12,
+   "words": 4650,
+   "read_min": 26,
+   "figures": 5,
    "has_questions": true
   },
   {
@@ -104,17 +104,17 @@
    "no": 12,
    "title": "Universe",
    "area": "Science and Technology",
-   "words": 4822,
-   "read_min": 27,
-   "figures": 12,
+   "words": 5729,
+   "read_min": 32,
+   "figures": 13,
    "has_questions": true
   },
   {
    "no": 13,
    "title": "Information and Communication Technology",
    "area": "Science and Technology",
-   "words": 5239,
-   "read_min": 29,
+   "words": 5327,
+   "read_min": 30,
    "figures": 4,
    "has_questions": true
   },
@@ -140,9 +140,9 @@
    "no": 16,
    "title": "Gases",
    "area": "Science and Technology",
-   "words": 3032,
-   "read_min": 17,
-   "figures": 3,
+   "words": 4146,
+   "read_min": 23,
+   "figures": 6,
    "has_questions": true
   },
   {
@@ -167,9 +167,9 @@
    "no": 19,
    "title": "Chemicals used in Daily Life",
    "area": "Science and Technology",
-   "words": 4003,
-   "read_min": 22,
-   "figures": 8,
+   "words": 4059,
+   "read_min": 23,
+   "figures": 4,
    "has_questions": true
   }
  ],

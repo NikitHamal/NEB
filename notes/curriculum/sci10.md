@@ -22,11 +22,11 @@
 - sex determination
 - genetic disorders
 ## 5. Physiological Structure and Life Process
-- Nervous and endocrine systems
-- reproduction
-- circulation
-- excretion
-- homeostasis
+- Human blood: composition, blood cells and functions
+- Structure and working of the human heart
+- Blood vessels and double circulation
+- Blood groups, blood pressure, heart attack and angiography
+- Diabetes (hyperglycemia) and uric acid (gout)
 ## 6. Nature and Environment
 - Ecosystem
 - environmental pollution
@@ -63,9 +63,9 @@
 - electromagnetic induction
 - generator and transformer
 ## 12. Universe
-- Stars, galaxies, solar system
-- formation of the universe
-- space exploration
+- Universe and the importance of gravitational force
+- Big Bang theory and Hubble's study
+- Future of the universe: open, flat and closed universe and Big Crunch
 ## 13. Information and Communication Technology
 - Signals, analog-to-digital conversion and memory units
 - Signal transmission and digital communication system
