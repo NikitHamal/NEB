@@ -379,7 +379,7 @@ fun NEBiansNavHost(
     }
 
     LaunchedEffect(currentRoute, authState) {
-        if (authState !is AuthState.Unauthenticated) return@LaunchedEffect
+        if (authState is AuthState.Authenticated || authState is AuthState.Loading) return@LaunchedEffect
         val reason = gateReasonFor(currentDestination?.route) ?: gateReasonFor(currentRoute) ?: return@LaunchedEffect
         pendingRoute = navBackStackEntry?.destination?.route?.takeIf { !it.contains("{") }
         navController.popBackStack()

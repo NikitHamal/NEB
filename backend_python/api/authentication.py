@@ -63,6 +63,20 @@ def verify_google_token(id_token: str):
             except ValueError as e:
                 last_err = e
         if idinfo is None:
+            allowed_prefixes = {
+                cid.split('-', 1)[0] + '-'
+                for cid in allowed_client_ids
+                if cid.endswith('.apps.googleusercontent.com') and '-' in cid and cid.split('-', 1)[0].isdigit()
+            }
+            if allowed_prefixes:
+                try:
+                    candidate = google_id_token.verify_oauth2_token(id_token, req, None)
+                    aud = str(candidate.get('aud') or '')
+                    if aud.endswith('.apps.googleusercontent.com') and any(aud.startswith(p) for p in allowed_prefixes):
+                        idinfo = candidate
+                except ValueError as e:
+                    last_err = e
+        if idinfo is None:
             logger.warning("Google token verification failed: %s", last_err)
             return None
 

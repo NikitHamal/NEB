@@ -32,17 +32,27 @@ android {
                 .distinct()
                 .joinToString(",")
         }.getOrDefault("")
-        val googleWebClientId = runCatching {
-            val defaultWebId = "68143624035-que25r0vmrke4agasr715j5u9p8gic2s.apps.googleusercontent.com"
-            if (gsText.isBlank()) defaultWebId
-            else Regex(""""client_id"\s*:\s*"([^"]+\.apps\.googleusercontent\.com)"\s*,\s*"client_type"\s*:\s*3""")
-                .find(gsText)?.groupValues?.get(1)
-                ?: Regex(""""client_type"\s*:\s*3\s*,\s*"client_id"\s*:\s*"([^"]+\.apps\.googleusercontent\.com)"""")
-                    .find(gsText)?.groupValues?.get(1)
-                ?: defaultWebId
-        }.getOrDefault("68143624035-que25r0vmrke4agasr715j5u9p8gic2s.apps.googleusercontent.com")
+        val defaultWebId = "68143624035-que25r0vmrke4agasr715j5u9p8gic2s.apps.googleusercontent.com"
+        val googleWebClientIdsList = runCatching {
+            if (gsText.isBlank()) listOf(defaultWebId)
+            else {
+                val clientIdRegex = Regex(""""client_id"\s*:\s*"([^"]+\.apps\.googleusercontent\.com)"""")
+                val found = Regex("""\{[^{}]*"client_type"\s*:\s*3[^{}]*\}""")
+                    .findAll(gsText)
+                    .mapNotNull { block -> clientIdRegex.find(block.value)?.groupValues?.get(1)?.trim() }
+                    .filter { it.isNotBlank() }
+                    .distinct()
+                    .toList()
+                if (found.isEmpty()) listOf(defaultWebId)
+                else if (defaultWebId in found) listOf(defaultWebId) + (found - defaultWebId)
+                else found + defaultWebId
+            }
+        }.getOrDefault(listOf(defaultWebId))
+        val googleWebClientId = googleWebClientIdsList.firstOrNull() ?: defaultWebId
+        val googleWebClientIds = googleWebClientIdsList.distinct().joinToString(",")
         buildConfigField("String", "GOOGLE_ANDROID_CERT_HASHES", "\"$googleAndroidCertHashes\"")
         buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", "\"$googleWebClientId\"")
+        buildConfigField("String", "GOOGLE_WEB_CLIENT_IDS", "\"$googleWebClientIds\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

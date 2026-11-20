@@ -180,3 +180,42 @@ class NativeGoogleOAuthTests(TestCase):
         self.assertIsNotNone(info)
         self.assertEqual(info['userId'], 'g_sub_42')
         self.assertEqual(info['email'], 'cred@example.com')
+
+    def test_verify_google_token_accepts_same_project_oauth_client_and_rejects_foreign(self):
+        from unittest.mock import patch
+        from api.authentication import verify_google_token
+
+        def fake_verify_same_project(token, req, audience):
+            if audience is not None:
+                raise ValueError('Wrong recipient')
+            return {
+                'iss': 'https://accounts.google.com',
+                'aud': '68143624035-firebaseautowebclient.apps.googleusercontent.com',
+                'sub': 'g_sub_77',
+                'email': 'project@example.com',
+                'email_verified': True,
+                'name': 'Project User',
+                'picture': '',
+            }
+
+        with self.settings(GOOGLE_CLIENT_ID='68143624035-que25r0vmrke4agasr715j5u9p8gic2s.apps.googleusercontent.com'), \
+             patch('google.oauth2.id_token.verify_oauth2_token', side_effect=fake_verify_same_project):
+            info = verify_google_token('dummy-jwt-2')
+        self.assertIsNotNone(info)
+        self.assertEqual(info['userId'], 'g_sub_77')
+
+        def fake_verify_foreign_project(token, req, audience):
+            if audience is not None:
+                raise ValueError('Wrong recipient')
+            return {
+                'iss': 'https://accounts.google.com',
+                'aud': '99999999999-attacker.apps.googleusercontent.com',
+                'sub': 'g_sub_99',
+                'email': 'attacker@example.com',
+                'email_verified': True,
+            }
+
+        with self.settings(GOOGLE_CLIENT_ID='68143624035-que25r0vmrke4agasr715j5u9p8gic2s.apps.googleusercontent.com'), \
+             patch('google.oauth2.id_token.verify_oauth2_token', side_effect=fake_verify_foreign_project):
+            rejected = verify_google_token('dummy-jwt-3')
+        self.assertIsNone(rejected)

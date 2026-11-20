@@ -68,9 +68,9 @@ private tailrec fun Context.findActivity(): Activity? = when (this) {
 
 private const val OAUTH_PREFS = "nebians_oauth_prefs"
 private const val REQUEST_CODE_OAUTH_CUSTOM_TAB = 9041
-private val GOOGLE_DIRECT_OAUTH_URL =
+private const val GOOGLE_DIRECT_OAUTH_URL =
     "https://accounts.google.com/o/oauth2/v2/auth" +
-        "?client_id=" + AuthRepository.GOOGLE_SERVER_CLIENT_ID +
+        "?client_id=" + AuthRepository.GOOGLE_WEB_REDIRECT_CLIENT_ID +
         "&redirect_uri=https://nebians.consica.com.np/auth/google/callback/" +
         "&response_type=code" +
         "&scope=openid+email+profile" +
@@ -84,12 +84,15 @@ private const val GITHUB_DIRECT_OAUTH_URL =
         "&scope=read:user,user:email" +
         "&state=mobile_github"
 
+private fun isConfigOrReauthFailure(msgRaw: String?): Boolean {
+    val msg = (msgRaw ?: "").lowercase()
+    return "reauth" in msg || "28444" in msg || "developer" in msg || "10:" in msg || "unregistered" in msg
+}
+
 private fun isTrueUserCancellation(e: GetCredentialCancellationException): Boolean {
     val msg = (e.message ?: "").lowercase()
     if (msg.isBlank()) return true
-    if ("reauth" in msg || "28444" in msg || "developer" in msg || "10:" in msg || "unregistered" in msg) {
-        return false
-    }
+    if (isConfigOrReauthFailure(msg)) return false
     return "cancel" in msg || "12501" in msg || "user" in msg
 }
 
@@ -139,31 +142,53 @@ private fun extractGoogleIdToken(credential: androidx.credentials.Credential): S
 
 private suspend fun requestGoogleIdTokenNatively(activityContext: Activity): String? {
     val credentialManager = CredentialManager.create(activityContext)
-    val serverClientId = AuthRepository.GOOGLE_SERVER_CLIENT_ID
+    val clientIds = AuthRepository.GOOGLE_SERVER_CLIENT_IDS
+    var lastError: Exception? = null
+    var shouldTryExplicitModal = false
+
     // Tier 1: Bottom-sheet One Tap credential picker (GetGoogleIdOption)
-    try {
-        val oneTapOption = GetGoogleIdOption.Builder()
-            .setFilterByAuthorizedAccounts(false)
-            .setServerClientId(serverClientId)
-            .setAutoSelectEnabled(false)
-            .build()
-        val result = credentialManager.getCredential(
-            request = GetCredentialRequest.Builder().addCredentialOption(oneTapOption).build(),
-            context = activityContext
-        )
-        extractGoogleIdToken(result.credential)?.takeIf { it.isNotBlank() }?.let { return it }
-    } catch (e: GetCredentialCancellationException) {
-        if (isTrueUserCancellation(e)) throw e
-    } catch (_: NoCredentialException) {
-        // Proceed to Tier 2 explicit Sign in with Google dialog
-    } catch (_: GetCredentialException) {
-        // Proceed to Tier 2 explicit Sign in with Google dialog
-    } catch (_: Exception) {
-        // Proceed to Tier 2 explicit Sign in with Google dialog
+    for (serverClientId in clientIds) {
+        try {
+            val oneTapOption = GetGoogleIdOption.Builder()
+                .setFilterByAuthorizedAccounts(false)
+                .setServerClientId(serverClientId)
+                .setAutoSelectEnabled(false)
+                .build()
+            val result = credentialManager.getCredential(
+                request = GetCredentialRequest.Builder().addCredentialOption(oneTapOption).build(),
+                context = activityContext
+            )
+            extractGoogleIdToken(result.credential)?.takeIf { it.isNotBlank() }?.let { return it }
+        } catch (e: GetCredentialCancellationException) {
+            if (isTrueUserCancellation(e)) throw e
+            lastError = e
+        } catch (e: NoCredentialException) {
+            shouldTryExplicitModal = true
+            lastError = e
+            break
+        } catch (e: GetCredentialException) {
+            lastError = e
+            if (!isConfigOrReauthFailure(e.message)) {
+                shouldTryExplicitModal = true
+                break
+            }
+        } catch (e: Exception) {
+            lastError = e
+            if (!isConfigOrReauthFailure(e.message)) {
+                shouldTryExplicitModal = true
+                break
+            }
+        }
+    }
+
+    if (!shouldTryExplicitModal) {
+        if (lastError != null) throw lastError
+        return null
     }
 
     // Tier 2: Explicit "Sign in with Google" account chooser modal (GetSignInWithGoogleOption)
-    val signInOption = GetSignInWithGoogleOption.Builder(serverClientId).build()
+    val primaryServerClientId = AuthRepository.GOOGLE_SERVER_CLIENT_ID
+    val signInOption = GetSignInWithGoogleOption.Builder(primaryServerClientId).build()
     val fallbackResult = credentialManager.getCredential(
         request = GetCredentialRequest.Builder().addCredentialOption(signInOption).build(),
         context = activityContext

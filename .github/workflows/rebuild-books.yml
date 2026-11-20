@@ -101,6 +101,8 @@ jobs:
           SLUGS: ${{ inputs.slugs }}
         run: |
           set -euo pipefail
+          git checkout -- .
+          git clean -fd notes/assets notes/pipeline 2>/dev/null || true
           git fetch origin main
           git rebase origin/main
           python3 - <<'PY'
