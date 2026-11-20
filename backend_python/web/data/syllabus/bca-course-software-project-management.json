@@ -7,7 +7,7 @@
  "subject": "software-project-management",
  "name": "Software Project Management",
  "name_ne": "",
- "icon": "manage_accounts",
+ "icon": "menu_book",
  "group": "semester-7",
  "group_label": "Semester VII",
  "color": "#0F766E",
@@ -17,7 +17,7 @@
  "semester": 7,
  "hours": 48,
  "questions": null,
- "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance).",
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
  "areas": [],
  "units": [
   {

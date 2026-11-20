@@ -7,7 +7,7 @@
  "subject": "database-programming",
  "name": "Database Programming",
  "name_ne": "",
- "icon": "database",
+ "icon": "menu_book",
  "group": "semester-8",
  "group_label": "Semester VIII",
  "color": "#9A3412",
@@ -17,7 +17,7 @@
  "semester": 8,
  "hours": 48,
  "questions": null,
- "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance).",
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
  "areas": [],
  "units": [
   {

@@ -7,7 +7,7 @@
  "subject": "dotnet-technology",
  "name": "DotNet Technology",
  "name_ne": "",
- "icon": "code",
+ "icon": "menu_book",
  "group": "semester-7",
  "group_label": "Semester VII",
  "color": "#0E7490",
@@ -17,7 +17,7 @@
  "semester": 7,
  "hours": 45,
  "questions": null,
- "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance).",
+ "exam": "TU assessment: 60% final examination set by the university, 40% internal (assignments, lab work, attendance). Confirm the split in your college's notice.",
  "areas": [],
  "units": [
   {
