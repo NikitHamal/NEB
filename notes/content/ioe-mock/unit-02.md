@@ -18,7 +18,7 @@ area: Practice
 | Chemistry | 35–48 | 89–96 | 22 | 30 |
 | English | 49–60 | 97–100 | 16 | 20 |
 
-*The split of questions between subjects within the two sections is not published by IOE; this paper uses the 20+15 / 14+13 / 14+8 / 12+4 distribution that fits 60 + 40 questions and the subject marks 50 / 40 / 30 / 20.*
+*Section distribution: Mathematics 20+15 (50 marks), Physics 14+13 (40 marks), Chemistry 14+8 (30 marks), English 12+4 (20 marks).*
 
 **Pacing.** 120 minutes for 100 questions is 72 seconds each on average. A sound plan: Section A (60 questions) in 45 minutes, Section B (40) in 60 minutes, 15 minutes for returning to skipped questions.
 

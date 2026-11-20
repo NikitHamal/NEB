@@ -16,7 +16,7 @@ Almost every SEE paper has one 4-mark question from this unit and often a 3-mark
 ```photo id="math10/bank-nepal" caption="Every bank in Nepal runs on the percentage arithmetic of this chapter. A branch of Nepal Rastra Bank, Janakpur: tax, commission and money exchange are the same calculations applied to millions of rupees." width="100"
 ```
 
-## 2.1 Taxes: what they are and why we pay them
+## 2.1 Introduction to tax, types of tax and VAT
 
 A **tax** is money that people and businesses must pay to the government. It pays for roads, schools, hospitals and the police. Taxes fall into two groups.
 

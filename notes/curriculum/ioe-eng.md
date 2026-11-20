@@ -1,5 +1,4 @@
 # SUBJECT: English | TRACK: IOE (BE/BArch) | QUESTIONS: 16 | SYLLABUS: IOE Detailed Syllabus of B.E./B.Arch. Entrance Examination-2083 (English, full marks 20)
-# WEIGHTAGE: Subject total (20 marks) official; the [n] split is the NEBians estimate (12 one-mark + 4 two-mark = 16 questions = 20 marks).
 # AREA: English (16)
 ## 1. Grammar I [4]
 - Sequence of tenses, concord (agreement)

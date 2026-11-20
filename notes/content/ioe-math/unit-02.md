@@ -327,4 +327,4 @@ The exponential value is $1+1+0.5+0.1667+0.0417+0.0083+0.0014=2.7181$.
 
 **5. Complex numbers.** $(1+i)^8=\left(\sqrt2\right)^8\left(\cos2\pi+i\sin2\pi\right)=16$ by De Moivre's theorem. The cube roots of unity satisfy $1+\omega+\omega^2=0$ and $\omega^3=1$.
 
-**Conclusion.** Choosing the right formula (arrangement with repetition, complementary counting, general term) gives the answer without long listing.
+**Conclusion.** Summary of mensuration formulas for plane figures and cylinders (arrangement with repetition, complementary counting, general term) gives the answer without long listing.

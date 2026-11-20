@@ -306,7 +306,7 @@ $$ P = \frac12\cdot\frac23\cdot\frac34 + \frac12\cdot\frac13\cdot\frac34
 = \frac{6}{24} + \frac{3}{24} + \frac{2}{24} = \frac{11}{24} $$
 :::
 
-## 11.3 Bayes' theorem: reasoning backwards
+## 11.3 Bayes' theorem and inverse probability
 
 Conditional probability usually runs forwards: *given the cause, how likely is the
 effect?* Bayes' theorem runs the other way: *given the effect, how likely is each

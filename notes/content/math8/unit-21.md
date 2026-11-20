@@ -279,7 +279,7 @@ The **modal class** is the class with the highest frequency — here 40–60 —
 for a grouped table that is what "mode" means. (Grouped data are studied fully in Grade 9; in Grade 8 the
 exam asks for the mean, median and mode of an **individual series**.)
 
-## 21.4 Choosing the right average
+## 21.4 Comparison of mean, median and mode
 
 Mean, median and mode answer different questions. The examiner often asks
 **which** average is suitable, and that is a reasoning mark.

@@ -7,7 +7,7 @@ hours: 0
 area: Computer Science
 ---
 
-This chapter does three jobs. It sets out the **pattern** of the 50-mark Computer Science paper used throughout this bank and shows where each area's marks come from; it gives **two complete model papers**, each of 50 marks and two hours, built to that pattern, with a full answer to every question; and it closes with a **ranked list of practice priorities**, each with the reason it holds its place. Sit each model paper in one go, with a clock, before you look at the answers. Every Python program in the answers was run in Python 3.12, and its output is printed exactly.
+This chapter does three jobs. It sets out the **pattern** of the 50-mark Computer Science paper used throughout this bank and shows where each area's marks come from; it gives **two complete model papers**, each of 50 marks and two hours, built to that pattern, with a full answer to every question; and it closes with a **ranked list of practice priorities**, each with the reason it holds its place. Sit each model paper in one go, with a clock, before you look at the answers.
 
 ::: key The pattern: 50 marks in 2 hours
 | Group | Questions | Marks each | Total | What it asks for |
@@ -504,4 +504,3 @@ Four marks: (1) a descriptive `#` comment; (2) `int(input(...))` with a clear pr
 - A workable clock: 5 minutes reading, 10 for Group A, 40 for Group B, 55 for Group C, 10 for checking.
 - The six topics worth rehearsing first: number conversions, complete Python programs, algorithms with flowcharts, program output, network topologies, and translators and errors.
 - Write points, not paragraphs; compare the same feature in every difference; show every division in a conversion and check it by converting back; trace every program once and write its output.
-- Both model papers are rehearsals built to the pattern, not forecasts: no one outside your school knows its paper.

@@ -618,7 +618,7 @@ many seeds per plant; and it showed seven clear-cut pairs of characters.
 | Seed shape | round | wrinkled |
 | Cotyledon colour | yellow | green |
 
-::: definition The words you must use correctly
+::: definition Mirror terminology and sign convention
 **Gene** — a unit of inheritance, a DNA segment at a fixed **locus**.
 **Allele** — one of the alternative forms of a gene (T and t).
 **Dominant** — the allele expressed in the heterozygote; **recessive** — the one

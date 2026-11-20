@@ -2,7 +2,6 @@
 # EXAM: 3hr, FM 75 written (+25 internal) | No Group A/B/C. 8 questions:
 # Q1 Unseen reading 15 | Q2 Short lit answers 5x2=10 | Q3 Long lit answers 2x5=10 | Q4 Guided writing 7
 # Q5 Functional writing 8 | Q6 Free writing/essay 10 | Q7 Grammar 10x1=10 | Q8 Vocabulary 5x1=5
-# TEXTBOOK: "English Grade 12", CDC, First Edition 2021 AD
 # PART: Literature - Short Stories
 ## 1. Neighbours - Tim Winton [L]
 - About the author: Tim Winton
@@ -158,7 +157,7 @@
 - Comprehension and critical thinking — "Humility"
 ## 17. Human Rights and the Age of Inequality - Samuel Moyn [L]
 - About the author: Samuel Moyn
-- Background: the ideas you need before you read
+- Historical and philosophical background
 - The essay, section by section
 - Central idea and themes
 - Style, tone and form
@@ -168,7 +167,7 @@
 # PART: Literature - One Act Plays
 ## 18. A Matter of Husbands - Ferenc Molnar [L]
 - About the author: Ferenc Molnar
-- What kind of play is this?
+- Dramatic genre and comedic structure
 - The play, beat by beat
 - Characters — "A Matter of Husbands"
 - Dramatic techniques
@@ -178,7 +177,7 @@
 - Comprehension and critical thinking — "A Matter of Husbands"
 ## 19. Facing Death - August Strindberg [L]
 - About the author: August Strindberg
-- Background you need for this play
+- Dramatic background and naturalistic setting
 - The play, beat by beat
 - Characters — "Facing Death"
 - Themes — "Facing Death"
@@ -259,7 +258,7 @@
 ## 30. Prepositions, Tenses and Relative Clauses [G]
 - Prepositions of time and place
 - Fixed prepositions, and verbs that take none
-- The twelve tenses at a glance
+- Overview of the twelve English tenses
 - Relative clauses
 # PART: Writing and Skills
 ## 31. Guided Writing: Charts, Graphs and Outlines [W]

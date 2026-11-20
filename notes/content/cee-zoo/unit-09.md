@@ -8,7 +8,7 @@ area: Human Biology and Physiology
 ---
 
 The nervous system and sense organs are rated at **2 questions** in this
-book's estimate of the 40-question Zoology paper. The examinable pattern is
+40-question Zoology paper. The examinable pattern is
 mostly “which structure does this job?”: **medulla** for vital centres,
 **cerebellum** for coordination, **hypothalamus** for homeostasis, nodes of
 Ranvier for saltatory conduction, rods and cones for vision, and the organ of

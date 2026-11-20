@@ -1,6 +1,5 @@
 # SUBJECT: Mathematics | GRADE: 10 | CODE: SEE | WORKING_HOURS: 160
 # EXAM: SEE, 3 hr, FM 75 written (+25 internal) | Compulsory Mathematics
-# NOTE: Chapter list from the CDC Grade 10 textbook, 18 chapters.
 # AREA: Compulsory Mathematics
 ## 1. Sets
 - Language of sets — a quick revision
@@ -9,7 +8,7 @@
 - Three sets
 - Set laws verified with given sets
 ## 2. Tax and Money Exchange
-- Taxes: what they are and why we pay them
+- Introduction to tax, types of tax and VAT
 - Value added tax (VAT)
 - Discount and VAT together
 - How VAT moves along the chain
@@ -18,7 +17,7 @@
 - Foreign exchange
 ## 3. Compound Interest
 - Simple interest revised
-- What is compound interest?
+- Concept and formula of compound interest
 - The compound amount formula
 - Half-yearly and quarterly compounding
 - Finding the principal, the rate or the time
@@ -103,7 +102,7 @@
 - Using the theorems
 ## 14. Construction
 - Equipment and conventions
-- Basic constructions you need
+- Fundamental compass-and-straightedge constructions
 - Parallel line through a point
 - A triangle equal in area to a quadrilateral
 - A parallelogram equal in area to a triangle
@@ -124,7 +123,7 @@
 - Heights and distances
 ## 17. Statistics
 - Recall: measures of central tendency
-- Why we need dispersion
+- Measures of dispersion and quartiles
 - Range
 - Quartile deviation
 - Mean deviation

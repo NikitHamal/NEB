@@ -12,7 +12,7 @@ integrals cannot be evaluated by anti-differentiation. Computational methods giv
 on exact answers and instead build a sequence of numbers that closes in on the true
 value, stopping when the answer is accurate enough for the job. This unit is the
 first place in your course where "accurate enough" is made precise. Note that the
-CDC syllabus offers **Mechanics (Unit 21) as the alternative** to this unit for the
+**Mechanics (Unit 21) is offered as the alternative** to this unit for the
 same 12 hours; you study one of the two, and Mechanics is covered in the next
 chapter.
 

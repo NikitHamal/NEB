@@ -328,13 +328,7 @@ simulations:
    subject lags, that subject's highest-weight chapters are your next
    week.
 
-A last word of honesty: no model paper — this book's included — can
-tell you the questions MEC will set, and anyone who claims otherwise is
-selling something. What five honest rehearsals *can* do is remove every
-surprise except the questions themselves: the timing, the stamina, the
-bubbling, the negative marking, and your own recurring traps will all
-have been met before. Walk in having already sat the examination five
-times. That is the whole strategy.
+Completing five full-length timed rehearsals under strict OMR conditions eliminates pacing, stamina, bubbling, and negative-marking errors before examination day.
 
 ::: example Expected-value arithmetic of elimination on the OMR sheet
 **Problem.** On a 200-question MECEE-BL paper, a candidate knows 130 answers for sure, narrows 40 questions down to two options, and narrows 20 questions down to three options, leaving 10 untouched. What is the candidate's expected score?

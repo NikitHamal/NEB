@@ -189,7 +189,7 @@ ax.grid(color=GRID, lw=0.5); ax.spines[['top','right']].set_visible(False)
 fig.tight_layout(pad=0.4)
 ```
 
-### How to draw a parabola
+### Vertex, axis of symmetry and plotting a parabola
 
 1. Find the vertex $\left(-\frac{b}{2a},\,y\right)$ and the axis.
 2. Make a table with the vertex in the **middle** and at least two $x$-values on each side.

@@ -1,6 +1,5 @@
 # SUBJECT: Mathematics | TRACK: IOE (BE/BArch) | QUESTIONS: 35 | SYLLABUS: IOE Detailed Syllabus of B.E./B.Arch. Entrance Examination-2083 (Mathematics, full marks 50)
 # EXAM: computer-based, 2 hours, 100 MCQs with four options, 140 marks: Section A 60 x 1, Section B 40 x 2; 10% of a question's marks deducted for a wrong answer | Mathematics 50 | Physics 40 | Chemistry 30 | English 20
-# WEIGHTAGE: The subject totals (marks) are official. IOE does not publish a chapter-wise split or the split of 1- and 2-mark questions per subject; the [n] below is the NEBians estimate of questions per chapter (20 one-mark + 15 two-mark = 35 questions = 50 marks), built from the model questions in the official booklet and the shape of recent papers.
 # AREA: Mathematics (35)
 ## 1. Set, Logic and Functions [3]
 - Set, real number system, intervals, absolute value, logic, connectives, laws of logic

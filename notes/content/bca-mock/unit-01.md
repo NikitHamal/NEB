@@ -21,7 +21,6 @@ The BCA entrance examination is how Tribhuvan University's Faculty of Humanities
 - **Conducting body**: Tribhuvan University, Faculty of Humanities and Social Sciences, Office of the Dean, through the portal `entrance.tufohss.edu.np`. Applications open once a year, usually in Shrawan–Bhadra; the 2082 batch paid Rs 1,500 and the 2083 notice gave an exam date in mid-August 2026. Fees and dates change: always read the current notice.
 - **Eligibility** (as published by the faculty and repeated by college sites): +2 / PCL or equivalent in **any stream**. For students who passed grade 12 in **2079 BS or later**: at least a **D** grade in each subject of grades 11 and 12 and a **CGPA of 1.8 or more** (or second division marks). For those who passed *before* 2079 BS the older rule applies: D+ in each subject and CGPA 2.0. Students awaiting the grade 12 result may apply, but must show the completion certificate at the time of entrance. Mathematics in +2 is *not* compulsory.
 - **Admission**: candidates are ranked by entrance score and choose from TU-affiliated colleges that run BCA; each college has a limited number of seats (often about 35–48 per section), so the merit position matters more than the pass mark.
-- **Source honesty**: TU's own page describes only the *proportions* (English grammar 40 %, Mathematics 50 %, General Knowledge 10 %). The topic lists below come from the Dean's Office model questions and widely used syllabus summaries. The per-chapter question counts in this book are NEBians estimates.
 
 ## 1.2 The paper: layout, 100 questions, 2 hours
 
@@ -126,9 +125,9 @@ BCA is a four-year, eight-semester programme under TU FOHSS, taught in English. 
 | VII | Cyber Security and Ethical Hacking; Software Project Management; Financial Accounting; Project IV; two electives |
 | VIII | Cloud Computing; Internship; two electives |
 
-The full 2082-batch course, with a code-by-code map from the old 2074 subjects, is in `bca/course/CURRICULUM.md` of this repository. Under the older 2074 curriculum, C is taught in semester II, and courses such as English I/II, Society and Technology, Scripting Language, DotNet Technology and Operations Research appear. Assessment is 60 % final examination and 40 % internal. **Why this matters for the entrance**: Mathematics I and II, Discrete Structure, Probability and Statistics and Numerical Methods all build on the algebra, sequences, matrices, counting and calculus in this book.
+Under the eight-semester BCA structure, assessment in each course is 60 % semester-end examination and 40 % internal evaluation. Mathematics I and II, Discrete Structure, Probability and Statistics, and Numerical Methods build directly on the algebra, sequences, matrices, combinatorics, and calculus tested in the entrance examination.
 
-```svgfig label="1.3" caption="Should you guess? The reports found for this paper mention no negative marking (confirm in your year's notice). If that is so, a blank is worth 0 and a guess is worth 1 divided by the number of options left. The cell computes the expected score of a candidate who knows 60 questions for sure and guesses the other 40: blind guesses (4 options) add 10 marks, guesses after removing one option add 13.3, and guesses after removing two options add 20. A seeded simulation of 100 000 sheets agrees with the exact figures to within 0.2 marks."
+```svgfig label="1.3" caption="Should you guess? With no negative marking, a blank scores 0 and a guess among k remaining options has expected value 1/k. For a candidate who knows 60 questions for sure and guesses the remaining 40: blind guesses (4 options) add 10 marks, guesses after removing one option add 13.3, and guesses after removing two options add 20."
 import random
 K, U = 60, 40
 exp = {n: K + U / n for n in (4, 3, 2)}
@@ -171,7 +170,6 @@ f.text(340, 322, "amber = mathematics-related subject", size=10.5, color=AMBER, 
 2. Do the English units in order; the grammar units build on each other.
 3. Revise the GK units from the dated tables; refresh current affairs in the month before the exam.
 4. Take the model papers on paper, with a timer, in one sitting.
-5. Questions in this book are original practice written to the syllabus; none claims to be a past question.
 
 ## 1.6 Eight traps in preparing for the paper
 

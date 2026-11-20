@@ -13,7 +13,7 @@ Half the English paper is writing, and writing is marked on four things: **forma
 **Format** — the right layout for the right text type. **Content** — every point the question asked for, and nothing irrelevant. **Language** — correct tense, agreement and linking words. **Mechanics** — capitals, full stops, commas, paragraphs and spelling. Lose nothing on format: it is the one part you can guarantee before you even read the topic.
 :::
 
-## 9.1 The formats you must know
+## 9.1 Standard formats for guided and free writing
 
 | Text type | Layout essentials |
 |---|---|

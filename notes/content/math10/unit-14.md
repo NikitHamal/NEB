@@ -28,7 +28,7 @@ Expect one of: (i) construct a **triangle equal in area** to a given quadrilater
 
 Conventions: label every point; draw given figures with **thin full lines**; draw construction lines (parallels, perpendiculars) in **light lines**; keep **arcs visible**; the required figure should be drawn darker. Write the given data at the top of the page.
 
-## 14.2 Basic constructions you need
+## 14.2 Fundamental compass-and-straightedge constructions
 
 ::: key Four basic constructions
 1. **Perpendicular bisector** of $AB$: arcs of the same radius (more than $\frac{1}{2}AB$) from $A$ and from $B$ meet at two points; join them.

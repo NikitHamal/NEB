@@ -700,7 +700,7 @@ factorials. Always cancel first: with $^{n}C_{r}$, use the smaller of $r$ and
 $n-r$, so compute $^{50}C_{48}$ as $^{50}C_{2} = 1225$.
 :::
 
-```photogrid label="1.P" cols="2" ratio="1.27" caption="A combination lock is really a permutation lock, because turning the dials in a different order gives a different code. (a) A brass case lock with three dials. (b) The program lists every three-digit code by computer. When digits may repeat the product rule gives 10 x 10 x 10 = 1000 codes. When no digit may repeat, 10P3 = 10 x 9 x 8 = 720 codes. If only the set of three digits mattered, 10C3 = 120 selections would exist, and each set can be arranged in 3! = 6 ways, so 720 / 120 = 6. Choosing the right formula depends on two questions: may items repeat, and does order matter?"
+```photogrid label="1.P" cols="2" ratio="1.27" caption="A combination lock is really a permutation lock, because turning the dials in a different order gives a different code. (a) A brass case lock with three dials. (b) The program lists every three-digit code by computer. When digits may repeat the product rule gives 10 x 10 x 10 = 1000 codes. When no digit may repeat, 10P3 = 10 x 9 x 8 = 720 codes. If only the set of three digits mattered, 10C3 = 120 selections would exist, and each set can be arranged in 3! = 6 ways, so 720 / 120 = 6. Summary of mensuration formulas for plane figures and cylinders depends on two questions: may items repeat, and does order matter?"
 @ photo id="math12/lock" cap="A three-dial brass combination lock"
 fit 1.27
 focus 0.5 0.5

@@ -61,7 +61,7 @@ tail.
 - The story is **not science fiction** and has no invention in it. Wells wrote many
   kinds of story; this is an adventure-mystery-horror tale.
 - The two treasure hunters are **Evans and Hooker**. The Chinese man who owned the map
-  is **Chang-hi**. Some study guides write "Evan" for "Evans".
+  is **Chang-hi**.
 - **Chang-hi is not the dead man in the forest.** The dead body they find is that of
   another Chinese man (probably one of Chang-hi's companions). Chang-hi himself is
   remembered only in Evans's dream and in Hooker's last thoughts.

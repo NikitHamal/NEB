@@ -85,7 +85,7 @@
 - Heat capacities: gases and solids
 # AREA: Waves and Optics (15)
 ## 14. Reflection at curved mirror [2]
-- Real and Virtual images: The words you must use correctly
+- Real and virtual images: mirror terminology and sign convention
 - Mirror formula: The new Cartesian sign convention, Deriving the formula, Linear magnification
 ## 15. Refraction at plane surfaces [4]
 - Laws of refraction: Refractive index

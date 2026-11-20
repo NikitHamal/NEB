@@ -21,7 +21,7 @@ structure and a small set of signal words that give it away.
 perfect form (*have/has/had* + V3). Answer the three and the form writes itself.
 :::
 
-## 22.1 The twelve tenses at a glance
+## 22.1 Overview of the twelve English tenses
 
 In the structures below, **V1** is the base form, **V2** the past form, **V3** the
 past participle and **V-ing** the present participle. `s/es` is added only for

@@ -1,5 +1,4 @@
 # SUBJECT: Chemistry | TRACK: IOE (BE/BArch) | QUESTIONS: 22 | SYLLABUS: IOE Detailed Syllabus of B.E./B.Arch. Entrance Examination-2083 (Chemistry, full marks 30)
-# WEIGHTAGE: Subject total (30 marks) official; the [n] split is the NEBians estimate (14 one-mark + 8 two-mark = 22 questions = 30 marks).
 # AREA: Chemistry (22)
 ## 1. Physical Chemistry [9]
 - Chemical arithmetic: Dalton's theory, laws of stoichiometry, atomic and molecular mass, empirical and molecular formula, limiting reactant, Avogadro's hypothesis, equivalent masses

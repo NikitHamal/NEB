@@ -1,7 +1,5 @@
 # SUBJECT: Economics (अर्थशास्त्र) | GRADE: 10 | CODE: SEE-ECO (विषय कोड १०४) | WORKING_HOURS: 96
-# EXAM: SEE (Secondary Education Examination) elective paper, Full Marks 75, Time 3 hours. Group A very short answer 11 × 1 = 11 (all compulsory). Group B short answer 8 × 5 = 40 (all compulsory; alternatives may be offered for the knowledge-level questions of units 1, 4 and 5, and for the use-level question of unit 6). Group C long answer 3 × 8 = 24 (one question may carry an alternative). 22 questions in all. Internal/practical assessment carries the remaining 25 marks of the 100-mark subject.
-# SOURCE: विशिष्टीकरण तालिका र नमूना प्रश्न, अर्थशास्त्र कक्षा १० (२०८३), पाठ्यक्रम विकास केन्द्र, सानोठिमी (GRID-ECO-10-083). Unit titles, sub-unit titles, working hours and the mark distribution are the official ones, taken from that grid. Cross-checked against the CDC textbook अर्थशास्त्र, कक्षा १० (२०८२).
-# NOTE: the grid is also the source of the paper pattern used at the end of every chapter — Group A 11 × 1, Group B 8 × 5, Group C 3 × 8, total 75 marks in 3 hours.
+# EXAM: SEE, 3 hr, FM 75 written (+25 internal) | Group A 11×1=11 | Group B 8×5=40 | Group C 3×8=24
 # AREA: Basic Concepts
 ## 1. Basic Concepts of Economics and Allocation of Resources (अर्थशास्त्रको आधारभूत अवधारणा र साधनको बाँडफाँट) [12]
 - Economy: meaning, types (capitalist, socialist, mixed) and features

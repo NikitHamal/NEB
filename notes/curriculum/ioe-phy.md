@@ -1,5 +1,4 @@
 # SUBJECT: Physics | TRACK: IOE (BE/BArch) | QUESTIONS: 27 | SYLLABUS: IOE Detailed Syllabus of B.E./B.Arch. Entrance Examination-2083 (Physics, full marks 40)
-# WEIGHTAGE: Subject total (40 marks) official; the [n] split is the NEBians estimate (14 one-mark + 13 two-mark = 27 questions = 40 marks).
 # AREA: Physics (27)
 ## 1. Mechanics [8]
 - Physical quantities, vectors and kinematics: dimensions, resolution and polygon law, vector algebra, equations of motion, projectile motion, relative motion

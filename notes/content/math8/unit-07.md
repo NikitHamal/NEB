@@ -242,7 +242,7 @@ The simple interest formula is the correct tool for the questions in this book
 and for a rough comparison; for an actual loan, read the repayment schedule.
 :::
 
-## 7.4 Reading the interest formula four ways
+## 7.4 Rearranging the simple interest formula for P, T, R and A
 
 One formula, four questions. Whichever quantity is missing, rearrange and
 substitute.

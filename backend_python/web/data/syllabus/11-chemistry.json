@@ -749,7 +749,7 @@
     "Alkyl groups, functional groups and homologous series",
     "Structural formula, contracted formula and bond line structural formula",
     "Preliminary idea of cracking and reforming; quality of gasoline; octane number; cetane number; gasoline additive",
-    "Bond fission and electronic effects — a bridge to Unit 13"
+    "Homolytic and heterolytic bond fission, electrophiles, nucleophiles and electronic effects"
    ],
    "sections": [
     {
@@ -782,7 +782,7 @@
     },
     {
      "no": "12.8",
-     "title": "Bond fission and electronic effects — a bridge to Unit 13"
+     "title": "Homolytic and heterolytic bond fission, electrophiles, nucleophiles and electronic effects"
     }
    ],
    "summary": [
@@ -807,7 +807,7 @@
     "Cetane number"
    ],
    "stats": {
-    "words": 7041,
+    "words": 7040,
     "figures": 6,
     "examples": 4
    },
@@ -974,7 +974,7 @@
    "topics": [
     "Introduction and characteristics of aromatic compounds",
     "Huckel's rule of aromaticity",
-    "Kekule structure of benzene: What the Kekulé structure explains, What it fails to explain",
+    "Kekule structure of benzene: Evidence for and limitations of the Kekulé structure",
     "Resonance and isomerism: Resonance and resonance energy, Isomerism in benzene derivatives",
     "Preparation of benzene from decarboxylation of sodium benzoate, phenol, and ethyne",
     "Physical properties of benzene",

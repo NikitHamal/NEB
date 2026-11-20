@@ -367,7 +367,7 @@
    "area": "Algebra",
    "topics": [
     "Imaginary unit; algebra of complex numbers",
-    "Geometric representation: Polar (modulus–argument) form, Addition is vector addition",
+    "Geometric representation: Polar (modulus–argument) form, Vector representation of complex addition",
     "Modulus and conjugate with properties",
     "Square root of a complex number"
    ],
@@ -405,7 +405,7 @@
     "Conjugate"
    ],
    "stats": {
-    "words": 4015,
+    "words": 4016,
     "figures": 4,
     "examples": 12
    },
@@ -456,8 +456,8 @@
    "hours": 6,
    "area": "Trigonometry",
    "topics": [
-    "Solution of trigonometric equations: Roots, principal value and general value, Deciding the quadrant, The four standard techniques",
-    "General values: The three master formulae, Equations of the form acosθ+bsinθ = c, Sums of sines and cosines"
+    "Solution of trigonometric equations: Roots, principal value and general value, Quadrant rules and standard solution methods",
+    "General values: General value formulas for sinθ, cosθ and tanθ, Equations of the form acosθ+bsinθ = c, Sums of sines and cosines"
    ],
    "sections": [
     {
@@ -482,7 +482,7 @@
     "Trigonometric equation"
    ],
    "stats": {
-    "words": 3166,
+    "words": 3168,
     "figures": 6,
     "examples": 12
    },
@@ -680,7 +680,7 @@
    "hours": 6,
    "area": "Statistics and Probability",
    "topics": [
-    "Standard deviation and variance: The measures of dispersion, in order of usefulness, Variance and standard deviation of an individual series, Discrete frequency distribution, Continuous distribution: the step-deviation method, Properties of the standard deviation",
+    "Standard deviation and variance: Range, quartile deviation, mean deviation and standard deviation, Variance and standard deviation of an individual series, Discrete frequency distribution, Continuous distribution: the step-deviation method, Properties of the standard deviation",
     "Coefficient of variation",
     "Skewness; Karl Pearson's coefficient of skewness"
    ],
@@ -988,7 +988,7 @@
     "Bisection method"
    ],
    "stats": {
-    "words": 7556,
+    "words": 7555,
     "figures": 8,
     "examples": 15
    },

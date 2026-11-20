@@ -8,8 +8,7 @@ area: Mechanics
 ---
 
 Fluids — liquids and gases — carry the blood in our arteries, the water in our
-pipes and the air over an aeroplane wing. Of the **10 Mechanics questions**
-(official weightage), we estimate about **1** comes from this chapter. It is a
+pipes and the air over an aeroplane wing. Of the **10 Mechanics questions**, with about **1** questions from this chapter. It is a
 formula-rich chapter, so the question is usually a quick ratio: how a capillary rise,
 a terminal velocity or a flow rate changes when a radius changes, an excess pressure
 inside a bubble, or a speed or pressure from the continuity and Bernoulli equations.

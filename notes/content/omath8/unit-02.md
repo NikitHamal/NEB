@@ -412,7 +412,7 @@ The product has **degree 3**. A degree-2 polynomial times a degree-1 polynomial 
 **Check at $x=2$.** Left: $(4+4-1)(2-3)=7\times(-1)=-7$. Right: $8-4-14+3=-7$. ✓
 :::
 
-### The column method, and why it works
+### Vertical (column) multiplication of polynomials
 
 Polynomials can also be multiplied in columns, exactly like long multiplication of numbers. Write the longer polynomial on top, multiply it by each term of the lower one on a separate line, keep like powers in the same column, and add.
 

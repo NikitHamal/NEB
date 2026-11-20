@@ -77,7 +77,7 @@
    "hours": null,
    "area": "Compulsory Mathematics",
    "topics": [
-    "Taxes: what they are and why we pay them",
+    "Introduction to tax, types of tax and VAT",
     "Value added tax (VAT)",
     "Discount and VAT together",
     "How VAT moves along the chain",
@@ -88,7 +88,7 @@
    "sections": [
     {
      "no": "2.1",
-     "title": "Taxes: what they are and why we pay them"
+     "title": "Introduction to tax, types of tax and VAT"
     },
     {
      "no": "2.2",
@@ -131,7 +131,7 @@
     "Income tax and taxable income"
    ],
    "stats": {
-    "words": 3630,
+    "words": 3629,
     "figures": 4,
     "examples": 16
    },
@@ -144,7 +144,7 @@
    "area": "Compulsory Mathematics",
    "topics": [
     "Simple interest revised",
-    "What is compound interest?",
+    "Concept and formula of compound interest",
     "The compound amount formula",
     "Half-yearly and quarterly compounding",
     "Finding the principal, the rate or the time",
@@ -159,7 +159,7 @@
     },
     {
      "no": "3.2",
-     "title": "What is compound interest?"
+     "title": "Concept and formula of compound interest"
     },
     {
      "no": "3.3",
@@ -199,7 +199,7 @@
     "Compound interest"
    ],
    "stats": {
-    "words": 2815,
+    "words": 2817,
     "figures": 2,
     "examples": 15
    },
@@ -821,7 +821,7 @@
    "area": "Compulsory Mathematics",
    "topics": [
     "Equipment and conventions",
-    "Basic constructions you need",
+    "Fundamental compass-and-straightedge constructions",
     "Parallel line through a point",
     "A triangle equal in area to a quadrilateral",
     "A parallelogram equal in area to a triangle",
@@ -836,7 +836,7 @@
     },
     {
      "no": "14.2",
-     "title": "Basic constructions you need"
+     "title": "Fundamental compass-and-straightedge constructions"
     },
     {
      "no": "14.3",
@@ -874,7 +874,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2692,
+    "words": 2691,
     "figures": 4,
     "examples": 8
    },
@@ -990,7 +990,7 @@
    "area": "Compulsory Mathematics",
    "topics": [
     "Recall: measures of central tendency",
-    "Why we need dispersion",
+    "Measures of dispersion and quartiles",
     "Range",
     "Quartile deviation",
     "Mean deviation",
@@ -1004,7 +1004,7 @@
     },
     {
      "no": "17.2",
-     "title": "Why we need dispersion"
+     "title": "Measures of dispersion and quartiles"
     },
     {
      "no": "17.3",
@@ -1038,7 +1038,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2539,
+    "words": 2540,
     "figures": 3,
     "examples": 17
    },

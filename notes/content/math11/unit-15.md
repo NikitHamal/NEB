@@ -43,7 +43,7 @@ ax.spines[['top','right']].set_visible(False); ax.legend(loc='upper left',fontsi
 
 ## 15.1 Standard deviation and variance
 
-### The measures of dispersion, in order of usefulness
+### Range, quartile deviation, mean deviation and standard deviation
 
 | Measure | Formula | Comment |
 |---|---|---|

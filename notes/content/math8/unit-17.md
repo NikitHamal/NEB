@@ -92,7 +92,7 @@ $x=2$ ✓. For (b), the subtraction $3-(-4)=7$ shows why the sign must be handle
 carefully — the points are on opposite sides of the $x$-axis.
 :::
 
-### 17.2.2 Pythagoras' theorem — the tool we need
+### 17.2.2 Derivation from Pythagoras' theorem
 
 In a right-angled triangle with perpendicular $p$, base $b$ and hypotenuse $h$
 (the side opposite the right angle):
@@ -266,7 +266,7 @@ with one right angle (or with equal diagonals) give a square. Check the angles,
 not only the lengths.
 :::
 
-## 17.4 Reading a point in four quadrants
+## 17.4 Signs of coordinates in the four quadrants
 
 | Task | Rule |
 |---|---|

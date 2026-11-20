@@ -208,7 +208,7 @@ mark 0.880 0.620 "3"
 mark 0.420 0.190 "4"
 mark 0.200 0.152 "5"
 key 1 Menu bar — File, Edit, Execute (Compile, Run, Compile & Run)
-key 2 The compiler this project uses — here TDM-GCC 9.2.0, the same GCC family used to test every program in this chapter
+key 2 Compiler selector — e.g. TDM-GCC 9.2.0 (MinGW/GCC compiler toolchain)
 key 3 Editor window with automatic line numbers and colour-coded syntax
 key 4 Compile Log tab — read this first when something goes wrong
 key 5 "Errors: 0, Warnings: 0" and the name of the .exe that was produced. Anything other than 0 errors means no program was built

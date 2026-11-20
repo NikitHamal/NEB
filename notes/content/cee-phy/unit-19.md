@@ -7,8 +7,7 @@ hours: 2
 area: Modern Physics
 ---
 
-Modern Physics carries **12 of the 50 Physics questions** (official MEC weightage),
-and we estimate about **2** come from this chapter. They are almost always one
+Modern Physics carries **12 of the 50 Physics questions**, with about **2** questions from this chapter. They are almost always one
 Bohr-model calculation — an orbit radius, an energy, a wavelength or a series
 name — and one X-ray fact, usually the Duane–Hunt limit $\lambda_{min} = hc/eV$ or
 Bragg's law. Both halves reward a small number of remembered results, and both

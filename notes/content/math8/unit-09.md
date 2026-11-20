@@ -225,7 +225,7 @@ first: $8^2=(2^3)^2=2^6$, so $x=6$. Comparing indices of different bases is not
 allowed.
 :::
 
-## 9.4 The laws of indices in one place
+## 9.4 Summary of the laws of indices
 
 ```figure caption="How fast a power grows. Doubling just ten times multiplies a quantity by more than a thousand — this is why indices are used for very large and very small numbers."
 n = np.arange(0, 11)

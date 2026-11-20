@@ -986,7 +986,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 7714,
+    "words": 7699,
     "figures": 2,
     "examples": 0
    },
@@ -1257,7 +1257,7 @@
     "Farce, satire and parody"
    ],
    "stats": {
-    "words": 9058,
+    "words": 9051,
     "figures": 2,
     "examples": 0
    },
@@ -1335,7 +1335,7 @@
    "hours": null,
    "area": "Grammar",
    "topics": [
-    "The twelve tenses at a glance",
+    "Overview of the twelve English tenses",
     "The present tenses",
     "The past tenses",
     "The future tenses and other ways of talking about the future",
@@ -1345,7 +1345,7 @@
    "sections": [
     {
      "no": "22.1",
-     "title": "The twelve tenses at a glance"
+     "title": "Overview of the twelve English tenses"
     },
     {
      "no": "22.2",
@@ -1789,7 +1789,7 @@
     "Wh- questions",
     "Indirect and embedded questions",
     "Question tags — the basic rule",
-    "Special tags you must memorise",
+    "Special and irregular question tags",
     "Subject–verb agreement: the core rules"
    ],
    "sections": [
@@ -1815,7 +1815,7 @@
     },
     {
      "no": "29.6",
-     "title": "Special tags you must memorise"
+     "title": "Special and irregular question tags"
     },
     {
      "no": "29.7",
@@ -2155,7 +2155,7 @@
     "Building words: prefix + root + suffix",
     "Synonyms, antonyms and words that are nearly the same",
     "Idioms and phrasal verbs",
-    "Working out a word you do not know"
+    "Inferring word meaning from context clues"
    ],
    "sections": [
     {
@@ -2192,7 +2192,7 @@
     },
     {
      "no": "35.9",
-     "title": "Working out a word you do not know"
+     "title": "Inferring word meaning from context clues"
     }
    ],
    "summary": [
@@ -2207,7 +2207,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 3834,
+    "words": 3832,
     "figures": 2,
     "examples": 3
    },

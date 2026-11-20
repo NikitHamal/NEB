@@ -70,7 +70,7 @@ close attention to women and marriage came from thought about the new ideas of t
 not from dislike.
 :::
 
-## 19.2 Background you need for this play
+## 19.2 Dramatic background and naturalistic setting
 
 ### A one-act play
 

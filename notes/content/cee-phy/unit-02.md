@@ -9,7 +9,7 @@ area: Mechanics
 
 Dynamics asks *why* bodies move as they do: forces change momentum, forces do work,
 and work changes energy. Of the **10 Mechanics questions** in the Physics paper
-(official), we estimate about **2** come from this chapter. They are built on a few
+(official), with about **2** questions from this chapter. They are built on a few
 patterns that repeat year after year: the reading of a weighing machine in a lift,
 recoil of a gun, impulse from a force–time graph, the link $K = p^2/2m$, power of a
 pump or a vehicle, velocities after a collision, and friction on a level road or an

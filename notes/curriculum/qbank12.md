@@ -2,7 +2,6 @@
 # EXAM: NEB Grade 12 annual examination, all subjects of the science stream
 # PATTERN: Physics/Chemistry/Biology 3hr FM 75 | Mathematics 3hr FM 75 | Computer Science 2hr FM 50
 # PATTERN: Compulsory English 3hr FM 75 (8 questions, no groups) | अनिवार्य नेपाली 3hr FM 75 (18 questions)
-# SOURCE: NEB past papers, CDC specification grids, model questions and predicted sets
 # PART: How to Use This Book
 ## 1. The NEB Grade 12 Examination: Pattern, Grid and Strategy [R]
 - The specification grid of every Grade 12 science subject

@@ -8,7 +8,7 @@ area: Heat and Thermodynamics
 ---
 
 Heat and Thermodynamics carries **7 of the 50 Physics questions** (official MEC
-weightage), and we estimate about **2** of them come from this chapter. The marks
+weightage), with about **2** questions from this chapter. The marks
 here are almost all numerical or definitional: a coefficient of expansion and its
 relation to the other two, a liquid that overflows a vessel, a mixture that settles
 at a final temperature, an ice–water–steam sum, or a clock that loses seconds on a

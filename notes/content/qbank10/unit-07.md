@@ -186,7 +186,7 @@ Both papers give each area the marks the grid gives it:
 
 ## 7.6 Predicted questions: ranked practice priorities
 
-These are **practice priorities**, ranked from the CDC grid and the syllabus. They are not forecasts. A form ranks higher when its area carries many marks, when it is a standard form with a clean answer, and when it has a one-mark first part you can always bank.
+These are **practice priorities**, ranked from the CDC grid and the syllabus. A form ranks higher when its area carries many marks, when it is a standard form with a clean answer, and when it has a one-mark first part you can always bank.
 
 ### 7.6.1 Tier A — rehearse until automatic
 

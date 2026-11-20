@@ -1,6 +1,5 @@
 # SUBJECT: Mathematics | TRACK: BCA (TU FOHSS) | QUESTIONS: 50 | SYLLABUS: TU Faculty of Humanities and Social Sciences BCA entrance syllabus (Mathematics 50%), read with the Dean's Office model questions (Group B, Q41-90)
 # EXAM: 2 hours, 100 single-best-answer MCQs with four options, 100 marks, 1 mark each, no negative marking | English grammar 40 | Mathematics 50 | General Knowledge and IT 10
-# WEIGHTAGE: The area ranges are the published pattern: Calculus 6-8, Coordinate geometry 5-8, Trigonometry 2-5, Vectors 1-2, Algebra 8-10, Arithmetic 8-10, Reasoning 7-10. TU publishes no per-chapter counts. The [n] on each unit is the NEBians estimate, chosen inside those ranges so that the units add to exactly 50.
 # AREA: Arithmetic (10)
 ## 1. Numbers, HCF and LCM, Ratio, Percentage and Average [5]
 - Integers, primes, divisibility, remainders, even and odd results

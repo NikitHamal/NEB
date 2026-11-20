@@ -1,6 +1,5 @@
 # SUBJECT: Mathematics | GRADE: 8 | CODE: BEE-8 | WORKING_HOURS: 150
-# EXAM: Basic Education Examination (BEE), grade 8. The CDC basic-level assessment scheme gives continuous (internal) assessment 50 % weight and the external written paper 50 %; the local level (palika) conducts and marks it. The practice sets here are written to a 50-mark, 2-hour written paper unless your palika's grid says otherwise.
-# TEXTBOOK: गणित, कक्षा ८ (पाठ्यक्रम विकास केन्द्र, सानोठिमी, २०८० संस्करण), 21 अध्याय — the chapter list below is taken from the textbook's विषयसूची and from the CDC English translation (Mathematics, Grade 8, 2023).
+# EXAM: Basic Level Examination (BLE) | 2 hr, FM 50 written (+50 internal)
 # AREA: Compulsory Mathematics
 ## 1. Sets
 - Review of sets and set notation
@@ -8,20 +7,20 @@
 - Disjoint and overlapping sets: Venn diagrams, Union and intersection
 - Subset: Proper and improper subsets, Number of subsets
 - Word problems with a Venn diagram
-- Venn diagrams as a method, not a decoration
+- Summary of set operations and Venn diagram formulas
 ## 2. Whole Numbers
 - Place value in the decimal system
 - Conversion from another base to decimal
 - Conversion from decimal to another base
 - Conversion between two non-decimal bases
 - Arithmetic in other bases
-- Properties of whole numbers at a glance
+- Closure, commutative, associative and distributive properties
 ## 3. Rational and Irrational Numbers
 - Rational numbers: Turning a recurring decimal into a fraction
 - Irrational numbers: Showing $\sqrt{2}$, $\sqrt{3}$, $\sqrt{5}$ on the number line
 - Scientific notation: Multiplying and dividing, Adding and subtracting
 - Placing numbers on the number line
-- The number line as a map of the number system
+- Real number subsets (N, W, Z, Q and R) on the number line
 ## 4. Ratio and Proportion
 - Ratio: Dividing a quantity in a given ratio, Word problems on ratio
 - Proportion
@@ -37,23 +36,23 @@
 - The unitary method in direct variation
 - The unitary method in inverse variation
 - Time, speed and distance
-- Direct and inverse variation side by side
+- Comparison of direct and inverse variation
 ## 7. Simple Interest
 - The simple interest formula
 - Finding principal, rate or time
 - Simple interest in daily life
-- Reading the interest formula four ways
+- Rearranging the simple interest formula for P, T, R and A
 ## 8. Area and Volume
 - Area of triangles: Equilateral and isosceles triangles
 - Area of quadrilaterals: Any quadrilateral: a diagonal and two heights
 - Area and circumference of a circle
 - Surface area and volume of a cylinder
-- Choosing the right formula
+- Summary of mensuration formulas for plane figures and cylinders
 ## 9. Indices
 - The laws of indices
 - Simplifying expressions with several laws
 - Exponential equations
-- The laws of indices in one place
+- Summary of the laws of indices
 ## 10. Algebraic Expressions
 - Terms, coefficients and like terms
 - Highest common factor of expressions
@@ -63,13 +62,13 @@
 - The standard identities: Perfect squares and the blank term
 - Factorising $x^2+bx+c$
 - HCF and LCM of expressions that need factorising
-- The three identities as areas
+- Geometric representation of algebraic identities
 ## 11. Algebraic Fraction
 - Reducing a fraction to its lowest terms
 - Adding and subtracting algebraic fractions
 - Multiplying and dividing
 - Equations containing fractions
-- Why factorising comes first
+- Factorisation strategy for simplifying algebraic fractions
 ## 12. Equation and Graph
 - Linear equations in one variable
 - Simultaneous linear equations: The elimination method, The substitution method
@@ -80,7 +79,7 @@
 - Points, lines and angles
 - Pairs of angles
 - Parallel lines and a transversal
-- Reasons are the marks
+- Geometric proof writing with angle reasons
 ## 14. Plane Figures
 - Triangles
 - Quadrilaterals
@@ -99,9 +98,9 @@
 - Volume of a prism and a pyramid
 ## 17. Coordinates
 - The coordinate plane
-- Distance between two points: Points on the same horizontal or vertical line, Pythagoras' theorem — the tool we need, Any two points: the distance formula
+- Distance between two points: Points on the same horizontal or vertical line, Derivation from Pythagoras' theorem, Any two points: the distance formula
 - Shapes from coordinates
-- Reading a point in four quadrants
+- Signs of coordinates in the four quadrants
 ## 18. Tessellation
 - Tessellation
 - Which regular polygons tessellate?
@@ -120,4 +119,4 @@
 - Collecting and tabulating data
 - Pictographs, bar graphs and pie charts
 - Mean, median and mode: A frequency table with classes
-- Choosing the right average
+- Comparison of mean, median and mode

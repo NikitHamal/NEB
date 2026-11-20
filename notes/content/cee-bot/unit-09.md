@@ -44,7 +44,7 @@ clear-cut character pairs — tall/dwarf stem, axial/terminal flowers,
 violet/white flowers, inflated/constricted pods, green/yellow pods,
 round/wrinkled seeds, yellow/green cotyledons.
 
-::: definition The words you must use correctly
+::: definition Mirror terminology and sign convention
 **Gene** — a unit of inheritance, a DNA segment at a fixed **locus** on a
 chromosome. **Allele** — one of the alternative forms of a gene (T and t).
 **Dominant** — the allele expressed in the heterozygote; **recessive** —

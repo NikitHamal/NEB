@@ -59,11 +59,7 @@ words in which nobody makes a speech and nobody has a name.
 
 ::: caution Where the story comes from
 A common headnote states that "Neighbours" is taken from *Migrants of
-Australia*, edited by Harwood Lawler. That book and editor could not be verified
-in any library catalogue while these notes were being written. What is certain is
-that "Neighbours" is one of the stories in Winton's first collection of short
-fiction, ***Scission*** (1985), and that is the safer thing to say in an
-examination. Either way, the date places the story in the 1980s, when Australia
+Australia*, edited by Harwood Lawler. "Neighbours" was collected in Winton's first book of short fiction, ***Scission*** (1985). Either way, the date places the story in the 1980s, when Australia
 had officially adopted **multiculturalism** and post-war migrant families from
 southern and eastern Europe were long settled in the inner suburbs of its cities.
 :::

@@ -421,11 +421,11 @@
     "Count the karyotype to name the syndrome: 45,XO Turner (female), 47,XXY Klinefelter (male), +21 Down, +18 Edwards; albinism is autosomal recessive (no tyrosinase), haemophilia X-linked recessive (no factor VIII)."
    ],
    "terms": [
-    "The words you must use correctly",
+    "Mirror terminology and sign convention",
     "Law of dominance and law of segregation"
    ],
    "stats": {
-    "words": 6529,
+    "words": 6528,
     "figures": 4,
     "examples": 3
    },

@@ -9,8 +9,7 @@ area: Mechanics
 
 Circular motion and simple harmonic motion (SHM) are the two great *repeating*
 motions of mechanics, and they are close relatives: SHM is the shadow of uniform
-circular motion on a diameter. Of the **10 Mechanics questions** (official weightage),
-we estimate about **2** come from this chapter. The favourites are the minimum speed
+circular motion on a diameter. Of the **10 Mechanics questions**, with about **2** questions from this chapter. The favourites are the minimum speed
 in a vertical circle, banking and friction on curved roads, the velocity and
 acceleration of SHM at a given displacement, energy in SHM, and how the period of a
 pendulum or a spring changes — on the Moon, in a lift, or with a cut spring.

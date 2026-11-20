@@ -333,4 +333,3 @@ Four marks: one for the labelled figure, one for choosing $\tan$ with the correc
 - A workable clock: 5 minutes reading, 15 for Group A, 40 for Group B, 50 for Group C, 10 for checking.
 - Group A rewards recall; Groups B and C reward visible method, a figure or table where one helps, and a checked answer.
 - The six topics worth rehearsing first: height and distance, grouped mean and mode, distance-and-area in coordinates, transformations on a graph, vector operations, and trigonometric identities.
-- Both model papers are rehearsals built to the pattern, not forecasts: no one outside your school knows its paper.

@@ -120,7 +120,7 @@ a preposition to, and every one of them is marked wrong.
 ✗ *She **listened** the news.* → ✓ *She **listened to** the news.*
 :::
 
-## 30.3 The twelve tenses at a glance
+## 30.3 Overview of the twelve English tenses
 
 | Tense | Form | Typical signal words |
 |---|---|---|

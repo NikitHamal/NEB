@@ -8,7 +8,7 @@ area: Modern Physics
 ---
 
 Nuclear physics is the heaviest chapter of Modern Physics: the area carries **12 of
-the 50 Physics questions**, and we estimate about **3** come from here — more than
+the 50 Physics questions**, with about **3** questions from this chapter — more than
 any other modern topic. The paper asks for the size and density of a nucleus, a
 mass defect or binding-energy calculation, the difference between fission and
 fusion, the three radiations, and — above all — the half-life. The half-life

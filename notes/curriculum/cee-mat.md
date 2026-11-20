@@ -1,6 +1,5 @@
 # SUBJECT: Mental Agility Test | TRACK: CEE (MECEE-BL) | QUESTIONS: 20 | SYLLABUS: MEC Bachelor Level Common Entrance syllabus, third revision 2083-01-15 (28 April 2026)
 # EXAM: 3 hours, 200 single-best-answer MCQs with four options, 200 marks, 0.25 deducted per wrong answer, merit list from the 50th percentile | Zoology 40x1=40 | Botany 40x1=40 | Chemistry 50x1=50 | Physics 50x1=50 | Mental Agility Test 20x1=20
-# WEIGHTAGE: Official (MEC): verbal reasoning 5, numerical reasoning 5, logical sequencing 5, spatial relation / abstract reasoning 5.
 # AREA: Mental Agility Test (20)
 ## 1. Verbal Reasoning [5]
 - Direction sense and distance

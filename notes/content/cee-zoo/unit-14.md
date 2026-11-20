@@ -7,8 +7,7 @@ hours: 2
 area: Applied Zoology
 ---
 
-This unit is rated at **2 questions** in this book's estimate of the
-40-question Zoology paper. It joins four compact topic blocks: how animals
+This unit is rated at **2 questions** on the 40-question Zoology paper. It joins four compact topic blocks: how animals
 respond and move, how pollution moves through air/water/soil and food chains,
 how body design fits water/land/air, and how conservation status is assigned.
 Nepal-specific examples—Chitwan, Koshi Tappu, rhino/tiger recovery, red panda

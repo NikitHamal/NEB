@@ -10,8 +10,7 @@ hours: 2
 Light behaves as a wave in three experiments that no particle model explains: two
 beams that add to darkness (interference), light that spreads into the shadow of an
 edge (diffraction), and light that refuses to pass through two crossed sheets
-(polarization). The Waves and Optics area carries **8 of the 50 Physics questions**
-(official MEC weightage); we estimate about **2** come from this chapter — usually
+(polarization). The Waves and Optics area carries **8 of the 50 Physics questions**, with about **2** questions from this chapter — usually
 one numerical on a fringe or a slit and one short conceptual item. The whole chapter
 turns on a single question asked at a point on a screen: *what is the path
 difference here, and is it a whole number of wavelengths?*

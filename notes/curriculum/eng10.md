@@ -1,6 +1,5 @@
 # SUBJECT: Compulsory English | GRADE: 10 | CODE: SEE | WORKING_HOURS: 150
 # EXAM: SEE, 3 hr, FM 75 written (+25 internal) | reading, writing, grammar, vocabulary
-# TEXTBOOK: English, Grade 10, CDC Sanothimi (2080 BS curriculum edition); 18 units, two reading texts each.
 # PART: Units
 ## 1. Current Affairs and Issues [L]
 - How Driverless Cars Will Change Our World

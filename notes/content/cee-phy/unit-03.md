@@ -9,8 +9,7 @@ area: Mechanics
 
 Rotational dynamics is linear dynamics re-written for turning: force becomes
 torque, mass becomes moment of inertia, momentum becomes angular momentum. Of the
-**10 Mechanics questions** (official weightage), we estimate about **1** comes from
-this chapter. The MEC syllabus limits moment of inertia to the **uniform rigid rod**,
+**10 Mechanics questions**, with about **1** questions from this chapter. The MEC syllabus limits moment of inertia to the **uniform rigid rod**,
 so expect a rod about its centre or its end, a radius of gyration, a torque or
 rotational-power calculation, or a conservation-of-angular-momentum situation such as
 a spinning skater.

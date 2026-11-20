@@ -15,7 +15,7 @@ This book is a drill book, not a textbook. For each of the six subjects of this 
 The basic level scheme splits each subject in half: **50 marks of continuous (internal) assessment** collected through the year, and **50 marks of written examination** at the end. The internal half rewards classwork, project work, practical work, participation and unit tests — marks you earn slowly and cannot earn back in a day. The written half is what this book trains.
 :::
 
-## 1.1 The written paper at a glance
+## 1.1 Structure and marking scheme of the BLE written paper
 
 | Group | Question type | Items | Marks each | Total |
 |---|---|---|---|---|

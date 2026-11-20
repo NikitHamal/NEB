@@ -304,7 +304,7 @@ Chapter 1 supplies one very short item in each paper; its process skills also ru
 
 ## 4.6 Predicted questions: ranked practice priorities
 
-These are **practice priorities**, ranked from the grid and the syllabus. They are not forecasts. A form is ranked higher when it is a standard, clearly examinable question (a one-step numerical, a balanced equation, a labelled diagram), when it fits the sizes the grid allows (2 or 4 marks), and when many chapters can supply it.
+These are **practice priorities**, ranked from the grid and the syllabus. A form is ranked higher when it is a standard, clearly examinable question (a one-step numerical, a balanced equation, a labelled diagram), when it fits the sizes the grid allows (2 or 4 marks), and when many chapters can supply it.
 
 ### 4.6.1 Tier A — rehearse until automatic
 

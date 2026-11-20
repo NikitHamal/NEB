@@ -784,7 +784,7 @@ example, replacing 20 L of the 80-octane stream with 20 L of the 95-octane strea
 would give $\dfrac{80(95) + 20(80)}{100} = 92$, which passes.
 :::
 
-## 12.8 Bond fission and electronic effects — a bridge to Unit 13
+## 12.8 Homolytic and heterolytic bond fission, electrophiles, nucleophiles and electronic effects
 
 Everything after this unit is about *how* organic reactions happen. Two ideas
 underlie all of it: how a bond breaks, and how electron density is pushed about

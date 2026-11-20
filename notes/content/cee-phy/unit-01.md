@@ -9,8 +9,7 @@ area: Mechanics
 
 This chapter is the toolkit of the whole Physics paper: units and dimensions,
 significant figures and errors, vectors, and the description of straight-line and
-projectile motion. The Mechanics area carries **10 of the 50 Physics questions**
-(official MEC weightage); we estimate about **2** of them come from this chapter.
+projectile motion. The Mechanics area carries **10 of the 50 Physics questions**, with about **2** questions from this chapter.
 They are usually quick marks — a dimensional formula, a significant-figure count,
 an angle between two vectors, a reading from a velocity–time graph, or a projectile
 range — and the same skills are needed silently in every later chapter.

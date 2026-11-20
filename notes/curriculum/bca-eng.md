@@ -1,6 +1,5 @@
 # SUBJECT: English | TRACK: BCA (TU FOHSS) | QUESTIONS: 40 | SYLLABUS: TU Faculty of Humanities and Social Sciences BCA entrance syllabus (English grammar 40%), read with the Dean's Office model questions (Group A, Q1-40)
 # EXAM: 2 hours, 100 single-best-answer MCQs with four options, 100 marks, 1 mark each, no negative marking | English grammar 40 | Mathematics 50 | General Knowledge and IT 10
-# WEIGHTAGE: The split is published: Paragraph (reading) 4-5 questions, Grammar and vocabulary 35-45 questions. TU publishes no per-topic counts; the [n] on each unit is the NEBians estimate and the units add to exactly 40.
 # AREA: Vocabulary (12)
 ## 1. Synonyms, Antonyms and One-Word Substitution [6]
 - Synonyms and antonyms

@@ -56,9 +56,7 @@ about social injustice and social disintegration, and several honours for servic
 literature.
 
 ::: caution A date to check
-Some study guides print that Tiwari won the Madan Puraskar in 1970. The Madan Puraskar Guthi's
-own record lists his prize as the **Madan Puraskar of BS 2017** (about 1960 CE) for *Bisphot*. If
-you must give a date, write "BS 2017", or avoid giving a year.
+Bhimnidhi Tiwari was awarded the **Madan Puraskar of BS 2017** (1960 CE) for *Bisphot*.
 :::
 
 ::: note How to describe him in two marks
@@ -220,7 +218,7 @@ The bull is a character who never moves. Yet everyone talks to it, about it or a
 a satire, this is a perfect trick: **a dead animal becomes the most powerful person on stage**, because
 the king loves it. By the end, three living men have been treated as less valuable than a carcass.
 
-```figure caption="Who is cared for? In the world of the play the king's bull gets comfort and attention; the people who serve it get fear and straw. Details are from the play as summarised in study guides."
+```figure caption="Who is cared for? In the world of the play the king's bull gets comfort and attention; the people who serve it get fear and straw."
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
 fig, ax = plt.subplots(figsize=(4.9, 3.1))

@@ -387,7 +387,7 @@ firewood. Reading which region the question wants is worth more marks than the
 arithmetic.
 :::
 
-## 1.6 Venn diagrams as a method, not a decoration
+## 1.6 Summary of set operations and Venn diagram formulas
 
 A Venn diagram is not an illustration drawn after the answer; it is the
 fastest way **to** the answer. Fill the overlap first, then work outwards.

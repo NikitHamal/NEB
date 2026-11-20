@@ -72,7 +72,7 @@ ax.spines[['top','right']].set_visible(False)
 ax.grid(True, alpha=.45)
 ```
 
-### The table you must know by heart
+### Standard integration formula table
 
 Every integration problem in this course ends by matching something to a line
 of this table. Learn it by reading each line **backwards** as a derivative.

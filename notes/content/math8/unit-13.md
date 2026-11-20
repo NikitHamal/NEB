@@ -258,7 +258,7 @@ sides of the transversal; **C** (co-interior) means they add up to 180°. Sketch
 the letter next to the angle before you decide.
 :::
 
-## 13.4 Reasons are the marks
+## 13.4 Geometric proof writing with angle reasons
 
 In a geometry answer the number is worth one mark; the **reason** is worth the
 rest. Every statement should carry the name of the rule that justifies it.

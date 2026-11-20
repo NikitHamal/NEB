@@ -13,7 +13,7 @@ In Grade 9 you learnt how to find $\sin(A+B)$ and $\cos(A-B)$ from the ratios of
 Typical questions: (i) find $\sin2A,\ \cos2A,\ \tan2A$ from one given ratio; (ii) find the ratios of $\theta$ when a ratio of $\frac{\theta}{2}$ is given; (iii) **prove** an identity using $2A$, $3A$, $\frac{A}{2}$ formulas; (iv) express a sum as a product or a product as a sum; (v) find the exact value of a product such as $\cos20^\circ\cos40^\circ\cos80^\circ$. In a proof, work on the **left side** only, show each step, and finish on the right side.
 :::
 
-## 4.1 Compound angles: a quick review
+## 4.1 Trigonometric ratios of compound angles ($A \pm B$)
 
 For any angles $A$ and $B$:
 

@@ -244,7 +244,7 @@ $\frac{\text{total distance}}{\text{total time}}$. It equals the simple mean onl
 when the two speeds are used for equal **times**, which is rare.
 :::
 
-## 6.4 Direct and inverse variation side by side
+## 6.4 Comparison of direct and inverse variation
 
 The whole unitary method rests on one question: **does the second quantity rise
 or fall when the first rises?** Answer that, and the arithmetic follows.

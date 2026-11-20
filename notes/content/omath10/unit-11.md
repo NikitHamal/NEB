@@ -344,7 +344,7 @@ ax.spines[['top', 'right', 'left']].set_visible(False)
 fig.tight_layout(pad=0.4)
 ```
 
-### Coefficient of variation: which is more consistent?
+### Coefficient of variation and consistency comparison
 
 A measure like $\sigma$ has the same units as the data, so to compare data in different units or with very different means we use the **coefficient of variation**. **The smaller the C.V., the more consistent (less variable) the data.**
 

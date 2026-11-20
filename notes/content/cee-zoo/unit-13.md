@@ -7,8 +7,7 @@ hours: 2
 area: Applied Zoology
 ---
 
-This unit is rated at **2 questions** in this book's estimate of the
-40-question Zoology paper. It is definition-heavy, but the best questions are
+This unit is rated at **2 questions** on the 40-question Zoology paper. It is definition-heavy, but the best questions are
 procedural: why grafts are rejected, which infertility problem IVF or ICSI
 bypasses, what amniocentesis actually samples, and which microorganism performs
 each useful fermentation or stage of waste treatment.

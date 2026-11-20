@@ -10,7 +10,7 @@ area: Mechanics
 Gravitation is the one force that never switches off: it holds the Moon in its
 orbit, keeps your feet on the ground in Kathmandu and makes a dropped stone fall
 the same way everywhere on Earth. Of the **10 Mechanics questions** in the Physics
-paper (official weightage), we estimate about **1** comes from this chapter. It is
+paper, with about **1** questions from this chapter. It is
 almost always a comparison rather than a calculation: $g$ at a height against $g$
 at a depth, escape speed against orbital speed, or a "which statement is true"
 about the energy of a satellite. Learn the two variation formulas and the sign of

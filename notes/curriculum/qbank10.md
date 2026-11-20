@@ -1,9 +1,8 @@
 # SUBJECT: Question Bank | GRADE: 10 | CODE: QB-10 | WORKING_HOURS: revision
 # EXAM: SEE (Secondary Education Examination), the five compulsory subjects of this series and the optional papers in Optional Mathematics and Computer Science
-# SOURCE: CDC specification grids, model questions, SEE papers and predicted sets
 # PART: How to Use This Book
 ## 1. The SEE Examination: Pattern, Grid and Strategy [R]
-- The SEE at a glance
+- Structure and marking scheme of the SEE
 - From marks to a letter grade and GPA
 - Science and Technology: the grid
 - Compulsory Mathematics: the grid

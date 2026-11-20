@@ -237,7 +237,7 @@ $$ z = 2\left(\cos\frac{2\pi}{3} + i\sin\frac{2\pi}{3}\right) $$
 $2\sin 120^{\circ} = 2\left(\tfrac{\sqrt{3}}{2}\right) = \sqrt{3}$. Correct.
 :::
 
-### Addition is vector addition
+### Vector representation of complex addition
 
 $z_1 + z_2$ is the diagonal of the parallelogram on $\vec{Oz_1}$ and
 $\vec{Oz_2}$ — exactly the triangle law for vectors. One side of a triangle is

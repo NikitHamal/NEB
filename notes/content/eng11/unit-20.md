@@ -835,7 +835,7 @@ out by the collar, as poor, as jobless and as unemployable as when he came in. T
 paper improved; the man did not. That is what learning only for the examination
 buys.
 
-**A practical conclusion for a student reading this book.** Get the certificate; it
+**Practical conclusion.** Get the certificate; it
 is necessary. But treat it as evidence of learning, not as a substitute for it, and
 add to it the things no paper records — a language you can actually speak, a skill
 you can demonstrate, work you have really done, and the habit of asking how

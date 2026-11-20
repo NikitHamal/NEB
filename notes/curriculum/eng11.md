@@ -2,7 +2,6 @@
 # EXAM: 3hr, FM 75 written (+25 internal) | No Group A/B/C. 8 questions:
 # Q1 Unseen reading 15 | Q2 Short lit answers 5x2=10 | Q3 Long lit answers 2x5=10 | Q4 Guided writing 7
 # Q5 Functional writing 8 | Q6 Free writing/essay 10 | Q7 Grammar 10x1=10 | Q8 Vocabulary 5x1=5
-# TEXTBOOK: "English, Grade 11", CDC Sanothimi, Edition 2077 BS, by Mohan Singh Saud
 # PART: Literature - Short Stories
 ## 1. The Selfish Giant - Oscar Wilde [L]
 - About the author: Oscar Wilde
@@ -174,7 +173,7 @@
 - Contracted forms
 - Using a dictionary
 ## 22. Tenses: Present, Past and Future [G]
-- The twelve tenses at a glance
+- Overview of the twelve English tenses
 - The present tenses
 - The past tenses
 - The future tenses and other ways of talking about the future
@@ -238,7 +237,7 @@
 - Wh- questions
 - Indirect and embedded questions
 - Question tags — the basic rule
-- Special tags you must memorise
+- Special and irregular question tags
 - Subject–verb agreement: the core rules
 ## 30. Prepositions, Adjectives and Adverbs [G]
 - Prepositions of time
@@ -289,4 +288,4 @@
 - Building words: prefix + root + suffix
 - Synonyms, antonyms and words that are nearly the same
 - Idioms and phrasal verbs
-- Working out a word you do not know
+- Inferring word meaning from context clues

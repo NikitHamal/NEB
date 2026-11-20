@@ -164,7 +164,7 @@ box(0.10,-0.60,9.80,1.15,"Sita has finished her homework, hasn't she ?",
 ax.set_ylim(-0.9,8.2)
 ```
 
-## 29.6 Special tags you must memorise
+## 29.6 Special and irregular question tags
 
 | Statement | Tag | Note |
 |---|---|---|

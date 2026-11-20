@@ -8,8 +8,7 @@ area: Modern Physics
 ---
 
 This is the chapter behind every phone charger, solar panel and calculator in Nepal.
-Modern Physics carries **12 of the 50 Physics questions** (official MEC weightage),
-and we estimate about **2** come from here. The paper asks three kinds of question:
+Modern Physics carries **12 of the 50 Physics questions**, with about **2** questions from this chapter. The paper asks three kinds of question:
 one fact about bands or doping (which carrier is in the majority, what a donor
 does), one about the diode (which way it conducts, what the reverse current is, what
 a rectifier puts out), and one about a gate (read a truth table, identify a gate from

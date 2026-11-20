@@ -1,7 +1,5 @@
 # SUBJECT: Chemistry | TRACK: CEE (MECEE-BL) | QUESTIONS: 50 | SYLLABUS: MEC Bachelor Level Common Entrance syllabus, third revision 2083-01-15 (28 April 2026)
 # EXAM: 3 hours, 200 single-best-answer MCQs with four options, 200 marks, 0.25 deducted per wrong answer, merit list from the 50th percentile | Zoology 40x1=40 | Botany 40x1=40 | Chemistry 50x1=50 | Physics 50x1=50 | Mental Agility Test 20x1=20
-# WEIGHTAGE: The question count of each area is official (MEC). The split of an area's questions between its chapters is the NEBians estimate from the topic list.
-# LEVELS: recall 50%, understanding 30%, application 20% (MEC instruction to paper setters); a question stem has at most 60 words.
 # AREA: Physical Chemistry (17)
 ## 1. Basic Concepts and Stoichiometry [2]
 - Atoms, molecules, valency and radicals; relative masses and the atomic mass unit

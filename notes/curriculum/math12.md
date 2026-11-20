@@ -1,6 +1,5 @@
 # SUBJECT: Mathematics | GRADE: 12 | CODE: 0081 (CDC Mat.402) | WORKING_HOURS: 160
 # EXAM: 3hr, FM 75 written (+25 internal) | Group A MCQ 11x1=11 | Group B short 8x5=40 | Group C long 3x8=24
-# NOTE: Curriculum edition 2078 BS. Exams retain some 2076-only topics (Group Theory, Rolle/MVT) - included as appendix chapters.
 # AREA: Algebra (44)
 ## 1. Permutation and Combination [10]
 - Basic principle of counting: Factorial notation
@@ -67,7 +66,7 @@
 ## 11. Probability [4]
 - Dependent cases
 - Conditional probability (without proof)
-- Bayes' theorem: reasoning backwards
+- Bayes' theorem and inverse probability
 - Repeated trials: the binomial distribution
 # AREA: Calculus (48)
 ## 12. Derivatives [18]
@@ -80,7 +79,7 @@
 - Maxima and minima
 - Concavity and points of inflection
 ## 13. Anti-derivatives [18]
-- Standard integrals: The anti-derivative and the indefinite integral, The table you must know by heart
+- Standard integrals: The anti-derivative and the indefinite integral, Standard integration formula table
 - Integrals reducible to standard forms
 - Integrals of rational functions
 - The definite integral and its properties
@@ -99,7 +98,7 @@
 - System of linear equations: Gauss Elimination Method
 - System of linear equations: Gauss-Seidel Method
 - Linear programming problems (LPP): simplex method (two variables)
-- How accurate is a computed answer?
+- Errors in numerical computation (absolute, relative and percentage error)
 ## 16. Mechanics (alternative to Unit 15) [12]
 - Statics: triangle law of forces; Lami's theorem
 - Dynamics: Newton's laws of motion

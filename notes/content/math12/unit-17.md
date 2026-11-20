@@ -7,10 +7,7 @@ hours: 0
 area: Computational Methods OR Mechanics
 ---
 
-**This chapter is an appendix, not a timetabled unit.** The CDC curriculum of
-2078 BS allots it $0$ teaching hours, because the topics in it were dropped from
-the 2078 syllabus grid. They had been part of the 2076 curriculum, and NEB
-question papers have continued to set questions on them — so a candidate who has
+This unit covers additional topics examined in NEB Grade 12 Mathematics papers (group theory, Rolle's theorem, Lagrange's mean value theorem, Maclaurin's series, and L'Hôpital's rule), so a candidate who has
 never met them can lose marks on the day. Everything here is examinable in
 practice even though it carries no teaching hours: work through it after you have
 finished your main units, and treat it as revision plus a small amount of new

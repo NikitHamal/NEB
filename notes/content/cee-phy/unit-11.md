@@ -9,7 +9,7 @@ area: Waves and Optics
 
 Sound is the wave you can hear, and almost every question on it is a ratio or a
 sign. The Waves and Optics area carries **8 of the 50 Physics questions** (official
-MEC weightage), and we estimate about **3** of them come from this chapter. They
+MEC weightage), with about **3** questions from this chapter. They
 cluster on five things: reading $y = A\sin(\omega t - kx)$, the speed of sound in a
 gas, the harmonic series of a pipe, the decibel, and the Doppler formula — with the
 sign in the Doppler formula the single most common place to lose the mark.

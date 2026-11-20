@@ -9,8 +9,7 @@ area: Mechanics
 
 Elasticity explains why a steel bridge bends under a truck and springs back, why a
 rubber band stretches so much more than a steel wire of the same size, and why a
-glass window cracks while a copper pipe dents. Of the **10 Mechanics questions**
-(official weightage), we estimate about **1** comes from this chapter. It is a
+glass window cracks while a copper pipe dents. Of the **10 Mechanics questions**, with about **1** questions from this chapter. It is a
 formula chapter with a small number of ideas: stress over strain, the three moduli,
 Poisson's ratio, and the energy stored in a stretched wire. Most marks are lost on
 two things — mixing up which modulus belongs to which deformation, and forgetting

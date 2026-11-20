@@ -1,9 +1,8 @@
 # SUBJECT: Question Bank | GRADE: 8 | CODE: QB-8 | WORKING_HOURS: revision
 # EXAM: Basic Level Examination (BLE), the six compulsory subjects of this series, and the school papers in Optional Mathematics and Computer Science
-# SOURCE: CDC Basic Level curriculum, specification grid and model questions
 # PART: How to Use This Book
 ## 1. The Basic Level Examination: Pattern, Grid and Strategy [R]
-- The written paper at a glance
+- Structure and marking scheme of the BLE written paper
 - Reading the specification grid
 - A revision timetable that works
 - Answering technique, group by group
@@ -85,7 +84,7 @@
 - Unseen passage 2
 - Word formation and spelling
 ## 9. Compulsory English: Writing and Grammar Question Bank [R]
-- The formats you must know
+- Standard formats for guided and free writing
 - Letter writing
 - Diary, notice and invitation
 - News report and dialogue

@@ -1,6 +1,5 @@
 # SUBJECT: Compulsory English | GRADE: 8 | CODE: BEE-8 | WORKING_HOURS: 160
-# EXAM: Basic Education Examination (BEE), grade 8. The CDC basic-level assessment scheme gives continuous (internal) assessment 50 % weight and the external written paper 50 %; the local level (palika) conducts and marks it. English has no Group A/B/C paper: the paper tests reading comprehension, grammar and writing, so the practice sets here use reading, grammar and writing sections with full answer keys.
-# TEXTBOOK: English, Grade 8 (Curriculum Development Centre, Sanothimi, 2082 edition) — 19 units, two reading texts each, with a grammar, a writing and a project task per unit. Unit and text titles are taken from the textbook's own Table of Contents.
+# EXAM: Basic Level Examination (BLE) | 2 hr, FM 50 written (+50 internal) | Reading, grammar and writing
 # PART: Units
 ## 1. A Tour to Central Zoo / A Request Letter [G]
 - Reading I: A Tour to Central Zoo (timetable)

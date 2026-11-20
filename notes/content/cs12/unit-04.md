@@ -22,9 +22,6 @@ fclose**. Write the `#include`, the prototype and the `return 0;` — they carry
 marks.
 :::
 
-Every program in this chapter was compiled and run before publication, and the
-output printed beneath each one is the output the machine actually produced.
-
 ## 4.1 Review of C programming concepts
 
 C was written by Dennis Ritchie at Bell Laboratories in 1972. It is a

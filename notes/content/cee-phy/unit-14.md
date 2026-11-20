@@ -8,8 +8,7 @@ hours: 3
 ---
 
 Current Electricity and Magnetism is the third-heaviest area of the Physics paper:
-**9 of the 50 questions** (official MEC weightage), and we estimate about **3** come
-from this chapter. The marks are unusually predictable — a resistance or power
+**9 of the 50 questions**, with about **3** questions from this chapter. The marks are unusually predictable — a resistance or power
 calculation, a two-loop Kirchhoff network, a metre-bridge or potentiometer reading, a
 galvanometer conversion, and one fact about the thermocouple. Almost every question is
 a formula applied once, so the chapter rewards precision rather than insight: the

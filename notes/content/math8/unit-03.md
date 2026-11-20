@@ -319,7 +319,7 @@ $N\subset W\subset Z\subset Q\subset R$ and $Ir\subset R$.
 | $\pi$ is rational | false | its decimal never repeats |
 | 0 is rational | true | $0=\frac01$ |
 
-## 3.5 The number line as a map of the number system
+## 3.5 Real number subsets (N, W, Z, Q and R) on the number line
 
 Every number you will meet in Grade 8 has a home on the number line, and the
 line shows at a glance which sets sit inside which.

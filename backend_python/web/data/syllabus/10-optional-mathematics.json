@@ -82,7 +82,7 @@
    "area": "Units",
    "topics": [
     "Quadratic equations: roots and their nature",
-    "Graph of a quadratic function: How to draw a parabola",
+    "Graph of a quadratic function: Vertex, axis of symmetry and plotting a parabola",
     "Graph of a cubic function",
     "Solving a quadratic and a linear equation together"
    ],
@@ -117,7 +117,7 @@
     "Cubic function"
    ],
    "stats": {
-    "words": 3597,
+    "words": 3600,
     "figures": 5,
     "examples": 26
    },
@@ -131,7 +131,7 @@
    "topics": [
     "Determinant of a matrix",
     "Inverse of a matrix",
-    "Solving linear equations by the matrix method: When the matrix method fails",
+    "Solving linear equations by the matrix method: Singular matrices and condition for unique solution",
     "Cramer's rule"
    ],
    "sections": [
@@ -164,7 +164,7 @@
     "Determinant of a 2×2 matrix"
    ],
    "stats": {
-    "words": 2897,
+    "words": 2899,
     "figures": 7,
     "examples": 27
    },
@@ -176,7 +176,7 @@
    "hours": null,
    "area": "Units",
    "topics": [
-    "Compound angles: a quick review",
+    "Trigonometric ratios of compound angles (A ± B)",
     "Multiple angles 2A and 3A: Triple angle",
     "Submultiple angles (A)/(2)",
     "Transformation formulas: sums, differences and products"
@@ -184,7 +184,7 @@
    "sections": [
     {
      "no": "4.1",
-     "title": "Compound angles: a quick review"
+     "title": "Trigonometric ratios of compound angles (A ± B)"
     },
     {
      "no": "4.2",
@@ -210,7 +210,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2505,
+    "words": 2508,
     "figures": 3,
     "examples": 24
    },
@@ -514,7 +514,7 @@
    "topics": [
     "Quartile deviation and its coefficient: Quartiles, Quartiles from individual and discrete data, Quartiles from grouped (continuous) data",
     "Mean deviation and its coefficient",
-    "Standard deviation, variance and coefficient of variation: Coefficient of variation: which is more consistent?"
+    "Standard deviation, variance and coefficient of variation: Coefficient of variation and consistency comparison"
    ],
    "sections": [
     {
@@ -544,7 +544,7 @@
     "Standard deviation and variance"
    ],
    "stats": {
-    "words": 2887,
+    "words": 2886,
     "figures": 3,
     "examples": 11
    },

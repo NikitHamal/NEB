@@ -285,7 +285,7 @@ $\overrightarrow{AB}=\binom{3}{1}$ and $\overrightarrow{A'B'}=\binom{7-4}{0+1}=\
 (ii) Two slides add like vectors: $\binom{2}{1}+\binom{-5}{3}=\binom{-3}{4}$. The translation back is the negative vector $\binom{3}{-4}$.
 :::
 
-### Undoing a transformation
+### Inverse translation
 
 To find an **object** when its **image** is known, apply the **inverse** transformation, the one that undoes the first.
 
@@ -298,7 +298,7 @@ To find an **object** when its **image** is known, apply the **inverse** transfo
 
 For example, if a rotation through $+90^\circ$ about $O$ gives the image $(-1,6)$, the object is found with the $-90^\circ$ rule $(y,-x)$: it is $(6,1)$. Check: $(6,1)\rightarrow(-1,6)$ under $(-y,x)$ ✓.
 
-### All the rules together
+### Summary of transformation rules
 
 | Transformation | Image of $P(x,y)$ | Isometric? |
 |---|---|---|

@@ -337,7 +337,7 @@ When in doubt, keep the phrasal verb together — except with a pronoun object, 
 must test whether the split sounds right.
 :::
 
-## 35.9 Working out a word you do not know
+## 35.9 Inferring word meaning from context clues
 
 Unknown words turn up in Questions 1 and 8, and the paper expects reasoning rather than
 guessing. Four checks, in this order:

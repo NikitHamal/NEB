@@ -22,12 +22,6 @@ the five connection steps by heart: **connect, select database, query, fetch,
 close**.
 :::
 
-All the programs printed in this chapter were run before publication:
-JavaScript with **Node.js v24**, PHP with the **PHP 8.4** command-line
-interpreter, and the database examples against a live **MariaDB (MySQL)**
-server. The output shown under each program is the output the machine actually
-produced.
-
 ## 3.1 Introduction; server-side and client-side scripting
 
 ::: definition Scripting language

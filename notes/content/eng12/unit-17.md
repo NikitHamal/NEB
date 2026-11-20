@@ -62,7 +62,7 @@ Examiners sometimes ask "Who is Samuel Moyn?" as a two-mark question. A safe ans
 studies of the history of human rights, such as* The Last Utopia *and* Not Enough.
 :::
 
-## 17.2 Background: the ideas you need before you read
+## 17.2 Historical and philosophical background
 
 The essay assumes you know seven things. Read this section first and the essay
 becomes much easier.

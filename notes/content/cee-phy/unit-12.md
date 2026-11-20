@@ -9,7 +9,7 @@ area: Waves and Optics
 
 Ray optics is the chapter of straight lines: rays, normals, angles and images. The
 Waves and Optics area carries **8 of the 50 Physics questions** (official MEC
-weightage), and we estimate about **3** of them come from this chapter. Almost every
+weightage), with about **3** questions from this chapter. Almost every
 question is one of five calculations — a mirror or lens position, an apparent depth,
 a critical angle, a prism deviation, or the power of a combination — and almost every
 lost mark comes from a **sign**.

@@ -234,7 +234,7 @@ ax.text(5.0, -1.34, 'the six parallel p orbitals overlap sideways, giving one π
 fig.tight_layout()
 ```
 
-### What the Kekulé structure explains
+### Evidence for the Kekulé structure
 
 - The formula C₆H₆ and the fact that benzene adds exactly **three** molecules of
   hydrogen to give cyclohexane.
@@ -245,7 +245,7 @@ fig.tight_layout()
 
 C₆H₆ + 3O₃ → benzene triozonide, then triozonide + 3H₂O --Zn--> 3 OHC—CHO
 
-### What it fails to explain
+### Limitations of the Kekulé structure
 
 - Benzene does **not** decolourise bromine water or Baeyer's reagent, although
   it is drawn with three double bonds.

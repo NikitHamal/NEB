@@ -10,8 +10,7 @@ area: Heat and Thermodynamics
 Heat is the first idea in physics that everyone thinks they understand and almost
 everyone gets slightly wrong. Heat is not temperature, temperature is not "how hot
 something feels", and a bathtub of warm water contains far more thermal energy than
-a cup of boiling tea. Of the **7 Heat and Thermodynamics questions** in the paper
-(official weightage), we estimate about **2** come from this chapter. They are
+a cup of boiling tea. Of the **7 Heat and Thermodynamics questions** in the paper, with about **2** questions from this chapter. They are
 usually one definition (the zeroth law, a thermometric property), one comparison
 (which thermometer for which job), and one calculation — a Stefan-law ratio, a
 composite slab, or a cooling curve.

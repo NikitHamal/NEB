@@ -24,7 +24,7 @@ far more often than on arithmetic.
 
 ## 14.1 Real and virtual images
 
-### The words you must use correctly
+### Mirror terminology and sign convention
 
 ```figure caption="Terms used for spherical mirrors. For a concave mirror $F$ and $C$ lie in front of the mirror; for a convex mirror they lie behind it and are only virtual points."
 import numpy as np, matplotlib.pyplot as plt

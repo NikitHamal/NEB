@@ -355,7 +355,7 @@ substituting, write every length in the **same** unit — mixing centimetres wit
 metres is the second commonest error in mensuration.
 :::
 
-## 8.5 Choosing the right formula
+## 8.5 Summary of mensuration formulas for plane figures and cylinders
 
 Most lost marks in mensuration come from reaching for the wrong formula, not
 from arithmetic. Decide three things first: **flat or solid**, **which

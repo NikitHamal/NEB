@@ -38,7 +38,7 @@ An *identity* such as $\sin^{2}\theta+\cos^{2}\theta=1$ holds for every $\theta$
 an *equation* such as $\sin\theta = \frac{1}{2}$ holds only for some. Do not
 confuse the two.
 
-### Deciding the quadrant
+### Quadrant rules
 
 The first step in every problem is to find one angle $\alpha$ — usually an angle
 from the standard table — and then to decide **which quadrants** can contain
@@ -112,7 +112,7 @@ ax.set_xlabel(r'$\theta$'); ax.set_ylabel(r'$\sin\theta$')
 ax.spines[['top','right']].set_visible(False); ax.grid(True, alpha=.35)
 ```
 
-### The four standard techniques
+### Standard solution methods
 
 | If the equation… | do this |
 |---|---|
@@ -173,7 +173,7 @@ So $\tan\theta = 1 = \tan\dfrac{\pi}{4}$, giving $\theta = n\pi+\dfrac{\pi}{4}$.
 
 ## 10.2 General values
 
-### The three master formulae
+### General value formulas for $\sin\theta$, $\cos\theta$ and $\tan\theta$
 
 ::: derivation $\sin\theta = \sin\alpha \Rightarrow \theta = n\pi+(-1)^{n}\alpha$
 Move everything to one side and use the sum-to-product identity

@@ -9,8 +9,7 @@ area: Modern Physics
 
 The last chapter of the Physics paper looks outward twice: inward to the smallest
 objects we know, and outward to the whole universe. Modern Physics carries **12 of
-the 50 Physics questions** (official MEC weightage), and we estimate about **2** come
-from here. The paper asks for the **inventory** — six quarks, six leptons, which
+the 50 Physics questions**, with about **2** questions from this chapter. The paper asks for the **inventory** — six quarks, six leptons, which
 particles make a proton, which force is carried by which boson — and for the
 **evidence** behind the Big Bang, especially Hubble's law. Nothing needs a long
 calculation; what it needs is precision, because this is the area where careless

@@ -1,6 +1,5 @@
 # SUBJECT: Model Papers and Mock Tests | TRACK: BCA (TU FOHSS) | QUESTIONS: 100 | SYLLABUS: TU Faculty of Humanities and Social Sciences BCA entrance pattern (English grammar 40, Mathematics 50, General Knowledge and IT 10)
 # EXAM: 2 hours, 100 single-best-answer MCQs with four options, 100 marks, 1 mark each, no negative marking | English grammar 40 | Mathematics 50 | General Knowledge and IT 10
-# WEIGHTAGE: Every model paper in this book follows the Dean's Office layout: Group A English Q1-40, Group B Mathematics Q41-90, Group C General Knowledge and IT Q91-100. The mix inside each group follows the published ranges; each paper states its own per-area counts.
 # AREA: The Examination (0)
 ## 1. The BCA Entrance Examination: Pattern, Syllabus, Strategy and the Programme [Guide]
 - Who sits the paper, eligibility and how admission works

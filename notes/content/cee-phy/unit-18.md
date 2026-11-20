@@ -7,8 +7,7 @@ hours: 3
 area: Modern Physics
 ---
 
-Modern Physics carries **12 of the 50 Physics questions** (official MEC weightage),
-and we estimate about **3** come from this chapter. They divide into two halves.
+Modern Physics carries **12 of the 50 Physics questions**, with about **3** questions from this chapter. They divide into two halves.
 The first half is the electron as a particle: how a beam of electrons bends in an
 electric or a magnetic field, how Thomson weighed its charge against its mass, and
 how Millikan caught the charge itself. The second half is the photon: $E = hf$,

@@ -84,7 +84,7 @@
     "Multiculturalism"
    ],
    "stats": {
-    "words": 9537,
+    "words": 9500,
     "figures": 2,
     "examples": 0
    },
@@ -289,7 +289,7 @@
     "Dramatic irony"
    ],
    "stats": {
-    "words": 8106,
+    "words": 8099,
     "figures": 2,
     "examples": 0
    },
@@ -425,7 +425,7 @@
     "Orientalism (in outline)"
    ],
    "stats": {
-    "words": 9134,
+    "words": 9126,
     "figures": 2,
     "examples": 0
    },
@@ -1096,7 +1096,7 @@
    "area": "Literature - Essays",
    "topics": [
     "About the author: Samuel Moyn",
-    "Background: the ideas you need before you read",
+    "Historical and philosophical background",
     "The essay, section by section",
     "Central idea and themes",
     "Style, tone and form",
@@ -1111,7 +1111,7 @@
     },
     {
      "no": "17.2",
-     "title": "Background: the ideas you need before you read"
+     "title": "Historical and philosophical background"
     },
     {
      "no": "17.3",
@@ -1150,7 +1150,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 7211,
+    "words": 7207,
     "figures": 2,
     "examples": 0
    },
@@ -1163,7 +1163,7 @@
    "area": "Literature - One Act Plays",
    "topics": [
     "About the author: Ferenc Molnar",
-    "What kind of play is this?",
+    "Dramatic genre and comedic structure",
     "The play, beat by beat",
     "Characters — \"A Matter of Husbands\"",
     "Dramatic techniques",
@@ -1179,7 +1179,7 @@
     },
     {
      "no": "18.2",
-     "title": "What kind of play is this?"
+     "title": "Dramatic genre and comedic structure"
     },
     {
      "no": "18.3",
@@ -1222,7 +1222,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 7304,
+    "words": 7303,
     "figures": 2,
     "examples": 0
    },
@@ -1235,7 +1235,7 @@
    "area": "Literature - One Act Plays",
    "topics": [
     "About the author: August Strindberg",
-    "Background you need for this play",
+    "Dramatic background and naturalistic setting",
     "The play, beat by beat",
     "Characters — \"Facing Death\"",
     "Themes — \"Facing Death\"",
@@ -1251,7 +1251,7 @@
     },
     {
      "no": "19.2",
-     "title": "Background you need for this play"
+     "title": "Dramatic background and naturalistic setting"
     },
     {
      "no": "19.3",
@@ -1293,7 +1293,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 8274,
+    "words": 8273,
     "figures": 2,
     "examples": 0
    },
@@ -1367,7 +1367,7 @@
     "Feudal system"
    ],
    "stats": {
-    "words": 7678,
+    "words": 7645,
     "figures": 2,
     "examples": 0
    },
@@ -1874,7 +1874,7 @@
    "topics": [
     "Prepositions of time and place",
     "Fixed prepositions, and verbs that take none",
-    "The twelve tenses at a glance",
+    "Overview of the twelve English tenses",
     "Relative clauses"
    ],
    "sections": [
@@ -1888,7 +1888,7 @@
     },
     {
      "no": "30.3",
-     "title": "The twelve tenses at a glance"
+     "title": "Overview of the twelve English tenses"
     },
     {
      "no": "30.4",

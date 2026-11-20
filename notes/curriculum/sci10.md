@@ -1,6 +1,5 @@
 # SUBJECT: Science and Technology | GRADE: 10 | CODE: SEE | WORKING_HOURS: 150
 # EXAM: SEE, 2 hr 30 min, FM 75 written (+25 internal/practical) | Biology, Physics, Chemistry, Astronomy and ICT
-# NOTE: Chapter list from the CDC Grade 10 textbook (2080 BS edition), 19 chapters.
 # AREA: Science and Technology
 ## 1. Scientific Learning
 - Scientific study and the scientific method

@@ -651,7 +651,7 @@ If *every* entry in the pivot column is $\le 0$, the feasible region is unbounde
 in that direction and $Z$ has no maximum; say so.
 :::
 
-## 15.4 How accurate is a computed answer?
+## 15.4 Errors in numerical computation (absolute, relative and percentage error)
 
 Gauss–Seidel and the simplex method both *stop somewhere*. A computed answer is
 therefore only as good as the error attached to it, and every numerical method

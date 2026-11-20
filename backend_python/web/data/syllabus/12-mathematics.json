@@ -560,7 +560,7 @@
    "topics": [
     "Dependent cases",
     "Conditional probability (without proof)",
-    "Bayes' theorem: reasoning backwards",
+    "Bayes' theorem and inverse probability",
     "Repeated trials: the binomial distribution"
    ],
    "sections": [
@@ -574,7 +574,7 @@
     },
     {
      "no": "11.3",
-     "title": "Bayes' theorem: reasoning backwards"
+     "title": "Bayes' theorem and inverse probability"
     },
     {
      "no": "11.4",
@@ -596,7 +596,7 @@
     "Conditional probability"
    ],
    "stats": {
-    "words": 4516,
+    "words": 4517,
     "figures": 5,
     "examples": 11
    },
@@ -683,7 +683,7 @@
    "hours": 18,
    "area": "Calculus",
    "topics": [
-    "Standard integrals: The anti-derivative and the indefinite integral, The table you must know by heart",
+    "Standard integrals: The anti-derivative and the indefinite integral, Standard integration formula table",
     "Integrals reducible to standard forms",
     "Integrals of rational functions",
     "The definite integral and its properties",
@@ -731,7 +731,7 @@
     "Definite integral"
    ],
    "stats": {
-    "words": 9617,
+    "words": 9614,
     "figures": 8,
     "examples": 42
    },
@@ -815,7 +815,7 @@
     "System of linear equations: Gauss Elimination Method",
     "System of linear equations: Gauss-Seidel Method",
     "Linear programming problems (LPP): simplex method (two variables)",
-    "How accurate is a computed answer?"
+    "Errors in numerical computation (absolute, relative and percentage error)"
    ],
    "sections": [
     {
@@ -832,7 +832,7 @@
     },
     {
      "no": "15.4",
-     "title": "How accurate is a computed answer?"
+     "title": "Errors in numerical computation (absolute, relative and percentage error)"
     }
    ],
    "summary": [
@@ -850,7 +850,7 @@
     "The parts of an LPP"
    ],
    "stats": {
-    "words": 7864,
+    "words": 7867,
     "figures": 8,
     "examples": 13
    },
@@ -941,7 +941,7 @@
     "Cayley table"
    ],
    "stats": {
-    "words": 6172,
+    "words": 6145,
     "figures": 7,
     "examples": 16
    },

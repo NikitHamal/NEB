@@ -7,8 +7,7 @@ hours: 2
 area: Human Biology and Physiology
 ---
 
-The reproductive system is rated at **2 questions** in this book's estimate of
-the 40-question Zoology paper. The questions are usually anatomical or
+The reproductive system is rated at **2 questions** on the 40-question Zoology paper. The questions are usually anatomical or
 sequence-based: where sperms form and mature, which cells make testosterone or
 nourish gametes, why one primary oocyte gives one ovum while one primary
 spermatocyte gives four sperms, and how FSH, LH, oestrogen and progesterone

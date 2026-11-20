@@ -383,7 +383,7 @@ Common factor $(x+5)$; remaining factors $(x-4)$ and $(x-5)$.
 **LCM $=(x+5)(x-4)(x-5)$.**
 :::
 
-## 10.7 The three identities as areas
+## 10.7 Geometric representation of algebraic identities
 
 ```figure caption="The identity (a + b)² = a² + 2ab + b² seen as a square. The big square of side (a + b) is made of two squares and two equal rectangles."
 fig, ax = plt.subplots(figsize=(4.2, 3.5))

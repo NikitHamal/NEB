@@ -1,7 +1,5 @@
 # SUBJECT: Optional Mathematics | GRADE: 8
 # EXAM: School annual examination, 2 hr, FM 50 written | Group A objective 10x1=10 | Group B short 10x2=20 | Group C long 5x4=20
-# SOURCE: CDC Optional Mathematics, Grade 8 — scope and sequence of subject matter (Algebra, Limit, Matrix, Coordinate Geometry, Trigonometry, Vector, Transformation, Statistics). Units follow that sequence; the three Algebra strands (relation and function, polynomials, sequence and series) are printed as three units because each is taught and examined on its own.
-# NOTE: optional mathematics at the basic level is examined by the school, not by a national board, so there is no national specification grid; the practice sets are written to the 50-mark school paper above, the same shape as the grade 8 compulsory mathematics book, so a student meets one pattern across both papers.
 ## 1. Relation and Function
 - Ordered pairs and equal ordered pairs
 - Cartesian product of two sets
@@ -12,7 +10,7 @@
 - Polynomial expressions and polynomial functions; classification by degree and by number of terms
 - Degree of a polynomial, standard form and equal polynomials
 - Addition and subtraction of polynomials
-- Multiplication of polynomials: Monomial times monomial, and monomial times polynomial, Binomial times binomial, Polynomial times polynomial, The column method, and why it works, Special products
+- Multiplication of polynomials: Monomial times monomial, and monomial times polynomial, Binomial times binomial, Polynomial times polynomial, Vertical (column) multiplication of polynomials, Special products
 ## 3. Sequence and Series
 - Sequence: meaning, terms and the general term
 - Finding terms and the rule of a sequence
@@ -48,7 +46,7 @@
 - Transformation: meaning; isometric and non-isometric transformations
 - Reflection in the x-axis and the y-axis
 - Rotation about the origin through 90°, 180°, 270° and 360°
-- Translation by a vector: Undoing a transformation, All the rules together
+- Translation by a vector: Inverse translation and summary of transformation rules
 ## 10. Statistics
 - Arithmetic mean of ungrouped and grouped data
 - Median and quartiles of ungrouped data

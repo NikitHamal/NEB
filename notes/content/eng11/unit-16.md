@@ -42,9 +42,7 @@ heard. Nobody knows. Jo Goodwin Parker remains a mystery, and the essay is
 printed with no biographical data at all.
 
 ::: caution Do not invent a biography
-Some study guides on the internet supply Parker with a birth date, a husband's
-name and a life story. All of it is fabricated. If an examination question asks
-about the author, the correct and complete answer is: the writer is anonymous,
+Jo Goodwin Parker is a pseudonym and no biographical details of the author were published. If an examination question asks about the author, the writer is anonymous,
 the essay reached its editor from West Virginia in 1971 with a request for no
 byline, and nothing further is known. You can then add the more interesting point
 — that the anonymity is part of the essay's meaning.

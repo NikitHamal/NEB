@@ -64,9 +64,7 @@ society in his name.
   tourist does not know it until the guide tells him.
 - The sick child is not a "symbol" in the guide's own words ("my intention is not to show him to you as
   any kind of symbol"), though the story uses him as one. Notice that contradiction.
-- One popular study guide calls the tourist a woman. In the text the guide calls him "my guest" and "my
-  friend", and his own comparisons ("as if you were their eldest son", "your wife") treat the tourist as
-  a man.
+- In the text the guide addresses the tourist as "my guest" and "my friend", and his comparisons ("as if you were their eldest son", "your wife") identify the tourist as a man.
 :::
 
 ## 6.2 The story — "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun"

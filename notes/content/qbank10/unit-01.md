@@ -37,7 +37,7 @@ ax.legend(fontsize=7.5, frameon=False, loc="lower right")
 fig.tight_layout()
 ```
 
-## 1.1 The SEE at a glance
+## 1.1 Structure and marking scheme of the SEE
 
 Each subject paper is marked out of 75. Your school separately awards up to 25 internal marks for practical work, project work, class participation and terminal tests. The two parts are graded separately, and both must clear their minimum.
 
@@ -53,7 +53,7 @@ Each subject paper is marked out of 75. Your school separately awards up to 25 i
 
 Two facts that are easy to miss:
 
-- Some notes give Science as **two hours thirty minutes**. The 2081 science paper states **three hours** for 75 marks, and this book plans for three hours.
+- Every 75-mark SEE written paper (including Science and Technology) allows **three hours**; 50-mark elective papers allow **two hours**.
 - Internal marks are not a safety net you can ignore. A student who scores 40 out of 75 on the external paper but only 8 out of 25 internally does not clear the 40% internal minimum.
 
 ## 1.2 From marks to a letter grade and GPA

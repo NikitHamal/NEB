@@ -232,7 +232,7 @@ $$ x=\frac{5(70)-2(65)}{11}=\frac{350-130}{11}=20,\qquad y=\frac{-2(70)+3(65)}{1
 A pen costs **Rs 20** and a copy costs **Rs 5**. Check: $3(20)+2(5)=70$ ✓; $2(20)+5(5)=65$ ✓.
 :::
 
-### When the matrix method fails
+### Singular matrices and condition for unique solution
 
 If $|A|=0$, $A^{-1}$ does not exist and the method cannot be used. Then the two lines are parallel or the same line.
 

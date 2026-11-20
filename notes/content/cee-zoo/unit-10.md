@@ -7,8 +7,7 @@ hours: 2
 area: Human Biology and Physiology
 ---
 
-The endocrine system is rated at **2 questions** in this book's estimate of
-the 40-question Zoology paper. This is a matching-and-direction chapter:
+The endocrine system is rated at **2 questions** on the 40-question Zoology paper. This is a matching-and-direction chapter:
 gland → hormone → target → effect, then hyper- and hyposecretion. The highest
 yield chains are **hypothalamus → pituitary → target gland**,
 **insulin versus glucagon**, **PTH versus calcitonin**, and the contrast

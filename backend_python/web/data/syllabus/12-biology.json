@@ -172,7 +172,7 @@
     "Linkage keeps genes on one chromosome together; crossing over at the chiasma in pachytene breaks that linkage. Recombination frequency = (recombinants/total) × 100 %, and 1 % = 1 map unit (cM); the maximum useful value is 50 %."
    ],
    "terms": [
-    "The words you must use correctly",
+    "Mirror terminology and sign convention",
     "Mendel's first two laws",
     "Mendel's third law",
     "Linkage",
@@ -181,7 +181,7 @@
     "Polyploidy"
    ],
    "stats": {
-    "words": 10533,
+    "words": 10532,
     "figures": 14,
     "examples": 8
    },

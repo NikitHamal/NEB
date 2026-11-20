@@ -26,7 +26,7 @@ Expect: (i) range and its coefficient; (ii) **quartile deviation** and its coeff
 
 Here $L$ is the lower boundary of the median class, $cf$ the cumulative frequency before it, $f$ its frequency and $h$ the class width.
 
-## 17.2 Why we need dispersion
+## 17.2 Measures of dispersion and quartiles
 
 ```figure caption="Two sets of marks with the same mean (50) but very different spread: set A is tightly grouped, set B is widely scattered. The mean alone cannot tell them apart."
 import numpy as np, matplotlib.pyplot as plt

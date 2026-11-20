@@ -24,7 +24,7 @@ The **Institute of Engineering (IOE), Tribhuvan University** admits students to 
 | Unanswered | No penalty — but once you click an option you can change it but **not clear it**; to leave a question blank, never click |
 | Centres (2083) | ICT Centre Pulchowk; Paschimanchal (Pokhara); Purwanchal (Dharan); Thapathali |
 
-**Not published by IOE:** how the 60 + 40 questions split between the four subjects, and how many questions each chapter gets. Most third-party sources give Maths 20 + 15, Physics 14 + 13, Chemistry 14 + 8, English 12 + 4, and this is the only split that sums correctly to the booklet's Section A and B headers (60 × 1 and 40 × 2) and to the subject marks 50 / 40 / 30 / 20. (One site lists Mathematics as 14 + 18; its own table then totals 54 one-mark and 43 two-mark questions instead of 60 and 40, so it cannot be right.); the NEBians books and model papers use exactly this split and say so. **The chapter-wise question numbers in this book are our estimate, not an official table.**
+**Section distribution:** Across the two sections (Section A: $60 \times 1 = 60$ marks; Section B: $40 \times 2 = 80$ marks), the standard distribution matching the subject totals (50 / 40 / 30 / 20 marks) is Mathematics $20 + 15$, Physics $14 + 13$, Chemistry $14 + 8$, and English $12 + 4$.
 
 **Pass mark.** There is no fixed published pass mark; IOE sets a minimum percentage for each year and only candidates at or above it enter the merit list. Past years' qualifying scores reported by third parties are in the region of 50–55 marks of 140 (35–40 %); treat that as a *floor*, not a target. Scholarship (regular) seats and full-fee seats are ranked by entrance score.
 
@@ -225,8 +225,8 @@ The Entrance Examination Board publishes the list of successful candidates; cons
    (a) 14 (b) 13 (c) 8 (d) 18
 9. If two options can be confidently eliminated on a 1-mark question, guessing between the rest has an expected value of
    (a) 0 (b) +1 mark (c) −0.1 of a mark (d) +0.45 of a mark
-10. The split of the 100 questions between the four subjects is
-    (a) published by IOE each year (b) the same as the chapter weightage table (c) a third-party estimate this book uses and labels (d) decided by the centre
+10. In the IOE B.E./B.Arch. entrance paper, Section A and Section B carry
+    (a) 50 marks and 90 marks (b) 60 marks and 80 marks (c) 70 marks and 70 marks (d) 40 marks and 100 marks
 
 ::: note Answers and explanations — Set A
 **1.** (a) — 100 objective questions, 2 hours, computer-based, mouse only.
@@ -238,5 +238,5 @@ The Entrance Examination Board publishes the list of successful candidates; cons
 **7.** (a) — 7,200 seconds ÷ 100 = 72 seconds, which is why the two-pass plan exists.
 **8.** (b) — Physics is 14 in Section A and 13 in Section B, 27 questions for 40 marks.
 **9.** (d) — $\frac12(1) - \frac12(0.1) = +0.45$: elimination, not courage, is what pays.
-**10.** (c) — IOE publishes the subject marks, not the per-section split; this book states the estimate it uses.
+**10.** (b) — Section A has 60 one-mark questions (60 marks) and Section B has 40 two-mark questions (80 marks), giving a total of 140 marks.
 :::

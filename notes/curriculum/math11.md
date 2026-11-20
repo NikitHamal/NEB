@@ -1,6 +1,5 @@
 # SUBJECT: Mathematics | GRADE: 11 | CODE: 0071 (CDC Mat.401) | WORKING_HOURS: 160
 # EXAM: 3hr, FM 75 written (+25 internal) | Group A MCQ 11x1=11 | Group B short 8x5=40 | Group C long 3x8=24
-# NOTE: Curriculum edition 2078 BS. Chapters below are the CDC sub-topics (the actual teaching chapters).
 # AREA: Algebra (44)
 ## 1. Logic and Set [8]
 - Statements; logical connectives
@@ -36,7 +35,7 @@
 - Symmetric roots; one or both roots common
 ## 8. Complex Numbers [4]
 - Imaginary unit; algebra of complex numbers
-- Geometric representation: Polar (modulus–argument) form, Addition is vector addition
+- Geometric representation: Polar (modulus–argument) form, Vector representation of complex addition
 - Modulus and conjugate with properties
 - Square root of a complex number
 # AREA: Trigonometry (12)
@@ -44,8 +43,8 @@
 - Definition, domain and range of inverse circular functions
 - Formulae and identities of inverse circular functions
 ## 10. Trigonometric Equations and General Values [6]
-- Solution of trigonometric equations: Roots, principal value and general value, Deciding the quadrant, The four standard techniques
-- General values: The three master formulae, Equations of the form $a\cos\theta+b\sin\theta = c$, Sums of sines and cosines
+- Solution of trigonometric equations: Roots, principal value and general value, Quadrant rules and standard solution methods
+- General values: General value formulas for $\sin\theta$, $\cos\theta$ and $\tan\theta$, Equations of the form $a\cos\theta+b\sin\theta = c$, Sums of sines and cosines
 # AREA: Analytic Geometry (20)
 ## 11. Straight Line [7]
 - Length of perpendicular from a given point to a given line
@@ -68,7 +67,7 @@
 - The scalar product and the angle between two vectors
 # AREA: Statistics and Probability (12)
 ## 15. Measures of Dispersion [6]
-- Standard deviation and variance: The measures of dispersion, in order of usefulness, Variance and standard deviation of an individual series, Discrete frequency distribution, Continuous distribution: the step-deviation method, Properties of the standard deviation
+- Standard deviation and variance: Range, quartile deviation, mean deviation and standard deviation, Variance and standard deviation of an individual series, Discrete frequency distribution, Continuous distribution: the step-deviation method, Properties of the standard deviation
 - Coefficient of variation
 - Skewness; Karl Pearson's coefficient of skewness
 ## 16. Probability [6]

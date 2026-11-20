@@ -69,7 +69,7 @@ society, and in particular about how they hide their real feelings behind polite
 talk.
 :::
 
-## 18.2 What kind of play is this?
+## 18.2 Dramatic genre and comedic structure
 
 | Term | Meaning | How it applies here |
 |---|---|---|

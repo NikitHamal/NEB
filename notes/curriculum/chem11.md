@@ -97,7 +97,7 @@
 - Alkyl groups, functional groups and homologous series
 - Structural formula, contracted formula and bond line structural formula
 - Preliminary idea of cracking and reforming; quality of gasoline; octane number; cetane number; gasoline additive
-- Bond fission and electronic effects — a bridge to Unit 13
+- Homolytic and heterolytic bond fission, electrophiles, nucleophiles and electronic effects
 ## 13. Fundamental Principles of Organic Chemistry [10]
 - IUPAC Nomenclature of Organic Compounds (up to chain having 6 carbon atoms)
 - Qualitative analysis: detection of N, S and halogens by Lassaigne's test
@@ -120,7 +120,7 @@
 ## 15. Aromatic Hydrocarbons [6]
 - Introduction and characteristics of aromatic compounds
 - Huckel's rule of aromaticity
-- Kekule structure of benzene: What the Kekulé structure explains, What it fails to explain
+- Kekule structure of benzene: Evidence for and limitations of the Kekulé structure
 - Resonance and isomerism: Resonance and resonance energy, Isomerism in benzene derivatives
 - Preparation of benzene from decarboxylation of sodium benzoate, phenol, and ethyne
 - Physical properties of benzene

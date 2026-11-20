@@ -29,11 +29,7 @@ average of 54 seconds each — and do not pause the clock.
 
 ## 2.1 Where the 200 questions sit
 
-The area totals below are the official MEC weightage (third revision, 2083-01-15).
-The per-chapter split inside an area is the NEBians estimate used consistently by
-this book's subject volumes — every model paper in this book follows it question
-for question, so the five papers together rehearse the syllabus in its real
-proportions.
+The table below shows the subject and area question distribution across the 200-question paper.
 
 | Subject | Questions | Per chapter (chapter numbers of the subject books) |
 |---|---|---|

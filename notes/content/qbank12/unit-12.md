@@ -1463,7 +1463,7 @@ Most repeated: **a like-parallel-forces proof or numerical** (2080, CDC), **a pr
 
 ## 12.17 Appendix: Retained Examinable Topics
 
-CDC allots no separate hours: the 2078 curriculum retains these topics from the older course, and the verified papers still examine **group theory (2079 Q2, 2080 Q1)** and **Rolle's theorem and the Mean Value Theorem (2080 Q16 and Q22a)**; the trapezoidal and Simpson rules are in the CDC syllabus list as revision. Group theory and Rolle/MVT were **absent from 2081 and 2082**; treat them as a reserve, not a certainty.
+This section covers **group theory (2079 Q2, 2080 Q1)** and **Rolle's theorem and the Mean Value Theorem (2080 Q16 and Q22a)**; the trapezoidal and Simpson rules are in the CDC syllabus list as revision. Group theory and Rolle/MVT were **absent from 2081 and 2082**; treat them as a reserve, not a certainty.
 
 | Result | Statement |
 |---|---|

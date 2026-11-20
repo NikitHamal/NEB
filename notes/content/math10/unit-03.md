@@ -23,7 +23,7 @@ $$ I = \frac{P\times T\times R}{100}, \qquad A = P + I $$
 
 In simple interest the interest is always calculated on the **original** principal. The interest for every year is the same.
 
-## 3.2 What is compound interest?
+## 3.2 Concept and formula of compound interest
 
 ::: definition Compound interest
 In **compound interest** the interest earned at the end of each period (a year, half-year or quarter) is **added to the principal**. The new, larger sum becomes the principal for the next period. The **compound interest** is the total interest earned over all periods:

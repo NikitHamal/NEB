@@ -11,8 +11,7 @@ prints every student's marksheet in an afternoon, and a bank that knows your
 balance the moment you pay with Fonepay all rely on the same idea: data kept in
 an organised, searchable form. This unit explains what a database is, how a
 Database Management System (DBMS) looks after it, and how to build and use one
-in **MySQL** with **SQL** commands. Every query in this chapter was run on MySQL
-8.4, and the table printed under it is exactly what MySQL returned.
+in **MySQL** with **SQL** commands.
 
 ::: key What the SEE asks from this unit (8 marks)
 The SEE specification grid gives this unit **8 marks**: **two MCQs** (2 marks), **one short

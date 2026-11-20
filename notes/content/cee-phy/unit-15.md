@@ -8,8 +8,7 @@ area: Current Electricity and Magnetism
 ---
 
 This chapter is the magnetic half of Current Electricity and Magnetism, an area that
-carries **9 of the 50 Physics questions** (official MEC weightage). We estimate that
-**3** of them come from here. The questions are short and formula-shaped: a field at a
+carries **9 of the 50 Physics questions**, with about **3** questions from this chapter. The questions are short and formula-shaped: a field at a
 point near a wire or on the axis of a coil, the radius of a charged particle's circle,
 a torque on a coil, a Hall voltage, or one fact about domains and hysteresis. Most lost
 marks come from two habits — using the centre-of-coil formula on the axis, and

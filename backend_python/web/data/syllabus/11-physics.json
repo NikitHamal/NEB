@@ -766,7 +766,7 @@
    "hours": 2,
    "area": "Waves and Optics",
    "topics": [
-    "Real and Virtual images: The words you must use correctly",
+    "Real and virtual images: mirror terminology and sign convention",
     "Mirror formula: The new Cartesian sign convention, Deriving the formula, Linear magnification"
    ],
    "sections": [
@@ -792,7 +792,7 @@
     "Real and virtual image"
    ],
    "stats": {
-    "words": 4423,
+    "words": 4422,
     "figures": 4,
     "examples": 3
    },

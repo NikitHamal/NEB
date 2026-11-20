@@ -1,6 +1,5 @@
 # SUBJECT: Optional Mathematics | GRADE: 10 | CODE: SEE | WORKING_HOURS: 128
 # EXAM: SEE, 3 hr, FM 75 written (+25 internal)
-# NOTE: Chapter list follows the CDC Optional Mathematics curriculum (Grades 9-10, 2076/2079) topic areas.
 # PART: Units
 ## 1. Sequence and Series [G]
 - Arithmetic sequence and the nth term: The general term, Three numbers in AP
@@ -11,16 +10,16 @@
 - Sum of a geometric series
 ## 2. Quadratic Equations and Graphs [G]
 - Quadratic equations: roots and their nature
-- Graph of a quadratic function: How to draw a parabola
+- Graph of a quadratic function: Vertex, axis of symmetry and plotting a parabola
 - Graph of a cubic function
 - Solving a quadratic and a linear equation together
 ## 3. Matrices and Determinants [G]
 - Determinant of a matrix
 - Inverse of a matrix
-- Solving linear equations by the matrix method: When the matrix method fails
+- Solving linear equations by the matrix method: Singular matrices and condition for unique solution
 - Cramer's rule
 ## 4. Trigonometry: Multiple, Submultiple and Transformation Formulas [G]
-- Compound angles: a quick review
+- Trigonometric ratios of compound angles ($A \pm B$)
 - Multiple angles $2A$ and $3A$: Triple angle
 - Submultiple angles $\frac{A}{2}$
 - Transformation formulas: sums, differences and products
@@ -56,7 +55,7 @@
 ## 11. Statistics: Measures of Dispersion [G]
 - Quartile deviation and its coefficient: Quartiles, Quartiles from individual and discrete data, Quartiles from grouped (continuous) data
 - Mean deviation and its coefficient
-- Standard deviation, variance and coefficient of variation: Coefficient of variation: which is more consistent?
+- Standard deviation, variance and coefficient of variation: Coefficient of variation and consistency comparison
 ## 12. Functions and Polynomials [G]
 - Relations: ordered pairs, domain and range
 - Functions: definition, vertical line test, algebraic and trigonometric functions ($\sin x, \cos x, \tan x$ graphs and periods)

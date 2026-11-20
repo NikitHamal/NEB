@@ -12,8 +12,7 @@ programs split into reusable **functions**, programs that use ready-made
 **libraries** for maths, random numbers and dates, programs that draw with
 **Turtle**, survive mistakes with **try-except**, keep data in **files**, read
 spreadsheets with **pandas**, and turn numbers into **charts** with
-**Matplotlib**. Every program in this chapter was run in Python 3.12, and the
-output printed under it is exactly what Python produced. Type them in, run
+**Matplotlib**. Type them in, run
 them, then change them: that is how programming is learnt.
 
 ::: key What the SEE asks from this unit (12 marks)

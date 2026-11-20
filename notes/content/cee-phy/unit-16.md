@@ -9,7 +9,7 @@ area: Current Electricity and Magnetism
 
 This chapter is where a changing magnetic field becomes a voltage. The area Current
 Electricity and Magnetism carries **9 of the 50 Physics questions** (official MEC
-weightage), and we estimate **3** come from here. The paper asks for Faraday's law in
+weightage), with about **3** questions from this chapter. The paper asks for Faraday's law in
 one-line form, the direction of an induced current, the peak emf of a generator, a
 transformer ratio, the rms value, an impedance or resonance calculation, and the shape
 of a rectified waveform. The marks are lost on three things: rms against peak in a power
