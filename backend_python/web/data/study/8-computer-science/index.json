@@ -14,7 +14,7 @@
    "no": 2,
    "title": "History of Computer",
    "area": "Computer Fundamentals",
-   "words": 6557,
+   "words": 6551,
    "read_min": 36,
    "figures": 10,
    "has_questions": true
@@ -131,7 +131,7 @@
    "no": 15,
    "title": "Number System",
    "area": "Number System, Graphics and Multimedia",
-   "words": 7604,
+   "words": 7534,
    "read_min": 42,
    "figures": 6,
    "has_questions": true
@@ -167,7 +167,7 @@
    "no": 19,
    "title": "Fundamentals of Computer Programming",
    "area": "Programming",
-   "words": 6306,
+   "words": 6298,
    "read_min": 35,
    "figures": 6,
    "has_questions": true

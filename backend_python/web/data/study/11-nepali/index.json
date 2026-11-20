@@ -5,7 +5,7 @@
    "no": 1,
    "title": "वीर पुर्खा - वासुदेव त्रिपाठी (कविता, देशभक्ति)",
    "area": "पाठ",
-   "words": 2968,
+   "words": 2922,
    "read_min": 16,
    "figures": 3,
    "has_questions": true
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "गाउँको माया",
    "area": "पाठ",
-   "words": 4482,
+   "words": 4480,
    "read_min": 25,
    "figures": 4,
    "has_questions": true
@@ -23,7 +23,7 @@
    "no": 3,
    "title": "संस्कृतिको नयाँ यात्रा",
    "area": "पाठ",
-   "words": 4128,
+   "words": 4101,
    "read_min": 23,
    "figures": 4,
    "has_questions": true
@@ -32,8 +32,8 @@
    "no": 4,
    "title": "योगमाया",
    "area": "पाठ",
-   "words": 4055,
-   "read_min": 23,
+   "words": 3996,
+   "read_min": 22,
    "figures": 4,
    "has_questions": true
   },
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "साथीलाई चिठी",
    "area": "पाठ",
-   "words": 3811,
+   "words": 3809,
    "read_min": 21,
    "figures": 4,
    "has_questions": true
@@ -50,7 +50,7 @@
    "no": 6,
    "title": "त्यो फेरि फर्कला ?",
    "area": "पाठ",
-   "words": 4528,
+   "words": 4526,
    "read_min": 25,
    "figures": 4,
    "has_questions": true
@@ -68,7 +68,7 @@
    "no": 8,
    "title": "लौ आयो ताजा खबर",
    "area": "पाठ",
-   "words": 6768,
+   "words": 6762,
    "read_min": 38,
    "figures": 4,
    "has_questions": true
@@ -86,7 +86,7 @@
    "no": 10,
    "title": "कृषिशालामा एक दिन",
    "area": "पाठ",
-   "words": 6274,
+   "words": 6233,
    "read_min": 35,
    "figures": 4,
    "has_questions": true
@@ -95,8 +95,8 @@
    "no": 11,
    "title": "रारा भ्रमण",
    "area": "पाठ",
-   "words": 5518,
-   "read_min": 31,
+   "words": 5448,
+   "read_min": 30,
    "figures": 4,
    "has_questions": true
   },
@@ -104,8 +104,8 @@
    "no": 12,
    "title": "जलस्रोत र ऊर्जा",
    "area": "पाठ",
-   "words": 5894,
-   "read_min": 33,
+   "words": 5775,
+   "read_min": 32,
    "figures": 4,
    "has_questions": true
   },
@@ -251,14 +251,14 @@
    "no": 1,
    "kind": "objective",
    "title": "अनिवार्य नेपाली: एकाइअनुसार वस्तुगत प्रश्नसङ्ग्रह",
-   "words": 5103,
-   "read_min": 28
+   "words": 5146,
+   "read_min": 29
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "अनिवार्य नेपाली: एकाइअनुसार विषयगत प्रश्नसङ्ग्रह",
-   "words": 4124,
+   "words": 4160,
    "read_min": 23
   },
   {

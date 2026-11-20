@@ -104,7 +104,7 @@
    "no": 12,
    "title": "जुन्को ताबेई (जीवनी)",
    "area": "पाठ",
-   "words": 2508,
+   "words": 2505,
    "read_min": 14,
    "figures": 2,
    "has_questions": true
@@ -113,7 +113,7 @@
    "no": 13,
    "title": "प्यारो प्रकृति (कविता)",
    "area": "पाठ",
-   "words": 2471,
+   "words": 2469,
    "read_min": 14,
    "figures": 1,
    "has_questions": true
@@ -131,7 +131,7 @@
    "no": 15,
    "title": "से गुम्बाको सुन्दरता (निबन्ध — नियात्रा)",
    "area": "पाठ",
-   "words": 2584,
+   "words": 2581,
    "read_min": 14,
    "figures": 1,
    "has_questions": true
@@ -140,7 +140,7 @@
    "no": 16,
    "title": "सम्पादकलाई चिठी (व्यावहारिक लेखन)",
    "area": "पाठ",
-   "words": 2151,
+   "words": 2149,
    "read_min": 12,
    "figures": 1,
    "has_questions": true
@@ -168,15 +168,15 @@
    "no": 2,
    "kind": "subjective",
    "title": "नेपाली: एकाइअनुसार विषयगत प्रश्नसङ्ग्रह",
-   "words": 1463,
-   "read_min": 8
+   "words": 1176,
+   "read_min": 7
   },
   {
    "no": 3,
    "kind": "model",
    "title": "नेपाली: नमुना प्रश्नसेट र सम्भावित प्रश्न",
-   "words": 2044,
-   "read_min": 11
+   "words": 2096,
+   "read_min": 12
   }
  ],
  "guide": "The Basic Level Examination: Pattern, Grid and Strategy"
