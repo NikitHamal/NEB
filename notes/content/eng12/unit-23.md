@@ -51,7 +51,7 @@ of mine***.
 |---|---|---|---|
 | a university, a uniform, a useful map | /juː/ — a consonant sound | an umbrella, an uncle | /ʌ/ |
 | a European country | /juː/ | an hour, an honest man, an heir | the *h* is silent |
-| a one-rupee coin, a one-way street | /w/ | an MA, an MP, an SLC certificate | the letter is read *em, em, es* |
+| a one-rupee coin, a one-way street | /w/ | an MA, an MP, an SEE certificate | the letter is read *em, em, es* |
 | a horse, a hotel, a historic day | the *h* is pronounced | an X-ray, an FM station, an NGO | *eks, ef, en* |
 
 **The** is used when the listener can tell exactly which one is meant:

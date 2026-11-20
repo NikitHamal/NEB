@@ -125,9 +125,15 @@ In a business, the computer has changed accounting from a manual task into a sys
 
 **Controls in a computerised system.** The advantages come with duties: passwords and user rights so that only the authorised person may enter or change an entry; a **backup** taken daily and kept in a second place; the **audit trail** left on, so that every entry shows who made it and when; a check that the data entered agrees with the voucher; and a printed copy of the statements signed and filed, because an electronic file alone is not evidence.
 
-**Accounting software used in Nepal.** For trading and small businesses: **Tally, Swastik, Easy Account, Quick Book**. For banks and financial institutions: **Pumori, Finacle, FlexCube, Globus**. For non-profit and social organisations: **FASS, Peach Tree**. The choice depends on the size of the business, the number of users and the reporting the law requires.
+## 15.7 Computer systems used in accounting: Tally, Busy, IRD and PAMS
 
-## 15.7 Information systems used in Nepal's government accounting
+Commercial and public offices in Nepal use specialised accounting and reporting software matched to their scale and legal requirements:
+
+- **Tally (TallyPrime / Tally.ERP 9) and Busy:** Widely used commercial double-entry accounting packages for trading, manufacturing and service businesses. They handle voucher entry, general and subsidiary ledgers, trial balance, profit and loss account, balance sheet, FIFO/weighted-average stock valuation, payroll, and VAT invoicing. Other popular Nepali business packages include **Swastik, Easy Account and QuickBooks**, while banks use **Pumori, Finacle and FlexCube**.
+- **IRD (Inland Revenue Department) portal (`ird.gov.np`):** The government's electronic tax administration system used by businesses and offices for online PAN/VAT registration, e-TDS (electronic tax deduction at source) verification, and electronic filing of VAT and income-tax returns.
+- **PAMS (Public Assets Management System):** The web-based system operated under the Financial Comptroller General Office (FCGO) by government offices to record, track, depreciate, maintain and auction public physical assets (land, buildings, vehicles, machinery and office equipment).
+
+## 15.8 Information systems used in Nepal's government accounting
 
 Government accounting has its own systems, because a government office must answer to the budget, the release, the chart of accounts and the auditor, and ordinary commercial software does not do that. Nepal has built a family of them.
 

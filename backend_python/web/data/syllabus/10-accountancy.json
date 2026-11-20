@@ -707,19 +707,31 @@
     },
     {
      "no": "12.3",
-     "title": "Consolidated fund and its operation"
+     "title": "Consolidated fund: introduction, need and use"
     },
     {
      "no": "12.4",
-     "title": "Divisible fund and revenue sharing"
+     "title": "Operation of the consolidated fund"
     },
     {
      "no": "12.5",
-     "title": "Fund accounting methods and formats"
+     "title": "Divisible fund and revenue sharing"
     },
     {
      "no": "12.6",
+     "title": "Importance of revenue sharing"
+    },
+    {
+     "no": "12.7",
+     "title": "Fund accounting methods and formats"
+    },
+    {
+     "no": "12.8",
      "title": "Retention accounting and formats"
+    },
+    {
+     "no": "12.9",
+     "title": "Personal retention, goods retention and the retention bank cash book"
     }
    ],
    "summary": [
@@ -734,7 +746,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5061,
+    "words": 5118,
     "figures": 1,
     "examples": 3
    },
@@ -886,6 +898,10 @@
     },
     {
      "no": "15.7",
+     "title": "Computer systems used in accounting: Tally, Busy, IRD and PAMS"
+    },
+    {
+     "no": "15.8",
      "title": "Information systems used in Nepal's government accounting"
     }
    ],
@@ -901,7 +917,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5604,
+    "words": 5718,
     "figures": 0,
     "examples": 3
    },

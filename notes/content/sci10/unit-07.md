@@ -351,7 +351,18 @@ $$ g = \frac{GM}{R^2} $$
 **What it means.** $g$ does not depend on the mass of the falling body. It depends only on the mass and radius of the Earth.
 :::
 
-With $M = 6 \times 10^{24}$ kg and $R = 6.4 \times 10^{6}$ m we get $g \approx 9.8\ \text{m s}^{-2}$. Using the same formula the value of $g$ on the Moon is about $1.6\ \text{m s}^{-2}$, which is about $\tfrac16$ of that on the Earth.
+With $M = 6 \times 10^{24}$ kg and $R = 6.4 \times 10^{6}$ m we get $g \approx 9.8\ \text{m s}^{-2}$.
+- **On the Moon:** Mass $M \approx 7.35 \times 10^{22}\ \text{kg}$ and radius $R \approx 1.74 \times 10^{6}\ \text{m}$, giving $g_{\text{Moon}} \approx 1.67\ \text{m s}^{-2} \approx \tfrac{1}{6}\,g_{\text{Earth}}$. Therefore, a person who can jump $1.5\ \text{m}$ high or lift a $60\ \text{kg}$ mass on the Earth can jump $6 \times 1.5 = 9\ \text{m}$ high or lift $6 \times 60 = 360\ \text{kg}$ on the Moon with the same muscular effort.
+- **On Jupiter:** Mass is about $318$ times Earth's mass and radius is about $11$ times Earth's radius, giving $g_{\text{Jupiter}} \approx 25\ \text{m s}^{-2}$ (about $2.5$ times $g_{\text{Earth}}$). Although Jupiter's mass is $318$ times larger, its $g$ is only $2.5$ times larger because $g \propto 1/R^2$ and Jupiter's radius is very large ($11^2 = 121$).
+
+### Feather and coin experiment (Guinea and feather experiment)
+
+In 1659, **Robert Boyle** placed a heavy gold coin (guinea) and a light feather inside a long glass tube and inverted it:
+
+1. **With air inside the tube:** The coin reached the bottom much earlier than the feather because the broad feather experienced large upward **air resistance**, slowing its fall.
+2. **After evacuating air with a vacuum pump:** Both the coin and the feather fell side by side with the same acceleration ($g$) and struck the bottom of the tube at the **exact same instant**.
+
+**Conclusion:** In the absence of air resistance (in a vacuum), the acceleration due to gravity ($g$) is **independent of the mass, size or shape of the falling body** ($g = GM/R^2$).
 
 ### Variation of $g$
 
@@ -496,9 +507,12 @@ Check: $v^2 = 2gh = 2 \times 10 \times 45 = 900$, so $v = 30$ m s⁻¹. ✓
 **Solution.** $h = \tfrac12 g t^2 = \tfrac12 \times 9.8 \times 2^2 = 19.6$ m.
 :::
 
-### Terminal velocity
+### Terminal velocity and parachute motion on the Earth vs the Moon
 
-In air, a falling raindrop or a parachutist feels an upward air resistance that grows with speed. Soon the air resistance equals the weight. The net force is zero, the acceleration is zero, and the body falls at a constant speed called the **terminal velocity**. A parachute greatly increases the air resistance, so the terminal velocity is small and the landing is safe.
+In air, a falling raindrop or a parachutist feels an upward air resistance (upthrust of air) that grows with speed. Soon the upward air resistance equals the downward weight ($W = mg$). The net force becomes zero, acceleration becomes zero ($a = 0$), and the parachutist falls at a small, constant speed called the **terminal velocity**, landing safely on the Earth.
+
+- **Why a parachute works on the Earth:** Earth is surrounded by a dense atmosphere. When the parachute opens, its large surface area traps air and creates a large upward air resistance that balances weight.
+- **Why jumping with a parachute on the Moon is unsafe (causes injury):** The Moon has **no atmosphere** (it is a vacuum). Therefore, there is no air resistance to open the parachute or oppose the downward pull of lunar gravity. The parachutist falls in **free fall** with a constant downward acceleration of $1.67\ \text{m s}^{-2}$, continuously gaining speed until striking the lunar surface at high velocity.
 
 ## Chapter summary
 

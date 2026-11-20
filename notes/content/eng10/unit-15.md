@@ -452,7 +452,7 @@ Subject line, warm greeting, a reason for writing, 3–4 interesting facts, a cl
 
 **Reading comprehension**
 
-> Mahendra Gurung was born in a poor family in a village in Lamjung. His father died when he was ten, and he had to leave school to work as a porter. At night he studied by the light of an oil lamp. Years later, he passed the SLC examination and became a teacher in the same village school. He now runs a free evening class for children who cannot afford tuition. Many of his former students are doctors, engineers and teachers.
+> Mahendra Gurung was born in a poor family in a village in Lamjung. His father died when he was ten, and he had to leave school to work as a porter. At night he studied by the light of an oil lamp. Years later, he passed the SEE examination and became a teacher in the same village school. He now runs a free evening class for children who cannot afford tuition. Many of his former students are doctors, engineers and teachers.
 
 1. Where was Mahendra born? <span class="marks">[1]</span>
 2. Why did he leave school? <span class="marks">[1]</span>

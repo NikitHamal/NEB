@@ -65,7 +65,7 @@ Answer ten items of one unit in five minutes without notes, then check the key. 
 
 1. Which agency of socialization is the first and strongest? (a) school (b) family (c) mass media (d) peer group
 2. A citizenship certificate in Nepal is issued from the age of (a) 14 (b) 16 (c) 18 (d) 21
-3. The Census 2021 counted Nepal's population as (a) 26,494,504 (b) 29,164,578 (c) 31,000,000 (d) 23,151,423
+3. The Census 2021 counted Nepal's population as (a) 28,164,578 (b) 29,164,578 (c) 31,000,000 (d) 23,151,423
 4. Census 2021 recorded how many caste/ethnic groups? (a) 125 (b) 142 (c) 103 (d) 200
 5. The number of mother tongues recorded in Census 2021 is (a) 92 (b) 124 (c) 142 (d) 10
 6. Nepal's national flower is the (a) lotus (b) rhododendron (c) marigold (d) orchid

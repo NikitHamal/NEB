@@ -756,6 +756,10 @@
     {
      "no": "15.3",
      "title": "Similar figures"
+    },
+    {
+     "no": "15.4",
+     "title": "Ratio of areas of similar triangles"
     }
    ],
    "summary": [
@@ -767,7 +771,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2690,
+    "words": 2774,
     "figures": 2,
     "examples": 7
    },

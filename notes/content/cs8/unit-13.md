@@ -295,7 +295,7 @@ No single tool gives complete protection; safety comes from good habits used tog
 
 **Install antivirus and keep the firewall on.** Use one trusted antivirus with real-time protection and automatic updates, and keep the firewall of the operating system switched on.
 
-**Update the operating system and apps.** Updates (patches) close the security holes that worms and hackers use. Switch on automatic updates for Windows, Android, the browser and every app. Old systems that no longer receive updates, such as Windows 7, should be replaced or upgraded.
+**Update the operating system and apps.** Updates (patches) close the security holes that worms and hackers use. Switch on automatic updates for Windows, Android, the browser and every app. Unsupported legacy operating systems that no longer receive security patches should be upgraded to a supported release (such as Windows 11 or Ubuntu LTS).
 
 **Browse and download safely.** Download software only from the official website or app store; never use cracked software. Do not click pop-ups that say your computer is infected. Check that a site's address is spelt correctly and starts with `https` before typing a password. Do not open e-mail attachments or links you were not expecting, even from friends, until you have checked with them.
 

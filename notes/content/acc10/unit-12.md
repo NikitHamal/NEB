@@ -44,11 +44,11 @@ The idea is old and simple. Imagine a household that keeps a separate tin for th
 4. **To keep trust money out of revenue.** Retention, provident fund and tax deducted are liabilities, not income, and fund accounting keeps them out of the revenue figures.
 5. **To plan.** A fund earmarked for a project shows how much has accumulated and how much is still needed.
 
-## 12.3 Consolidated fund and its operation
+## 12.3 Consolidated fund: introduction, need and use
 
-The **consolidated fund (सञ्चित कोष)** is the government's main fund. Under the Constitution of Nepal, all revenue received by the federation — taxes, fees, loans and grants — must be paid into the consolidated fund, and no money may be spent out of it except under an appropriation made by law.
+The **consolidated fund (सञ्चित कोष)** is the government's main fund. Under the Constitution of Nepal (Part 10 for the federation, Part 16 for provinces and Part 19 for local levels), all revenue received by the government — taxes, non-tax revenue, loan repayments and domestic or foreign loans — must be credited to the consolidated fund, and no money may be spent out of it except under an appropriation Act passed by the legislature.
 
-**Provisions for its operation.**
+## 12.4 Operation of the consolidated fund
 
 1. **All receipts go in.** Every government receipt must be credited to the consolidated fund; no office may keep a receipt outside it.
 2. **No payment without appropriation.** Money may be withdrawn only under an appropriation act passed by the legislature (the federal Parliament, the provincial assembly or the local assembly).
@@ -61,19 +61,19 @@ The **consolidated fund (सञ्चित कोष)** is the government's mai
 ```photo id="acc10/parliament" caption="The federal Parliament building. The consolidated fund is the instrument through which the legislature keeps control of the executive: the government may collect, but it may not spend without a vote." width="86"
 ```
 
-## 12.4 Divisible fund and revenue sharing
+## 12.5 Divisible fund and revenue sharing
 
 Some taxes are collected by the federation but belong, in part, to the provinces and the local levels. The money that is shared is called the **divisible fund (विभाज्य कोष)**, and the process of distributing it is **revenue sharing (राजस्व बाँडफाँट)**.
 
 **How it works in Nepal.**
 
-1. The federation collects the taxes that are to be shared — principally **value added tax, income tax, royalties and some registration fees**.
-2. The **National Natural Resources and Fiscal Commission** recommends what share of this divisible fund should go to the provinces and what share to the local levels, and on what basis it should be divided among them.
+1. The federation collects the taxes that are to be shared — principally **value added tax (VAT) and domestic excise duty** (shared $70\%$ Federal, $15\%$ Provincial, $15\%$ Local) and **natural resource royalties** (shared $50\%$ Federal, $25\%$ Provincial, $25\%$ Local).
+2. The **National Natural Resources and Fiscal Commission (NNRFC)** recommends what share of this divisible fund should go to the provinces and what share to the local levels, and on what basis it should be divided among them.
 3. The amount is divided between the **provinces** and the **local levels** according to the recommended shares.
 4. The provincial share is then divided among the provinces and the local share among the local levels, using a formula that considers population, the area, the level of development, the revenue effort and other indicators.
 5. Each recipient credits what it receives to its own **consolidated fund** and uses it under its own appropriation.
 
-**Importance of revenue sharing.**
+## 12.6 Importance of revenue sharing
 
 - It gives the provinces and the local levels the money to do work that the constitution assigns to them, although the big taxes are collected by the federation.
 - It **reduces inequality**: a formula that gives more to the poorer districts narrows the gap between the rich and the poor parts of the country.
@@ -99,7 +99,7 @@ ax.text(5.0,1.95,"Formula recommended by the National Natural Resources\nand Fis
         ha='center',va='center',fontsize=6.2,color=INK)
 ```
 
-## 12.5 Fund accounting methods and formats
+## 12.7 Fund accounting methods and formats
 
 **Methods.** Government funds are accounted for by the **double-entry method**, with each fund having its own ledger accounts, its own bank account and its own statement, and by the **single account fund** arrangement under which an office runs all its transactions through one bank account while still recording them fund by fund.
 
@@ -115,19 +115,19 @@ ax.text(5.0,1.95,"Formula recommended by the National Natural Resources\nand Fis
 
 The rule is the same as everywhere: an entry that does not say which fund it belongs to is incomplete.
 
-## 12.6 Retention accounting and formats
+## 12.8 Retention accounting and formats
 
 **Retention (धरौटी)** is money that a government office **withholds** from a payment due to a supplier, a contractor or an employee, and holds until a stated condition is satisfied.
 
 The commonest case is a **works contract**. A contractor who builds a road is paid on running bills as the work proceeds, but the office withholds a part of each bill — usually five per cent — as security. If a defect appears during the **defect liability period**, the cost of repairing it is taken from the retention money; if no defect appears, the retention is released to the contractor at the end of the period. The retention is therefore not government revenue and not an expenditure; it is a **liability** of the office to the contractor.
 
-**Three kinds of retention.**
+## 12.9 Personal retention, goods retention and the retention bank cash book
 
 - **Goods retention (जिन्सी धरौटी)** — money withheld on the purchase of goods until the goods are supplied and accepted.
 - **Works retention (निर्माण/कार्य धरौटी)** — money withheld from a construction bill until the end of the defect liability period.
 - **Personal retention (व्यक्तिगत धरौटी)** — money held on behalf of a person: provident fund, income tax deducted at source, citizen investment trust, an employee's security deposit.
 
-**Formats.** The **धरौटी भौचर** records the deduction; the **धरौटी खाता (retention ledger)** carries one account per contractor or person, showing what was deducted, what was released and what was forfeited; the **व्यक्तिगत धरौटी खाता** and the **गोश्वारा धरौटी खाता** separate the personal accounts from the general account; and the retention money is kept in a separate **धरौटीको बैंक नगदी किताब** so that the office always knows what it is holding for others. Money that has remained unclaimed for the prescribed period is forfeited and credited to government revenue.
+**Formats.** The **धरौटी भौचर** records the deduction; the **धरौटी खाता (retention ledger)** carries one account per contractor or person, showing what was deducted, what was released and what was forfeited; the **व्यक्तिगत धरौटी खाता** and the **गोश्वारा धरौटी खाता** separate the personal accounts from the general account; and the retention money is kept in a separate **धरौटीको बैंक नगदी किताब (retention bank cash book)** so that the office always knows what it is holding for others. Money that has remained unclaimed for the prescribed period is forfeited and credited to government revenue.
 
 ::: example Retention withheld and released
 **Problem.** A contractor's running bill for a road contract is Rs. 4,00,000. The office withholds retention at 5 per cent. Show the journal voucher (a) when the bill is passed and the retention is deducted, and (b) when the retention is released after the defect liability period, and (c) when the retention is forfeited because the contractor failed to remedy a defect costing Rs. 12,000.

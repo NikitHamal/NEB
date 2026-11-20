@@ -53,7 +53,7 @@ and **a** before a consonant *sound*.
 | a one-rupee coin | /wʌn/ — a *w* sound | an honest officer | silent *h* |
 | a useful book | /juː/ | an heir | silent *h* |
 | a historic day | /h/ is pronounced | an MA in English | "em" — a vowel sound |
-| a B.Ed. graduate | "bee" | an SLC certificate | "ess" |
+| a B.Ed. graduate | "bee" | an SEE certificate | "ess" |
 | a unique idea | /juː/ | an X-ray machine | "eks" |
 
 **Uses of *a/an*:**

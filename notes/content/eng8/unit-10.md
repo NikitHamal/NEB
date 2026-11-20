@@ -36,7 +36,7 @@ UN Women Nepal seeks applications from qualified **Nepali citizens**.
 | Level | General Staff (SB-3) | General Staff (SB-2) |
 | Duration | 1 year, may be extended | 1 year, may be extended |
 | Closing date | 21 Nov. 2021 (midnight New York time) | 21 Nov. 2021 |
-| Education | secondary education required; Bachelor's in Computer Science an asset | SLC/SEE |
+| Education | secondary education required; Bachelor's in Computer Science an asset | SEE (Grade 10) |
 | Other requirements | network and Microsoft certificates (CCNE, MCSE/MCP); at least 5 years' experience in network administration; MS Office; English and Nepali fluency | valid driving licence; 3 years' experience with an international organisation, embassy or UN with a safe record (an asset); English an asset |
 
 **How to apply:** online, with the UN Women **Personal History Form (P11)**.

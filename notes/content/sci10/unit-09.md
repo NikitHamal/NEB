@@ -126,7 +126,16 @@ ax.spines[['top','right']].set_visible(False); ax.grid(True, alpha=.5)
 fig.tight_layout()
 ```
 
-**Importance in nature.** In a cold country, the top water of a lake cools first. Water at 4 °C is densest, so it sinks to the bottom, and warmer water rises. When the whole lake is at 4 °C and the surface cools further to 0 °C, the colder water is lighter, stays on top and freezes into a layer of ice. Ice is a poor conductor of heat, so the water below stays liquid at about 4 °C. Fish and other aquatic animals survive under the ice in winter. If water behaved like other liquids, whole lakes would freeze from the bottom up, killing the life in them.
+**Hope's apparatus (Experimental demonstration of anomalous expansion of water).**
+Thomas Charles Hope designed **Hope's apparatus** to prove that water has maximum density at $4\ ^\circ\text{C}$. It consists of a tall vertical metal cylinder filled with water at about $12\ ^\circ\text{C}$, fitted with two thermometers — **$T_1$ near the top** and **$T_2$ near the bottom** — and an annular trough around the middle packed with a **freezing mixture** (ice + common salt).
+
+1. **First stage:** Water in the middle cools, contracts, becomes denser, and **sinks to the bottom**. Therefore, the lower thermometer **$T_2$ falls rapidly to $4\ ^\circ\text{C}$** and then remains steady at $4\ ^\circ\text{C}$ (because water at $4\ ^\circ\text{C}$ has maximum density and stays at the bottom), while the upper thermometer $T_1$ changes very little at first.
+2. **Second stage:** As water in the middle cools below $4\ ^\circ\text{C}$ (from $4\ ^\circ\text{C}$ to $0\ ^\circ\text{C}$), it **expands anomalously**, becomes **less dense**, and **rises to the top**. Now the upper thermometer **$T_1$ falls rapidly to $0\ ^\circ\text{C}$** and a layer of ice forms at the top surface, while $T_2$ at the bottom still reads $4\ ^\circ\text{C}$.
+
+**Importance in nature and daily life:**
+- **Survival of aquatic animals in frozen lakes:** In winter, surface water cools to $4\ ^\circ\text{C}$ (maximum density) and sinks, while water below $4\ ^\circ\text{C}$ ($0\ ^\circ\text{C}$ to $3\ ^\circ\text{C}$) is lighter and stays on top, freezing into an insulating ice sheet at $0\ ^\circ\text{C}$. Water at the bottom remains liquid at $4\ ^\circ\text{C}$, allowing fish and aquatic organisms to survive.
+- **Bursting of water pipes and sealed bottles in winter:** When water inside narrow iron/plastic pipes or a completely filled glass bottle freezes at $0\ ^\circ\text{C}$, its volume increases by about $9\%$, exerting tremendous outward pressure that cracks the pipe or bottle.
+- **Weathering of rocks:** Water trapped in rock crevices freezes and expands in winter, splitting rocks apart.
 
 ### Expansion of gases
 
@@ -163,15 +172,22 @@ Heat capacity $= mc$.
 | Substance | $c$ (J kg⁻¹ °C⁻¹) |
 |---|---|
 | Water | 4200 |
-| Ice | 2100 |
-| Steam | 2000 |
+| Ice / Kerosene | 2100 |
+| Steam / Vegetable (cooking) oil | 2000 |
 | Aluminium | 900 |
+| Sand | 800 |
 | Iron | 450 |
 | Copper | 390 |
-| Lead | 130 |
 | Mercury | 140 |
+| Lead | 130 |
 
-Water has a very high specific heat capacity. This has useful consequences:
+**Three metal balls on a paraffin wax slab (Textbook experiment):**
+Take three solid balls of **iron** ($c \approx 450$), **copper** ($c \approx 390$) and **lead** ($c \approx 130\ \text{J kg}^{-1}\ ^\circ\text{C}^{-1}$) of **equal mass**, heat all three together in boiling water ($100\ ^\circ\text{C}$) so they reach the same initial temperature, and place them simultaneously on a thick slab of **paraffin wax**:
+- **Iron ball sinks the deepest:** Because iron has the **highest specific heat capacity** among the three, it absorbs the most heat at $100\ ^\circ\text{C}$ and releases the greatest amount of heat ($Q = mc\Delta T$) while cooling, melting the most wax.
+- **Copper ball sinks to an intermediate depth.**
+- **Lead ball sinks the least:** Because lead has the **lowest specific heat capacity**, it stores and releases the least heat energy for the same mass and temperature drop.
+
+Water has a very high specific heat capacity ($4200\ \text{J kg}^{-1}\ ^\circ\text{C}^{-1}$). This has useful consequences:
 
 - Water is used to cool car engines and as the hot-water bottle filler: it carries a lot of heat for a small rise in temperature.
 - **Sea breeze.** In the day, land warms faster than the sea (lower $c$), so the air above the land rises and cooler air from the sea blows inland. At night the land cools faster and the wind blows from land to sea.
@@ -277,6 +293,16 @@ Step 3, boil the water: $Q_3 = 0.1 \times 2.26\times10^6 = 226\,000$ J.
 
 Total $Q = 33\,600 + 42\,000 + 226\,000 = 301\,600$ J $\approx 3.02\times10^5$ J.
 :::
+
+### Calibration of a thermometer
+
+**Calibration of a thermometer** is the process of marking standard temperature graduations (scale divisions) on an ungraduated thermometer using two reproducible reference temperatures at standard atmospheric pressure ($760\ \text{mmHg}$ or $1\ \text{atm}$):
+
+1. **Lower Fixed Point (Ice point):** The temperature at which pure ice melts at standard atmospheric pressure ($0\ ^\circ\text{C}$, $32\ ^\circ\text{F}$ or $273\ \text{K}$). The thermometer bulb is surrounded by crushed melting pure ice in a funnel so that water drips out, and the steady mercury level is marked as $0\ ^\circ\text{C}$.
+2. **Upper Fixed Point (Steam point):** The temperature of pure steam above boiling water at standard atmospheric pressure ($100\ ^\circ\text{C}$, $212\ ^\circ\text{F}$ or $373\ \text{K}$). The bulb is suspended in steam inside a double-walled **hypsometer** (not touching the boiling water or walls), and the steady mercury level is marked as $100\ ^\circ\text{C}$.
+3. **Dividing the fundamental interval:** The distance between the lower and upper fixed points is divided into $100$ equal divisions on the Celsius/Kelvin scale ($180$ divisions on the Fahrenheit scale):
+   $$\frac{C - 0}{100} = \frac{F - 32}{180} = \frac{K - 273}{100}$$
+- **Effect of pressure on boiling point:** The boiling point of water increases when pressure increases and decreases when atmospheric pressure decreases. At high altitudes in the Himalayas, atmospheric pressure is low, so water boils below $100\ ^\circ\text{C}$ and food takes longer to cook; inside a **pressure cooker**, trapped steam raises the pressure to nearly $2\ \text{atm}$, raising the boiling point of water to about $120\ ^\circ\text{C}$ so food cooks much faster.
 
 ## 9.4 Heat transfer
 

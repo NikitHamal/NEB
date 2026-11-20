@@ -39,7 +39,9 @@ STALE = [
     (r"Python 2\b|raw_input\(", "Python 2 idiom"),
     (r"\b26[.,]49|26\.5 million|2,64,94,504|26,494,504", "census 2068 population as current"),
 ]
-STALE_ALLOW = {  # subject -> labels allowed to stay (with reason in SYLLABUS_DIFF.md)
+STALE_ALLOW = {  # subject -> labels allowed to stay (historical time-series alongside 2021 census)
+    "cs10": {"census 2068 population as current"},
+    "bio12": {"census 2068 population as current"},
 }
 
 

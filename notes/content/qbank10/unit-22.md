@@ -548,8 +548,8 @@ True and False instead of the rows.
 
 - The paper is **10 × 1 + 10 × 2 + 5 × 4 = 50 marks in 2 hours**, with 50 more
   internal marks (practical and project 35, participation 5, terminal tests 10).
-- Unit split (MCQ, short, long): Networking 3, 2, 1; DBMS 2, 1, 1; Multimedia
-  2, 1, 1; Python 2, 3, 1; AI 1, 3, 1. Every unit has one long question.
+- Unit split (MCQ, short, long): Networking: 3, 2, 1; DBMS: 2, 1, 1; Multimedia:
+  2, 1, 1; Python: 2, 3, 1; AI: 1, 3, 1. Every unit has one long question.
 - Plan the clock: 12 minutes for Group A, 45 for B, 50 for C, 13 to check.
 - Highest priorities: pandas output-and-modify, a function with return,
   try-except, SQL for a table, learning types, AI ethics, two-point network

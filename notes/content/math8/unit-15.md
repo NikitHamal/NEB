@@ -224,6 +224,12 @@ Cross-multiplying: $6\times QR=36$, so $QR=6$ cm.
 $9\div1.5=6$ ✓ — the same answer from the other direction.
 :::
 
+## 15.4 Ratio of areas of similar triangles
+
+If two triangles are similar ($\triangle ABC \sim \triangle PQR$) with scale factor $k$, both their bases and their corresponding altitudes are in the ratio $k$. Since the area of a triangle is $\tfrac{1}{2} \times \text{base} \times \text{height}$, the ratio of the areas of two similar triangles is equal to the **square of the ratio of any pair of corresponding sides**:
+
+$$\frac{\text{Area of }\triangle ABC}{\text{Area of }\triangle PQR} = \left(\frac{AB}{PQ}\right)^2 = \left(\frac{BC}{QR}\right)^2 = \left(\frac{CA}{RP}\right)^2 = k^2$$
+
 ::: example The area ratio
 **Problem.** Two similar triangles have corresponding sides in the ratio
 $2:5$. Find the ratio of their areas.

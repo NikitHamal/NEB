@@ -311,8 +311,7 @@ A colour is written either as a **name** (`red`, `navy`, `orange`) or as a
 **hexadecimal code** `#RRGGBB`, two hex digits each for red, green and blue.
 So `#FF0000` is pure red, `#000000` is black and `#FFFFFF` is white.
 
-Background **sound** was set by the `<bgsound>` tag, which only ever worked in
-Internet Explorer:
+Background **sound** in legacy HTML was set by the `<bgsound>` tag (now replaced by the HTML5 `<audio>` element):
 
 ```html
 <body bgcolor="#fff8e7" text="#003366" background="paper.png">

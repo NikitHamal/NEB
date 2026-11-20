@@ -34,34 +34,34 @@
 - Waste management
 - Conservation, endangered species and medicinal plants of Nepal
 ## 7. Motion and Force
-- Newton's laws
-- momentum
-- gravitation
-- weight and mass
-- free fall
+- Force, inertia, Newton's laws of motion and momentum
+- Universal law of gravitation and properties/effects of gravitation
+- Gravity, acceleration due to gravity ($g$), feather-coin experiment and variation of $g$
+- Mass, weight and weightlessness
+- Free fall, equations of motion under gravity and parachute motion
 ## 8. Pressure
-- Pressure in solids, liquids and gases
-- Pascal's law
-- atmospheric pressure
-- Archimedes and floatation
+- Thrust and pressure in solids, liquids and gases
+- Pascal's law and hydraulic machines (hydraulic lift, brake and excavator)
+- Atmospheric pressure, syringe, air pump and water hand pump
+- Upthrust, Archimedes' principle and the law of floatation
 ## 9. Heat
-- Thermal expansion
-- specific heat capacity
-- latent heat
-- heat transfer
+- Heat energy, temperature, anomalous expansion of water and Hope's apparatus
+- Specific heat capacity, $Q = mc\Delta T$, calorimetry and metal-balls wax experiment
+- Change of state, latent heat and calibration of a thermometer
+- Modes of heat transfer and the thermos flask
 ## 10. Wave
-- Wave motion
-- sound
-- reflection and refraction of light
-- lenses
-- optical instruments
+- Wave motion and electromagnetic waves
+- Sound waves and their characteristics
+- Refraction of light, total internal reflection, critical angle, optical fibre and dispersion
+- Convex and concave lenses, ray diagrams, lens formula, magnification and power
+- Human eye, defects of vision (myopia and hypermetropia), cataract and corneal transplantation
 ## 11. Electricity and Magnetism
-- Ohm's law
-- resistance
-- electrical power
-- magnetic effect of current
-- electromagnetic induction
-- generator and transformer
+- Electric current, potential difference and Ohm's law
+- Resistance and combination of resistors
+- Electrical power, energy consumption and household wiring safety
+- Direct current (DC), alternating current (AC, 50 Hz), magnetic effect of current and motor effect
+- Magnetic flux and Faraday's laws of electromagnetic induction
+- AC generator (dynamo), bicycle dynamo and step-up/step-down transformers
 ## 12. Universe
 - Universe and the importance of gravitational force
 - Big Bang theory and Hubble's study
@@ -73,14 +73,14 @@
 - Digital citizenship, online reputation and digital wellbeing
 - Creating and editing audio and audio-visual materials
 ## 14. Classification of Elements
-- Periodic table
-- periodic properties
-- groups and periods
+- Mendeleev's and Modern Periodic Table (blocks s, p, d, f; lanthanides and actinides)
+- Electronic configuration and periodic trends (atomic size, valency, electronegativity and reactivity)
+- Groups, periods and position of metals, non-metals and metalloids
 ## 15. Chemical Reaction
-- Types of reactions
-- balancing equations
-- rate of reaction
-- acids, bases and salts
+- Types of chemical reactions (combination, decomposition, displacement, acid-base and exothermic/endothermic)
+- Word equations, formula equations and balancing chemical equations
+- Rate of chemical reaction and factors affecting reaction rate (temperature, pressure, surface area, light and catalysts)
+- Neutralisation reactions and everyday applications of acids, bases and salts
 ## 16. Gases
 - Carbon dioxide gas: laboratory preparation, properties and uses
 - Ammonia gas: laboratory preparation, Haber's process, properties and uses
@@ -94,7 +94,7 @@
 - Saturated and unsaturated hydrocarbons (alkanes, alkenes, alkynes) and methane, ethane, propane and butane
 - Homologous series, alkyl radicals and functional groups
 - Monohydric, dihydric and trihydric alcohols: methanol, ethanol and glycerol
-- Carboxylic acids and everyday organic compounds
+- Organic acids and everyday organic compounds
 ## 19. Chemicals used in Daily Life
 - Food preservatives and artificial fruit ripening agents
 - Cleaning chemicals: soap, detergent and natural cleansers

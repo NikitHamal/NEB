@@ -18,7 +18,7 @@ Expect 1-mark and 2-mark questions on **analog vs digital signals**, **bit, nibb
 ### What is a signal?
 
 ::: definition Signal
-A **signal** is a time-varying physical quantity (such as electric current, voltage, sound wave or electromagnetic wave) that carries data or information from a source (transmitter) to a destination (receiver).
+A **signal** is a time-varying electric current (wave) or electromagnetic wave that carries a message, data or information from one system or network (transmitter) to another (receiver). A signal can travel over both **wired media** (copper twisted-pair, coaxial cable, optical fibre) and **wireless media** (radio waves, microwaves, infrared, satellite links), and can be either **analog** or **digital**.
 :::
 
 ### Evolution of television broadcasting
@@ -89,19 +89,21 @@ fig.tight_layout()
 
 | Basis | Analog Signal | Digital Signal |
 |---|---|---|
-| **Definition** | A continuous signal whose value changes smoothly with time | A discrete signal represented by binary digits (`0` and `1`) |
-| **Waveform** | Continuous sine wave | Square wave (discrete HIGH and LOW pulses) |
-| **Values** | Can take any value within a continuous range | Takes only two distinct values: `0` (LOW/OFF) and `1` (HIGH/ON) |
-| **Effect of noise** | Easily affected by external noise and interference; quality degrades | Highly immune to noise; can be regenerated without loss of quality |
-| **Storage and processing** | Difficult to store, compress and encrypt | Easy to store in memory, process, compress and encrypt |
-| **Examples** | Sound waves, medium-wave radio, mercury thermometer, landline phone | Signals inside a computer, smartphone, smartwatch, CD/DVD, USB cable |
+| **Representation** | Represents information using continuous waveforms whose amplitude varies smoothly over time | Represents information using discrete values, typically in the form of binary code (`0`s and `1`s) |
+| **Waveform & voltage example** | Represented by a continuous **sine wave** (for example, an alternating voltage signal varying continuously from $-12\ \text{V}$ to $+12\ \text{V}$ or $-5\ \text{V}$ to $+5\ \text{V}$) | Represented by a **square wave** (for example, a discrete voltage signal switching between two fixed levels such as $0\ \text{V}$ and $+5\ \text{V}$) |
+| **Change with time** | Changes continuously with time across an infinite number of values within a range | Changes between two fixed discrete values (`0` = LOW/OFF and `1` = HIGH/ON) with time |
+| **Effect of noise** | Easily disturbed by noise and interference, making the received information less accurate and less clear | Not easily disturbed by noise, keeping the transmitted information more accurate and clear |
+| **Long-distance transmission** | Degrades over long distances (attenuation and noise accumulation), limiting its effective transmission range | Can be transmitted over long distances without significant degradation (easily regenerated, making it ideal for long-distance communication) |
+| **Storage space** | Requires more storage space since it involves continuous variations of amplitude | Requires less storage space because it can be easily represented and compressed using binary code (`0` and `1`) |
+| **Conversion device** | **ADC (Analog-to-Digital Converter)** converts an analog signal into a digital signal (e.g., a **temperature sensor** or microphone feeding a computer) | **DAC (Digital-to-Analog Converter)** converts a digital signal into an analog signal (e.g., **playing music on a computer** or phone through a loudspeaker) |
+| **Examples** | Human speech in air, thermocouple/temperature sensor output, mercury thermometer, old landline telephone, AM/FM radio waves | Signals inside a computer, smartphone, smartwatch, optical fibre data, CD/DVD, USB cable |
 
 ### Analog-to-Digital Conversion (ADC) and Digital-to-Analog Conversion (DAC)
 
-Because the real physical world (human voice, light, temperature) is **analog** while computers and digital networks process **digital (`0` and `1`)** data, two converters are essential:
+Because physical quantities in nature (voice, temperature, pressure, light intensity) are **analog** while computers and digital networks store and process **digital (`0` and `1`)** data, two converters bridge the two worlds:
 
-- **ADC (Analog-to-Digital Converter):** An electronic circuit (used inside the encoder/input stage) that samples a continuous analog signal and converts it into binary digital code (`0`s and `1`s) so that a computer or digital network can process, store and transmit it.
-- **DAC (Digital-to-Analog Converter):** An electronic circuit (used inside the decoder/output stage) that converts processed digital binary data (`0`s and `1`s) back into a continuous analog electrical signal so that a loudspeaker or screen can produce sound and pictures that human senses can perceive.
+- **ADC (Analog-to-Digital Converter):** An electronic circuit that samples a continuous analog signal and converts it into discrete binary digital code (`0`s and `1`s). *Examples:* A digital **temperature sensor** or digital thermometer converting continuous thermal voltage into a binary reading; a smartphone microphone converting analog sound waves into digital audio data.
+- **DAC (Digital-to-Analog Converter):** An electronic circuit that converts binary digital data (`0`s and `1`s) back into a continuous analog electrical signal. *Examples:* **Playing music on a computer** or smartphone, where stored `.mp3`/`.wav` binary data are converted into analog audio currents to drive headphones or a loudspeaker.
 
 ### Binary combinations and Computer Memory Units
 
