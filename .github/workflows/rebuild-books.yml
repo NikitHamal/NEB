@@ -68,10 +68,30 @@ jobs:
 
           slugs = os.environ["SLUGS"].split()
           sync_paths = ["web/data/syllabus"]
+          seen = set(sync_paths)
           for s in slugs:
-              out_slug = export_study.SLUG_MAP.get(s, s)
-              for rel in (f"web/data/study/{out_slug}", f"web/static/web/study/{out_slug}"):
-                  if os.path.exists(os.path.join("backend_python", rel)):
+              if s.startswith("qbank"):
+                  _, grade = export_study._split(s)
+                  study_root = os.path.join("backend_python", "web", "data", "study")
+                  for d in sorted(os.listdir(study_root)):
+                      rel = f"web/data/study/{d}"
+                      if d.startswith(f"{grade}-") and rel not in seen:
+                          seen.add(rel)
+                          sync_paths.append(rel)
+              else:
+                  rel = f"web/data/study/{export_study._folder_name(s)}"
+                  if os.path.exists(os.path.join("backend_python", rel)) and rel not in seen:
+                      seen.add(rel)
+                      sync_paths.append(rel)
+          dirty = subprocess.check_output(
+              ["git", "status", "--porcelain", "backend_python/web/static/web/study"]
+          ).decode().splitlines()
+          for line in dirty:
+              p = line[3:].strip().strip('"')
+              if p.startswith("backend_python/") and os.path.exists(p):
+                  rel = p[len("backend_python/"):]
+                  if rel not in seen:
+                      seen.add(rel)
                       sync_paths.append(rel)
           subprocess.check_call(["tar", "-C", "backend_python", "-czf", "stage/web_sync.tgz"] + sync_paths)
 
