@@ -14,8 +14,8 @@
    "no": 2,
    "title": "Plant Physiology",
    "area": "Botany",
-   "words": 13426,
-   "read_min": 75,
+   "words": 13266,
+   "read_min": 74,
    "figures": 14,
    "has_questions": true
   },
@@ -86,7 +86,7 @@
    "no": 10,
    "title": "Applied Biology",
    "area": "Zoology",
-   "words": 12269,
+   "words": 12212,
    "read_min": 68,
    "figures": 21,
    "has_questions": true

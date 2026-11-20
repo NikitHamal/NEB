@@ -5,7 +5,7 @@
    "no": 1,
    "title": "हामी र हाम्रो समाज",
    "area": "एकाइ",
-   "words": 6461,
+   "words": 6462,
    "read_min": 36,
    "figures": 11,
    "has_questions": true
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "हाम्रो मानव मूल्यमान्यता",
    "area": "एकाइ",
-   "words": 7594,
+   "words": 7646,
    "read_min": 42,
    "figures": 12,
    "has_questions": true
@@ -32,7 +32,7 @@
    "no": 4,
    "title": "सामाजिक समस्या र विकृतिहरू",
    "area": "एकाइ",
-   "words": 7266,
+   "words": 7289,
    "read_min": 40,
    "figures": 10,
    "has_questions": true
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "हाम्रो विगत",
    "area": "एकाइ",
-   "words": 8767,
+   "words": 8838,
    "read_min": 49,
    "figures": 11,
    "has_questions": true
@@ -50,7 +50,7 @@
    "no": 6,
    "title": "हाम्रा आर्थिक क्रियाकलाप",
    "area": "एकाइ",
-   "words": 7387,
+   "words": 7389,
    "read_min": 41,
    "figures": 10,
    "has_questions": true
@@ -59,7 +59,7 @@
    "no": 7,
    "title": "हाम्रो पृथ्वी",
    "area": "एकाइ",
-   "words": 8935,
+   "words": 9009,
    "read_min": 50,
    "figures": 11,
    "has_questions": true
@@ -77,7 +77,7 @@
    "no": 9,
    "title": "अन्तर्राष्ट्रिय सम्बन्ध, समसामयिक घटना र सूचना प्रविधि",
    "area": "एकाइ",
-   "words": 5991,
+   "words": 5993,
    "read_min": 33,
    "figures": 10,
    "has_questions": true
@@ -96,14 +96,14 @@
    "no": 2,
    "kind": "subjective",
    "title": "सामाजिक अध्ययन: एकाइअनुसार विषयगत प्रश्नसङ्ग्रह",
-   "words": 1317,
-   "read_min": 7
+   "words": 1542,
+   "read_min": 9
   },
   {
    "no": 3,
    "kind": "model",
    "title": "सामाजिक अध्ययन: नमुना प्रश्नसेट र सम्भावित प्रश्न",
-   "words": 2136,
+   "words": 2084,
    "read_min": 12
   }
  ],

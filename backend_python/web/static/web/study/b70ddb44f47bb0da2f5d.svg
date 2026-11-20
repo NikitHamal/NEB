@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="301.51pt" height="289.05pt" viewBox="0 0 301.51 289.05" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ 
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 289.05 
+L 301.51 289.05 
+L 301.51 0 
+L 0 0 
+L 0 289.05 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="line2d_1">
+    <path d="M 10.06 75.84 
+L 110.72 75.84 
+" clip-path="url(#pf0b0decf8f)" style="fill: none; stroke: #14181f; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 26.84 75.84 
+L 26.84 46.13 
+" clip-path="url(#pf0b0decf8f)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 49.37 75.84 
+L 49.37 105.56 
+" clip-path="url(#pf0b0decf8f)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 71.42 75.84 
+L 71.42 46.13 
+" clip-path="url(#pf0b0decf8f)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 93.95 75.84 
+L 93.95 105.56 
+" clip-path="url(#pf0b0decf8f)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <defs>
+     <path id="m7a64700a47" d="M 0 3.25 
+C 0.86 3.25 1.68 2.90 2.29 2.29 
+C 2.90 1.68 3.25 0.86 3.25 0 
+C 3.25 -0.86 2.90 -1.68 2.29 -2.29 
+C 1.68 -2.90 0.86 -3.25 0 -3.25 
+C -0.86 -3.25 -1.68 -2.90 -2.29 -2.29 
+C -2.90 -1.68 -3.25 -0.86 -3.25 0 
+C -3.25 0.86 -2.90 1.68 -2.29 2.29 
+C -1.68 2.90 -0.86 3.25 0 3.25 
+z
+" style="stroke: #1d6fb8"/>
+    </defs>
+    <g clip-path="url(#pf0b0decf8f)">
+     <use xlink:href="#m7a64700a47" x="26.84" y="46.13" style="fill: #1d6fb8; stroke: #1d6fb8"/>
+    </g>
+   </g>
+   <g id="line2d_7">
+    <g clip-path="url(#pf0b0decf8f)">
+     <use xlink:href="#m7a64700a47" x="49.37" y="105.56" style="fill: #1d6fb8; stroke: #1d6fb8"/>
+    </g>
+   </g>
+   <g id="line2d_8">
+    <g clip-path="url(#pf0b0decf8f)">
+     <use xlink:href="#m7a64700a47" x="71.42" y="46.13" style="fill: #1d6fb8; stroke: #1d6fb8"/>
+    </g>
+   </g>
+   <g id="line2d_9">
+    <g clip-path="url(#pf0b0decf8f)">
+     <use xlink:href="#m7a64700a47" x="93.95" y="105.56" style="fill: #1d6fb8; stroke: #1d6fb8"/>
+    </g>
+   </g>
+   <g id="text_1">
+    
+    <g style="fill: #14181f" transform="translate(57.17 12.33) scale(0.09 -0.09)">
+     <defs>
+      <path id="Poppins-SemiBold-2b4" d="M 3181 851 
+L 1402 851 
+L 1107 0 
+L 166 0 
+L 1773 4474 
+L 2816 4474 
+L 4422 0 
+L 3475 0 
+L 3181 851 
+z
+M 2938 1568 
+L 2291 3437 
+L 1645 1568 
+L 2938 1568 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-SemiBold-2b4"/>
+    </g>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="line2d_10">
+    <path d="M 241.11 75.84 
+L 241.11 36.54 
+" clip-path="url(#pf2706d092d)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 241.11 75.84 
+L 207.07 56.19 
+" clip-path="url(#pf2706d092d)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_12">
+    <path d="M 241.11 75.84 
+L 207.07 95.50 
+" clip-path="url(#pf2706d092d)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_13">
+    <path d="M 241.11 75.84 
+L 241.11 115.15 
+" clip-path="url(#pf2706d092d)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_14">
+    <path d="M 241.11 75.84 
+L 275.15 95.50 
+" clip-path="url(#pf2706d092d)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_15">
+    <g clip-path="url(#pf2706d092d)">
+     <use xlink:href="#m7a64700a47" x="241.11" y="36.54" style="fill: #1d6fb8; stroke: #1d6fb8"/>
+    </g>
+   </g>
+   <g id="line2d_16">
+    <g clip-path="url(#pf2706d092d)">
+     <use xlink:href="#m7a64700a47" x="207.07" y="56.19" style="fill: #1d6fb8; stroke: #1d6fb8"/>
+    </g>
+   </g>
+   <g id="line2d_17">
+    <g clip-path="url(#pf2706d092d)">
+     <use xlink:href="#m7a64700a47" x="207.07" y="95.50" style="fill: #1d6fb8; stroke: #1d6fb8"/>
+    </g>
+   </g>
+   <g id="line2d_18">
+    <g clip-path="url(#pf2706d092d)">
+     <use xlink:href="#m7a64700a47" x="241.11" y="115.15" style="fill: #1d6fb8; stroke: #1d6fb8"/>
+    </g>
+   </g>
+   <g id="line2d_19">
+    <g clip-path="url(#pf2706d092d)">
+     <use xlink:href="#m7a64700a47" x="275.15" y="95.50" style="fill: #1d6fb8; stroke: #1d6fb8"/>
+    </g>
+   </g>
+   <g id="text_2">
+    
+    <g style="fill: #14181f" transform="translate(238.22 12.33) scale(0.09 -0.09)">
+     <defs>
+      <path id="Poppins-SemiBold-2b5" d="M 2976 2291 
+Q 3354 2221 3597 1913 
+Q 3840 1606 3840 1210 
+Q 3840 851 3664 579 
+Q 3488 307 3155 153 
+Q 2822 0 2368 0 
+L 442 0 
+L 442 4467 
+L 2285 4467 
+Q 2739 4467 3068 4320 
+Q 3398 4173 3568 3910 
+Q 3738 3648 3738 3315 
+Q 3738 2925 3530 2662 
+Q 3322 2400 2976 2291 
+z
+M 1338 2624 
+L 2157 2624 
+Q 2477 2624 2649 2768 
+Q 2822 2912 2822 3181 
+Q 2822 3450 2649 3597 
+Q 2477 3744 2157 3744 
+L 1338 3744 
+L 1338 2624 
+z
+M 2240 730 
+Q 2566 730 2748 883 
+Q 2931 1037 2931 1318 
+Q 2931 1606 2739 1769 
+Q 2547 1933 2221 1933 
+L 1338 1933 
+L 1338 730 
+L 2240 730 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-SemiBold-2b5"/>
+    </g>
+   </g>
+   <g id="line2d_20">
+    <defs>
+     <path id="m82ae776b49" d="M -4 4 
+L 4 4 
+L 4 -4 
+L -4 -4 
+z
+" style="stroke: #14181f; stroke-linejoin: miter"/>
+    </defs>
+    <g clip-path="url(#pf2706d092d)">
+     <use xlink:href="#m82ae776b49" x="241.11" y="75.84" style="fill: #14181f; stroke: #14181f; stroke-linejoin: miter"/>
+    </g>
+   </g>
+  </g>
+  <g id="axes_3">
+   <g id="line2d_21">
+    <path d="M 60.39 186.95 
+L 26.36 206.60 
+" clip-path="url(#p67af5aef96)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_22">
+    <path d="M 26.36 206.60 
+L 26.36 245.91 
+" clip-path="url(#p67af5aef96)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_23">
+    <path d="M 26.36 245.91 
+L 60.39 265.56 
+" clip-path="url(#p67af5aef96)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_24">
+    <path d="M 60.39 265.56 
+L 94.43 245.91 
+" clip-path="url(#p67af5aef96)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_25">
+    <path d="M 94.43 245.91 
+L 94.43 206.60 
+" clip-path="url(#p67af5aef96)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_26">
+    <path d="M 94.43 206.60 
+L 60.39 186.95 
+" clip-path="url(#p67af5aef96)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_27">
+    <g clip-path="url(#p67af5aef96)">
+     <use xlink:href="#m7a64700a47" x="60.39" y="186.95" style="fill: #1d6fb8; stroke: #1d6fb8"/>
+    </g>
+   </g>
+   <g id="line2d_28">
+    <g clip-path="url(#p67af5aef96)">
+     <use xlink:href="#m7a64700a47" x="26.36" y="206.60" style="fill: #1d6fb8; stroke: #1d6fb8"/>
+    </g>
+   </g>
+   <g id="line2d_29">
+    <g clip-path="url(#p67af5aef96)">
+     <use xlink:href="#m7a64700a47" x="26.36" y="245.91" style="fill: #1d6fb8; stroke: #1d6fb8"/>
+    </g>
+   </g>
+   <g id="line2d_30">
+    <g clip-path="url(#p67af5aef96)">
+     <use xlink:href="#m7a64700a47" x="60.39" y="265.56" style="fill: #1d6fb8; stroke: #1d6fb8"/>
+    </g>
+   </g>
+   <g id="line2d_31">
+    <g clip-path="url(#p67af5aef96)">
+     <use xlink:href="#m7a64700a47" x="94.43" y="245.91" style="fill: #1d6fb8; stroke: #1d6fb8"/>
+    </g>
+   </g>
+   <g id="line2d_32">
+    <g clip-path="url(#p67af5aef96)">
+     <use xlink:href="#m7a64700a47" x="94.43" y="206.60" style="fill: #1d6fb8; stroke: #1d6fb8"/>
+    </g>
+   </g>
+   <g id="text_3">
+    
+    <g style="fill: #14181f" transform="translate(56.94 162.74) scale(0.09 -0.09)">
+     <defs>
+      <path id="Poppins-SemiBold-2b6" d="M 224 2240 
+Q 224 2899 521 3420 
+Q 819 3942 1334 4233 
+Q 1850 4525 2490 4525 
+Q 3238 4525 3801 4141 
+Q 4365 3757 4589 3078 
+L 3558 3078 
+Q 3405 3398 3126 3558 
+Q 2848 3718 2483 3718 
+Q 2093 3718 1789 3536 
+Q 1485 3354 1315 3021 
+Q 1146 2688 1146 2240 
+Q 1146 1798 1315 1462 
+Q 1485 1126 1789 944 
+Q 2093 762 2483 762 
+Q 2848 762 3126 925 
+Q 3405 1088 3558 1408 
+L 4589 1408 
+Q 4365 723 3805 342 
+Q 3245 -38 2490 -38 
+Q 1850 -38 1334 253 
+Q 819 544 521 1062 
+Q 224 1581 224 2240 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-SemiBold-2b6"/>
+    </g>
+   </g>
+  </g>
+  <g id="axes_4">
+   <g id="line2d_33">
+    <path d="M 241.11 186.95 
+L 207.07 206.60 
+" clip-path="url(#pb48aaf8583)" style="fill: none; stroke: #5b6472; stroke-width: 0.75; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_34">
+    <path d="M 241.11 186.95 
+L 207.07 245.91 
+" clip-path="url(#pb48aaf8583)" style="fill: none; stroke: #5b6472; stroke-width: 0.75; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_35">
+    <path d="M 241.11 186.95 
+L 241.11 265.56 
+" clip-path="url(#pb48aaf8583)" style="fill: none; stroke: #5b6472; stroke-width: 0.75; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_36">
+    <path d="M 241.11 186.95 
+L 275.15 245.91 
+" clip-path="url(#pb48aaf8583)" style="fill: none; stroke: #5b6472; stroke-width: 0.75; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_37">
+    <path d="M 207.07 206.60 
+L 207.07 245.91 
+" clip-path="url(#pb48aaf8583)" style="fill: none; stroke: #5b6472; stroke-width: 0.75; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_38">
+    <path d="M 207.07 206.60 
+L 241.11 265.56 
+" clip-path="url(#pb48aaf8583)" style="fill: none; stroke: #5b6472; stroke-width: 0.75; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_39">
+    <path d="M 207.07 206.60 
+L 275.15 245.91 
+" clip-path="url(#pb48aaf8583)" style="fill: none; stroke: #5b6472; stroke-width: 0.75; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_40">
+    <path d="M 207.07 245.91 
+L 241.11 265.56 
+" clip-path="url(#pb48aaf8583)" style="fill: none; stroke: #5b6472; stroke-width: 0.75; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_41">
+    <path d="M 207.07 245.91 
+L 275.15 245.91 
+" clip-path="url(#pb48aaf8583)" style="fill: none; stroke: #5b6472; stroke-width: 0.75; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_42">
+    <path d="M 241.11 265.56 
+L 275.15 245.91 
+" clip-path="url(#pb48aaf8583)" style="fill: none; stroke: #5b6472; stroke-width: 0.75; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_43">
+    <g clip-path="url(#pb48aaf8583)">
+     <use xlink:href="#m7a64700a47" x="241.11" y="186.95" style="fill: #1d6fb8; stroke: #1d6fb8"/>
+    </g>
+   </g>
+   <g id="line2d_44">
+    <g clip-path="url(#pb48aaf8583)">
+     <use xlink:href="#m7a64700a47" x="207.07" y="206.60" style="fill: #1d6fb8; stroke: #1d6fb8"/>
+    </g>
+   </g>
+   <g id="line2d_45">
+    <g clip-path="url(#pb48aaf8583)">
+     <use xlink:href="#m7a64700a47" x="207.07" y="245.91" style="fill: #1d6fb8; stroke: #1d6fb8"/>
+    </g>
+   </g>
+   <g id="line2d_46">
+    <g clip-path="url(#pb48aaf8583)">
+     <use xlink:href="#m7a64700a47" x="241.11" y="265.56" style="fill: #1d6fb8; stroke: #1d6fb8"/>
+    </g>
+   </g>
+   <g id="line2d_47">
+    <g clip-path="url(#pb48aaf8583)">
+     <use xlink:href="#m7a64700a47" x="275.15" y="245.91" style="fill: #1d6fb8; stroke: #1d6fb8"/>
+    </g>
+   </g>
+   <g id="text_4">
+    
+    <g style="fill: #14181f" transform="translate(237.89 162.74) scale(0.09 -0.09)">
+     <defs>
+      <path id="Poppins-SemiBold-2b7" d="M 2003 4467 
+Q 2707 4467 3241 4192 
+Q 3776 3917 4067 3408 
+Q 4358 2899 4358 2227 
+Q 4358 1555 4067 1052 
+Q 3776 550 3241 275 
+Q 2707 0 2003 0 
+L 442 0 
+L 442 4467 
+L 2003 4467 
+z
+M 1971 762 
+Q 2675 762 3059 1146 
+Q 3443 1530 3443 2227 
+Q 3443 2925 3059 3318 
+Q 2675 3712 1971 3712 
+L 1338 3712 
+L 1338 762 
+L 1971 762 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Poppins-SemiBold-2b7"/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pf0b0decf8f">
+   <rect x="2.88" y="18.33" width="115.03" height="117.43"/>
+  </clipPath>
+  <clipPath id="pf2706d092d">
+   <rect x="183.59" y="18.33" width="115.03" height="117.43"/>
+  </clipPath>
+  <clipPath id="p67af5aef96">
+   <rect x="2.88" y="168.74" width="115.03" height="117.43"/>
+  </clipPath>
+  <clipPath id="pb48aaf8583">
+   <rect x="183.59" y="168.74" width="115.03" height="117.43"/>
+  </clipPath>
+ </defs>
+</svg>

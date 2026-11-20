@@ -41,8 +41,8 @@
    "no": 5,
    "title": "Vegetation",
    "area": "Botany",
-   "words": 4792,
-   "read_min": 27,
+   "words": 4709,
+   "read_min": 26,
    "figures": 7,
    "has_questions": true
   },
@@ -105,8 +105,8 @@
    "no": 2,
    "kind": "subjective",
    "title": "Biology: Unit-wise Subjective Question Bank",
-   "words": 7878,
-   "read_min": 44
+   "words": 9700,
+   "read_min": 54
   },
   {
    "no": 3,

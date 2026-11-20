@@ -5,7 +5,7 @@
    "no": 1,
    "title": "मानव शरीर",
    "area": "एकाइ",
-   "words": 5746,
+   "words": 5802,
    "read_min": 32,
    "figures": 10,
    "has_questions": true
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "सामुदायिक स्वास्थ्य तथा मानसिक स्वास्थ्य",
    "area": "एकाइ",
-   "words": 6364,
+   "words": 6366,
    "read_min": 35,
    "figures": 12,
    "has_questions": true
@@ -23,8 +23,8 @@
    "no": 3,
    "title": "पोषण र खाद्य सुरक्षा",
    "area": "एकाइ",
-   "words": 5272,
-   "read_min": 29,
+   "words": 5336,
+   "read_min": 30,
    "figures": 7,
    "has_questions": true
   },
@@ -32,7 +32,7 @@
    "no": 4,
    "title": "रोग, सुरक्षा र प्राथमिक उपचार",
    "area": "एकाइ",
-   "words": 6235,
+   "words": 6236,
    "read_min": 35,
    "figures": 11,
    "has_questions": true
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "यौनिक तथा प्रजनन स्वास्थ्य",
    "area": "एकाइ",
-   "words": 5018,
+   "words": 5050,
    "read_min": 28,
    "figures": 8,
    "has_questions": true
@@ -59,7 +59,7 @@
    "no": 7,
    "title": "एथलेटिक्स र साहसिक क्रियाकलाप",
    "area": "एकाइ",
-   "words": 4155,
+   "words": 4167,
    "read_min": 23,
    "figures": 8,
    "has_questions": true
@@ -68,7 +68,7 @@
    "no": 8,
    "title": "खेल",
    "area": "एकाइ",
-   "words": 6526,
+   "words": 6543,
    "read_min": 36,
    "figures": 10,
    "has_questions": true
@@ -95,7 +95,7 @@
    "no": 11,
    "title": "छपाइ, माटाको काम, कोलाज र निर्माण",
    "area": "एकाइ",
-   "words": 3871,
+   "words": 3872,
    "read_min": 22,
    "figures": 9,
    "has_questions": true
@@ -139,7 +139,7 @@
    "no": 3,
    "kind": "model",
    "title": "स्वास्थ्य, शारीरिक तथा सिर्जनात्मक कला: नमुना प्रश्नसेट र सम्भावित प्रश्न",
-   "words": 1835,
+   "words": 1783,
    "read_min": 10
   }
  ],
