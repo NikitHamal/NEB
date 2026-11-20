@@ -51,7 +51,7 @@ internal fun PwStudy(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav:
         PwRootBar { nav.push("search") }
         PwSeg(listOf("colleges" to "Colleges", "abroad" to "Abroad", "funding" to "Funding"), s.study, { s.study = it }, Modifier.padding(16.dp, 8.dp, 16.dp, 14.dp))
         when (s.study) {
-            "abroad" -> PwAbroadBody(d, vm, nav)
+            "abroad" -> PwAbroadBody(d, ui, vm, nav)
             "funding" -> PwFundingBody(d, ui, vm)
             else -> PwCollegesBody(d, "", ui, vm)
         }

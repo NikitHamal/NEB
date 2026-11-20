@@ -157,16 +157,17 @@ class MediaPlayerViewModel @Inject constructor(
         }
     }
 
-    private fun configureResource(resource: ApiResource, playableUri: String, mimeHint: String = "") {
+    private suspend fun configureResource(resource: ApiResource, playableUri: String, mimeHint: String = "") {
         val mediaHint = "$mimeHint ${resource.type} ${resource.fileUrl} $playableUri".lowercase()
         val isVideo = mediaHint.contains("video/") || listOf(".mp4", ".webm", ".mkv", ".mov", ".m4v", ".avi", ".ogv")
             .any(mediaHint::contains)
         val subjectColor = com.neb.ians.util.getSubjectColor(
             resource.subject.split(",").firstOrNull()?.trim().orEmpty()
         )
-        val prefs = application.getSharedPreferences(PREFS_NAME, 0)
-        val resumeMs = prefs.getLong("pos_$activeResourceId", 0L)
-        val savedSpeed = prefs.getFloat("speed_$activeResourceId", 1f)
+        val (resumeMs, savedSpeed) = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+            val prefs = application.getSharedPreferences(PREFS_NAME, 0)
+            prefs.getLong("pos_$activeResourceId", 0L) to prefs.getFloat("speed_$activeResourceId", 1f)
+        }
         _uiState.update {
             it.copy(
                 resource = resource,

@@ -179,7 +179,7 @@ class SpeechModelManager @Inject constructor(
     }
 
     private fun scanVoices(): List<String> {
-        val names = voicesDir.listFiles { f -> f.extension == "safetensors" }?.map { it.nameWithoutExtension }.orEmpty()
+        val names = voicesDir.listFiles { f -> f.extension == "safetensors" && f.length() > 1024L }?.map { it.nameWithoutExtension }.orEmpty()
         return names.sorted()
     }
 

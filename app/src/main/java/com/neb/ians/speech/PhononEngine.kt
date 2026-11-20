@@ -67,7 +67,7 @@ class PhononEngine @Inject constructor(
     private var idleJob: Job? = null
     private var focusRequest: AudioFocusRequest? = null
 
-    val supported: Boolean get() = NativeSpeech.ttsSupported
+    val supported: Boolean get() = models.ttsSupportedCached
 
     init {
         scope.launch {

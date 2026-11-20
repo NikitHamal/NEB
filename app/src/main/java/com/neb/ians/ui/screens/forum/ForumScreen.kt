@@ -162,7 +162,7 @@ fun ForumScreen(
         topBar = {
             Surface(
                 color = MaterialTheme.colorScheme.surface,
-                tonalElevation = 1.dp,
+                tonalElevation = 0.dp,
                 shadowElevation = 0.dp,
                 modifier = Modifier.fillMaxWidth()
             ) {

@@ -292,8 +292,10 @@ fun NEBiansNavHost(
     // Leaves the sign-in screens for the screen the guest came from (never Home by default).
     val leaveAuth: () -> Unit = {
         val poppedLogin = navController.popBackStack(Screen.Login.route, true)
-        val poppedComplete = if (!poppedLogin) navController.popBackStack(Screen.CompleteProfile.route, true) else false
-        if ((!poppedLogin && !poppedComplete) || navController.currentBackStackEntry == null) {
+        val poppedEmail = if (!poppedLogin) navController.popBackStack(Screen.EmailAuth.route, true) else false
+        val poppedComplete = if (!poppedLogin && !poppedEmail) navController.popBackStack(Screen.CompleteProfile.route, true) else false
+        val afterRoute = navController.currentBackStackEntry?.destination?.route
+        if ((!poppedLogin && !poppedEmail && !poppedComplete && afterRoute in PRE_APP_ROUTES) || afterRoute == null) {
             navController.navigate(Screen.Home.route) {
                 popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
                 launchSingleTop = true
@@ -327,7 +329,7 @@ fun NEBiansNavHost(
             is AuthState.Authenticated -> {
                 settingsViewModel.ensureProfile()
                 val currentRoute = navController.currentBackStackEntry?.destination?.route
-                if (currentRoute == Screen.Login.route || currentRoute == Screen.EmailAuth.route) {
+                if (currentRoute == Screen.Login.route) {
                     if (state.isProfileComplete) leaveAuth()
                     else navController.navigate(Screen.CompleteProfile.route) { launchSingleTop = true }
                 }

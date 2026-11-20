@@ -32,14 +32,26 @@ private val pwHttpClient: OkHttpClient by lazy {
         .connectionPool(ApiService.sharedPool)
         .connectTimeout(8, TimeUnit.SECONDS)
         .readTimeout(12, TimeUnit.SECONDS)
+        .apply {
+            if (!com.neb.ians.BuildConfig.DEBUG) {
+                proxy(java.net.Proxy.NO_PROXY)
+                connectionSpecs(listOf(okhttp3.ConnectionSpec.MODERN_TLS, okhttp3.ConnectionSpec.COMPATIBLE_TLS))
+            }
+        }
         .build()
 }
 
 internal fun pwHttpGet(url: String, ifNoneMatch: String? = null, onEtag: ((String?) -> Unit)? = null): String? {
+    val cookies = com.neb.ians.data.api.WafChallengeInterceptor.cachedCookieHeader()
     val req = Request.Builder()
         .url(url)
+        .header("User-Agent", "Mozilla/5.0 (Linux; Android 13; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36")
         .header("Accept", "application/json")
-        .apply { if (!ifNoneMatch.isNullOrBlank()) header("If-None-Match", ifNoneMatch) }
+        .header("Referer", "https://nebians.consica.com.np/")
+        .apply {
+            if (!ifNoneMatch.isNullOrBlank()) header("If-None-Match", ifNoneMatch)
+            if (!cookies.isNullOrBlank()) header("Cookie", cookies)
+        }
         .build()
     pwHttpClient.newCall(req).execute().use { resp ->
         if (resp.code == 304 || !resp.isSuccessful) return null
@@ -120,32 +132,8 @@ private fun JSONArray?.parts(): List<PwPart> = if (this == null) emptyList() els
 private inline fun <T> JSONArray.mapObjs(f: (JSONObject) -> T): List<T> = List(length()) { f(getJSONObject(it)) }
 private fun JSONObject?.intMap(): Map<String, Int> = if (this == null) emptyMap() else keys().asSequence().associateWith { optInt(it) }
 
-/**
- * A server that has not been redeployed yet answers without the exam groups, the entrance and language exams or the
- * route to exam links. The app ships that wave (`assets/pathways_wave17.json`) and fills the gap, so the Government,
- * Entrance and Language segments never depend on the deploy. A newer server already carries `govt_groups`, so nothing is merged.
- */
-private fun mergeWave17(o: JSONObject, wave: JSONObject) {
-    if (o.has("govt_groups")) return
-    o.put("govt_groups", wave.getJSONArray("govt_groups"))
-    fun append(key: String, more: JSONArray) {
-        val base = o.optJSONArray(key) ?: JSONArray().also { o.put(key, it) }
-        val have = HashSet<String>().also { set -> for (i in 0 until base.length()) set.add(base.getJSONObject(i).optString("id")) }
-        for (i in 0 until more.length()) more.getJSONObject(i).let { if (have.add(it.optString("id"))) base.put(it) }
-    }
-    append("govt_tracks", wave.getJSONArray("govt_tracks_add"))
-    append("govt", wave.getJSONArray("govt_add"))
-    val links = wave.optJSONObject("route_exam")
-    val routes = o.optJSONArray("routes")
-    if (links != null && routes != null) for (i in 0 until routes.length()) {
-        val r = routes.getJSONObject(i)
-        if (r.optString("exam_id").isEmpty() && links.has(r.optString("id"))) r.put("exam_id", links.getString(r.optString("id")))
-    }
-}
-
-internal fun parsePathways(text: String, wave17: JSONObject? = null): PwData {
+internal fun parsePathways(text: String): PwData {
     val o = JSONObject(text)
-    if (wave17 != null) runCatching { mergeWave17(o, wave17) }
     return PwData(
         reviewed = o.optString("reviewed"),
         stages = o.getJSONArray("stages").mapObjs { PwStage(it.getString("id"), it.getString("label"), it.optString("icon"), it.optString("blurb"), it.optString("tip")) },
@@ -280,10 +268,6 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
     private val sets = mutableStateMapOf<String, Set<String>>()
     private val nums = mutableStateMapOf<String, Int>()
 
-    private val wave17: JSONObject? by lazy {
-        runCatching { JSONObject(context.assets.open("pathways_wave17.json").bufferedReader().use { it.readText() }) }.getOrNull()
-    }
-
     init {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -297,6 +281,7 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
                     nums.putAll(loadedNums)
                     sel.matchStage = mStage
                     _state.update { it.copy(district = dist, saved = sv) }
+                    if (dist.isNotEmpty()) setDistrict(dist, "college")
                 }
             }
         }
@@ -309,7 +294,7 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
         loadPlus2Summary()
         viewModelScope.launch {
             // the saved copy shows at once; the network only refreshes it (ETag keeps that call tiny)
-            val cached = withContext(Dispatchers.IO) { runCatching { parsePathways(cacheFile.readText(), wave17) }.getOrNull() }
+            val cached = withContext(Dispatchers.IO) { runCatching { parsePathways(cacheFile.readText()) }.getOrNull() }
             if (cached != null) _state.update { it.copy(data = cached, loading = false, failed = false) }
             val fresh = withContext(Dispatchers.IO) { runCatching { fetch() }.getOrNull() }
             _state.update {
@@ -359,7 +344,7 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
         val ifNoneMatch = prefs.getString("etag", null)?.takeIf { cacheFile.exists() }
         var newEtag: String? = null
         val text = pwHttpGet("https://nebians.consica.com.np/api/pathways/", ifNoneMatch) { newEtag = it } ?: return null
-        val parsed = parsePathways(text, wave17)
+        val parsed = parsePathways(text)
         cacheFile.writeText(text)
         if (!newEtag.isNullOrBlank()) prefs.edit().putString("etag", newEtag).apply()
         return parsed

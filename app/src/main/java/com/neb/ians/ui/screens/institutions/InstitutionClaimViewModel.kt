@@ -64,16 +64,21 @@ class InstitutionClaimViewModel @Inject constructor(
     fun setDocType(d: Doc, type: String) = _state.update { st -> st.copy(docs = st.docs.map { if (it == d) it.copy(type = type) else it }) }
 
     fun addDocs(uris: List<Uri>) {
-        _state.update { st ->
-            val seen = st.docs.map { it.uri }.toSet()
-            val fresh = uris.filter { it !in seen }.mapIndexed { i, u ->
-                Doc(u, nameOf(u), type = if (st.docs.isEmpty() && i == 0) "registration" else "other", size = sizeOf(u))
+        viewModelScope.launch {
+            val resolved = withContext(Dispatchers.IO) {
+                uris.map { u -> Triple(u, nameOf(u), sizeOf(u)) }
             }
-            val big = fresh.any { it.size > MAX_BYTES }
-            st.copy(
-                docs = (st.docs + fresh.filter { it.size <= MAX_BYTES }).take(6),
-                error = if (big) "Each document must be under 8 MB" else null
-            )
+            _state.update { st ->
+                val seen = st.docs.map { it.uri }.toSet()
+                val fresh = resolved.filter { it.first !in seen }.mapIndexed { i, (u, name, size) ->
+                    Doc(u, name, type = if (st.docs.isEmpty() && i == 0) "registration" else "other", size = size)
+                }
+                val big = fresh.any { it.size > MAX_BYTES }
+                st.copy(
+                    docs = (st.docs + fresh.filter { it.size <= MAX_BYTES }).take(6),
+                    error = if (big) "Each document must be under 8 MB" else null
+                )
+            }
         }
     }
 
@@ -109,7 +114,8 @@ class InstitutionClaimViewModel @Inject constructor(
                 s.docs.flatMap { d ->
                     runCatching {
                         val mime = context.contentResolver.getType(d.uri) ?: "application/octet-stream"
-                        val bytes = context.contentResolver.openInputStream(d.uri)!!.use { it.readBytes() }
+                        val bytes = context.contentResolver.openInputStream(d.uri)?.use { it.readBytes() }
+                            ?: return@runCatching emptyList()
                         listOf(
                             MultipartBody.Part.createFormData("doc_type", d.type),
                             MultipartBody.Part.createFormData("documents", d.name, bytes.toRequestBody(mime.toMediaTypeOrNull()))

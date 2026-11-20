@@ -100,9 +100,9 @@ internal fun HomeSubjectStrip(
             val color = MaterialTheme.colorScheme.onSurface
             Row(
                 modifier = Modifier
-                    .clip(RoundedCornerShape(999.dp))
+                    .clip(RoundedCornerShape(28.dp))
                     .background(color.copy(alpha = 0.11f))
-                    .border(1.dp, color.copy(alpha = 0.28f), RoundedCornerShape(999.dp))
+                    .border(1.dp, color.copy(alpha = 0.28f), RoundedCornerShape(28.dp))
                     .nebPressable(scale = 0.97f, tactile = TactileType.LightTap) { onSubjectClick(subject) }
                     .padding(horizontal = 14.dp, vertical = 9.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -152,7 +152,7 @@ internal fun HomeSectionTitle(
         if (!actionLabel.isNullOrBlank() && onActionClick != null) {
             Surface(
                 onClick = onActionClick,
-                shape = RoundedCornerShape(999.dp),
+                shape = RoundedCornerShape(28.dp),
                 color = MaterialTheme.colorScheme.surfaceContainerHigh
             ) {
                 Text(
@@ -601,7 +601,7 @@ internal fun HomeFeedFilterStrip(
             val isSelected = filter.key == selectedFilter
             Surface(
                 onClick = { onSelectFilter(filter.key) },
-                shape = RoundedCornerShape(999.dp),
+                shape = RoundedCornerShape(28.dp),
                 color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainerLow,
                 contentColor = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
                 border = if (isSelected) null else BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
@@ -776,7 +776,7 @@ internal fun HomeEndOfFeedCard(
             ) {
                 Surface(
                     onClick = onForumClick,
-                    shape = RoundedCornerShape(999.dp),
+                    shape = RoundedCornerShape(28.dp),
                     color = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.fillMaxWidth()
@@ -794,7 +794,7 @@ internal fun HomeEndOfFeedCard(
                 }
                 Surface(
                     onClick = onViewAllClick,
-                    shape = RoundedCornerShape(999.dp),
+                    shape = RoundedCornerShape(28.dp),
                     color = MaterialTheme.colorScheme.surfaceContainerHigh,
                     contentColor = MaterialTheme.colorScheme.onSurface,
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
@@ -846,7 +846,7 @@ internal fun HomeFeedComposerBar(
             )
             Surface(
                 modifier = Modifier.weight(1f),
-                shape = RoundedCornerShape(999.dp),
+                shape = RoundedCornerShape(28.dp),
                 color = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0.6f)
             ) {
                 Text(

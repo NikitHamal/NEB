@@ -44,9 +44,13 @@ class AuthRepository @Inject constructor(
     private val apiService: com.neb.ians.data.api.ApiService
 ) {
     private val LEGACY_AUTH_TOKEN = stringPreferencesKey("auth_token")
+    private val ioScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+
+    @Volatile
+    private var lastProfileRefreshAt: Long = 0L
 
     init {
-        kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+        ioScope.launch {
             migratePlaintextTokenToSecurePrefs()
         }
     }
@@ -118,7 +122,6 @@ class AuthRepository @Inject constructor(
 
     val tokenFlow: Flow<String?> = dataStore.data.map { SecurePrefs.getAuthToken(appContext) }.flowOn(Dispatchers.IO)
     val isProfileCompletedFlow: Flow<Boolean> = dataStore.data.map { it[PROFILE_COMPLETED] ?: false }
-    private val ioScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     private fun firstName(prefs: Preferences): String =
         prefs[USER_DISPLAY_NAME]?.split(Whitespace)?.firstOrNull()?.takeIf { it.isNotBlank() }
@@ -290,6 +293,7 @@ class AuthRepository @Inject constructor(
                 prefs[USER_ACHIEVEMENT_BADGES] = user.achievementBadges ?: ""
             }
         }
+        lastProfileRefreshAt = System.currentTimeMillis()
         syncFcmToken()
     }
 
@@ -608,7 +612,8 @@ class AuthRepository @Inject constructor(
             repeat(attempts) { i ->
                 if (getBearerToken() == null) return
                 val prefs = dataStore.data.first()
-                if (!prefs[USER_ID].isNullOrBlank() && prefs[USER_ID] != "guest_user" && i > 0) return
+                val hasCachedId = !prefs[USER_ID].isNullOrBlank() && prefs[USER_ID] != "guest_user"
+                if (hasCachedId && (i > 0 || System.currentTimeMillis() - lastProfileRefreshAt < 30_000L)) return
                 refreshProfile()
                 val after = dataStore.data.first()[USER_ID]
                 if (!after.isNullOrBlank() && after != "guest_user") return
@@ -656,6 +661,7 @@ class AuthRepository @Inject constructor(
                     prefs[USER_ACHIEVEMENT_BADGES] = response.achievementBadges ?: ""
                 }
             }
+            lastProfileRefreshAt = System.currentTimeMillis()
         } catch (e: Exception) {
             // The launch-time probe is the app's only session check, and it used to
             // swallow this: a dead token meant every later call 401'd with no way
@@ -675,13 +681,14 @@ class AuthRepository @Inject constructor(
     }
 
     suspend fun logout() {
+        lastProfileRefreshAt = 0L
         try {
             val bearer = getBearerToken()
             if (bearer != null) {
                 val prefs = dataStore.data.first()
                 val savedToken = prefs[USER_FCM_TOKEN] ?: ""
                 if (savedToken.isNotBlank()) {
-                    kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+                    ioScope.launch {
                         try {
                             apiService.unregisterFcmToken(bearer, com.neb.ians.data.api.FcmTokenRequest(savedToken))
                         } catch (_: Exception) {}
@@ -729,7 +736,7 @@ class AuthRepository @Inject constructor(
     }
 
     fun syncFcmToken() {
-        kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+        ioScope.launch {
             try {
                 val fcmRefreshedKey = booleanPreferencesKey("fcm_project_refreshed_nebiansnepal_v2")
                 val prefs = dataStore.data.first()
@@ -737,8 +744,8 @@ class AuthRepository @Inject constructor(
                 if (!isRefreshed) {
                     try {
                         com.google.firebase.messaging.FirebaseMessaging.getInstance().deleteToken()
-                            .addOnCompleteListener { task ->
-                                kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+                            .addOnCompleteListener {
+                                ioScope.launch {
                                     try {
                                         dataStore.edit { it[fcmRefreshedKey] = true }
                                         fetchAndRegisterNewToken()
@@ -763,7 +770,7 @@ class AuthRepository @Inject constructor(
                 if (task.isSuccessful) {
                     val token = task.result
                     if (!token.isNullOrBlank()) {
-                        kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+                        ioScope.launch {
                             try {
                                 val bearer = getBearerToken()
                                 if (bearer != null) {

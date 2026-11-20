@@ -44,6 +44,7 @@ Thumbs.db
 
 # Dependency folders
 node_modules/
+/package-lock.json
 .next/
 *.tsbuildinfo
 /psrc

@@ -236,7 +236,7 @@ fun NebAvatar(
     name: String,
     size: Dp = 40.dp,
     ring: Boolean = false,
-    showBorder: Boolean = true,
+    showBorder: Boolean = false,
     verificationLevel: Int = 0,
     modifier: Modifier = Modifier,
 ) {

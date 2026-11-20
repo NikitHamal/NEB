@@ -110,7 +110,7 @@ fun SettingsRow(
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.surface,
                 modifier = Modifier
-                    .clip(RoundedCornerShape(99.dp))
+                    .clip(RoundedCornerShape(28.dp))
                     .background(MaterialTheme.colorScheme.onSurface)
                     .padding(horizontal = 8.dp, vertical = 3.dp)
             )

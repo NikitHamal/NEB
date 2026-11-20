@@ -132,9 +132,12 @@ class StudyReaderViewModel @Inject constructor(
                 "guide" -> api.getStudyGuide(s.grade, s.subject)
                 else -> api.getStudyChapter(s.grade, s.subject, s.no)
             }
-            progress.open(s.key, doc.title, "${syllabusShort(s.grade)} · ${s.subject.replace('-', ' ').replaceFirstChar { it.uppercase() }}")
+            val (loadedMark, loadedAnswers, loadedExam) = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                progress.open(s.key, doc.title, "${syllabusShort(s.grade)} · ${s.subject.replace('-', ' ').replaceFirstChar { it.uppercase() }}")
+                Triple(progress.get(s.key), progress.answers(s.key), progress.exam(s.key))
+            }
             _state.update {
-                it.copy(doc = doc, isLoading = false, mark = progress.get(s.key), answers = progress.answers(s.key), examState = progress.exam(s.key))
+                it.copy(doc = doc, isLoading = false, mark = loadedMark, answers = loadedAnswers, examState = loadedExam)
             }
         } catch (e: Exception) {
             _state.update { it.copy(isLoading = false, error = ApiErrorMapper.mapException(e)) }
@@ -241,7 +244,7 @@ fun StudyReaderScreen(onBack: () -> Unit, viewModel: StudyReaderViewModel = hilt
                             fontWeight = FontWeight.SemiBold,
                             modifier = Modifier
                                 .padding(end = 2.dp)
-                                .clip(RoundedCornerShape(999.dp))
+                                .clip(RoundedCornerShape(28.dp))
                                 .background(if (answersOpen) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.surfaceContainerHigh)
                                 .nebPressable(onClick = {
                                     answersOpen = !answersOpen

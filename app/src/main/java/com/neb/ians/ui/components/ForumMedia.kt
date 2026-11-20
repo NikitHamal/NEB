@@ -691,7 +691,7 @@ fun ForumMediaBadges(
 @Composable
 private fun MediaBadge(icon: @Composable () -> Unit, label: String) {
     Surface(
-        shape = RoundedCornerShape(999.dp),
+        shape = RoundedCornerShape(28.dp),
         color = MaterialTheme.colorScheme.surfaceContainerHigh
     ) {
         Row(

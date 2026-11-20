@@ -365,7 +365,7 @@ private fun ChapterRow(unit: ApiSyllabusUnit, mark: StudyMark?, expanded: Boolea
                         Spacer(Modifier.height(4.dp))
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.clip(RoundedCornerShape(999.dp)).background(MaterialTheme.colorScheme.onSurface).nebPressable(onClick = onOpen).padding(horizontal = 16.dp, vertical = 9.dp)
+                            modifier = Modifier.clip(RoundedCornerShape(28.dp)).background(MaterialTheme.colorScheme.onSurface).nebPressable(onClick = onOpen).padding(horizontal = 16.dp, vertical = 9.dp)
                         ) {
                             Icon(Icons.AutoMirrored.Outlined.MenuBook, contentDescription = null, tint = MaterialTheme.colorScheme.surface, modifier = Modifier.size(18.dp))
                             Spacer(Modifier.width(8.dp))

@@ -113,7 +113,7 @@ private val VideoExtensionRegex = Regex("\\.(mp4|mkv|webm|3gp|mov)$", RegexOptio
 
 val WebCardShape = RoundedCornerShape(14.dp)
 val WebPanelShape = RoundedCornerShape(18.dp)
-val WebPillShape = RoundedCornerShape(999.dp)
+val WebPillShape = RoundedCornerShape(28.dp)
 
 @Composable
 fun NebiansLogo(
@@ -348,7 +348,7 @@ fun WebTopBar(
                         name = name,
                         size = 38.dp,
                         verificationLevel = verificationLevel,
-                        showBorder = true
+                        showBorder = false
                     )
                 }
             }

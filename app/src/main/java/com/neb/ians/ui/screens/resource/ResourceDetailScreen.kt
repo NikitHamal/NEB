@@ -1336,7 +1336,7 @@ private fun FsSpeedSelector(
                 contentColor = Color.White
             ),
             border = BorderStroke(1.dp, Color.White.copy(alpha = 0.3f)),
-            shape = RoundedCornerShape(999.dp),
+            shape = RoundedCornerShape(28.dp),
             contentPadding = PaddingValues(horizontal = 10.dp, vertical = 0.dp),
             modifier = Modifier.height(30.dp)
         ) {
@@ -1435,10 +1435,10 @@ private fun VideoActionPill(
     val color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
     Row(
         modifier = Modifier
-            .clip(RoundedCornerShape(999.dp))
+            .clip(RoundedCornerShape(28.dp))
             .border(
                 BorderStroke(1.dp, if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant),
-                RoundedCornerShape(999.dp)
+                RoundedCornerShape(28.dp)
             )
             .background(
                 if (selected) MaterialTheme.colorScheme.primary.copy(alpha = 0.07f)

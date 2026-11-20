@@ -97,6 +97,7 @@ import android.net.Uri
 import com.neb.ians.ui.components.NebModalSheet
 import java.io.File
 import java.io.FileOutputStream
+import kotlinx.coroutines.launch
 import com.neb.ians.data.api.ApiResource
 import com.neb.ians.data.api.ApiResourceComment
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -368,9 +369,9 @@ fun SlideToBuyBar(
                     .fillMaxWidth()
                     .height(60.dp)
                     .onSizeChanged { trackWidthPx = it.width.toFloat() }
-                    .clip(RoundedCornerShape(999.dp))
+                    .clip(RoundedCornerShape(28.dp))
                     .background(trackColor.copy(alpha = 0.14f))
-                    .border(1.dp, trackColor.copy(alpha = 0.35f), RoundedCornerShape(999.dp))
+                    .border(1.dp, trackColor.copy(alpha = 0.35f), RoundedCornerShape(28.dp))
             ) {
                 val density = LocalDensity.current
                 val thumbPx = with(density) { thumbSize.toPx() }
@@ -669,11 +670,22 @@ fun ResourcePurchaseSheet(
                 }
             }
 
+            val submitScope = androidx.compose.runtime.rememberCoroutineScope()
             NebButton(
                 text = "Submit payment proof",
                 onClick = {
                     if (isAuthenticated) {
-                        onSubmit(transactionId, proofUri?.let { uriToCacheFile(context, it) })
+                        val pickedUri = proofUri
+                        if (pickedUri == null) {
+                            onSubmit(transactionId, null)
+                        } else {
+                            submitScope.launch {
+                                val cachedFile = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                                    uriToCacheFile(context, pickedUri)
+                                }
+                                onSubmit(transactionId, cachedFile)
+                            }
+                        }
                     } else {
                         onSignInPrompt()
                     }

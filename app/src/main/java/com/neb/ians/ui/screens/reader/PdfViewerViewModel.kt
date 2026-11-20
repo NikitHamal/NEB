@@ -81,7 +81,7 @@ class PdfViewerViewModel @Inject constructor(
     private val resourceId: String = savedStateHandle.get<String>("resourceId").orEmpty()
     private val _uiState = MutableStateFlow(PdfViewerUiState())
     val uiState: StateFlow<PdfViewerUiState> = _uiState.asStateFlow()
-    private val prefs = ReaderPrefs(context)
+    private val prefs by lazy { ReaderPrefs(context) }
     private var engine: PdfDocumentEngine? = null
     private var resource: ApiResource? = null
     private var downloadJob: Job? = null
@@ -92,18 +92,29 @@ class PdfViewerViewModel @Inject constructor(
     private var file: File? = null
 
     init {
-        _uiState.update {
-            it.copy(
-                bookmarks = prefs.bookmarks(resourceId),
-                theme = prefs.theme,
-                layout = prefs.layout,
-                keepScreenOn = prefs.keepScreenOn,
-                readingMode = prefs.readingMode(resourceId),
-                reading = prefs.reading,
-                assistantHidden = prefs.assistantHidden,
-                assistantX = prefs.assistantX,
-                assistantY = prefs.assistantY
-            )
+        viewModelScope.launch(Dispatchers.IO) {
+            val savedBookmarks = prefs.bookmarks(resourceId)
+            val savedTheme = prefs.theme
+            val savedLayout = prefs.layout
+            val savedKeepOn = prefs.keepScreenOn
+            val savedReadingMode = prefs.readingMode(resourceId)
+            val savedReading = prefs.reading
+            val savedAiHidden = prefs.assistantHidden
+            val savedAiX = prefs.assistantX
+            val savedAiY = prefs.assistantY
+            _uiState.update {
+                it.copy(
+                    bookmarks = savedBookmarks,
+                    theme = savedTheme,
+                    layout = savedLayout,
+                    keepScreenOn = savedKeepOn,
+                    readingMode = savedReadingMode,
+                    reading = savedReading,
+                    assistantHidden = savedAiHidden,
+                    assistantX = savedAiX,
+                    assistantY = savedAiY
+                )
+            }
         }
         load()
     }

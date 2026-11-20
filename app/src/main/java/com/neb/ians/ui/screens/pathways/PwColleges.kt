@@ -62,7 +62,7 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
     val feesHi = remember(all) { all.mapNotNull { it.fees[r.id]?.second } }
     val lo = if (feesHi.isEmpty()) 0f else floor(feesHi.min() / 100_000f)
     val hi = if (feesHi.isEmpty()) 0f else ceil(feesHi.max() / 100_000f).coerceAtLeast(lo + 1f)
-    var district by rememberSaveable(r.id) { mutableStateOf("") }
+    var district by rememberSaveable(r.id) { mutableStateOf(ui.district) }
     var cmax by rememberSaveable(r.id) { mutableFloatStateOf(hi) }
     var sort by rememberSaveable { mutableStateOf("fee") }
     var shown by rememberSaveable(r.id) { mutableIntStateOf(30) }

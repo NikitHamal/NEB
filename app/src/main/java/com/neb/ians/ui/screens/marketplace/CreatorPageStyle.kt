@@ -67,7 +67,7 @@ internal fun resolveCreatorStyle(style: ApiCreatorStyle, layout: String): Creato
     return CreatorStyle(
         blockShape = RoundedCornerShape(corner),
         fontFamily = creatorFontFamily(style.font),
-        pillShape = RoundedCornerShape(999.dp),
+        pillShape = RoundedCornerShape(28.dp),
         blockPadding = if (compact) 9.dp else 14.dp,
         itemGap = if (compact) 7.dp else 10.dp,
         heroArt = style.hero == "art",

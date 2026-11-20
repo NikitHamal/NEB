@@ -75,7 +75,7 @@ class WhistleEngine @Inject constructor(
     @Volatile private var stopRequested = false
     private var session: Job? = null
 
-    val supported: Boolean get() = NativeSpeech.sttSupported
+    val supported: Boolean get() = models.sttSupportedCached
     val isRunning: Boolean get() = session?.isActive == true
 
     init {

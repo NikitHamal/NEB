@@ -95,9 +95,14 @@ fun LoginScreen(
             "https://nebians.consica.com.np/auth/github/login/?mobile=1"
         }
         try {
+            val dm = context.resources.displayMetrics
+            val sheetHeightPx = (dm.heightPixels * 0.88f).toInt().coerceAtLeast(480)
             val customTabsIntent = CustomTabsIntent.Builder()
                 .setShareState(CustomTabsIntent.SHARE_STATE_OFF)
                 .setShowTitle(true)
+                .setUrlBarHidingEnabled(true)
+                .setColorScheme(if (isDark) CustomTabsIntent.COLOR_SCHEME_DARK else CustomTabsIntent.COLOR_SCHEME_LIGHT)
+                .setInitialActivityHeightPx(sheetHeightPx, CustomTabsIntent.ACTIVITY_HEIGHT_DEFAULT)
                 .build()
             customTabsIntent.launchUrl(context, Uri.parse(url))
         } catch (_: Exception) {
@@ -129,7 +134,8 @@ fun LoginScreen(
                             request = GetCredentialRequest.Builder().addCredentialOption(oneTapOption).build(),
                             context = activityContext
                         )
-                    } catch (_: NoCredentialException) {
+                    } catch (e: GetCredentialException) {
+                        if (e is GetCredentialCancellationException) throw e
                         val signInOption = GetSignInWithGoogleOption.Builder(AuthRepository.GOOGLE_SERVER_CLIENT_ID)
                             .build()
                         credentialManager.getCredential(

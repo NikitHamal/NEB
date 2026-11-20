@@ -52,6 +52,7 @@ import com.neb.ians.ui.components.WebPrimaryButton
 import com.neb.ians.ui.components.ZoomableImageDialog
 import com.neb.ians.ui.components.NebLoaderSize
 import com.neb.ians.ui.components.NebLoader
+import kotlinx.coroutines.launch
 
 /**
  * Own-profile photo gallery — mirrors the web profile photo modal:
@@ -68,15 +69,20 @@ fun PhotoGalleryDialog(
     onUploadPhoto: (ByteArray, String) -> Unit
 ) {
     val context = LocalContext.current
+    val pickerScope = androidx.compose.runtime.rememberCoroutineScope()
     var previewUrl by remember { mutableStateOf<String?>(null) }
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri ->
-        uri?.let {
-            val bytes = context.contentResolver.openInputStream(it)?.use { stream -> stream.readBytes() }
-            if (bytes != null) {
-                val mimeType = context.contentResolver.getType(it) ?: "image/jpeg"
-                onUploadPhoto(bytes, mimeType)
+        uri?.let { picked ->
+            pickerScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+                val mimeType = context.contentResolver.getType(picked) ?: "image/jpeg"
+                val bytes = runCatching {
+                    context.contentResolver.openInputStream(picked)?.use { stream -> stream.readBytes() }
+                }.getOrNull()
+                if (bytes != null) {
+                    onUploadPhoto(bytes, mimeType)
+                }
             }
         }
     }

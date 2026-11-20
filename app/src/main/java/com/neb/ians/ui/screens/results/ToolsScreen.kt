@@ -114,7 +114,7 @@ fun ToolsScreen(
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
                                 androidx.compose.material3.Surface(
-                                    shape = androidx.compose.foundation.shape.RoundedCornerShape(99.dp),
+                                    shape = androidx.compose.foundation.shape.RoundedCornerShape(28.dp),
                                     color = MaterialTheme.colorScheme.primaryContainer
                                 ) {
                                     Text(

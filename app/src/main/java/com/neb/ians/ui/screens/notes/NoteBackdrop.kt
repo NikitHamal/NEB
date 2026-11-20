@@ -22,7 +22,15 @@ import kotlin.math.roundToInt
 @Composable
 fun rememberBackdrop(file: File?): State<ImageBitmap?> = produceState<ImageBitmap?>(null, file?.path) {
     value = if (file == null) null else withContext(Dispatchers.IO) {
-        runCatching { BitmapFactory.decodeFile(file.path)?.asImageBitmap() }.getOrNull()
+        runCatching {
+            val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+            BitmapFactory.decodeFile(file.path, bounds)
+            var sample = 1
+            val longest = maxOf(bounds.outWidth, bounds.outHeight)
+            while (longest / sample > 2048) sample *= 2
+            val opts = BitmapFactory.Options().apply { inSampleSize = sample }
+            BitmapFactory.decodeFile(file.path, opts)?.asImageBitmap()
+        }.getOrNull()
     }
 }
 

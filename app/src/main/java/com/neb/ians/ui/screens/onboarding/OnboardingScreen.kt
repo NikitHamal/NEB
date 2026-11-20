@@ -48,6 +48,7 @@ import com.neb.ians.ui.theme.NebMotion
 import com.neb.ians.ui.theme.nebEffectsSpec
 import com.neb.ians.ui.theme.nebFastEffectsSpec
 import com.neb.ians.ui.theme.nebSpatialSpec
+import kotlinx.coroutines.launch
 
 /**
  * Profile creation, one question at a time. Every step owns the whole screen: an
@@ -86,13 +87,19 @@ fun OnboardingScreen(
         if (uiState.signOutReady) onSignInAgain()
     }
 
+    val pickerScope = androidx.compose.runtime.rememberCoroutineScope()
     val photoPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri ->
-        uri?.let {
-            val bytes = context.contentResolver.openInputStream(it)?.use { stream -> stream.readBytes() }
-            if (bytes != null) {
-                viewModel.uploadPhoto(bytes, context.contentResolver.getType(it) ?: "image/jpeg")
+        uri?.let { picked ->
+            pickerScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+                val mime = context.contentResolver.getType(picked) ?: "image/jpeg"
+                val bytes = runCatching {
+                    context.contentResolver.openInputStream(picked)?.use { stream -> stream.readBytes() }
+                }.getOrNull()
+                if (bytes != null) {
+                    viewModel.uploadPhoto(bytes, mime)
+                }
             }
         }
     }

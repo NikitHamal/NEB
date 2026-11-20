@@ -7,6 +7,8 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Bookmark
+import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.mutableIntStateOf
@@ -121,7 +123,7 @@ private fun VisaSteps(v: PwVisa, id: String) {
 }
 
 @Composable
-private fun AbroadCard(d: PwData, a: PwAbroad, i: Int, mx: Float, budget: Int, open: Boolean, vm: PathwaysViewModel, nav: PwNav) {
+private fun AbroadCard(d: PwData, a: PwAbroad, i: Int, mx: Float, budget: Int, open: Boolean, saved: Boolean, vm: PathwaysViewModel, nav: PwNav) {
     val c = MaterialTheme.colorScheme
     val t = (a.tuitionMin + a.tuitionMax) / 200_000f
     val l = (a.livingMin + a.livingMax) / 200_000f
@@ -182,8 +184,17 @@ private fun AbroadCard(d: PwData, a: PwAbroad, i: Int, mx: Float, budget: Int, o
                     PwMonths({ it in months })
                 } else if (a.intakes.isNotBlank()) Detail("Intakes", a.intakes)
                 a.visa?.takeIf { it.steps.isNotEmpty() }?.let { VisaSteps(it, a.id) }
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     if (a.scholarships.isNotEmpty()) PwChip("Scholarships", false, { vm.sel.schCountry = a.id; vm.sel.study = "funding" }, height = 40.dp)
+                    Spacer(Modifier.weight(1f))
+                    val saveKey = "abroad:${a.id}"
+                    PwIconButton(
+                        if (saved) Icons.Outlined.Bookmark else Icons.Outlined.BookmarkBorder,
+                        "Save",
+                        { vm.toggleSaved(saveKey) },
+                        if (saved) c.onSurface else c.surfaceContainerHigh,
+                        if (saved) c.surface else c.onSurface,
+                    )
                 }
             }
         }
@@ -191,7 +202,7 @@ private fun AbroadCard(d: PwData, a: PwAbroad, i: Int, mx: Float, budget: Int, o
 }
 
 @Composable
-internal fun PwAbroadBody(d: PwData, vm: PathwaysViewModel, nav: PwNav) {
+internal fun PwAbroadBody(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: PwNav) {
     val c = MaterialTheme.colorScheme
     val budget = vm.num("abroadBudget").coerceIn(5, 60)
     val rows = remember(d.abroad) { d.abroad.sortedBy { (it.tuitionMin + it.tuitionMax + it.livingMin + it.livingMax) / 200_000f } }
@@ -204,7 +215,7 @@ internal fun PwAbroadBody(d: PwData, vm: PathwaysViewModel, nav: PwNav) {
         Spacer(Modifier.height(6.dp))
         Legend()
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            rows.forEachIndexed { i, a -> AbroadCard(d, a, i, mx, budget, vm.sel.abroadOpen == a.id, vm, nav) }
+            rows.forEachIndexed { i, a -> AbroadCard(d, a, i, mx, budget, vm.sel.abroadOpen == a.id, "abroad:${a.id}" in ui.saved, vm, nav) }
         }
     }
 }
