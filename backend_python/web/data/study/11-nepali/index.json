@@ -5,7 +5,7 @@
    "no": 1,
    "title": "वीर पुर्खा - वासुदेव त्रिपाठी (कविता, देशभक्ति)",
    "area": "पाठ",
-   "words": 2954,
+   "words": 2968,
    "read_min": 16,
    "figures": 3,
    "has_questions": true
@@ -14,7 +14,7 @@
    "no": 2,
    "title": "गाउँको माया",
    "area": "पाठ",
-   "words": 4465,
+   "words": 4482,
    "read_min": 25,
    "figures": 4,
    "has_questions": true
@@ -23,7 +23,7 @@
    "no": 3,
    "title": "संस्कृतिको नयाँ यात्रा",
    "area": "पाठ",
-   "words": 4105,
+   "words": 4128,
    "read_min": 23,
    "figures": 4,
    "has_questions": true
@@ -32,8 +32,8 @@
    "no": 4,
    "title": "योगमाया",
    "area": "पाठ",
-   "words": 4048,
-   "read_min": 22,
+   "words": 4055,
+   "read_min": 23,
    "figures": 4,
    "has_questions": true
   },
@@ -41,7 +41,7 @@
    "no": 5,
    "title": "साथीलाई चिठी",
    "area": "पाठ",
-   "words": 3795,
+   "words": 3811,
    "read_min": 21,
    "figures": 4,
    "has_questions": true
@@ -50,7 +50,7 @@
    "no": 6,
    "title": "त्यो फेरि फर्कला ?",
    "area": "पाठ",
-   "words": 4494,
+   "words": 4528,
    "read_min": 25,
    "figures": 4,
    "has_questions": true
@@ -59,7 +59,7 @@
    "no": 7,
    "title": "पर्यापर्यटनका सम्भावना र आयाम",
    "area": "पाठ",
-   "words": 3756,
+   "words": 3786,
    "read_min": 21,
    "figures": 4,
    "has_questions": true
@@ -68,8 +68,8 @@
    "no": 8,
    "title": "लौ आयो ताजा खबर",
    "area": "पाठ",
-   "words": 6736,
-   "read_min": 37,
+   "words": 6768,
+   "read_min": 38,
    "figures": 4,
    "has_questions": true
   },
@@ -77,7 +77,7 @@
    "no": 9,
    "title": "सफलताको कथा",
    "area": "पाठ",
-   "words": 5425,
+   "words": 5431,
    "read_min": 30,
    "figures": 2,
    "has_questions": true
@@ -86,7 +86,7 @@
    "no": 10,
    "title": "कृषिशालामा एक दिन",
    "area": "पाठ",
-   "words": 6250,
+   "words": 6274,
    "read_min": 35,
    "figures": 4,
    "has_questions": true
@@ -95,7 +95,7 @@
    "no": 11,
    "title": "रारा भ्रमण",
    "area": "पाठ",
-   "words": 5512,
+   "words": 5518,
    "read_min": 31,
    "figures": 4,
    "has_questions": true
@@ -104,7 +104,7 @@
    "no": 12,
    "title": "जलस्रोत र ऊर्जा",
    "area": "पाठ",
-   "words": 5885,
+   "words": 5894,
    "read_min": 33,
    "figures": 4,
    "has_questions": true
