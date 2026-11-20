@@ -273,8 +273,6 @@ fun getSubjectColor(subject: String): Color = getSubjectTheme(subject).color
  */
 val SubjectAccentStatic: Color = NebBrandRamp.B40
 
-fun subjectAccentArgb(): Long = 0xFF004AC6L
-
 // ---------------------------------------------------------------------------
 // Accents.
 //

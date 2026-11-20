@@ -287,13 +287,6 @@ class UploadViewModel @Inject constructor(
         refreshDerivedType()
     }
 
-    fun reorderFiles(from: Int, to: Int) {
-        val current = _uiState.value.selectedFiles
-        if (from !in current.indices || to !in current.indices || from == to) return
-        val moved = current.toMutableList().apply { add(to, removeAt(from)) }
-        _uiState.update { it.copy(selectedFiles = moved) }
-    }
-
     /** Keep the type honest about what was picked, until the user overrides it. */
     private fun refreshDerivedType() {
         _uiState.update { state ->
@@ -304,14 +297,6 @@ class UploadViewModel @Inject constructor(
 
     fun updateExamType(examType: String) {
         _uiState.update { it.copy(examType = examType) }
-    }
-
-    fun updateFaculty(faculty: String) {
-        _uiState.update { it.copy(faculty = faculty) }
-    }
-
-    fun updateProgram(program: String) {
-        _uiState.update { it.copy(program = program) }
     }
 
     fun updateYear(year: String) {
@@ -326,10 +311,6 @@ class UploadViewModel @Inject constructor(
         _uiState.update { it.copy(pradesh = pradesh) }
     }
 
-    fun updateDistrict(district: String) {
-        _uiState.update { it.copy(district = district) }
-    }
-
     fun updateTags(tags: String) {
         _uiState.update { it.copy(tags = tags) }
     }
@@ -342,29 +323,13 @@ class UploadViewModel @Inject constructor(
         _uiState.update { it.copy(fileError = message) }
     }
 
-    fun updateThumbnailUrl(thumbnailUrl: String) {
-        _uiState.update { it.copy(thumbnailUrl = thumbnailUrl, thumbnailDirty = it.isEditMode || it.thumbnailDirty) }
-    }
-
     /** Manually picked cover image (overrides the auto video frame). */
     fun setThumbnail(uri: Uri?) {
         _uiState.update { it.copy(thumbnailUri = uri, thumbnailDirty = it.isEditMode || it.thumbnailDirty) }
     }
 
-    /** Videos get a cover frame captured automatically — used for UI hints. */
-    fun hasAutoCoverCandidate(): Boolean {
-        val state = _uiState.value
-        return state.thumbnailUri == null &&
-            state.thumbnailUrl.isBlank() &&
-            state.selectedFiles.any { UploadOptions.isVideoFileName(it.name) }
-    }
-
     fun updateAuthorName(authorName: String) {
         _uiState.update { it.copy(authorName = authorName) }
-    }
-
-    fun updateSourceLabel(sourceLabel: String) {
-        _uiState.update { it.copy(sourceLabel = sourceLabel) }
     }
 
     fun updateSourceUrl(sourceUrl: String) {

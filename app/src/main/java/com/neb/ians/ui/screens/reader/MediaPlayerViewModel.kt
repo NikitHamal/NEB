@@ -318,28 +318,6 @@ class MediaPlayerViewModel @Inject constructor(
         }
     }
 
-    fun toggleSpeedMenu() {
-        _uiState.update { it.copy(speedMenuOpen = !it.speedMenuOpen) }
-    }
-
-    fun dismissSpeedMenu() {
-        _uiState.update { it.copy(speedMenuOpen = false) }
-    }
-
-    fun resumeFromSaved() {
-        val resume = _uiState.value.resumePositionMs
-        if (resume > RESUME_MIN_MS) {
-            player?.seekTo(resume)
-            _uiState.update { it.copy(resumePositionMs = 0) }
-        }
-        play()
-    }
-
-    fun skipResume() {
-        _uiState.update { it.copy(resumePositionMs = 0) }
-        clearSavedPosition()
-    }
-
     private fun startTick() {
         tickJob?.cancel()
         tickJob = viewModelScope.launch {
