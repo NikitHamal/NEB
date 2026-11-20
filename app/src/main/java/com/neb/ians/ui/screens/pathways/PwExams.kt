@@ -47,8 +47,7 @@ internal fun PwExams(d: PwData, vm: PathwaysViewModel, nav: PwNav) {
     val edu = vm.num("edu")
     val age = vm.num("age")
     val woman = vm.num("woman") == 1
-    PwScrollPage(24.dp) {
-        PwRootBar { nav.push("search") }
+    PwScrollPage(24.dp, topBar = { scrolled -> PwRootBar({ nav.push("search") }, nav.pop, scrolled) }) {
         if (tracks.isEmpty()) { PwEmpty("No exams yet"); return@PwScrollPage }
         val groups = d.govtGroups.filter { g -> tracks.any { it.group == g.id } }.ifEmpty { listOf(PwTopic("gov", "Government")) }
         val group = tracks.firstOrNull { it.id == track }?.group ?: groups.first().id
@@ -110,8 +109,15 @@ internal fun PwExamDetail(d: PwData, g: PwGovt, ui: PathwaysUiState, vm: Pathway
     val key = "exam:${g.id}"
     val career = d.careers[g.career]
     Box(Modifier.fillMaxSize()) {
-        PwScrollPage(if (career != null) 96.dp else 24.dp) {
-            PwHero(tone, g.name, g.body, key in ui.saved, { vm.toggleSaved(key) }, nav.pop) {
+        PwHeroScrollPage(
+            tone = tone,
+            title = g.name,
+            sub = g.body,
+            saved = key in ui.saved,
+            onSave = { vm.toggleSaved(key) },
+            onBack = nav.pop,
+            bottom = if (career != null) 96.dp else 24.dp,
+            badge = {
                 PwBadge(tone, 7) {
                     if (odds != null) {
                         if (odds.pre.isNotEmpty()) Text(odds.pre, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, lineHeight = 12.sp)
@@ -122,7 +128,8 @@ internal fun PwExamDetail(d: PwData, g: PwGovt, ui: PathwaysUiState, vm: Pathway
                         Text("stages", fontSize = 11.sp, fontWeight = FontWeight.SemiBold, lineHeight = 12.sp)
                     }
                 }
-            }
+            },
+        ) {
             val facts = buildList {
                 if (g.seats > 0) add("Seats" to money(g.seats.toLong()))
                 if (g.applicants > 0) add("Applicants" to money(g.applicants.toLong()))

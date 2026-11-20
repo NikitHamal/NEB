@@ -1266,6 +1266,27 @@ fun NEBiansNavHost(
                 onDismiss = { gateReason = null; pendingRoute = null }
             )
         }
+        val siteThemeState = com.neb.ians.ui.theme.LocalSiteTheme.current
+        var homeSettled by remember { mutableStateOf(false) }
+        LaunchedEffect(currentRoute) {
+            if (currentRoute == Screen.Home.route && !homeSettled) {
+                kotlinx.coroutines.delay(500L)
+                homeSettled = true
+            }
+        }
+        if (siteThemeState.whatsNewOpen && gateReason == null && currentRoute != null && currentRoute !in PRE_APP_ROUTES && (homeSettled || currentRoute != Screen.Home.route)) {
+            com.neb.ians.ui.components.WhatsNewSheet(
+                config = siteThemeState.whatsNewConfig,
+                onDismiss = siteThemeState.onDismissWhatsNew,
+                onTryItem = { item ->
+                    siteThemeState.onDismissWhatsNew()
+                    val target = item.targetRoute.trim().removePrefix("/").ifBlank { Screen.Pathways.route }
+                    runCatching {
+                        navController.navigate(target) { launchSingleTop = true }
+                    }
+                }
+            )
+        }
     }
     }
 }

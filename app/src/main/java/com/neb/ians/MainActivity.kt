@@ -93,13 +93,23 @@ class MainActivity : ComponentActivity() {
 
             val siteTheme by siteThemeRepository.theme.collectAsState()
             val dismissedCards by siteThemeRepository.dismissed.collectAsState()
+            val seenWhatsNew by siteThemeRepository.seenWhatsNew.collectAsState()
+            val themePrefsLoaded by siteThemeRepository.prefsLoaded.collectAsState()
+            var manualWhatsNew by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(false) }
             androidx.compose.runtime.LaunchedEffect(Unit) { siteThemeRepository.refresh() }
             androidx.compose.runtime.SideEffect { com.neb.ians.ui.pixel.NebyDress.current = com.neb.ians.ui.pixel.NebyLook.fromKey(siteTheme?.neby?.look) }
+            val activeWhatsNew = siteTheme?.whatsNew?.takeIf { it.items.isNotEmpty() } ?: com.neb.ians.ui.components.DefaultWhatsNewConfig
             val themeState = siteTheme.let { t ->
                 com.neb.ians.ui.theme.SiteThemeState(
                     theme = t,
                     cardOpen = t != null && siteThemeRepository.dismissKey(t) !in dismissedCards,
                     onDismissCard = { t?.let(siteThemeRepository::dismissCard) },
+                    whatsNewOpen = manualWhatsNew || (themePrefsLoaded && activeWhatsNew.releaseKey !in seenWhatsNew),
+                    onDismissWhatsNew = {
+                        manualWhatsNew = false
+                        siteThemeRepository.markWhatsNewSeen(activeWhatsNew.releaseKey)
+                    },
+                    onShowWhatsNew = { manualWhatsNew = true },
                 )
             }
             NEBiansTheme(darkTheme = isDarkMode) {

@@ -71,6 +71,10 @@ fun ToolsScreen(
                 ToolRow(Icons.Outlined.School, "Pathways", "What to study after Class 8, SEE, +2 and a bachelor: careers, pay, colleges by district, abroad and scholarships.", onNavigateToPathways)
             }
             item {
+                val showWhatsNew = com.neb.ians.ui.theme.LocalSiteTheme.current.onShowWhatsNew
+                ToolRow(Icons.Outlined.FactCheck, "What's new in 1.8", "See the latest features in this update and try Pathways, Notes & Voice AI and Schools.", showWhatsNew)
+            }
+            item {
                 ToolRow(Icons.Outlined.Palette, "Dynamic posts", "Preview posts with their own paper, type and decoration.", onNavigateToPostLab)
             }
 

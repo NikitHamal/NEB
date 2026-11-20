@@ -264,16 +264,39 @@ internal fun PwActions(modifier: Modifier = Modifier, content: @Composable RowSc
 }
 
 @Composable
-internal fun PwRootBar(onSearch: () -> Unit) {
-    Row(Modifier.fillMaxWidth().statusBarsPadding().padding(16.dp, 16.dp, 16.dp, 8.dp), verticalAlignment = Alignment.CenterVertically) {
-        Text("Pathways", Modifier.weight(1f), fontSize = 21.sp, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.4).sp)
+internal fun PwRootBar(onSearch: () -> Unit, onBack: (() -> Unit)? = null, scrolled: () -> Float = { 0f }) {
+    val c = MaterialTheme.colorScheme
+    val line = c.outlineVariant
+    Row(
+        Modifier.fillMaxWidth().background(c.surface)
+            .drawBehind {
+                val a = scrolled()
+                if (a > 0f) drawRect(line.copy(alpha = a), Offset(0f, size.height - 1.dp.toPx()), Size(size.width, 1.dp.toPx()))
+            }
+            .statusBarsPadding().padding(16.dp, 12.dp, 16.dp, 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        if (onBack != null) PwIconButton(Icons.AutoMirrored.Outlined.ArrowBack, "Back", onBack)
+        Text("Pathways", Modifier.weight(1f), fontSize = 21.sp, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.4).sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
         PwIconButton(Icons.Outlined.Search, "Search", onSearch)
     }
 }
 
 @Composable
-internal fun PwBackBar(title: String, onBack: () -> Unit) {
-    Row(Modifier.fillMaxWidth().statusBarsPadding().padding(16.dp, 12.dp, 16.dp, 8.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+internal fun PwBackBar(title: String, onBack: () -> Unit, scrolled: () -> Float = { 0f }) {
+    val c = MaterialTheme.colorScheme
+    val line = c.outlineVariant
+    Row(
+        Modifier.fillMaxWidth().background(c.surface)
+            .drawBehind {
+                val a = scrolled()
+                if (a > 0f) drawRect(line.copy(alpha = a), Offset(0f, size.height - 1.dp.toPx()), Size(size.width, 1.dp.toPx()))
+            }
+            .statusBarsPadding().padding(16.dp, 12.dp, 16.dp, 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
         PwIconButton(Icons.AutoMirrored.Outlined.ArrowBack, "Back", onBack)
         Text(title, Modifier.weight(1f), fontSize = 22.sp, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.5).sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
     }
@@ -292,19 +315,11 @@ internal fun PwBadge(tone: PwTone, lobes: Int, size: Dp = 92.dp, content: @Compo
 }
 
 @Composable
-internal fun PwHero(tone: PwTone, title: String, sub: String, saved: Boolean?, onSave: () -> Unit, onBack: () -> Unit, badge: @Composable () -> Unit) {
+internal fun PwHero(tone: PwTone, title: String, sub: String, badge: @Composable () -> Unit) {
     Column(
         Modifier.fillMaxWidth().clip(RoundedCornerShape(bottomStart = 36.dp, bottomEnd = 36.dp)).background(tone.bg)
-            .statusBarsPadding().padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 24.dp),
+            .statusBarsPadding().padding(start = 16.dp, end = 16.dp, top = 68.dp, bottom = 24.dp),
     ) {
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            PwIconButton(Icons.AutoMirrored.Outlined.ArrowBack, "Back", onBack, tone.fg.copy(alpha = 0.1f), tone.fg)
-            if (saved != null) PwIconButton(
-                if (saved) Icons.Outlined.Bookmark else Icons.Outlined.BookmarkBorder, "Save", onSave,
-                if (saved) tone.fg else tone.fg.copy(alpha = 0.1f), if (saved) tone.bg else tone.fg,
-            )
-        }
-        Spacer(Modifier.height(14.dp))
         Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Column(Modifier.weight(1f)) {
                 Text(title, color = tone.fg, fontSize = 25.sp, lineHeight = 26.sp, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.5).sp)

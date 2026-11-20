@@ -42,8 +42,7 @@ internal fun PwGuides(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav
     }
     val hasBoth = d.guides.isNotEmpty() && d.faq.isNotEmpty()
     val shown = if (!hasBoth) (if (d.guides.isNotEmpty()) "guides" else "faq") else view
-    PwScrollPage(24.dp) {
-        PwRootBar { nav.push("search") }
+    PwScrollPage(24.dp, topBar = { scrolled -> PwRootBar({ nav.push("search") }, nav.pop, scrolled) }) {
         if (hasBoth) PwSeg(listOf("guides" to "Guides", "faq" to "Questions"), shown, { view = it }, Modifier.padding(16.dp, 8.dp, 16.dp, 12.dp))
         if (shown == "guides" && d.guides.isNotEmpty()) {
             val cats = listOf("All") + d.guides.map { it.cat }.distinct()
@@ -84,13 +83,21 @@ internal fun PwGuideDetail(d: PwData, g: PwGuide, vm: PathwaysViewModel, ui: Pat
     val done = guideDone(vm, g)
     val key = "guide:${g.id}"
     Box(Modifier.fillMaxSize()) {
-        PwScrollPage(if (g.link.isNotBlank()) 96.dp else 24.dp) {
-            PwHero(tone, g.name, g.cat, key in ui.saved, { vm.toggleSaved(key) }, nav.pop) {
+        PwHeroScrollPage(
+            tone = tone,
+            title = g.name,
+            sub = g.cat,
+            saved = key in ui.saved,
+            onSave = { vm.toggleSaved(key) },
+            onBack = nav.pop,
+            bottom = if (g.link.isNotBlank()) 96.dp else 24.dp,
+            badge = {
                 PwBadge(tone, 6) {
                     Text("$done", fontSize = 22.sp, fontWeight = FontWeight.SemiBold, lineHeight = 24.sp)
                     Text("of ${g.steps.size}", fontSize = 11.sp, fontWeight = FontWeight.SemiBold, lineHeight = 12.sp)
                 }
-            }
+            },
+        ) {
             PwFacts(
                 listOf(
                     "Time" to "${g.steps.sumOf { it.days }} days",

@@ -65,10 +65,16 @@ internal fun PwCareerDetail(d: PwData, k: PwCareer, ui: PathwaysUiState, vm: Pat
     val starts = rungStarts(ladder.size)
     val rung = starts.indexOfLast { it <= exp }.coerceAtLeast(0)
     val key = "career:${k.id}"
-    PwScrollPage(32.dp) {
-        PwHero(tone, k.name, "NPR ${money(k.entryMin)}\u2013${money(k.seniorMax)} / month", key in ui.saved, { vm.toggleSaved(key) }, nav.pop) {
-            PwBadge(tone, 5) { PwSignal(pct(k.demand), tone.bg, 34.dp) }
-        }
+    PwHeroScrollPage(
+        tone = tone,
+        title = k.name,
+        sub = "NPR ${money(k.entryMin)}\u2013${money(k.seniorMax)} / month",
+        saved = key in ui.saved,
+        onSave = { vm.toggleSaved(key) },
+        onBack = nav.pop,
+        bottom = 32.dp,
+        badge = { PwBadge(tone, 5) { PwSignal(pct(k.demand), tone.bg, 34.dp) } },
+    ) {
         PwMeters(pct(k.demand), pct(k.competition), "NPR ${money(payAt(k, exp.toFloat()).toLong())}", "${if (exp == 0) "Entry" else "Year $exp"} \u00b7 ${ladder[rung]}")
         PwTabs(listOf("pay" to "Pay", "profile" to "Profile", "skills" to "Skills", "market" to "Market"), tab) { tab = it }
         Column(Modifier.padding(16.dp, 18.dp, 16.dp, 20.dp)) {

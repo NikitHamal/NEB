@@ -21,6 +21,38 @@ def payload() -> dict:
     neby = t.get('neby') or {}
     data['neby'] = {'look': neby.get('look', 'classic'), 'ambient': neby.get('ambient', True), 'reactions': neby.get('reactions', True),
                     'greet': neby.get('greet')}
+    data['whats_new'] = {
+        'release_key': '1.8',
+        'items': [
+            {
+                'id': 'pathways',
+                'badge': 'NEW',
+                'title': 'Pathways',
+                'description': 'Explore 124 courses after SEE and +2, compare 58 careers, 77-district colleges, entrance exams and 46 study-abroad routes.',
+                'cta_label': 'Try Pathways',
+                'target_route': 'pathways',
+                'kind': 'pathways',
+            },
+            {
+                'id': 'notes_voice',
+                'badge': 'NEW',
+                'title': 'Notes & Voice AI',
+                'description': 'Rich block notes with custom paper, covers, to-do due dates and offline on-device voice dictation and read-aloud.',
+                'cta_label': 'Try Notes',
+                'target_route': 'notes',
+                'kind': 'notes',
+            },
+            {
+                'id': 'schools',
+                'badge': 'NEW',
+                'title': 'Schools on NEBians',
+                'description': 'Browse 24,675 schools and colleges across all 77 districts, check verified campus portfolios and claim your institution page.',
+                'cta_label': 'Explore Schools',
+                'target_route': 'schools',
+                'kind': 'schools',
+            },
+        ],
+    }
     if data['festive']:
         data.update({
             'light': dict(zip(_ROLE_NAMES, app['light'])),

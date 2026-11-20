@@ -187,9 +187,11 @@ fun AboutScreen(onBack: () -> Unit, onOpenLibrary: () -> Unit) {
                 onLibrary = onOpenLibrary
             )
 
+            val showWhatsNew = com.neb.ians.ui.theme.LocalSiteTheme.current.onShowWhatsNew
             VersionRow(info) {
                 copy(context, "NEBians ${info.name} (${info.build}), Android ${Build.VERSION.RELEASE} (API ${Build.VERSION.SDK_INT})")
                 context.nebToast("Version copied")
+                showWhatsNew()
             }
 
             Heading("What it is")

@@ -48,8 +48,12 @@ data class SiteThemeState(
     val theme: ApiSiteTheme? = null,
     val cardOpen: Boolean = false,
     val onDismissCard: () -> Unit = {},
+    val whatsNewOpen: Boolean = false,
+    val onDismissWhatsNew: () -> Unit = {},
+    val onShowWhatsNew: () -> Unit = {},
 ) {
     val festive: Boolean get() = theme?.festive == true && theme.light != null
+    val whatsNewConfig get() = theme?.whatsNew?.takeIf { it.items.isNotEmpty() } ?: com.neb.ians.ui.components.DefaultWhatsNewConfig
 }
 
 val LocalSiteTheme = staticCompositionLocalOf { SiteThemeState() }

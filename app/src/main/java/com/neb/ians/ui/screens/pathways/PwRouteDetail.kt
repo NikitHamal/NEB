@@ -47,16 +47,24 @@ internal fun PwRouteDetail(d: PwData, r: PwRoute, ui: PathwaysUiState, vm: Pathw
     var tab by rememberSaveable { mutableStateOf("journey") }
     val nextRoute = r.next.firstNotNullOfOrNull { d.routeById[it] }
     val nextStage = nextRoute?.let { n -> d.stages.firstOrNull { it.id == n.stage } }
+    val key = "route:${r.id}"
     Box(Modifier.fillMaxSize()) {
-        PwScrollPage(96.dp) {
-            val key = "route:${r.id}"
-            PwHero(tone, r.name, listOf(r.kind, groupLabel(r.group)).filter { it.isNotBlank() }.joinToString(" · "), key in ui.saved, { vm.toggleSaved(key) }, nav.pop) {
+        PwHeroScrollPage(
+            tone = tone,
+            title = r.name,
+            sub = listOf(r.kind, groupLabel(r.group)).filter { it.isNotBlank() }.joinToString(" · "),
+            saved = key in ui.saved,
+            onSave = { vm.toggleSaved(key) },
+            onBack = nav.pop,
+            bottom = 96.dp,
+            badge = {
                 val (big, small) = yearsBadge(m.years)
                 PwBadge(tone, 8) {
                     Text(big.ifEmpty { "${r.careers.size}" }, fontSize = 22.sp, fontWeight = FontWeight.SemiBold, lineHeight = 24.sp)
                     Text(small.ifEmpty { "careers" }, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, lineHeight = 12.sp)
                 }
-            }
+            },
+        ) {
             PwMeters(m.demand, m.competition, if (m.payHi > 0) "${money(m.payLo)}–${money(m.payHi)}" else null, "NPR / month to start")
             PwTabs(listOf("journey" to "Journey", "careers" to "Careers", "cost" to "Cost", "entry" to "Entry", "compare" to "Compare"), tab) { tab = it }
             Column(Modifier.padding(16.dp, 18.dp, 16.dp, 20.dp)) {

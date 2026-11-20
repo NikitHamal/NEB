@@ -50,14 +50,17 @@ internal fun PwPlan(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: 
         if (profile != null) value = withContext(Dispatchers.Default) { pwMatch(d, profile) }
     }
     val list = androidx.compose.foundation.lazy.rememberLazyListState()
-    Box(Modifier.fillMaxSize()) {
-    LazyColumn(Modifier.fillMaxSize(), state = list, contentPadding = PaddingValues(bottom = 24.dp)) {
-        item("bar") { PwRootBar { nav.push("search") } }
-        item("seg") { PwSeg(listOf("match" to "Match", "plan" to "My plan"), s.plan, { s.plan = it }, Modifier.padding(16.dp, 8.dp, 16.dp, 8.dp)) }
-        if (s.plan == "match") pwMatchItems(d, ui, vm, nav, result)
-        else item("plan") { MyPlan(d, ui, vm, nav) }
-    }
-    PwLazyScrim(list)
+    Column(Modifier.fillMaxSize()) {
+        PwRootBar(
+            onSearch = { nav.push("search") },
+            onBack = nav.pop,
+            scrolled = { if (list.firstVisibleItemIndex > 0) 1f else (list.firstVisibleItemScrollOffset / 24f).coerceIn(0f, 1f) },
+        )
+        LazyColumn(Modifier.weight(1f).fillMaxWidth(), state = list, contentPadding = PaddingValues(bottom = 24.dp)) {
+            item("seg") { PwSeg(listOf("match" to "Match", "plan" to "My plan"), s.plan, { s.plan = it }, Modifier.padding(16.dp, 8.dp, 16.dp, 8.dp)) }
+            if (s.plan == "match") pwMatchItems(d, ui, vm, nav, result)
+            else item("plan") { MyPlan(d, ui, vm, nav) }
+        }
     }
 }
 

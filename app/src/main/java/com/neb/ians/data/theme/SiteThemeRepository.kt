@@ -33,12 +33,20 @@ class SiteThemeRepository @Inject constructor(
     private val _dismissed = MutableStateFlow<Set<String>>(emptySet())
     val dismissed: StateFlow<Set<String>> = _dismissed.asStateFlow()
 
+    private val _seenWhatsNew = MutableStateFlow<Set<String>>(emptySet())
+    val seenWhatsNew: StateFlow<Set<String>> = _seenWhatsNew.asStateFlow()
+
+    private val _prefsLoaded = MutableStateFlow(false)
+    val prefsLoaded: StateFlow<Boolean> = _prefsLoaded.asStateFlow()
+
     private var fetchedAt = 0L
 
     init {
         ioScope.launch {
             _theme.value = load()
             _dismissed.value = prefs.getStringSet(DISMISSED, emptySet()).orEmpty()
+            _seenWhatsNew.value = prefs.getStringSet(SEEN_WHATS_NEW, emptySet()).orEmpty()
+            _prefsLoaded.value = true
         }
     }
 
@@ -59,6 +67,13 @@ class SiteThemeRepository @Inject constructor(
         prefs.edit().putStringSet(DISMISSED, next).apply()
     }
 
+    fun markWhatsNewSeen(releaseKey: String) {
+        if (releaseKey.isBlank()) return
+        val next = _seenWhatsNew.value + releaseKey
+        _seenWhatsNew.value = next
+        prefs.edit().putStringSet(SEEN_WHATS_NEW, next).apply()
+    }
+
     private fun load(): ApiSiteTheme? = prefs.getString(CACHED, null)?.let { raw ->
         runCatching { json.decodeFromString(ApiSiteTheme.serializer(), raw) }.getOrNull()
     }
@@ -68,6 +83,7 @@ class SiteThemeRepository @Inject constructor(
         const val PREFS = "nebians_site_theme"
         private const val CACHED = "theme_json"
         private const val DISMISSED = "dismissed"
+        private const val SEEN_WHATS_NEW = "seen_whats_new"
         private const val FIVE_MINUTES = 5 * 60 * 1000L
     }
 }

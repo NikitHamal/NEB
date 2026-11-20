@@ -74,12 +74,41 @@ fun InstitutionScreen(slug: String, onBack: () -> Unit, onManage: (String) -> Un
                 }
                 CoverBtn(Icons.AutoMirrored.Outlined.ArrowBack, "Back", onBack, Modifier.statusBarsPadding().padding(14.dp))
             }
-        } else LazyColumn(contentPadding = PaddingValues(bottom = 40.dp)) {
-            item(key = "head") {
-                Head(d, onBack, onCopy = { clipboard.setText(AnnotatedString("$WEB/app/schools/${d.slug}/")); context.nebToast("Link copied") },
-                    onEdit = if (d.canEdit) ({ onManage(slug) }) else null)
+        } else {
+            val listState = androidx.compose.foundation.lazy.rememberLazyListState()
+            val copyLink = { clipboard.setText(AnnotatedString("$WEB/app/schools/${d.slug}/")); context.nebToast("Link copied") }
+            val editFn = if (d.canEdit) ({ onManage(slug) }) else null
+            val progress: () -> Float = {
+                if (listState.firstVisibleItemIndex > 0) 1f
+                else ((listState.firstVisibleItemScrollOffset - 120f) / 100f).coerceIn(0f, 1f)
             }
-            item(key = "body") { Box(Modifier.padding(16.dp, 12.dp)) { InstitutionPortfolioHost(slug, vm) } }
+            LazyColumn(state = listState, contentPadding = PaddingValues(bottom = 40.dp)) {
+                item(key = "head") { Head(d) }
+                item(key = "body") { Box(Modifier.padding(16.dp, 12.dp)) { InstitutionPortfolioHost(slug, vm) } }
+            }
+            val c = MaterialTheme.colorScheme
+            Box(Modifier.align(Alignment.TopCenter).fillMaxWidth()) {
+                Box(Modifier.matchParentSize().let { m -> androidx.compose.ui.Modifier.then(m) }.background(c.surface.copy(alpha = progress())))
+                Row(
+                    Modifier.fillMaxWidth().statusBarsPadding().padding(14.dp, 10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    CoverBtn(Icons.AutoMirrored.Outlined.ArrowBack, "Back", onBack)
+                    Text(
+                        d.name,
+                        Modifier.weight(1f).padding(horizontal = 4.dp),
+                        color = c.onSurface.copy(alpha = progress()),
+                        fontSize = 17.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        maxLines = 1,
+                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                    )
+                    if (editFn != null) CoverBtn(Icons.Outlined.Edit, "Edit portfolio", editFn)
+                    CoverBtn(Icons.Outlined.Link, "Copy link", copyLink)
+                }
+                Box(Modifier.align(Alignment.BottomCenter).fillMaxWidth().height(1.dp).background(c.outlineVariant.copy(alpha = progress())))
+            }
         }
     }
 }
@@ -114,7 +143,7 @@ private fun CoverBtn(icon: androidx.compose.ui.graphics.vector.ImageVector, labe
 
 /** Concept head: tonal cover to both edges, controls on it, squircle mark across its edge, name, kind and place. */
 @Composable
-private fun Head(d: ApiInstDetail, onBack: () -> Unit, onCopy: () -> Unit, onEdit: (() -> Unit)?) {
+private fun Head(d: ApiInstDetail) {
     val c = MaterialTheme.colorScheme
     val dark = c.surface.luminance() < 0.5f
     val cover = if (dark) Color(0xFF0F5223) else Color(0xFFC4EFCB)
@@ -127,12 +156,6 @@ private fun Head(d: ApiInstDetail, onBack: () -> Unit, onCopy: () -> Unit, onEdi
                     drawCircle(ink.copy(alpha = 0.12f), size.height * 0.62f, Offset(size.width * 0.15f, size.height * 1.05f))
                     drawRoundRect(ink.copy(alpha = 0.1f), Offset(size.width * 0.45f, -size.height * 0.1f), Size(size.height * 0.5f, size.height * 0.5f), CornerRadius(32f))
                 }
-            }
-            Row(Modifier.fillMaxWidth().statusBarsPadding().padding(14.dp, 10.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                CoverBtn(Icons.AutoMirrored.Outlined.ArrowBack, "Back", onBack)
-                Spacer(Modifier.weight(1f))
-                if (onEdit != null) CoverBtn(Icons.Outlined.Edit, "Edit portfolio", onEdit)
-                CoverBtn(Icons.Outlined.Link, "Copy link", onCopy)
             }
             com.neb.ians.ui.components.InstitutionLogo(
                 photoUrl = d.photoUrl, kind = d.kind, size = 92.dp, corner = 30.dp,

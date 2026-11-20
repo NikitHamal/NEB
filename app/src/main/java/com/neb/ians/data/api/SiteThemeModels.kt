@@ -15,6 +15,29 @@ data class ApiSiteTheme(
     val card: ApiSeasonCard? = null,
     /** How Neby looks and behaves right now: an admin's pick, or the festival's dress. */
     val neby: ApiNebyConfig? = null,
+    /** One-time "What's New / Try Out" release sheet configuration controlled by backend or local fallback. */
+    @kotlinx.serialization.SerialName("whats_new")
+    val whatsNew: ApiWhatsNewConfig? = null,
+)
+
+@Serializable
+data class ApiWhatsNewConfig(
+    @kotlinx.serialization.SerialName("release_key")
+    val releaseKey: String = "1.8",
+    val items: List<ApiWhatsNewItem> = emptyList(),
+)
+
+@Serializable
+data class ApiWhatsNewItem(
+    val id: String = "",
+    val badge: String = "NEW",
+    val title: String = "",
+    val description: String = "",
+    @kotlinx.serialization.SerialName("cta_label")
+    val ctaLabel: String = "Try now",
+    @kotlinx.serialization.SerialName("target_route")
+    val targetRoute: String = "pathways",
+    val kind: String = "pathways",
 )
 
 @Serializable
