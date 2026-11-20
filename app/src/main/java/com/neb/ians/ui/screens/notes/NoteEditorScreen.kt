@@ -283,6 +283,7 @@ fun NoteEditorScreen(
                         MenuItem("Restore", Icons.Outlined.RestoreFromTrash) { menu = false; vm.restoreFromBin() }
                         MenuItem("Delete forever", Icons.Outlined.DeleteForever, danger = true) { menu = false; confirmDelete = true }
                     } else {
+                        MenuItem("Select all text", Icons.Outlined.Check) { menu = false; vm.selectAllText(registry) }
                         MenuItem("Appearance", Icons.Outlined.Palette) { menu = false; toneSheet = true }
                         MenuItem("Add tag", Icons.Outlined.Add) { menu = false; tagDialog = true }
                         MenuItem("Share", Icons.Outlined.Share) { menu = false; shareText(context, vm.shareText()) }

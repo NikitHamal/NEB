@@ -231,10 +231,45 @@ object NoteDoc {
                     )
                 )
             }
-            if (out.isEmpty()) starter() else out
+            if (out.isEmpty()) starter() else coalesceTextBlocks(out)
         } catch (_: Exception) {
             starter()
         }
+    }
+
+    /**
+     * Merges consecutive plain [BlockType.Text] blocks that share the same indent, alignment, ink tint,
+     * and highlight mark into a single multi-line [BlockType.Text] block so paragraphs can be selected
+     * and edited together across newlines. Preserves side-by-side image partner blocks untouched.
+     */
+    fun coalesceTextBlocks(blocks: List<NoteBlock>): List<NoteBlock> {
+        if (blocks.size <= 1) return blocks
+        val out = ArrayList<NoteBlock>(blocks.size)
+        for (b in blocks) {
+            val prev = out.lastOrNull()
+            val prevPrev = if (out.size >= 2) out[out.size - 2] else null
+            val prevIsImagePartner = prevPrev != null && prevPrev.type == BlockType.Image && prevPrev.wrap && prevPrev.path.isNotBlank()
+            if (
+                prev != null &&
+                !prevIsImagePartner &&
+                prev.type == BlockType.Text &&
+                b.type == BlockType.Text &&
+                prev.indent == b.indent &&
+                prev.align == b.align &&
+                prev.tint == b.tint &&
+                prev.mark == b.mark
+            ) {
+                val mergedText = when {
+                    prev.text.isEmpty() -> b.text
+                    b.text.isEmpty() -> prev.text
+                    else -> prev.text + "\n" + b.text
+                }
+                out[out.lastIndex] = prev.copy(text = mergedText)
+            } else {
+                out.add(b)
+            }
+        }
+        return if (out.isEmpty()) starter() else out
     }
 
     // ---------------------------------------------------------------- Markdown
@@ -337,7 +372,7 @@ object NoteDoc {
             }
             i++
         }
-        return if (out.isEmpty()) starter() else out
+        return if (out.isEmpty()) starter() else coalesceTextBlocks(out)
     }
 
     fun wordCount(blocks: List<NoteBlock>): Int =

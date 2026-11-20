@@ -77,6 +77,7 @@ import androidx.compose.material.icons.outlined.Event
 import androidx.compose.material.icons.outlined.FormatUnderlined
 import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material.icons.outlined.MoreVert
+import androidx.compose.material.icons.outlined.SelectAll
 import androidx.compose.material.icons.outlined.Title
 import androidx.compose.material3.AlertDialog
 import com.neb.ians.ui.components.NebDropdownMenu
@@ -492,7 +493,14 @@ private fun TextBlockRow(
     LaunchedEffect(block.text) { state.adopt(block.text, block.text.length) }
     LaunchedEffect(wantsFocus) {
         if (wantsFocus) {
-            if (vm.caretAtStart) state.setMarkdown(block.text, 0)
+            when {
+                vm.selectAllRequested -> {
+                    state.adopt(block.text, block.text.length)
+                    state.selectAll()
+                }
+                vm.focusCaretOffset >= 0 -> state.setMarkdown(block.text, vm.focusCaretOffset)
+                vm.caretAtStart -> state.setMarkdown(block.text, 0)
+            }
             runCatching { focusRequester.requestFocus() }
             vm.consumeFocus()
         }
@@ -528,8 +536,19 @@ private fun TextBlockRow(
         BlockType.Code -> "Code"
         else -> ""
     }
-    val slash = if (type == BlockType.Text && block.text.startsWith("/") && !block.text.contains(' ')) {
-        val q = block.text.drop(1)
+    val mdLines = remember(block.text) { block.text.split('\n') }
+    val slashLineIndex = remember(block.text, state.value.text, state.value.selection) {
+        if (type != BlockType.Text) -1
+        else {
+            val plain = state.value.text
+            val caret = state.value.selection.start.coerceIn(0, plain.length)
+            val lineIdx = plain.substring(0, caret).count { it == '\n' }.coerceIn(0, (mdLines.size - 1).coerceAtLeast(0))
+            val ln = mdLines.getOrNull(lineIdx).orEmpty()
+            if (ln.startsWith("/") && !ln.contains(' ')) lineIdx else -1
+        }
+    }
+    val slash = if (slashLineIndex >= 0) {
+        val q = mdLines[slashLineIndex].drop(1)
         BlockType.entries.filter { q.isBlank() || it.label.contains(q, true) || it.keywords.contains(q, true) }.take(9)
     } else emptyList()
 
@@ -569,10 +588,17 @@ private fun TextBlockRow(
             else -> {}
         }
         Box(Modifier.weight(1f)) {
+            val isMultiLineBlock = type == BlockType.Text || type == BlockType.Code || type == BlockType.Quote || type == BlockType.Callout
             RichTextField(
                 state = state,
                 onChange = { typed ->
-                    if (type != BlockType.Code && typed.text.contains('\n')) {
+                    val exitQuoteOrCallout = (type == BlockType.Quote || type == BlockType.Callout) && typed.text.endsWith("\n\n")
+                    if (exitQuoteOrCallout) {
+                        state.onChangeQuiet(typed)
+                        val trimmed = state.markdown().trimEnd('\n')
+                        state.setMarkdown(trimmed)
+                        vm.split(block.id, trimmed, listOf(""))
+                    } else if (!isMultiLineBlock && typed.text.contains('\n')) {
                         state.onChangeQuiet(typed)
                         val parts = state.markdown().split('\n')
                         state.setMarkdown(parts.first())
@@ -618,7 +644,15 @@ private fun TextBlockRow(
                             }
                         },
                         leadingIcon = { Icon(blockIcon(t), null, tint = c.primary, modifier = Modifier.size(22.dp)) },
-                        onClick = { vm.applySlash(block.id, t) },
+                        onClick = {
+                            if (slashLineIndex >= 0 && mdLines.size > 1) {
+                                val beforeMd = mdLines.subList(0, slashLineIndex).joinToString("\n")
+                                val afterMd = mdLines.subList(slashLineIndex + 1, mdLines.size).joinToString("\n")
+                                vm.applySlashOnLine(block.id, beforeMd, afterMd, t)
+                            } else {
+                                vm.applySlash(block.id, t)
+                            }
+                        },
                     )
                 }
             }
@@ -718,6 +752,7 @@ fun BlockFormatBar(
             BarButton(Icons.Outlined.FormatQuote, "Quote", fg, textBlock?.type == BlockType.Quote) { turn(BlockType.Quote) }
             BarButton(Icons.Outlined.FormatIndentDecrease, "Outdent", fg, false) { (textBlock?.id ?: vm.focusedId)?.let { vm.indent(it, -1) } }
             BarButton(Icons.Outlined.FormatIndentIncrease, "Indent", fg, false) { (textBlock?.id ?: vm.focusedId)?.let { vm.indent(it, 1) } }
+            BarButton(Icons.Outlined.SelectAll, "Select all", fg, false) { vm.selectAllText(registry) }
             BarButton(Icons.Outlined.MoreHoriz, "Block options", fg, false) { if (block != null) blockSheet = true }
         }
         trailing()

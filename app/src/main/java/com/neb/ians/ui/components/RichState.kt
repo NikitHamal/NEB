@@ -50,6 +50,13 @@ class RichState(
 
     val isBlank: Boolean get() = doc.text.isBlank()
 
+    /** Selects the entire plain text in this block. */
+    fun selectAll() {
+        val len = doc.text.length
+        if (len <= 0) return
+        value = value.copy(selection = TextRange(0, len))
+    }
+
     /** Load Markdown from outside (a draft, an edit, a mention picked); [caret] is an offset in [md]. */
     fun setMarkdown(md: String, caret: Int = md.length) {
         val (d, at) = if (raw) RichMarkdown.plainDoc(md) to caret.coerceIn(0, md.length) else RichMarkdown.parseWithCaret(md, caret, blockMode)

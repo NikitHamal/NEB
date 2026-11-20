@@ -141,18 +141,33 @@ class NoteEditorViewModel @Inject constructor(
     /** True when the block being focused came from splitting a line, so the caret belongs at its start. */
     var caretAtStart = false
         private set
+    var focusCaretOffset = -1
+        private set
+    var selectAllRequested = false
+        private set
 
     /** A tap on the empty page under the last block keeps writing there. */
     fun tapBelow() {
         val last = _blocks.value.last()
         caretAtStart = false
+        focusCaretOffset = -1
+        selectAllRequested = false
         if (last.type == BlockType.Text) _focusRequest.value = last.id else insert(BlockType.Text, last.id)
     }
 
     fun focusFirst() {
-        _blocks.value.firstOrNull { it.type.hasText }?.let { caretAtStart = false; _focusRequest.value = it.id }
+        _blocks.value.firstOrNull { it.type.hasText }?.let {
+            caretAtStart = false
+            focusCaretOffset = -1
+            selectAllRequested = false
+            _focusRequest.value = it.id
+        }
     }
-    fun consumeFocus() { _focusRequest.value = null }
+    fun consumeFocus() {
+        _focusRequest.value = null
+        focusCaretOffset = -1
+        selectAllRequested = false
+    }
     fun clearNotice() { _notice.value = null }
 
     // ---- blocks
@@ -226,9 +241,13 @@ class NoteEditorViewModel @Inject constructor(
         val prev = list[i - 1]
         if (prev.type.hasText) {
             val out = list.toMutableList()
-            out[i - 1] = prev.copy(text = prev.text + cur.text)
+            val sep = if (prev.type == BlockType.Text && cur.type == BlockType.Text && prev.text.isNotEmpty() && cur.text.isNotEmpty()) "\n" else ""
+            val joinAt = prev.text.length + sep.length
+            out[i - 1] = prev.copy(text = prev.text + sep + cur.text)
             out.removeAt(i)
             commit(out, force = true)
+            caretAtStart = false
+            focusCaretOffset = joinAt
             _focusRequest.value = prev.id
         } else if (cur.text.isBlank()) {
             val out = list.toMutableList()
@@ -254,6 +273,57 @@ class NoteEditorViewModel @Inject constructor(
     fun applySlash(id: String, type: BlockType) {
         update(id) { it.copy(text = "") }
         if (type.hasText) convert(id, type) else insert(type, afterId = id, replaceBlankId = id)
+    }
+
+    /**
+     * Slash menu triggered on a line inside a multi-line [BlockType.Text] block:
+     * keeps [beforeMd] above, creates the new [type] block, and places [afterMd] below if non-empty.
+     */
+    fun applySlashOnLine(id: String, beforeMd: String, afterMd: String, type: BlockType) {
+        if (beforeMd.isEmpty() && afterMd.isEmpty()) {
+            applySlash(id, type)
+            return
+        }
+        val list = _blocks.value
+        val i = indexOf(id)
+        if (i < 0) return
+        val cur = list[i]
+        val out = list.toMutableList()
+        val created = NoteBlock(type = type, indent = cur.indent, align = cur.align, tint = cur.tint, mark = cur.mark)
+        var insertAt = i
+        if (beforeMd.isNotEmpty()) {
+            out[i] = cur.copy(text = beforeMd)
+            insertAt = i + 1
+            out.add(insertAt, created)
+        } else {
+            out[i] = created
+            insertAt = i
+        }
+        if (afterMd.isNotEmpty()) {
+            val tail = NoteBlock(type = BlockType.Text, text = afterMd, indent = cur.indent, align = cur.align, tint = cur.tint, mark = cur.mark)
+            out.add(insertAt + 1, tail)
+        }
+        commit(out, force = true)
+        caretAtStart = true
+        focusCaretOffset = 0
+        if (created.type.hasText) _focusRequest.value = created.id
+    }
+
+    /** Coalesces consecutive plain text blocks and selects all text in the focused (or primary) text block. */
+    fun selectAllText(registry: BlockFieldRegistry) {
+        val merged = NoteDoc.coalesceTextBlocks(_blocks.value)
+        if (merged != _blocks.value) {
+            commit(merged, force = false)
+        }
+        val targetId = focusedId?.takeIf { id -> merged.any { it.id == id && it.type.hasText } }
+            ?: merged.maxByOrNull { if (it.type.hasText) it.text.length else -1 }?.takeIf { it.type.hasText }?.id
+            ?: return
+        val targetBlock = merged.firstOrNull { it.id == targetId } ?: return
+        val st = registry.stateOf(this, targetBlock)
+        st.adopt(targetBlock.text, targetBlock.text.length)
+        st.selectAll()
+        selectAllRequested = true
+        _focusRequest.value = targetId
     }
 
     fun toggleTodo(id: String) = update(id) { it.copy(checked = !it.checked) }
