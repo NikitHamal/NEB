@@ -22,24 +22,36 @@ class SpeechViewModel @Inject constructor(
 ) : ViewModel() {
     val stt: StateFlow<ModelState> = models.stt
     val tts: StateFlow<ModelState> = models.tts
+    val shruti: StateFlow<ModelState> = models.shruti
+    val whistleModel: StateFlow<ModelState> = models.whistle
+    val tinyVoca: StateFlow<ModelState> = models.tinyVoca
+    val phononModel: StateFlow<ModelState> = models.phonon
+    val selectedStt: StateFlow<SpeechModelId> = models.selectedStt
+    val selectedTts: StateFlow<SpeechModelId> = models.selectedTts
     val sttLanguage: StateFlow<String> = models.sttLanguage
     val voice: StateFlow<String> = models.voice
+    val vocaVoice: StateFlow<String> = models.vocaVoice
     val installedVoices: StateFlow<List<String>> = models.installedVoices
     val voiceBusy: StateFlow<Set<String>> = models.voiceBusy
     val catalog: StateFlow<VoiceCatalog> = models.catalog
     val readState: StateFlow<ReadState> = phonon.state
 
     val sttSupported: Boolean get() = models.sttSupportedCached
+    val vocaSupported: Boolean get() = models.vocaSupportedCached
+    val phononSupported: Boolean get() = models.phononSupportedCached
     val ttsSupported: Boolean get() = models.ttsSupportedCached
 
     fun download(id: SpeechModelId) = models.download(id)
     fun cancel(id: SpeechModelId) = models.cancel(id)
     fun remove(id: SpeechModelId) = models.remove(id)
+    fun selectStt(id: SpeechModelId) = models.selectSttModel(id)
+    fun selectTts(id: SpeechModelId) = models.selectTtsModel(id)
     fun setSttLanguage(code: String) = models.setSttLanguage(code)
     fun loadCatalog() = models.loadCatalog()
     fun downloadVoice(v: PhononVoice) = models.downloadVoice(v)
     fun removeVoice(name: String) = models.removeVoice(name)
     fun useVoice(name: String) = models.setVoice(name)
+    fun useVocaVoice(name: String) = models.setVocaVoice(name)
 
     fun preview(name: String) {
         if (phonon.state.value == ReadState.Speaking || phonon.state.value == ReadState.Loading) {

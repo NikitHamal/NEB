@@ -231,22 +231,43 @@ private fun DownloadButton(label: String, onClick: () -> Unit) {
 
 @Composable
 fun SttModelCard(vm: SpeechViewModel, showLanguages: Boolean) {
-    val state by vm.stt.collectAsStateWithLifecycle()
+    val selected by vm.selectedStt.collectAsStateWithLifecycle()
+    val shrutiState by vm.shruti.collectAsStateWithLifecycle()
+    val whistleState by vm.whistleModel.collectAsStateWithLifecycle()
     val lang by vm.sttLanguage.collectAsStateWithLifecycle()
-    ModelShell(
-        icon = Icons.Outlined.Mic,
-        title = "Speech to text",
-        meta = "${SpeechCatalog.WHISTLE_LABEL} \u00B7 ${formatBytes(SpeechCatalog.totalBytes(SpeechModelId.Whistle))}",
-        state = state,
-        supported = vm.sttSupported,
-        onDownload = { vm.download(SpeechModelId.Whistle) },
-        onCancel = { vm.cancel(SpeechModelId.Whistle) },
-        onRemove = { vm.remove(SpeechModelId.Whistle) },
-    ) {
-        if (showLanguages) {
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                SpeechCatalog.sttLanguages.forEach { (code, label) ->
-                    ToneChip(label, lang == code, { vm.setSttLanguage(code) })
+    val activeState = if (selected == SpeechModelId.ShrutiNepali) shrutiState else whistleState
+    val label = if (selected == SpeechModelId.ShrutiNepali) SpeechCatalog.SHRUTI_LABEL else SpeechCatalog.WHISTLE_LABEL
+    val langs = if (selected == SpeechModelId.ShrutiNepali) SpeechCatalog.shrutiLanguages else SpeechCatalog.whistleLanguages
+    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            ToneChip(
+                label = "Shruti Nepali + EN \u00B7 ${formatBytes(SpeechCatalog.totalBytes(SpeechModelId.ShrutiNepali))}",
+                selected = selected == SpeechModelId.ShrutiNepali,
+                onClick = { vm.selectStt(SpeechModelId.ShrutiNepali) },
+                icon = if (shrutiState is ModelState.Installed) Icons.Outlined.Check else null,
+            )
+            ToneChip(
+                label = "Whistle Global \u00B7 ${formatBytes(SpeechCatalog.totalBytes(SpeechModelId.Whistle))}",
+                selected = selected == SpeechModelId.Whistle,
+                onClick = { vm.selectStt(SpeechModelId.Whistle) },
+                icon = if (whistleState is ModelState.Installed) Icons.Outlined.Check else null,
+            )
+        }
+        ModelShell(
+            icon = Icons.Outlined.Mic,
+            title = "Speech to text",
+            meta = "$label \u00B7 ${formatBytes(SpeechCatalog.totalBytes(selected))}",
+            state = activeState,
+            supported = vm.sttSupported,
+            onDownload = { vm.download(selected) },
+            onCancel = { vm.cancel(selected) },
+            onRemove = { vm.remove(selected) },
+        ) {
+            if (showLanguages) {
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    langs.forEach { (code, l) ->
+                        ToneChip(l, lang == code, { vm.setSttLanguage(code) })
+                    }
                 }
             }
         }
@@ -255,18 +276,64 @@ fun SttModelCard(vm: SpeechViewModel, showLanguages: Boolean) {
 
 @Composable
 fun TtsModelCard(vm: SpeechViewModel, showVoices: Boolean) {
-    val state by vm.tts.collectAsStateWithLifecycle()
-    ModelShell(
-        icon = Icons.Outlined.RecordVoiceOver,
-        title = "Text to speech",
-        meta = "${SpeechCatalog.PHONON_LABEL} \u00B7 ${formatBytes(SpeechCatalog.totalBytes(SpeechModelId.Phonon))}",
-        state = state,
-        supported = vm.ttsSupported,
-        onDownload = { vm.download(SpeechModelId.Phonon) },
-        onCancel = { vm.cancel(SpeechModelId.Phonon) },
-        onRemove = { vm.remove(SpeechModelId.Phonon) },
-    ) {
-        if (showVoices) VoiceList(vm)
+    val selected by vm.selectedTts.collectAsStateWithLifecycle()
+    val vocaState by vm.tinyVoca.collectAsStateWithLifecycle()
+    val phononState by vm.phononModel.collectAsStateWithLifecycle()
+    val activeState = if (selected == SpeechModelId.TinyVoca) vocaState else phononState
+    val label = if (selected == SpeechModelId.TinyVoca) SpeechCatalog.TINY_VOCA_LABEL else SpeechCatalog.PHONON_LABEL
+    val supported = if (selected == SpeechModelId.TinyVoca) vm.vocaSupported else vm.phononSupported
+    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            ToneChip(
+                label = "TinyVoca \u00B7 ${formatBytes(SpeechCatalog.totalBytes(SpeechModelId.TinyVoca))}",
+                selected = selected == SpeechModelId.TinyVoca,
+                onClick = { vm.selectTts(SpeechModelId.TinyVoca) },
+                icon = if (vocaState is ModelState.Installed) Icons.Outlined.Check else null,
+            )
+            ToneChip(
+                label = "Phonon \u00B7 ${formatBytes(SpeechCatalog.totalBytes(SpeechModelId.Phonon))}",
+                selected = selected == SpeechModelId.Phonon,
+                onClick = { vm.selectTts(SpeechModelId.Phonon) },
+                icon = if (phononState is ModelState.Installed) Icons.Outlined.Check else null,
+            )
+        }
+        ModelShell(
+            icon = Icons.Outlined.RecordVoiceOver,
+            title = "Text to speech",
+            meta = "$label \u00B7 ${formatBytes(SpeechCatalog.totalBytes(selected))}",
+            state = activeState,
+            supported = supported,
+            onDownload = { vm.download(selected) },
+            onCancel = { vm.cancel(selected) },
+            onRemove = { vm.remove(selected) },
+        ) {
+            if (showVoices) {
+                if (selected == SpeechModelId.TinyVoca) TinyVocaVoiceList(vm) else VoiceList(vm)
+            }
+        }
+    }
+}
+
+@Composable
+private fun TinyVocaVoiceList(vm: SpeechViewModel) {
+    val selected by vm.vocaVoice.collectAsStateWithLifecycle()
+    val reading by vm.readState.collectAsStateWithLifecycle()
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text("Voices", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+        SpeechCatalog.tinyVocaVoices.forEach { (code, subtitle) ->
+            VoiceRow(
+                title = code,
+                subtitle = subtitle,
+                selected = selected == code,
+                installed = true,
+                busy = false,
+                previewing = reading != ReadState.Idle && selected == code,
+                onUse = { vm.useVocaVoice(code) },
+                onPreview = { vm.useVocaVoice(code); vm.preview(code) },
+                onDownload = {},
+                onRemove = null,
+            )
+        }
     }
 }
 

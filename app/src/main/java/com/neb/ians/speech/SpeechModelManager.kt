@@ -28,7 +28,12 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
-enum class SpeechModelId { Whistle, Phonon }
+enum class SpeechModelId(val isStt: Boolean) {
+    ShrutiNepali(true),
+    Whistle(true),
+    TinyVoca(false),
+    Phonon(false),
+}
 
 sealed interface ModelState {
     data object NotInstalled : ModelState
@@ -57,14 +62,28 @@ sealed interface VoiceCatalog {
 }
 
 object SpeechCatalog {
+    const val SHRUTI_LABEL = "Shruti Nepali + English"
     const val WHISTLE_LABEL = "Whistle"
+    const val TINY_VOCA_LABEL = "TinyVoca"
     const val PHONON_LABEL = "Phonon"
 
+    private const val SHRUTI_BASE = "https://huggingface.co/udgamlabs/shruti-nepali/resolve/main/"
     private const val WHISTLE_BASE = "https://huggingface.co/Cactus-Compute/whistle/resolve/main/"
+    private const val TINY_VOCA_BASE = "https://huggingface.co/n4ze3m/tiny-voca/resolve/main/"
     private const val PHONON_BASE = "https://huggingface.co/gradium/phonon-31m-en/resolve/main/"
     const val VOICES_BASE = "https://huggingface.co/gradium/phonon-voices/resolve/main/"
 
-    val whistleFiles = listOf(ModelFile("whistle.cact", WHISTLE_BASE + "whistle.cact", 17_720_000L))
+    val shrutiFiles = listOf(
+        ModelFile("shruti-nepali.cact", SHRUTI_BASE + "shruti-nepali.cact", 29_659_439L),
+    )
+
+    val whistleFiles = listOf(
+        ModelFile("whistle.cact", WHISTLE_BASE + "whistle.cact", 17_720_000L),
+    )
+
+    val tinyVocaFiles = listOf(
+        ModelFile("tiny-voca-js.gguf", TINY_VOCA_BASE + "gguf/tiny-voca-js.gguf", 7_988_384L),
+    )
 
     val phononFiles = listOf(
         ModelFile("config.json", PHONON_BASE + "config.json", 4_634L),
@@ -73,13 +92,32 @@ object SpeechCatalog {
         ModelFile("model.q8.gguf", PHONON_BASE + "model.q8.gguf", 64_512_352L),
     )
 
-    val sttLanguages = listOf(
+    val shrutiLanguages = listOf(
+        "ne" to "Nepali + English",
+        "en" to "English only",
+        "" to "Auto",
+    )
+
+    val whistleLanguages = listOf(
         "" to "Auto", "en" to "English", "de" to "German", "fr" to "French",
         "es" to "Spanish", "it" to "Italian", "nl" to "Dutch", "pl" to "Polish",
     )
 
-    fun files(id: SpeechModelId) = if (id == SpeechModelId.Whistle) whistleFiles else phononFiles
-    fun totalBytes(id: SpeechModelId) = files(id).sumOf { it.bytes }
+    val sttLanguages = whistleLanguages
+
+    val tinyVocaVoices = listOf(
+        "F2" to "Female \u00B7 American English",
+        "M2" to "Male \u00B7 American English",
+    )
+
+    fun files(id: SpeechModelId): List<ModelFile> = when (id) {
+        SpeechModelId.ShrutiNepali -> shrutiFiles
+        SpeechModelId.Whistle -> whistleFiles
+        SpeechModelId.TinyVoca -> tinyVocaFiles
+        SpeechModelId.Phonon -> phononFiles
+    }
+
+    fun totalBytes(id: SpeechModelId): Long = files(id).sumOf { it.bytes }
 }
 
 /**
@@ -105,9 +143,26 @@ class SpeechModelManager @Inject constructor(
             .build()
     }
 
+    val shrutiFile: File get() = File(root, "shruti-nepali/shruti-nepali.cact")
     val whistleFile: File get() = File(root, "whistle/whistle.cact")
+    val tinyVocaFile: File get() = File(root, "tiny-voca/tiny-voca-js.gguf")
     val phononDir: File get() = File(root, "phonon-31m-en")
     private val voicesDir: File get() = File(phononDir, "voices")
+
+    private val _shruti = MutableStateFlow<ModelState>(ModelState.NotInstalled)
+    private val _whistle = MutableStateFlow<ModelState>(ModelState.NotInstalled)
+    private val _tinyVoca = MutableStateFlow<ModelState>(ModelState.NotInstalled)
+    private val _phonon = MutableStateFlow<ModelState>(ModelState.NotInstalled)
+    val shruti: StateFlow<ModelState> = _shruti.asStateFlow()
+    val whistle: StateFlow<ModelState> = _whistle.asStateFlow()
+    val tinyVoca: StateFlow<ModelState> = _tinyVoca.asStateFlow()
+    val phonon: StateFlow<ModelState> = _phonon.asStateFlow()
+
+    private val _selectedStt = MutableStateFlow(SpeechModelId.ShrutiNepali)
+    val selectedStt: StateFlow<SpeechModelId> = _selectedStt.asStateFlow()
+
+    private val _selectedTts = MutableStateFlow(SpeechModelId.TinyVoca)
+    val selectedTts: StateFlow<SpeechModelId> = _selectedTts.asStateFlow()
 
     private val _stt = MutableStateFlow<ModelState>(ModelState.NotInstalled)
     private val _tts = MutableStateFlow<ModelState>(ModelState.NotInstalled)
@@ -123,39 +178,114 @@ class SpeechModelManager @Inject constructor(
     private val _catalog = MutableStateFlow<VoiceCatalog>(VoiceCatalog.Loading)
     val catalog: StateFlow<VoiceCatalog> = _catalog.asStateFlow()
 
-    private val _sttLanguage = MutableStateFlow("")
+    private val _sttLanguage = MutableStateFlow("ne")
     val sttLanguage: StateFlow<String> = _sttLanguage.asStateFlow()
 
     private val _voice = MutableStateFlow("default")
     val voice: StateFlow<String> = _voice.asStateFlow()
 
-    @Volatile
-    var sttSupportedCached: Boolean = true
-        private set
+    private val _vocaVoice = MutableStateFlow("F2")
+    val vocaVoice: StateFlow<String> = _vocaVoice.asStateFlow()
 
-    @Volatile
-    var ttsSupportedCached: Boolean = true
-        private set
+    @Volatile var sttSupportedCached: Boolean = true; private set
+    @Volatile var vocaSupportedCached: Boolean = true; private set
+    @Volatile var phononSupportedCached: Boolean = true; private set
+    @Volatile var ttsSupportedCached: Boolean = true; private set
 
     init {
         scope.launch {
-            _sttLanguage.value = prefs.getString("stt_lang", "") ?: ""
+            _shruti.value = initialState(SpeechModelId.ShrutiNepali)
+            _whistle.value = initialState(SpeechModelId.Whistle)
+            _tinyVoca.value = initialState(SpeechModelId.TinyVoca)
+            _phonon.value = initialState(SpeechModelId.Phonon)
+
+            val savedStt = prefs.getString("selected_stt", null)
+            _selectedStt.value = when {
+                savedStt == SpeechModelId.Whistle.name -> SpeechModelId.Whistle
+                savedStt == SpeechModelId.ShrutiNepali.name -> SpeechModelId.ShrutiNepali
+                _shruti.value is ModelState.Installed -> SpeechModelId.ShrutiNepali
+                _whistle.value is ModelState.Installed -> SpeechModelId.Whistle
+                else -> SpeechModelId.ShrutiNepali
+            }
+            val savedTts = prefs.getString("selected_tts", null)
+            _selectedTts.value = when {
+                savedTts == SpeechModelId.Phonon.name -> SpeechModelId.Phonon
+                savedTts == SpeechModelId.TinyVoca.name -> SpeechModelId.TinyVoca
+                _tinyVoca.value is ModelState.Installed -> SpeechModelId.TinyVoca
+                _phonon.value is ModelState.Installed -> SpeechModelId.Phonon
+                else -> SpeechModelId.TinyVoca
+            }
+            val defaultLang = if (_selectedStt.value == SpeechModelId.ShrutiNepali) "ne" else ""
+            _sttLanguage.value = prefs.getString("stt_lang", defaultLang) ?: defaultLang
             _voice.value = prefs.getString("voice", "default") ?: "default"
-            _stt.value = initialState(SpeechModelId.Whistle)
-            _tts.value = initialState(SpeechModelId.Phonon)
+            _vocaVoice.value = prefs.getString("voca_voice", "F2") ?: "F2"
             _installedVoices.value = scanVoices()
+            syncAggregateStates()
             sttSupportedCached = runCatching { NativeSpeech.sttSupported }.getOrDefault(false)
-            ttsSupportedCached = runCatching { NativeSpeech.ttsSupported }.getOrDefault(false)
+            vocaSupportedCached = runCatching { NativeSpeech.vocaSupported }.getOrDefault(false)
+            phononSupportedCached = runCatching { NativeSpeech.phononSupported }.getOrDefault(false)
+            ttsSupportedCached = vocaSupportedCached || phononSupportedCached
         }
     }
 
+    private fun syncAggregateStates() {
+        val sttSel = stateFlow(_selectedStt.value).value
+        _stt.value = if (sttSel is ModelState.Installed || sttSel is ModelState.Downloading) sttSel
+        else if (_shruti.value is ModelState.Installed) _shruti.value
+        else if (_whistle.value is ModelState.Installed) _whistle.value
+        else sttSel
+
+        val ttsSel = stateFlow(_selectedTts.value).value
+        _tts.value = if (ttsSel is ModelState.Installed || ttsSel is ModelState.Downloading) ttsSel
+        else if (_tinyVoca.value is ModelState.Installed) _tinyVoca.value
+        else if (_phonon.value is ModelState.Installed) _phonon.value
+        else ttsSel
+    }
+
     private val _removed = MutableSharedFlow<SpeechModelId>(extraBufferCapacity = 4)
-    /** Emitted before files are deleted so engines can drop their handles. */
     val removed: SharedFlow<SpeechModelId> = _removed.asSharedFlow()
 
     private val jobs = java.util.concurrent.ConcurrentHashMap<SpeechModelId, Job>()
 
-    fun isInstalled(id: SpeechModelId) = (if (id == SpeechModelId.Whistle) stt.value else tts.value) is ModelState.Installed
+    fun stateOf(id: SpeechModelId): StateFlow<ModelState> = stateFlow(id)
+    fun isInstalled(id: SpeechModelId): Boolean = stateFlow(id).value is ModelState.Installed
+    fun isAnySttInstalled(): Boolean = isInstalled(SpeechModelId.ShrutiNepali) || isInstalled(SpeechModelId.Whistle)
+    fun isAnyTtsInstalled(): Boolean = isInstalled(SpeechModelId.TinyVoca) || isInstalled(SpeechModelId.Phonon)
+
+    fun activeSttModel(): SpeechModelId {
+        val sel = _selectedStt.value
+        if (isInstalled(sel)) return sel
+        if (isInstalled(SpeechModelId.ShrutiNepali)) return SpeechModelId.ShrutiNepali
+        if (isInstalled(SpeechModelId.Whistle)) return SpeechModelId.Whistle
+        return sel
+    }
+
+    fun activeSttFile(): File = if (activeSttModel() == SpeechModelId.ShrutiNepali) shrutiFile else whistleFile
+
+    fun activeTtsModel(): SpeechModelId {
+        val sel = _selectedTts.value
+        if (isInstalled(sel)) return sel
+        if (isInstalled(SpeechModelId.TinyVoca)) return SpeechModelId.TinyVoca
+        if (isInstalled(SpeechModelId.Phonon)) return SpeechModelId.Phonon
+        return sel
+    }
+
+    fun selectSttModel(id: SpeechModelId) {
+        if (!id.isStt) return
+        _selectedStt.value = id
+        if (id == SpeechModelId.ShrutiNepali && _sttLanguage.value !in listOf("ne", "en", "")) {
+            setSttLanguage("ne")
+        }
+        syncAggregateStates()
+        scope.launch { prefs.edit().putString("selected_stt", id.name).apply() }
+    }
+
+    fun selectTtsModel(id: SpeechModelId) {
+        if (id.isStt) return
+        _selectedTts.value = id
+        syncAggregateStates()
+        scope.launch { prefs.edit().putString("selected_tts", id.name).apply() }
+    }
 
     fun setSttLanguage(code: String) {
         _sttLanguage.value = code
@@ -167,14 +297,31 @@ class SpeechModelManager @Inject constructor(
         scope.launch { prefs.edit().putString("voice", name).apply() }
     }
 
-    private fun stateFlow(id: SpeechModelId) = if (id == SpeechModelId.Whistle) _stt else _tts
+    fun setVocaVoice(name: String) {
+        _vocaVoice.value = name
+        scope.launch { prefs.edit().putString("voca_voice", name).apply() }
+    }
+
+    private fun stateFlow(id: SpeechModelId): MutableStateFlow<ModelState> = when (id) {
+        SpeechModelId.ShrutiNepali -> _shruti
+        SpeechModelId.Whistle -> _whistle
+        SpeechModelId.TinyVoca -> _tinyVoca
+        SpeechModelId.Phonon -> _phonon
+    }
+
+    private fun modelDir(id: SpeechModelId): File = when (id) {
+        SpeechModelId.ShrutiNepali -> File(root, "shruti-nepali")
+        SpeechModelId.Whistle -> File(root, "whistle")
+        SpeechModelId.TinyVoca -> File(root, "tiny-voca")
+        SpeechModelId.Phonon -> phononDir
+    }
 
     private fun isValidModelFile(f: File, expectedBytes: Long): Boolean =
         f.exists() && f.length() >= (expectedBytes * 95L / 100L).coerceAtLeast(1L)
 
     private fun initialState(id: SpeechModelId): ModelState {
         val files = SpeechCatalog.files(id)
-        val dir = if (id == SpeechModelId.Whistle) File(root, "whistle") else File(root, "phonon-31m-en")
+        val dir = modelDir(id)
         val present = files.all { isValidModelFile(File(dir, it.name), it.bytes) }
         return if (present) ModelState.Installed(files.sumOf { File(dir, it.name).length() }) else ModelState.NotInstalled
     }
@@ -187,26 +334,32 @@ class SpeechModelManager @Inject constructor(
     fun download(id: SpeechModelId) {
         if (jobs[id]?.isActive == true) return
         val total = SpeechCatalog.totalBytes(id)
-        val dir = if (id == SpeechModelId.Whistle) whistleFile.parentFile!! else phononDir
+        val dir = modelDir(id)
         val state = stateFlow(id)
+        if (id.isStt) selectSttModel(id) else selectTtsModel(id)
         jobs[id] = scope.launch {
             try {
                 dir.mkdirs()
                 val free = StatFs(context.filesDir.path).availableBytes
                 if (free < total * 12 / 10) throw IOException("Not enough free storage")
                 state.value = ModelState.Downloading(0, total)
+                syncAggregateStates()
                 var finished = 0L
                 for (file in SpeechCatalog.files(id)) {
                     val dest = File(dir, file.name)
                     if (isValidModelFile(dest, file.bytes)) {
                         finished += dest.length()
                         state.value = ModelState.Downloading(finished, total)
+                        syncAggregateStates()
                         continue
                     } else if (dest.exists()) {
                         dest.delete()
                     }
                     val base = finished
-                    fetch(file.url, dest) { current -> state.value = ModelState.Downloading(base + current, total) }
+                    fetch(file.url, dest) { current ->
+                        state.value = ModelState.Downloading(base + current, total)
+                        syncAggregateStates()
+                    }
                     if (!isValidModelFile(dest, file.bytes)) {
                         dest.delete()
                         throw IOException("Downloaded model file is incomplete")
@@ -215,16 +368,19 @@ class SpeechModelManager @Inject constructor(
                 }
                 state.value = ModelState.Installed(finished)
                 if (id == SpeechModelId.Phonon) _installedVoices.value = scanVoices()
+                if (id == SpeechModelId.ShrutiNepali && _sttLanguage.value.isBlank()) setSttLanguage("ne")
+                syncAggregateStates()
             } catch (e: CancellationException) {
                 state.value = initialState(id)
+                syncAggregateStates()
                 throw e
             } catch (e: Exception) {
                 state.value = ModelState.Failed(friendly(e))
+                syncAggregateStates()
             }
         }
     }
 
-    /** Stops a running download; the partial file is kept so the next attempt resumes. */
     fun cancel(id: SpeechModelId) {
         jobs[id]?.cancel()
     }
@@ -233,12 +389,11 @@ class SpeechModelManager @Inject constructor(
         jobs[id]?.cancel()
         scope.launch {
             _removed.emit(id)
-            // Give an engine a moment to drop its handle before the files go.
             kotlinx.coroutines.delay(150)
-            val dir = if (id == SpeechModelId.Whistle) whistleFile.parentFile!! else phononDir
-            dir.deleteRecursively()
+            modelDir(id).deleteRecursively()
             stateFlow(id).value = ModelState.NotInstalled
             if (id == SpeechModelId.Phonon) _installedVoices.value = emptyList()
+            syncAggregateStates()
         }
     }
 

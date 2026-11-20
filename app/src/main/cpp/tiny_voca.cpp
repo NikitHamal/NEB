@@ -1,0 +1,1130 @@
+#include "tiny_voca.h"
+
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
+#include <algorithm>
+
+extern "C" {
+struct z_stream_s {
+    const unsigned char* next_in;
+    unsigned int avail_in;
+    unsigned long total_in;
+    unsigned char* next_out;
+    unsigned int avail_out;
+    unsigned long total_out;
+    const char* msg;
+    void* state;
+    void* zalloc;
+    void* zfree;
+    void* opaque;
+    int data_type;
+    unsigned long adler;
+    unsigned long reserved;
+};
+int inflateInit2_(z_stream_s* strm, int windowBits, const char* version, int stream_size);
+int inflate(z_stream_s* strm, int flush);
+int inflateEnd(z_stream_s* strm);
+}
+#include <cctype>
+#include <cmath>
+#include <cstring>
+#include <unordered_map>
+#include <utility>
+
+namespace neb_voca {
+namespace {
+
+constexpr int kSampleRate = 24000;
+constexpr int kHop = 256;
+constexpr int kChannels = 192;
+constexpr int kHeads = 4;
+constexpr int kEncoderLayers = 4;
+constexpr int kProsodyLayers = 2;
+constexpr int kAcousticLayers = 5;
+constexpr int kSynthFft = 512;
+constexpr int kSynthHop = 128;
+constexpr int kNoiseFft = 256;
+constexpr int kNoiseHop = 64;
+constexpr int kCepCausal = 80;
+constexpr int kCepAnti = 16;
+constexpr int kNoiseCep = 32;
+constexpr float kHarmonicLimit = 0.47f;
+constexpr float kPitchRefHz = 200.0f;
+constexpr float kF0Min = 50.0f;
+constexpr float kF0Max = 600.0f;
+constexpr int kMaxTokens = 512;
+constexpr int kMaxFrames = 3000;
+constexpr int kPhoneOffset = 17;
+constexpr int kPhoneCount = 59;
+
+inline float halfToFloat(uint16_t bits) {
+    uint32_t exp = (bits >> 10) & 31u;
+    uint32_t frac = bits & 1023u;
+    float sign = (bits >> 15) ? -1.0f : 1.0f;
+    if (exp == 0) return sign * std::ldexp(static_cast<float>(frac), -24);
+    if (exp == 31) return frac ? NAN : sign * INFINITY;
+    return sign * std::ldexp(1.0f + static_cast<float>(frac) / 1024.0f, static_cast<int>(exp) - 15);
+}
+
+struct Tensor {
+    std::vector<int> shape;
+    std::vector<float> data;
+};
+
+struct Layer {
+    const float* weight = nullptr;
+    const float* bias = nullptr;
+    int out_dim = 0;
+    int in_dim = 0;
+    int taps = 1;
+};
+
+struct TransformerBlock {
+    Layer norm1, qkv, out, norm2, depthwise, expand, project;
+};
+
+struct TransformerStack {
+    Layer norm;
+    std::vector<TransformerBlock> blocks;
+};
+
+struct PhoneUnit {
+    uint8_t id;
+    uint8_t stress;
+};
+
+bool gunzipBuffer(const uint8_t* src, size_t src_len, std::vector<uint8_t>* out) {
+    z_stream_s strm{};
+    if (inflateInit2_(&strm, 16 + 15, "1.2.11", static_cast<int>(sizeof(z_stream_s))) != 0) return false;
+    strm.next_in = src;
+    strm.avail_in = static_cast<unsigned int>(src_len);
+    out->clear();
+    uint8_t chunk[32768];
+    int ret = 0;
+    while (ret == 0) {
+        strm.next_out = chunk;
+        strm.avail_out = sizeof(chunk);
+        ret = inflate(&strm, 0);
+        if (ret != 0 && ret != 1) {
+            inflateEnd(&strm);
+            return false;
+        }
+        size_t have = sizeof(chunk) - strm.avail_out;
+        out->insert(out->end(), chunk, chunk + have);
+    }
+    inflateEnd(&strm);
+    return true;
+}
+
+void unpackTensor(const uint8_t* ptr, uint32_t type, size_t count, std::vector<float>* out) {
+    out->resize(count);
+    float* dst = out->data();
+    if (type == 0) {
+        std::memcpy(dst, ptr, count * sizeof(float));
+    } else if (type == 1) {
+        for (size_t i = 0; i < count; ++i) {
+            uint16_t h;
+            std::memcpy(&h, ptr + 2 * i, 2);
+            dst[i] = halfToFloat(h);
+        }
+    } else if (type == 8) {
+        for (size_t i = 0; i < count; ++i) {
+            size_t blk = (i >> 5) * 34;
+            uint16_t h;
+            std::memcpy(&h, ptr + blk, 2);
+            int8_t q = static_cast<int8_t>(ptr[blk + 2 + (i & 31)]);
+            dst[i] = halfToFloat(h) * static_cast<float>(q);
+        }
+    } else if (type == 2) {
+        for (size_t i = 0; i < count; ++i) {
+            size_t blk = (i >> 5) * 18;
+            uint16_t h;
+            std::memcpy(&h, ptr + blk, 2);
+            uint8_t byte = ptr[blk + 2 + (i & 15)];
+            int nib = ((i & 16) ? (byte >> 4) : (byte & 15)) - 8;
+            dst[i] = halfToFloat(h) * static_cast<float>(nib);
+        }
+    }
+}
+
+static const char* const kPhoneSymbols[kPhoneCount] = {
+    "p", "b", "t", "d", "k", "\xC9\xA1", "f", "v", "\xCE\xB8", "\xC3\xB0", "s", "z", "\xCA\x83", "\xCA\x92", "h",
+    "m", "n", "\xC5\x8B", "l", "\xC9\xB9", "j", "w", "t\xCA\x83", "d\xCA\x92", "\xC9\xBE", "\xCA\x94",
+    "\xC9\x99", "\xC9\x90", "\xC9\x9A", "\xE1\xB5\xBB", "\xC9\xAA", "i", "i\xCB\x90", "\xC9\x9B", "\xC3\xA6",
+    "\xCA\x8C", "\xC9\x91\xCB\x90", "\xC9\x94", "\xC9\x94\xCB\x90", "\xCA\x8A", "u\xCB\x90", "\xC9\x9C\xCB\x90",
+    "e\xC9\xAA", "a\xC9\xAA", "\xC9\x94\xC9\xAA", "o\xCA\x8A", "a\xCA\x8A", "i\xC9\x99", "o\xCB\x90",
+    "\xC9\x91\xCB\x90\xC9\xB9", "\xC9\x94\xCB\x90\xC9\xB9", "o\xCB\x90\xC9\xB9", "\xC9\xAA\xC9\xB9",
+    "\xC9\x9B\xC9\xB9", "\xCA\x8A\xC9\xB9", "a\xC9\xAA\xC9\x9A", "a\xC9\xAA\xC9\x99", "\xC9\x99l", "n\xCC\xA9"
+};
+
+inline bool isVowelId(uint8_t id) { return id >= 43 && id <= 75; }
+inline bool isPauseId(uint8_t id) { return id <= 16; }
+
+struct GgufReader {
+    const uint8_t* base;
+    size_t size;
+    size_t at = 0;
+
+    uint32_t u32() {
+        if (at + 4 > size) return 0;
+        uint32_t v;
+        std::memcpy(&v, base + at, 4);
+        at += 4;
+        return v;
+    }
+    uint64_t u64() {
+        if (at + 8 > size) return 0;
+        uint64_t v;
+        std::memcpy(&v, base + at, 8);
+        at += 8;
+        return v;
+    }
+    std::string str() {
+        uint64_t len = u64();
+        if (at + len > size) { at = size; return {}; }
+        std::string s(reinterpret_cast<const char*>(base + at), static_cast<size_t>(len));
+        at += static_cast<size_t>(len);
+        return s;
+    }
+    void skipValue(uint32_t type) {
+        static const uint8_t kSizes[13] = {1, 1, 2, 2, 4, 4, 4, 1, 0, 0, 8, 8, 8};
+        if (type == 8) { (void)str(); return; }
+        if (type == 9) {
+            uint32_t inner = u32();
+            uint64_t count = u64();
+            if (inner < 2) { at = std::min(size, at + static_cast<size_t>(count)); return; }
+            for (uint64_t i = 0; i < count && at < size; ++i) skipValue(inner);
+            return;
+        }
+        if (type < 13) at = std::min(size, at + kSizes[type]);
+    }
+};
+
+std::vector<PhoneUnit> parseIpaPhones(
+    const std::string& text,
+    const std::unordered_map<std::string, uint8_t>& sym_to_id
+) {
+    std::vector<PhoneUnit> out;
+    size_t i = 0, n = text.size();
+    while (i < n) {
+        while (i < n && std::isspace(static_cast<unsigned char>(text[i]))) ++i;
+        if (i >= n) break;
+        size_t j = i;
+        while (j < n && !std::isspace(static_cast<unsigned char>(text[j]))) ++j;
+        std::string tok = text.substr(i, j - i);
+        i = j;
+        uint8_t stress = 0;
+        if (tok.size() > 2 && static_cast<uint8_t>(tok[0]) == 0xCB && static_cast<uint8_t>(tok[1]) == 0x88) {
+            stress = 1; tok.erase(0, 2);
+        } else if (tok.size() > 2 && static_cast<uint8_t>(tok[0]) == 0xCB && static_cast<uint8_t>(tok[1]) == 0x8C) {
+            stress = 2; tok.erase(0, 2);
+        }
+        auto it = sym_to_id.find(tok);
+        if (it != sym_to_id.end()) out.push_back({it->second, stress});
+    }
+    return out;
+}
+
+void unpackLexiconBytes(
+    const std::vector<uint8_t>& bytes,
+    std::unordered_map<std::string, std::vector<PhoneUnit>>* lexicon
+) {
+    if (bytes.size() < 4) return;
+    uint32_t count = 0;
+    std::memcpy(&count, bytes.data(), 4);
+    lexicon->reserve(count + 1024);
+    std::vector<std::string> words(count);
+    uint8_t buf[4096]{};
+    size_t at = 4, sz = bytes.size();
+    for (uint32_t i = 0; i < count && at < sz; ++i) {
+        uint8_t same = bytes[at++];
+        size_t end = at;
+        while (end < sz && bytes[end] != 0) ++end;
+        size_t chunk = std::min<size_t>(end - at, sizeof(buf) - same);
+        if (chunk > 0) std::memcpy(buf + same, bytes.data() + at, chunk);
+        words[i].assign(reinterpret_cast<const char*>(buf), same + chunk);
+        at = end + 1;
+    }
+    for (uint32_t i = 0; i < count && at < sz; ++i) {
+        uint8_t same = bytes[at++];
+        size_t end = at;
+        while (end < sz && bytes[end] != 0) ++end;
+        size_t chunk = std::min<size_t>(end - at, sizeof(buf) - same);
+        if (chunk > 0) std::memcpy(buf + same, bytes.data() + at, chunk);
+        size_t len = same + chunk;
+        std::vector<PhoneUnit> units;
+        units.reserve(len);
+        for (size_t k = 0; k < len; ++k) {
+            uint8_t b = buf[k];
+            if (b == 0) continue;
+            uint8_t stress = static_cast<uint8_t>((b - 1) / kPhoneCount);
+            uint8_t p_idx = static_cast<uint8_t>((b - 1) % kPhoneCount);
+            units.push_back({static_cast<uint8_t>(kPhoneOffset + p_idx), stress});
+        }
+        (*lexicon)[ std::move(words[i]) ] = std::move(units);
+        at = end + 1;
+    }
+}
+
+std::string numberToWords(long long n) {
+    if (n == 0) return "zero";
+    if (n < 0) return "minus " + numberToWords(-n);
+    static const char* const kOnes[] = {
+        "", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+        "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen",
+        "seventeen", "eighteen", "nineteen"
+    };
+    static const char* const kTens[] = {
+        "", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"
+    };
+    std::string out;
+    auto append = [&](const std::string& s) {
+        if (!s.empty()) { if (!out.empty()) out += ' '; out += s; }
+    };
+    if (n >= 1000000) { append(numberToWords(n / 1000000) + " million"); n %= 1000000; }
+    if (n >= 1000) { append(numberToWords(n / 1000) + " thousand"); n %= 1000; }
+    if (n >= 100) { append(std::string(kOnes[n / 100]) + " hundred"); n %= 100; }
+    if (n >= 20) {
+        std::string t = kTens[n / 10];
+        if (n % 10) t += std::string(" ") + kOnes[n % 10];
+        append(t);
+    } else if (n > 0) {
+        append(kOnes[n]);
+    }
+    return out;
+}
+
+std::vector<PhoneUnit> pluralizePhones(std::vector<PhoneUnit> stem) {
+    if (stem.empty()) return stem;
+    uint8_t last = stem.back().id;
+    // s=27, z=28, ʃ=29, ʒ=30, tʃ=39, dʒ=40 -> + ᵻ(46) z(28)
+    if (last == 27 || last == 28 || last == 29 || last == 30 || last == 39 || last == 40) {
+        stem.push_back({46, 0});
+        stem.push_back({28, 0});
+    } else if (last == 17 || last == 19 || last == 21 || last == 23 || last == 25 || last == 42) {
+        stem.push_back({27, 0});
+    } else {
+        stem.push_back({28, 0});
+    }
+    return stem;
+}
+
+std::vector<PhoneUnit> pastPhones(std::vector<PhoneUnit> stem) {
+    if (stem.empty()) return stem;
+    uint8_t last = stem.back().id;
+    // t=19, d=20, ɾ=41 -> + ᵻ(46) d(20)
+    if (last == 19 || last == 20 || last == 41) {
+        stem.push_back({46, 0});
+        stem.push_back({20, 0});
+    } else if (last == 17 || last == 21 || last == 23 || last == 25 || last == 27 || last == 29 || last == 39 || last == 42) {
+        stem.push_back({19, 0});
+    } else {
+        stem.push_back({20, 0});
+    }
+    return stem;
+}
+
+std::vector<PhoneUnit> fallbackGraphemePhones(const std::string& w) {
+    // Clean English grapheme-to-phoneme fallback when a rare word is not in the 125k CMU lexicon.
+    std::vector<PhoneUnit> out;
+    bool stressed = false;
+    for (size_t i = 0; i < w.size(); ++i) {
+        char c = w[i];
+        char nx = (i + 1 < w.size()) ? w[i + 1] : 0;
+        if (c == 't' && nx == 'h') { out.push_back({25, 0}); ++i; continue; }
+        if (c == 's' && nx == 'h') { out.push_back({29, 0}); ++i; continue; }
+        if (c == 'c' && nx == 'h') { out.push_back({39, 0}); ++i; continue; }
+        if (c == 'p' && nx == 'h') { out.push_back({23, 0}); ++i; continue; }
+        if (c == 'n' && nx == 'g') { out.push_back({34, 0}); ++i; continue; }
+        uint8_t id = 0;
+        bool vowel = false;
+        switch (c) {
+            case 'a': id = 51; vowel = true; break;
+            case 'e': id = (i + 1 == w.size() && !out.empty()) ? 0 : 50; vowel = (id != 0); break;
+            case 'i': case 'y': id = 47; vowel = true; break;
+            case 'o': id = 53; vowel = true; break;
+            case 'u': id = 52; vowel = true; break;
+            case 'b': id = 18; break; case 'c': id = (nx == 'e' || nx == 'i' || nx == 'y') ? 27 : 21; break;
+            case 'd': id = 20; break; case 'f': id = 23; break; case 'g': id = 22; break;
+            case 'h': id = 31; break; case 'j': id = 40; break; case 'k': id = 21; break;
+            case 'l': id = 35; break; case 'm': id = 32; break; case 'n': id = 33; break;
+            case 'p': id = 17; break; case 'q': id = 21; break; case 'r': id = 36; break;
+            case 's': id = 27; break; case 't': id = 19; break; case 'v': id = 24; break;
+            case 'w': id = 38; break; case 'z': id = 28; break;
+            case 'x': out.push_back({21, 0}); id = 27; break;
+            default: break;
+        }
+        if (id != 0) {
+            uint8_t st = (vowel && !stressed) ? 1 : 0;
+            if (st) stressed = true;
+            out.push_back({id, st});
+        }
+    }
+    return out;
+}
+
+std::vector<float> linearOp(const float* x, int count, const Layer& l) {
+    const int out_d = l.out_dim, in_d = l.in_dim;
+    std::vector<float> y(static_cast<size_t>(count) * out_d);
+    for (int t = 0; t < count; ++t) {
+        const float* xr = x + static_cast<size_t>(t) * in_d;
+        float* yr = y.data() + static_cast<size_t>(t) * out_d;
+        for (int o = 0; o < out_d; ++o) {
+            float sum = l.bias ? l.bias[o] : 0.0f;
+            const float* wr = l.weight + static_cast<size_t>(o) * in_d;
+            for (int i = 0; i < in_d; ++i) sum += wr[i] * xr[i];
+            yr[o] = sum;
+        }
+    }
+    return y;
+}
+
+std::vector<float> normalizeOp(const std::vector<float>& x, int count, const Layer& l) {
+    const int w = l.out_dim;
+    std::vector<float> y(x.size());
+    for (int t = 0; t < count; ++t) {
+        const float* xr = x.data() + static_cast<size_t>(t) * w;
+        float* yr = y.data() + static_cast<size_t>(t) * w;
+        float mean = 0.0f, spread = 0.0f;
+        for (int i = 0; i < w; ++i) mean += xr[i];
+        mean /= static_cast<float>(w);
+        for (int i = 0; i < w; ++i) { float d = xr[i] - mean; spread += d * d; }
+        float scale = 1.0f / std::sqrt(spread / static_cast<float>(w) + 1e-5f);
+        for (int i = 0; i < w; ++i) yr[i] = (xr[i] - mean) * scale * l.weight[i] + l.bias[i];
+    }
+    return y;
+}
+
+void geluInPlace(std::vector<float>* x) {
+    constexpr float kInvSqrt2 = 0.7071067811865475f;
+    for (float& v : *x) {
+        v = 0.5f * v * (1.0f + std::erff(v * kInvSqrt2));
+    }
+}
+
+std::vector<float> convolveOp(const std::vector<float>& x, int count, const Layer& l) {
+    const int out_d = l.out_dim, in_d = l.in_dim, taps = l.taps, reach = taps >> 1;
+    std::vector<float> y(static_cast<size_t>(count) * out_d);
+    for (int t = 0; t < count; ++t) {
+        int first = std::max(0, reach - t), end = std::min(taps, count + reach - t);
+        for (int o = 0; o < out_d; ++o) {
+            float sum = l.bias[o];
+            for (int k = first; k < end; ++k) {
+                const float* xr = x.data() + static_cast<size_t>(t + k - reach) * in_d;
+                const float* wr = l.weight + (static_cast<size_t>(o) * in_d) * taps + k;
+                for (int i = 0; i < in_d; ++i) sum += wr[static_cast<size_t>(i) * taps] * xr[i];
+            }
+            y[static_cast<size_t>(t) * out_d + o] = sum;
+        }
+    }
+    return y;
+}
+
+std::vector<float> depthwiseOp(const std::vector<float>& x, int count, const Layer& l) {
+    const int ch = l.out_dim, taps = l.taps, reach = taps >> 1;
+    std::vector<float> y(static_cast<size_t>(count) * ch);
+    for (int t = 0; t < count; ++t) {
+        int first = std::max(0, reach - t), end = std::min(taps, count + reach - t);
+        for (int c = 0; c < ch; ++c) {
+            float sum = l.bias[c];
+            const float* wr = l.weight + static_cast<size_t>(c) * taps;
+            for (int k = first; k < end; ++k) {
+                sum += wr[k] * x[static_cast<size_t>(t + k - reach) * ch + c];
+            }
+            y[static_cast<size_t>(t) * ch + c] = sum;
+        }
+    }
+    return y;
+}
+
+std::vector<float> attentionOp(const std::vector<float>& x, int count, const TransformerBlock& blk, int heads, const std::vector<float>& turn) {
+    const int ch = blk.out.out_dim, width = ch / heads;
+    std::vector<float> qkv = linearOp(x.data(), count, blk.qkv);
+    std::vector<float> mixed(static_cast<size_t>(count) * ch, 0.0f);
+    const float scale = 1.0f / std::sqrt(static_cast<float>(width));
+    std::vector<float> queries(static_cast<size_t>(count) * width);
+    std::vector<float> keys(static_cast<size_t>(count) * width);
+    std::vector<float> share(static_cast<size_t>(count) * count);
+    for (int h = 0; h < heads; ++h) {
+        for (int t = 0; t < count; ++t) {
+            const int q = t * 3 * ch + h * width, k = q + ch, row = t * width;
+            for (int i = 0; i < width; i += 2) {
+                float cs = turn[row + i], sn = turn[row + i + 1];
+                queries[row + i] = qkv[q + i] * cs - qkv[q + i + 1] * sn;
+                queries[row + i + 1] = qkv[q + i] * sn + qkv[q + i + 1] * cs;
+                keys[row + i] = qkv[k + i] * cs - qkv[k + i + 1] * sn;
+                keys[row + i + 1] = qkv[k + i] * sn + qkv[k + i + 1] * cs;
+            }
+        }
+        for (int t = 0; t < count; ++t) {
+            float top = -1e30f;
+            for (int j = 0; j < count; ++j) {
+                float s = 0.0f;
+                for (int i = 0; i < width; ++i) s += queries[t * width + i] * keys[j * width + i];
+                share[t * count + j] = s;
+                if (s > top) top = s;
+            }
+            float total = 0.0f;
+            for (int j = 0; j < count; ++j) {
+                float e = std::exp((share[t * count + j] - top) * scale);
+                share[t * count + j] = e;
+                total += e;
+            }
+            for (int j = 0; j < count; ++j) share[t * count + j] /= total;
+            float* dst = mixed.data() + t * ch + h * width;
+            for (int j = 0; j < count; ++j) {
+                float w = share[t * count + j];
+                const float* vr = qkv.data() + j * 3 * ch + 2 * ch + h * width;
+                for (int i = 0; i < width; ++i) dst[i] += w * vr[i];
+            }
+        }
+    }
+    return linearOp(mixed.data(), count, blk.out);
+}
+
+std::vector<float> transformerOp(std::vector<float> x, int count, const TransformerStack& stack, int heads) {
+    const int width = stack.norm.out_dim / heads;
+    std::vector<float> turn(static_cast<size_t>(count) * width);
+    for (int t = 0; t < count; ++t) {
+        for (int i = 0; i < width; i += 2) {
+            float ang = static_cast<float>(t) / std::pow(10000.0f, static_cast<float>(i) / static_cast<float>(width));
+            turn[t * width + i] = std::cos(ang);
+            turn[t * width + i + 1] = std::sin(ang);
+        }
+    }
+    for (const auto& blk : stack.blocks) {
+        auto attn = attentionOp(normalizeOp(x, count, blk.norm1), count, blk, heads, turn);
+        for (size_t i = 0; i < x.size(); ++i) x[i] += attn[i];
+        auto near = depthwiseOp(normalizeOp(x, count, blk.norm2), count, blk.depthwise);
+        auto expd = linearOp(near.data(), count, blk.expand);
+        geluInPlace(&expd);
+        auto proj = linearOp(expd.data(), count, blk.project);
+        for (size_t i = 0; i < x.size(); ++i) x[i] += proj[i];
+    }
+    return normalizeOp(x, count, stack.norm);
+}
+
+void fftInPlace(std::vector<double>* re_ptr, std::vector<double>* im_ptr) {
+    auto& re = *re_ptr;
+    auto& im = *im_ptr;
+    const size_t n = re.size();
+    for (size_t i = 1, j = 0; i < n; ++i) {
+        size_t bit = n >> 1;
+        for (; j & bit; bit >>= 1) j ^= bit;
+        j ^= bit;
+        if (i < j) { std::swap(re[i], re[j]); std::swap(im[i], im[j]); }
+    }
+    for (size_t span = 2; span <= n; span <<= 1) {
+        double ang = -2.0 * M_PI / static_cast<double>(span);
+        double wcos = std::cos(ang), wsin = std::sin(ang);
+        for (size_t a = 0; a < n; a += span) {
+            double cos_v = 1.0, sin_v = 0.0;
+            for (size_t k = 0; k < span / 2; ++k) {
+                size_t i0 = a + k, i1 = i0 + span / 2;
+                double xr = re[i1] * cos_v - im[i1] * sin_v;
+                double xi = re[i1] * sin_v + im[i1] * cos_v;
+                re[i1] = re[i0] - xr; im[i1] = im[i0] - xi;
+                re[i0] += xr; im[i0] += xi;
+                double ncos = cos_v * wcos - sin_v * wsin;
+                sin_v = cos_v * wsin + sin_v * wcos;
+                cos_v = ncos;
+            }
+        }
+    }
+}
+
+template <typename CepFn>
+std::vector<float> filteredSource(const std::vector<float>& source, int size, int hop, int frames, CepFn cepstrum_fn) {
+    const int half = size / 2;
+    std::vector<double> window(size);
+    for (int n = 0; n < size; ++n) window[n] = 0.5 - 0.5 * std::cos(2.0 * M_PI * n / size);
+    std::vector<double> re(size), im(size), cr(size), ci(size);
+    std::vector<double> sum(static_cast<size_t>(frames) * hop + size, 0.0);
+    std::vector<double> weight(sum.size(), 0.0);
+    for (int f = 0; f < frames; ++f) {
+        int first = f * hop - half;
+        for (int n = 0; n < size; ++n) {
+            int at = first + n;
+            re[n] = (at >= 0 && at < static_cast<int>(source.size())) ? source[at] * window[n] : 0.0;
+            im[n] = 0.0;
+        }
+        fftInPlace(&re, &im);
+        std::fill(cr.begin(), cr.end(), 0.0);
+        std::fill(ci.begin(), ci.end(), 0.0);
+        cepstrum_fn(f, cr);
+        fftInPlace(&cr, &ci);
+        for (int k = 0; k <= half; ++k) {
+            double gain = std::exp(std::min(std::max(cr[k], -14.0), 6.0));
+            double cs = gain * std::cos(ci[k]), sn = gain * std::sin(ci[k]);
+            double a = re[k], b = im[k];
+            re[k] = a * cs - b * sn;
+            im[k] = -(a * sn + b * cs);
+            if (k > 0 && k < half) { re[size - k] = re[k]; im[size - k] = -im[k]; }
+        }
+        fftInPlace(&re, &im);
+        for (int n = 0; n < size; ++n) {
+            sum[static_cast<size_t>(f) * hop + n] += re[n] / size * window[n];
+            weight[static_cast<size_t>(f) * hop + n] += window[n] * window[n];
+        }
+    }
+    std::vector<float> out(source.size());
+    for (size_t n = 0; n < out.size(); ++n) {
+        double w = weight[n + half];
+        out[n] = w > 1e-12 ? static_cast<float>(sum[n + half] / w) : 0.0f;
+    }
+    return out;
+}
+
+std::vector<float> pulseTrainSource(const std::vector<float>& f0, int hop, int sample_rate, float limit) {
+    const int frames = static_cast<int>(f0.size());
+    std::vector<float> out(static_cast<size_t>(frames) * hop);
+    std::vector<double> knots(frames + 1);
+    for (int i = 0; i <= frames; ++i) {
+        knots[i] = std::log(std::max(f0[std::min(i, frames - 1)], 1.0f));
+    }
+    double turns = 0.0;
+    for (size_t n = 0; n < out.size(); ++n) {
+        int low = static_cast<int>(n / hop);
+        double w = static_cast<double>(n) / hop - low;
+        double freq = std::exp(knots[low] * (1.0 - w) + knots[low + 1] * w);
+        turns += freq / sample_rate;
+        double theta = std::fmod(2.0 * M_PI * turns, 2.0 * M_PI);
+        double harmonics = std::max(static_cast<double>(limit) * sample_rate / freq, 1.0);
+        double whole = std::floor(harmonics);
+        double below = 2.0 * std::sin(theta * 0.5);
+        double core = std::abs(below) < 1e-7 ? whole : (std::sin((whole + 0.5) * theta) / below - 0.5);
+        out[n] = static_cast<float>((core + (harmonics - whole) * std::cos((whole + 1.0) * theta)) * std::sqrt(2.0 / harmonics));
+    }
+    return out;
+}
+
+std::vector<float> gaussianNoiseSource(size_t count, uint32_t seed = 0) {
+    uint32_t state = seed + 0x9E3779B9u;
+    auto uniform = [&]() -> double {
+        state += 0x6D2B79F5u;
+        uint32_t z = (state ^ (state >> 15)) * (state | 1u);
+        z ^= z + (z ^ (z >> 7)) * (z | 61u);
+        return static_cast<double>(z ^ (z >> 14)) / 4294967296.0;
+    };
+    std::vector<float> out(count);
+    for (size_t i = 0; i < count; i += 2) {
+        double u1 = std::min(1.0 - 1e-12, uniform());
+        double r = std::sqrt(-2.0 * std::log(1.0 - u1));
+        double ang = 2.0 * M_PI * uniform();
+        out[i] = static_cast<float>(r * std::cos(ang));
+        if (i + 1 < count) out[i + 1] = static_cast<float>(r * std::sin(ang));
+    }
+    return out;
+}
+
+inline double lifterCoeff(int n) { return n == 0 ? 2.0 : 1.0 / (1.0 + n / 4.0); }
+
+inline int roundEven(float x) {
+    float down = std::floor(x), rest = x - down;
+    int d = static_cast<int>(down);
+    return (rest > 0.5f || (rest == 0.5f && (d % 2 != 0))) ? d + 1 : d;
+}
+
+}  // namespace
+
+struct VocaModel {
+    std::unordered_map<std::string, Tensor> tensors;
+    std::unordered_map<std::string, std::vector<PhoneUnit>> lexicon;
+    std::unordered_map<std::string, std::vector<PhoneUnit>> func_words;
+    std::unordered_map<char, std::vector<PhoneUnit>> letter_names;
+    const float* tokens_w = nullptr;
+    const float* stress_w = nullptr;
+    const float* voices_w = nullptr;
+    const float* frame_voices_w = nullptr;
+    TransformerStack encoder, prosody_stack, acoustic_stack;
+    Layer dur_conv1, dur_norm1, dur_conv2, dur_norm2, dur_out;
+    Layer frame_pos, prosody_head, prosody_proj, voc_harm, voc_noise;
+
+    Layer getLayer(const std::string& prefix) const {
+        auto wit = tensors.find("model/" + prefix + ".weight");
+        auto bit = tensors.find("model/" + prefix + ".bias");
+        Layer l{};
+        if (wit != tensors.end()) {
+            l.weight = wit->second.data.data();
+            const auto& sh = wit->second.shape;
+            l.out_dim = sh.empty() ? 0 : sh[0];
+            l.in_dim = sh.size() > 1 ? sh[1] : l.out_dim;
+            l.taps = sh.size() > 2 ? sh[2] : 1;
+        }
+        if (bit != tensors.end()) l.bias = bit->second.data.data();
+        return l;
+    }
+
+    TransformerStack getStack(const std::string& name, int layers) const {
+        TransformerStack st{};
+        st.norm = getLayer(name + ".norm");
+        st.blocks.resize(layers);
+        for (int i = 0; i < layers; ++i) {
+            std::string p = name + ".blocks." + std::to_string(i) + ".";
+            st.blocks[i] = {
+                getLayer(p + "norm1"), getLayer(p + "attention.qkv"), getLayer(p + "attention.out"),
+                getLayer(p + "norm2"), getLayer(p + "depthwise"), getLayer(p + "expand"), getLayer(p + "project")
+            };
+        }
+        return st;
+    }
+
+    std::vector<PhoneUnit> lookupWord(const std::string& raw_word, bool is_clause_end) const {
+        std::string w;
+        w.reserve(raw_word.size());
+        for (char c : raw_word) {
+            if (std::isalpha(static_cast<unsigned char>(c)) || c == '\'') {
+                w.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(c))));
+            }
+        }
+        if (w.empty()) return {};
+        if (!is_clause_end) {
+            auto fit = func_words.find(w);
+            if (fit != func_words.end()) return fit->second;
+        }
+        auto it = lexicon.find(w);
+        if (it != lexicon.end()) return it->second;
+        if (w.size() > 2 && w.substr(w.size() - 2) == "'s") {
+            auto base = lookupWord(w.substr(0, w.size() - 2), true);
+            if (!base.empty()) return pluralizePhones(std::move(base));
+        }
+        if (w.size() > 4 && w.substr(w.size() - 3) == "ing") {
+            std::string s1 = w.substr(0, w.size() - 3);
+            auto bIt = lexicon.find(s1);
+            if (bIt == lexicon.end()) bIt = lexicon.find(s1 + "e");
+            if (bIt != lexicon.end()) {
+                auto p = bIt->second;
+                p.push_back({47, 0}); p.push_back({34, 0});
+                return p;
+            }
+        }
+        if (w.size() > 3 && w.substr(w.size() - 2) == "ed") {
+            std::string s1 = w.substr(0, w.size() - 2);
+            auto bIt = lexicon.find(s1);
+            if (bIt == lexicon.end()) bIt = lexicon.find(w.substr(0, w.size() - 1));
+            if (bIt != lexicon.end()) return pastPhones(bIt->second);
+        }
+        if (w.size() > 3 && w.back() == 's') {
+            std::string s1 = w.substr(0, w.size() - 1);
+            auto bIt = lexicon.find(s1);
+            if (bIt == lexicon.end() && w.size() > 4 && w.substr(w.size() - 2) == "es") {
+                bIt = lexicon.find(w.substr(0, w.size() - 2));
+            }
+            if (bIt != lexicon.end()) return pluralizePhones(bIt->second);
+        }
+        bool all_upper = raw_word.size() <= 5 && std::all_of(raw_word.begin(), raw_word.end(), [](unsigned char c) { return std::isupper(c); });
+        if (all_upper) {
+            std::vector<PhoneUnit> sp;
+            for (char c : w) {
+                auto lit = letter_names.find(c);
+                if (lit != letter_names.end()) sp.insert(sp.end(), lit->second.begin(), lit->second.end());
+            }
+            if (!sp.empty()) return sp;
+        }
+        return fallbackGraphemePhones(w);
+    }
+};
+
+namespace {
+
+uint8_t punctToId(char c) {
+    switch (c) {
+        case ',': return 5; case '.': return 6; case '?': return 7; case '!': return 8;
+        case ';': return 9; case ':': return 10; case '"': return 11; case '(': return 13;
+        case ')': return 14; case '-': return 15; default: return 0;
+    }
+}
+
+void phonemizeText(const VocaModel& m, const std::string& text, std::vector<int>* ids, std::vector<int>* stress) {
+    ids->clear(); stress->clear();
+    ids->push_back(1); stress->push_back(0);  // <bos>
+    bool prev_was_phone = false;
+    size_t i = 0, n = text.size();
+    while (i < n) {
+        unsigned char c = static_cast<unsigned char>(text[i]);
+        if (std::isspace(c)) { ++i; continue; }
+        if (std::isdigit(c)) {
+            size_t j = i;
+            long long val = 0;
+            while (j < n && std::isdigit(static_cast<unsigned char>(text[j])) && (j - i) < 9) {
+                val = val * 10 + (text[j] - '0');
+                ++j;
+            }
+            i = j;
+            std::string expanded = numberToWords(val);
+            std::vector< int > sub_ids, sub_st;
+            phonemizeText(m, expanded, &sub_ids, &sub_st);
+            if (sub_ids.size() > 2) {
+                if (prev_was_phone) { ids->push_back(3); stress->push_back(0); }
+                for (size_t k = 1; k + 1 < sub_ids.size(); ++k) {
+                    ids->push_back(sub_ids[k]); stress->push_back(sub_st[k]);
+                }
+                prev_was_phone = true;
+            }
+            continue;
+        }
+        if (std::isalpha(c)) {
+            size_t j = i;
+            while (j < n && (std::isalpha(static_cast<unsigned char>(text[j])) ||
+                             (text[j] == '\'' && j + 1 < n && std::isalpha(static_cast<unsigned char>(text[j + 1]))))) {
+                ++j;
+            }
+            std::string word = text.substr(i, j - i);
+            i = j;
+            size_t pk = i;
+            while (pk < n && std::isspace(static_cast<unsigned char>(text[pk]))) ++pk;
+            bool clause_end = (pk >= n || punctToId(text[pk]) != 0);
+            auto phones = m.lookupWord(word, clause_end);
+            if (!phones.empty()) {
+                if (prev_was_phone) { ids->push_back(3); stress->push_back(0); }
+                for (const auto& pu : phones) {
+                    if (ids->size() < kMaxTokens - 2) {
+                        ids->push_back(pu.id); stress->push_back(pu.stress);
+                    }
+                }
+                prev_was_phone = true;
+            }
+            continue;
+        }
+        uint8_t pid = punctToId(static_cast<char>(c));
+        if (pid != 0 && ids->back() != pid && ids->size() < kMaxTokens - 2) {
+            ids->push_back(pid); stress->push_back(0);
+            prev_was_phone = false;
+        }
+        ++i;
+    }
+    if (ids->size() > 1 && ids->back() >= kPhoneOffset) {
+        ids->push_back(6); stress->push_back(0);  // trailing '.' so last word never breaks off
+    }
+    ids->push_back(2); stress->push_back(0);  // <eos>
+}
+
+std::vector<float> synthesizeUtterance(const VocaModel& m, const std::vector<int>& ids, const std::vector<int>& stress, int voice, float speed) {
+    const int count = static_cast<int>(ids.size());
+    if (count < 3 || count > kMaxTokens) return {};
+    voice = std::clamp(voice, 0, 1);
+    speed = std::clamp(speed, 0.5f, 2.0f);
+
+    std::vector<float> x(static_cast<size_t>(count) * kChannels);
+    for (int n = 0; n < count; ++n) {
+        const float* tw = m.tokens_w + ids[n] * kChannels;
+        const float* sw = m.stress_w + stress[n] * kChannels;
+        const float* vw = m.voices_w + voice * kChannels;
+        float* dst = x.data() + static_cast<size_t>(n) * kChannels;
+        for (int i = 0; i < kChannels; ++i) dst[i] = tw[i] + sw[i] + vw[i];
+    }
+    auto hidden = transformerOp(std::move(x), count, m.encoder, kHeads);
+
+    auto c1 = convolveOp(hidden, count, m.dur_conv1);
+    geluInPlace(&c1);
+    auto n1 = normalizeOp(c1, count, m.dur_norm1);
+    auto c2 = convolveOp(n1, count, m.dur_conv2);
+    geluInPlace(&c2);
+    auto n2 = normalizeOp(c2, count, m.dur_norm2);
+    auto dur_logits = linearOp(n2.data(), count, m.dur_out);
+
+    std::vector<int> durations(count, 0);
+    int frames = 0;
+    const float max_log_dur = std::log1pf(400.0f);
+    for (int n = 0; n < count; ++n) {
+        float length = std::expm1f(std::clamp(dur_logits[2 * n], 0.0f, max_log_dur));
+        bool present = !isPauseId(static_cast<uint8_t>(ids[n])) || dur_logits[2 * n + 1] > 0.0f;
+        int d = present ? std::max(roundEven(length / speed), 1) : 0;
+        durations[n] = d;
+        frames += d;
+    }
+    if (frames < 1 || frames > kMaxFrames) return {};
+
+    std::vector<int> owner(frames);
+    std::vector<float> place(static_cast<size_t>(frames) * 3);
+    for (int n = 0, t = 0; n < count; ++n) {
+        float ld = std::log1pf(static_cast<float>(durations[n])) / 4.0f;
+        for (int k = 0; k < durations[n]; ++k, ++t) {
+            owner[t] = n;
+            float p = (static_cast<float>(k) + 0.5f) / static_cast<float>(durations[n]);
+            place[3 * t] = p; place[3 * t + 1] = 1.0f - p; place[3 * t + 2] = ld;
+        }
+    }
+    auto fpos = linearOp(place.data(), frames, m.frame_pos);
+    for (int t = 0; t < frames; ++t) {
+        const float* hr = hidden.data() + static_cast<size_t>(owner[t]) * kChannels;
+        const float* fv = m.frame_voices_w + voice * kChannels;
+        float* dst = fpos.data() + static_cast<size_t>(t) * kChannels;
+        for (int i = 0; i < kChannels; ++i) dst[i] += hr[i] + fv[i];
+    }
+
+    auto melody = transformerOp(std::move(fpos), frames, m.prosody_stack, kHeads);
+    auto prosody = linearOp(melody.data(), frames, m.prosody_head);
+    std::vector<float> f0(frames), told(static_cast<size_t>(frames) * 3);
+    for (int t = 0; t < frames; ++t) {
+        if (isVowelId(static_cast<uint8_t>(ids[owner[t]]))) {
+            prosody[3 * t + 1] = std::max(prosody[3 * t + 1], 2.0f);
+        }
+        float pitch = prosody[3 * t];
+        told[3 * t] = std::clamp(pitch, -2.0f, 1.5f);
+        told[3 * t + 1] = prosody[3 * t + 1] > 0.0f ? 1.0f : 0.0f;
+        told[3 * t + 2] = std::clamp(prosody[3 * t + 2], -4.5f, 3.0f);
+        f0[t] = std::clamp(kPitchRefHz * std::exp(pitch), kF0Min, kF0Max);
+    }
+
+    auto pproj = linearOp(told.data(), frames, m.prosody_proj);
+    for (size_t i = 0; i < pproj.size(); ++i) pproj[i] += melody[i];
+    auto acoustic = transformerOp(std::move(pproj), frames, m.acoustic_stack, kHeads);
+
+    const int samples = frames * kHop;
+    auto h = linearOp(acoustic.data(), frames, m.voc_harm);
+    const int hw = m.voc_harm.out_dim, h_steps = kHop / kSynthHop;
+    auto voiced = filteredSource(
+        pulseTrainSource(f0, kHop, kSampleRate, kHarmonicLimit),
+        kSynthFft, kSynthHop, h_steps * frames + 3,
+        [&](int f, std::vector<double>& cep) {
+            int sub = std::min(f, h_steps * frames - 1);
+            int here = sub / h_steps, next = std::min((sub + 1) / h_steps, frames - 1);
+            for (int i = 0; i < kCepCausal; ++i) {
+                cep[i] = 0.5 * (h[here * hw + i] + h[next * hw + i]) * lifterCoeff(i);
+            }
+            for (int i = 0; i < kCepAnti; ++i) {
+                int at = kCepCausal + i;
+                cep[kSynthFft - 1 - i] = 0.5 * (h[here * hw + at] + h[next * hw + at]) * lifterCoeff(i + 1);
+            }
+            cep[0] += h[here * hw + kCepCausal + kCepAnti + (sub % h_steps)];
+        }
+    );
+
+    auto g = linearOp(acoustic.data(), frames, m.voc_noise);
+    const int gw = m.voc_noise.out_dim, g_steps = kHop / kNoiseHop;
+    auto noise_part = filteredSource(
+        gaussianNoiseSource(static_cast<size_t>(samples), 0),
+        kNoiseFft, kNoiseHop, g_steps * frames + 3,
+        [&](int f, std::vector<double>& cep) {
+            int sub = std::min(f, g_steps * frames - 1);
+            int here = sub / g_steps;
+            for (int i = 0; i < kNoiseCep; ++i) cep[i] = g[here * gw + i] * lifterCoeff(i);
+            cep[0] += g[here * gw + kNoiseCep + (sub % g_steps)];
+        }
+    );
+
+    float peak = 0.0f;
+    for (int i = 0; i < samples; ++i) {
+        voiced[i] += noise_part[i];
+        peak = std::max(peak, std::abs(voiced[i]));
+    }
+    if (peak > 0.99f) {
+        float scale = 0.99f / peak;
+        for (float& s : voiced) s *= scale;
+    }
+    return voiced;
+}
+
+}  // namespace
+
+VocaModel* voca_load(const char* gguf_path, std::string* err_out) {
+    int fd = open(gguf_path, O_RDONLY | O_CLOEXEC);
+    if (fd < 0) {
+        if (err_out) *err_out = "Could not open TinyVoca model file";
+        return nullptr;
+    }
+    struct stat st{};
+    if (fstat(fd, &st) != 0 || st.st_size < 1024) {
+        close(fd);
+        if (err_out) *err_out = "TinyVoca model file is invalid";
+        return nullptr;
+    }
+    size_t file_size = static_cast<size_t>(st.st_size);
+    void* map = mmap(nullptr, file_size, PROT_READ, MAP_PRIVATE, fd, 0);
+    close(fd);
+    if (map == MAP_FAILED) {
+        if (err_out) *err_out = "Could not memory-map TinyVoca model";
+        return nullptr;
+    }
+    madvise(map, file_size, MADV_SEQUENTIAL);
+
+    GgufReader r{reinterpret_cast<const uint8_t*>(map), file_size, 0};
+    if (r.u32() != 0x46554747u) {
+        munmap(map, file_size);
+        if (err_out) *err_out = "Not a valid GGUF model file";
+        return nullptr;
+    }
+    (void)r.u32();  // version
+    uint64_t tensor_count = r.u64();
+    uint64_t key_count = r.u64();
+
+    std::vector<std::string> emb_names;
+    std::vector<uint64_t> emb_offsets;
+    const uint8_t* emb_data = nullptr;
+    size_t emb_data_len = 0;
+    size_t alignment = 32;
+
+    for (uint64_t i = 0; i < key_count && r.at < r.size; ++i) {
+        std::string key = r.str();
+        uint32_t vtype = r.u32();
+        if (key == "general.alignment" && vtype == 4) {
+            alignment = std::max<size_t>(1, r.u32());
+        } else if (key == "audiocpp.embedded_files.names" && vtype == 9) {
+            uint32_t inner = r.u32();
+            uint64_t cnt = r.u64();
+            if (inner == 8) {
+                emb_names.reserve(cnt);
+                for (uint64_t k = 0; k < cnt; ++k) emb_names.push_back(r.str());
+            }
+        } else if (key == "audiocpp.embedded_files.offsets" && vtype == 9) {
+            uint32_t inner = r.u32();
+            uint64_t cnt = r.u64();
+            if (inner == 10) {
+                emb_offsets.reserve(cnt);
+                for (uint64_t k = 0; k < cnt; ++k) emb_offsets.push_back(r.u64());
+            }
+        } else if (key == "audiocpp.embedded_files.data" && vtype == 9) {
+            uint32_t inner = r.u32();
+            uint64_t cnt = r.u64();
+            if (inner < 2 && r.at + cnt <= r.size) {
+                emb_data = r.base + r.at;
+                emb_data_len = static_cast<size_t>(cnt);
+                r.at += emb_data_len;
+            }
+        } else {
+            r.skipValue(vtype);
+        }
+    }
+
+    struct TensorMeta { std::string name; std::vector<int> shape; uint32_t type; uint64_t offset; };
+    std::vector<TensorMeta> tmetas;
+    tmetas.reserve(tensor_count);
+    for (uint64_t i = 0; i < tensor_count && r.at < r.size; ++i) {
+        TensorMeta tm;
+        tm.name = r.str();
+        uint32_t ndims = r.u32();
+        tm.shape.resize(ndims);
+        for (uint32_t d = 0; d < ndims; ++d) tm.shape[ndims - 1 - d] = static_cast<int>(r.u64());
+        tm.type = r.u32();
+        tm.offset = r.u64();
+        tmetas.push_back(std::move(tm));
+    }
+
+    size_t data_start = ((r.at + alignment - 1) / alignment) * alignment;
+    auto* model = new VocaModel();
+    for (const auto& tm : tmetas) {
+        if (tm.name.rfind("model/", 0) != 0) continue;
+        size_t count = 1;
+        for (int s : tm.shape) count *= static_cast<size_t>(s);
+        if (data_start + tm.offset < file_size) {
+            Tensor t;
+            t.shape = tm.shape;
+            unpackTensor(r.base + data_start + tm.offset, tm.type, count, &t.data);
+            model->tensors[tm.name] = std::move(t);
+        }
+    }
+
+    std::unordered_map<std::string, uint8_t> sym_to_id;
+    for (int i = 0; i < kPhoneCount; ++i) sym_to_id[kPhoneSymbols[i]] = static_cast<uint8_t>(kPhoneOffset + i);
+
+    if (emb_data && emb_offsets.size() == emb_names.size() + 1) {
+        for (size_t i = 0; i < emb_names.size(); ++i) {
+            uint64_t o0 = emb_offsets[i], o1 = emb_offsets[i + 1];
+            if (o1 > o0 && o1 <= emb_data_len) {
+                const uint8_t* ptr = emb_data + o0;
+                size_t len = static_cast<size_t>(o1 - o0);
+                if (emb_names[i] == "phonemizer/lexicon.packed.gz") {
+                    std::vector<uint8_t> unpacked;
+                    if (gunzipBuffer(ptr, len, &unpacked)) unpackLexiconBytes(unpacked, &model->lexicon);
+                } else if (emb_names[i] == "phonemizer/function_words.txt" || emb_names[i] == "phonemizer/letters.txt") {
+                    std::string txt(reinterpret_cast<const char*>(ptr), len);
+                    size_t pos = 0;
+                    while (pos < txt.size()) {
+                        size_t eol = txt.find('\n', pos);
+                        if (eol == std::string::npos) eol = txt.size();
+                        std::string ln = txt.substr(pos, eol - pos);
+                        pos = eol + 1;
+                        if (ln.empty() || ln[0] == '#') continue;
+                        size_t t1 = ln.find('\t');
+                        if (t1 == std::string::npos) continue;
+                        std::string key = ln.substr(0, t1);
+                        if (emb_names[i] == "phonemizer/letters.txt" && key.size() == 1) {
+                            model->letter_names[key[0]] = parseIpaPhones(ln.substr(t1 + 1), sym_to_id);
+                        } else if (emb_names[i] == "phonemizer/function_words.txt") {
+                            size_t t2 = ln.find('\t', t1 + 1);
+                            if (t2 != std::string::npos) {
+                                size_t t3 = ln.find('\t', t2 + 1);
+                                std::string form = ln.substr(t2 + 1, t3 == std::string::npos ? std::string::npos : t3 - (t2 + 1));
+                                auto ph = parseIpaPhones(form, sym_to_id);
+                                for (auto& u : ph) u.stress = 0;
+                                model->func_words[key] = std::move(ph);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    munmap(map, file_size);
+
+    model->tokens_w = model->tensors["model/tokens.weight"].data.data();
+    model->stress_w = model->tensors["model/stress.weight"].data.data();
+    model->voices_w = model->tensors["model/voices.weight"].data.data();
+    model->frame_voices_w = model->tensors["model/frame_voices.weight"].data.data();
+    model->encoder = model->getStack("encoder", kEncoderLayers);
+    model->dur_conv1 = model->getLayer("duration.conv1");
+    model->dur_norm1 = model->getLayer("duration.norm1");
+    model->dur_conv2 = model->getLayer("duration.conv2");
+    model->dur_norm2 = model->getLayer("duration.norm2");
+    model->dur_out = model->getLayer("duration.out");
+    model->frame_pos = model->getLayer("frame_position");
+    model->prosody_stack = model->getStack("prosody_stack", kProsodyLayers);
+    model->prosody_head = model->getLayer("prosody_head");
+    model->prosody_proj = model->getLayer("prosody_projection");
+    model->acoustic_stack = model->getStack("acoustic_stack", kAcousticLayers);
+    model->voc_harm = model->getLayer("vocoder.harmonic");
+    model->voc_noise = model->getLayer("vocoder.noise");
+
+    if (!model->tokens_w || !model->voc_harm.weight) {
+        delete model;
+        if (err_out) *err_out = "TinyVoca model weights are incomplete";
+        return nullptr;
+    }
+    return model;
+}
+
+void voca_free(VocaModel* model) {
+    delete model;
+}
+
+bool voca_speak(VocaModel* model, const char* text, int voice_id, float speed, VocaPcmCallback cb, void* user, std::string* err_out) {
+    if (!model || !text || !cb) return false;
+    std::string full(text);
+    // Split long text into sentence chunks so synthesis starts immediately and stays within max_tokens.
+    size_t start = 0, n = full.size();
+    while (start < n) {
+        while (start < n && std::isspace(static_cast<unsigned char>(full[start]))) ++start;
+        if (start >= n) break;
+        size_t end = start;
+        while (end < n && (end - start) < 220) {
+            char c = full[end++];
+            if ((c == '.' || c == '!' || c == '?' || c == ';') && (end >= n || std::isspace(static_cast<unsigned char>(full[end])))) {
+                break;
+            }
+        }
+        if (end < n && !std::isspace(static_cast<unsigned char>(full[end]))) {
+            size_t sp = full.find(' ', end);
+            end = (sp == std::string::npos) ? n : sp;
+        }
+        std::string chunk = full.substr(start, end - start);
+        start = end;
+        std::vector<int> ids, stress;
+        phonemizeText(*model, chunk, &ids, &stress);
+        if (ids.size() <= 2) continue;
+        auto audio = synthesizeUtterance(*model, ids, stress, voice_id, speed);
+        if (audio.empty()) continue;
+        constexpr size_t kStep = 2048;
+        for (size_t off = 0; off < audio.size(); off += kStep) {
+            size_t cnt = std::min(kStep, audio.size() - off);
+            if (!cb(audio.data() + off, cnt, user)) return true;
+        }
+    }
+    (void)err_out;
+    return true;
+}
+
+}  // namespace neb_voca

@@ -61,7 +61,8 @@ class PhononEngine @Inject constructor(
 
     @Volatile private var run: Run? = null
     @Volatile private var track: AudioTrack? = null
-    private var handle = 0L
+    private var phononHandle = 0L
+    private var vocaHandle = 0L
     private var loadedVoices: List<String> = emptyList()
     private var appliedVoice: String? = null
     private var idleJob: Job? = null
@@ -72,7 +73,7 @@ class PhononEngine @Inject constructor(
     init {
         scope.launch {
             models.removed.collect { id ->
-                if (id == SpeechModelId.Phonon) {
+                if (!id.isStt) {
                     stop()
                     scope.launch(engineThread) { release() }
                 }
@@ -87,7 +88,7 @@ class PhononEngine @Inject constructor(
     fun play(segments: List<String>, from: Int = 0, voice: String? = null) {
         if (segments.isEmpty()) return
         if (!supported) { _state.value = ReadState.Error("Text to speech is not available on this device"); return }
-        if (!models.isInstalled(SpeechModelId.Phonon)) { _state.value = ReadState.Error("Download the text to speech model first"); return }
+        if (!models.isAnyTtsInstalled()) { _state.value = ReadState.Error("Download the text to speech model first"); return }
         run?.cancelled = true
         val r = Run(segments, voice)
         run = r
@@ -138,34 +139,53 @@ class PhononEngine @Inject constructor(
         runCatching { track?.pause(); track?.flush() }
     }
 
-    /** Releases the model; a later [play] reloads it. */
+    /** Releases the loaded models; a later [play] reloads whichever engine is active. */
     private fun release() {
-        if (handle != 0L) NativeSpeech.ttsFree(handle)
-        handle = 0L
+        if (phononHandle != 0L) NativeSpeech.ttsFree(phononHandle)
+        phononHandle = 0L
+        if (vocaHandle != 0L) NativeSpeech.vocaFree(vocaHandle)
+        vocaHandle = 0L
         loadedVoices = emptyList()
         appliedVoice = null
     }
 
-    private fun ensureLoaded(voice: String) {
+    private fun ensureVocaLoaded() {
+        if (vocaHandle != 0L) return
+        vocaHandle = NativeSpeech.vocaLoad(models.tinyVocaFile.path)
+        if (vocaHandle == 0L) throw IllegalStateException(NativeSpeech.vocaError().ifBlank { "The TinyVoca model could not be loaded" })
+    }
+
+    private fun ensurePhononLoaded(voice: String) {
         val wanted = voice.ifBlank { "default" }
-        val stale = handle != 0L && wanted != "default" && wanted !in loadedVoices
-        if (stale) release()
-        if (handle == 0L) {
+        val stale = phononHandle != 0L && wanted != "default" && wanted !in loadedVoices
+        if (stale) {
+            NativeSpeech.ttsFree(phononHandle)
+            phononHandle = 0L
+            loadedVoices = emptyList()
+            appliedVoice = null
+        }
+        if (phononHandle == 0L) {
             val threads = (Runtime.getRuntime().availableProcessors() / 2).coerceIn(2, 4)
-            handle = NativeSpeech.ttsLoad(models.phononDir.path, "en", threads)
-            if (handle == 0L) throw IllegalStateException(NativeSpeech.ttsError(0).ifBlank { "The voice model could not be loaded" })
-            loadedVoices = NativeSpeech.ttsVoices(handle).toList()
+            phononHandle = NativeSpeech.ttsLoad(models.phononDir.path, "en", threads)
+            if (phononHandle == 0L) throw IllegalStateException(NativeSpeech.ttsError(0).ifBlank { "The voice model could not be loaded" })
+            loadedVoices = NativeSpeech.ttsVoices(phononHandle).toList()
         }
         val target = if (wanted in loadedVoices) wanted else loadedVoices.firstOrNull { it == "default" }
         if (target != null && target != appliedVoice) {
-            if (NativeSpeech.ttsSetVoice(handle, target)) appliedVoice = target
+            if (NativeSpeech.ttsSetVoice(phononHandle, target)) appliedVoice = target
         }
     }
 
     private fun loop(r: Run, from: Int) {
         var audioTrack: AudioTrack? = null
         try {
-            ensureLoaded(r.voice ?: models.voice.value)
+            val activeModel = models.activeTtsModel()
+            val useVoca = activeModel == SpeechModelId.TinyVoca || (!models.phononSupportedCached && models.isInstalled(SpeechModelId.TinyVoca))
+            if (useVoca) {
+                ensureVocaLoaded()
+            } else {
+                ensurePhononLoaded(r.voice ?: models.voice.value)
+            }
             if (r.cancelled) return
             audioTrack = buildTrack()
             track = audioTrack
@@ -177,9 +197,16 @@ class PhononEngine @Inject constructor(
             while (!r.cancelled && i < r.segments.size) {
                 _progress.value = ReadProgress(i, r.segments.size, r.segments[i])
                 val t = audioTrack
-                val ok = NativeSpeech.ttsSpeak(handle, r.segments[i], object : PcmSink {
+                val sink = object : PcmSink {
                     override fun onPcm(pcm: FloatArray): Boolean = !r.cancelled && r.jump < 0 && writeAll(t, pcm, r, counter)
-                })
+                }
+                val ok = if (useVoca) {
+                    val vName = (r.voice ?: models.vocaVoice.value).uppercase()
+                    val vId = if (vName == "M2") 1 else 0
+                    NativeSpeech.vocaSpeak(vocaHandle, r.segments[i], vId, 1.0f, sink)
+                } else {
+                    NativeSpeech.ttsSpeak(phononHandle, r.segments[i], sink)
+                }
                 if (r.cancelled) break
                 val jump = r.jump
                 if (jump >= 0) {
@@ -188,7 +215,10 @@ class PhononEngine @Inject constructor(
                     runCatching { t.pause(); t.flush(); counter[0] = 0; if (!r.paused) t.play() }
                     continue
                 }
-                if (!ok) throw IllegalStateException(NativeSpeech.ttsError(handle).ifBlank { "Speech stopped unexpectedly" })
+                if (!ok) {
+                    val err = if (useVoca) NativeSpeech.vocaError() else NativeSpeech.ttsError(phononHandle)
+                    throw IllegalStateException(err.ifBlank { "Speech stopped unexpectedly" })
+                }
                 i++
             }
             if (!r.cancelled) drain(audioTrack, r, counter[0])
@@ -259,7 +289,7 @@ class PhononEngine @Inject constructor(
                     .build()
             )
             .setTransferMode(AudioTrack.MODE_STREAM)
-            .setBufferSizeInBytes(max(minBytes, rate * 4))
+            .setBufferSizeInBytes(max(minBytes, rate * 4 * 3))
             .build()
     }
 

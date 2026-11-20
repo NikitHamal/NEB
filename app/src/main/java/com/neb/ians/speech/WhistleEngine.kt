@@ -71,7 +71,7 @@ class WhistleEngine @Inject constructor(
     private val _committed = MutableSharedFlow<String>(extraBufferCapacity = 64)
     val committed: SharedFlow<String> = _committed.asSharedFlow()
 
-    @Volatile private var loaded = false
+    @Volatile private var loadedPath: String? = null
     @Volatile private var stopRequested = false
     private var session: Job? = null
 
@@ -81,8 +81,8 @@ class WhistleEngine @Inject constructor(
     init {
         scope.launch {
             models.removed.collect { id ->
-                if (id == SpeechModelId.Whistle) {
-                    loaded = false
+                if (id.isStt) {
+                    loadedPath = null
                     cancel()
                 }
             }
@@ -97,15 +97,24 @@ class WhistleEngine @Inject constructor(
     fun start() {
         if (isRunning) return
         if (!supported) return fail("Speech to text is not available on this device")
-        if (!models.isInstalled(SpeechModelId.Whistle)) return fail("Download the speech to text model first")
+        if (!models.isAnySttInstalled()) return fail("Download the speech to text model first")
         stopRequested = false
         _pending.value = ""
         _seconds.value = 0
         _state.value = DictationState.Preparing
         session = scope.launch {
             try {
-                withContext(engineThread) { ensureLoaded() }
-                record(models.sttLanguage.value.ifBlank { null })
+                val activeId = models.activeSttModel()
+                val rawLang = models.sttLanguage.value
+                val effectiveLang = when {
+                    activeId == SpeechModelId.ShrutiNepali && rawLang !in listOf("ne", "en", "") -> "ne"
+                    else -> rawLang.ifBlank { null }
+                }
+                withContext(engineThread) {
+                    ensureLoaded()
+                    NativeSpeech.sttReset()
+                }
+                record(effectiveLang)
                 _state.value = DictationState.Idle
             } catch (e: CancellationException) {
                 _state.value = DictationState.Idle
@@ -138,10 +147,11 @@ class WhistleEngine @Inject constructor(
     }
 
     private fun ensureLoaded() {
-        if (loaded) return
-        val rc = NativeSpeech.sttLoad(models.whistleFile.path)
+        val target = models.activeSttFile().path
+        if (loadedPath == target) return
+        val rc = NativeSpeech.sttLoad(target)
         if (rc < 0 || (rc and 2) == 0) throw IllegalStateException(NativeSpeech.sttError().ifBlank { "The speech model could not be loaded" })
-        loaded = true
+        loadedPath = target
     }
 
     @SuppressLint("MissingPermission")
@@ -157,19 +167,42 @@ class WhistleEngine @Inject constructor(
             rec.release()
             throw IllegalStateException("The microphone is busy")
         }
-        val chunks = Channel<FloatArray>(capacity = 8, onBufferOverflow = kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST)
+        val ns = runCatching {
+            if (android.media.audiofx.NoiseSuppressor.isAvailable()) {
+                android.media.audiofx.NoiseSuppressor.create(rec.audioSessionId)?.apply { enabled = true }
+            } else null
+        }.getOrNull()
+        val agc = runCatching {
+            if (android.media.audiofx.AutomaticGainControl.isAvailable()) {
+                android.media.audiofx.AutomaticGainControl.create(rec.audioSessionId)?.apply { enabled = true }
+            } else null
+        }.getOrNull()
+        val keywords = "NEB\nSEE\nIOE\nCEE\nKathmandu\nPokhara\nTribhuvan\nLok Sewa\nCTEVT"
+        val chunks = Channel<FloatArray>(capacity = 10, onBufferOverflow = kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST)
         val consumer = launch(engineThread) {
             try {
-                for (chunk in chunks) handle(NativeSpeech.sttStream(chunk, chunk.size, lang, null))
+                for (firstChunk in chunks) {
+                    var merged = firstChunk
+                    while (merged.size < rate * 3) {
+                        val next = chunks.tryReceive().getOrNull() ?: break
+                        val combined = FloatArray(merged.size + next.size)
+                        System.arraycopy(merged, 0, combined, 0, merged.size)
+                        System.arraycopy(next, 0, combined, merged.size, next.size)
+                        merged = combined
+                    }
+                    handle(NativeSpeech.sttStream(merged, merged.size, lang, keywords))
+                }
             } finally {
-                // Always close the engine's stream so the next session starts clean.
                 withContext(NonCancellable) { handle(NativeSpeech.sttStop()); _pending.value = "" }
             }
         }
-        val frame = ShortArray(rate / 4)
+        val frame = ShortArray(rate / 5) // 200ms low-latency read frames
         val acc = FloatArray(rate)
         var filled = 0
         var total = 0L
+        var chunkTarget = (rate * 65) / 100 // 0.65s first chunk for 35% faster time-to-first-word
+        var silentChunks = 0
+        var dcMean = 0f
         try {
             rec.startRecording()
             _state.value = DictationState.Listening
@@ -185,21 +218,37 @@ class WhistleEngine @Inject constructor(
                 if (n == 0) continue
                 var sum = 0.0
                 for (i in 0 until n) {
-                    val f = frame[i] / 32768f
+                    val raw = frame[i] * (1f / 32768f)
+                    dcMean = dcMean * 0.995f + raw * 0.005f
+                    val f = (raw - dcMean).coerceIn(-1f, 1f)
                     sum += f * f
                     acc[filled + i] = f
                 }
                 filled += n
                 total += n
-                _level.value = min(1f, sqrt(sum / n).toFloat() * 7f)
+                val rms = sqrt(sum / n).toFloat()
+                _level.value = min(1f, rms * 7.5f)
                 _seconds.value = (total / rate).toInt()
-                if (filled >= rate - frame.size + 1) {
-                    chunks.send(acc.copyOf(filled))
+                if (filled >= chunkTarget) {
+                    var chunkSq = 0.0
+                    for (i in 0 until filled) chunkSq += acc[i] * acc[i]
+                    val chunkRms = sqrt(chunkSq / filled).toFloat()
+                    if (chunkRms < 0.0018f) {
+                        silentChunks++
+                    } else {
+                        silentChunks = 0
+                    }
+                    if (silentChunks <= 2 || _pending.value.isNotEmpty()) {
+                        chunks.send(acc.copyOf(filled))
+                        chunkTarget = (rate * 85) / 100 // 0.85s steady-state responsive chunks
+                    }
                     filled = 0
                 }
             }
         } finally {
             runCatching { rec.stop() }
+            runCatching { ns?.release() }
+            runCatching { agc?.release() }
             rec.release()
             if (filled > 0 && isActive) chunks.trySend(acc.copyOf(filled))
             _state.value = DictationState.Finishing

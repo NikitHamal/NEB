@@ -20,6 +20,8 @@
 #include <string>
 #include <vector>
 
+#include "tiny_voca.h"
+
 #ifndef NEB_NO_NEEDLE
 #include "needle.h"
 #endif
@@ -41,11 +43,13 @@ jstring toJava(JNIEnv* env, const char* s) {
     return env->NewStringUTF(s ? s : "");
 }
 
-// ------------------------------------------------------------------ Whistle (STT)
+// ------------------------------------------------------------------ Whistle / Shruti (STT)
 
 #ifndef NEB_NO_NEEDLE
 void* gModelMap = nullptr;
 size_t gModelLen = 0;
+std::vector<char> gSttStreamBuf(1 << 17, 0);
+std::vector<char> gSttBatchBuf(1 << 20, 0);
 #endif
 
 }  // namespace
@@ -77,6 +81,7 @@ Java_com_neb_ians_speech_NativeSpeech_sttLoad(JNIEnv* env, jobject, jstring path
     void* map = mmap(nullptr, (size_t) st.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
     close(fd);
     if (map == MAP_FAILED) return -4;
+    madvise(map, (size_t) st.st_size, MADV_WILLNEED | MADV_SEQUENTIAL);
     int rc = -5;
     try {
         rc = needle_load(reinterpret_cast<const unsigned char*>(map), (unsigned long long) st.st_size);
@@ -93,6 +98,13 @@ Java_com_neb_ians_speech_NativeSpeech_sttLoad(JNIEnv* env, jobject, jstring path
     gModelMap = map;
     gModelLen = (size_t) st.st_size;
     return needle_models();
+#endif
+}
+
+JNIEXPORT void JNICALL
+Java_com_neb_ians_speech_NativeSpeech_sttReset(JNIEnv*, jobject) {
+#ifndef NEB_NO_NEEDLE
+    try { needle_reset(); } catch (...) {}
 #endif
 }
 
@@ -115,18 +127,18 @@ Java_com_neb_ians_speech_NativeSpeech_sttTranscribe(
     std::string l = toStd(env, lang), k = toStd(env, keywords);
     jfloat* data = env->GetFloatArrayElements(pcm, nullptr);
     if (data == nullptr) return nullptr;
-    const int cap = 1 << 20;
-    std::vector<char> out((size_t) cap, 0);
+    const int cap = (int) gSttBatchBuf.size();
+    gSttBatchBuf[0] = '\0';
     int rc = -1;
     try {
         rc = needle_transcribe(data, samples, l.empty() ? nullptr : l.c_str(),
-                               k.empty() ? nullptr : k.c_str(), 0, out.data(), cap);
+                               k.empty() ? nullptr : k.c_str(), 0, gSttBatchBuf.data(), cap);
     } catch (...) {
         rc = -1;
     }
     env->ReleaseFloatArrayElements(pcm, data, JNI_ABORT);
     if (rc < 0) return nullptr;
-    return toJava(env, out.data());
+    return toJava(env, gSttBatchBuf.data());
 #endif
 }
 
@@ -140,18 +152,18 @@ Java_com_neb_ians_speech_NativeSpeech_sttStream(
     std::string l = toStd(env, lang), k = toStd(env, keywords);
     jfloat* data = env->GetFloatArrayElements(pcm, nullptr);
     if (data == nullptr) return nullptr;
-    const int cap = 1 << 17;
-    std::vector<char> out((size_t) cap, 0);
+    const int cap = (int) gSttStreamBuf.size();
+    gSttStreamBuf[0] = '\0';
     int rc = -1;
     try {
         rc = needle_stream_transcribe_process(data, samples, l.empty() ? nullptr : l.c_str(),
-                                              k.empty() ? nullptr : k.c_str(), out.data(), cap);
+                                              k.empty() ? nullptr : k.c_str(), gSttStreamBuf.data(), cap);
     } catch (...) {
         rc = -1;
     }
     env->ReleaseFloatArrayElements(pcm, data, JNI_ABORT);
     if (rc < 0) return nullptr;
-    return toJava(env, out.data());
+    return toJava(env, gSttStreamBuf.data());
 #endif
 }
 
@@ -161,16 +173,16 @@ Java_com_neb_ians_speech_NativeSpeech_sttStop(JNIEnv* env, jobject) {
     (void) env;
     return nullptr;
 #else
-    const int cap = 1 << 17;
-    std::vector<char> out((size_t) cap, 0);
+    const int cap = (int) gSttStreamBuf.size();
+    gSttStreamBuf[0] = '\0';
     int rc = -1;
     try {
-        rc = needle_stream_transcribe_stop(out.data(), cap);
+        rc = needle_stream_transcribe_stop(gSttStreamBuf.data(), cap);
     } catch (...) {
         rc = -1;
     }
     if (rc < 0) return nullptr;
-    return toJava(env, out.data());
+    return toJava(env, gSttStreamBuf.data());
 #endif
 }
 
@@ -230,17 +242,23 @@ struct SpeakCtx {
     JNIEnv* env;
     jobject sink;
     jmethodID onPcm;
-    bool failed;
+    jfloatArray cachedArr = nullptr;
+    jsize cachedCap = 0;
+    bool failed = false;
 };
 
 bool onFrame(const float* pcm, size_t n, void* user) {
     SpeakCtx* ctx = static_cast<SpeakCtx*>(user);
     JNIEnv* env = ctx->env;
-    jfloatArray arr = env->NewFloatArray((jsize) n);
-    if (arr == nullptr) { ctx->failed = true; return false; }
-    env->SetFloatArrayRegion(arr, 0, (jsize) n, pcm);
-    jboolean keep = env->CallBooleanMethod(ctx->sink, ctx->onPcm, arr);
-    env->DeleteLocalRef(arr);
+    jsize len = (jsize) n;
+    if (ctx->cachedArr == nullptr || ctx->cachedCap != len) {
+        if (ctx->cachedArr != nullptr) env->DeleteLocalRef(ctx->cachedArr);
+        ctx->cachedArr = env->NewFloatArray(len);
+        ctx->cachedCap = len;
+    }
+    if (ctx->cachedArr == nullptr) { ctx->failed = true; return false; }
+    env->SetFloatArrayRegion(ctx->cachedArr, 0, len, pcm);
+    jboolean keep = env->CallBooleanMethod(ctx->sink, ctx->onPcm, ctx->cachedArr);
     if (env->ExceptionCheck()) {
         env->ExceptionClear();
         ctx->failed = true;
@@ -248,6 +266,8 @@ bool onFrame(const float* pcm, size_t n, void* user) {
     }
     return keep == JNI_TRUE;
 }
+
+std::string gVocaLastError;
 
 }  // namespace
 
@@ -317,15 +337,59 @@ Java_com_neb_ians_speech_NativeSpeech_ttsSpeak(JNIEnv* env, jobject, jlong handl
     jmethodID mid = env->GetMethodID(cls, "onPcm", "([F)Z");
     if (mid == nullptr) return JNI_FALSE;
     std::string t = toStd(env, text);
-    SpeakCtx ctx{env, sink, mid, false};
+    SpeakCtx ctx{env, sink, mid};
     PttsResult res{};
     bool ok = gTts.ptts_speak(reinterpret_cast<PttsHandle*>(handle), t.c_str(), onFrame, &ctx, &res);
+    if (ctx.cachedArr != nullptr) env->DeleteLocalRef(ctx.cachedArr);
     return (ok && !ctx.failed) ? JNI_TRUE : JNI_FALSE;
 }
 
 JNIEXPORT void JNICALL
 Java_com_neb_ians_speech_NativeSpeech_ttsFree(JNIEnv*, jobject, jlong handle) {
     if (gTts.ok && handle != 0) gTts.ptts_free(reinterpret_cast<PttsHandle*>(handle));
+}
+
+// ------------------------------------------------------------------ TinyVoca (TTS, all ABIs)
+
+JNIEXPORT jlong JNICALL
+Java_com_neb_ians_speech_NativeSpeech_vocaLoad(JNIEnv* env, jobject, jstring path) {
+    std::string p = toStd(env, path);
+    gVocaLastError.clear();
+    neb_voca::VocaModel* m = neb_voca::voca_load(p.c_str(), &gVocaLastError);
+    return reinterpret_cast<jlong>(m);
+}
+
+JNIEXPORT jstring JNICALL
+Java_com_neb_ians_speech_NativeSpeech_vocaError(JNIEnv* env, jobject) {
+    return toJava(env, gVocaLastError.empty() ? "Could not load TinyVoca model" : gVocaLastError.c_str());
+}
+
+JNIEXPORT jboolean JNICALL
+Java_com_neb_ians_speech_NativeSpeech_vocaSpeak(
+        JNIEnv* env, jobject, jlong handle, jstring text, jint voiceId, jfloat speed, jobject sink) {
+    if (handle == 0 || sink == nullptr) return JNI_FALSE;
+    jclass cls = env->GetObjectClass(sink);
+    jmethodID mid = env->GetMethodID(cls, "onPcm", "([F)Z");
+    if (mid == nullptr) return JNI_FALSE;
+    std::string t = toStd(env, text);
+    SpeakCtx ctx{env, sink, mid};
+    gVocaLastError.clear();
+    bool ok = neb_voca::voca_speak(
+        reinterpret_cast<neb_voca::VocaModel*>(handle),
+        t.c_str(),
+        (int) voiceId,
+        (float) speed,
+        onFrame,
+        &ctx,
+        &gVocaLastError
+    );
+    if (ctx.cachedArr != nullptr) env->DeleteLocalRef(ctx.cachedArr);
+    return (ok && !ctx.failed) ? JNI_TRUE : JNI_FALSE;
+}
+
+JNIEXPORT void JNICALL
+Java_com_neb_ians_speech_NativeSpeech_vocaFree(JNIEnv*, jobject, jlong handle) {
+    if (handle != 0) neb_voca::voca_free(reinterpret_cast<neb_voca::VocaModel*>(handle));
 }
 
 }  // extern "C"
