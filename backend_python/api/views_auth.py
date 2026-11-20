@@ -209,28 +209,48 @@ def auth_google(request):
             'user': UserSerializer(user).data
         })
     except User.DoesNotExist:
-        # New user — create with auth token, temporary username placeholder
-        if email and User.objects.filter(email__iexact=email).exists():
-            return Response({'error': 'An account with this email already exists. Please log in with your original sign-in method first.'}, status=409)
-        temp_username = f"user_{user_id[:8]}"
-        user = User(
-            pk=user_id,
-            username=temp_username,
-            email=email,
-            display_name=display_name,
-            photo_url=photo_url,
-            email_verified=provider_verified,
-            created_at=_now_ms()
-        )
-        user.save()
-        auth_token = issue_auth_token(user)
-        logger.info("auth_google: new user created: %s (temp_username=%s)", user_id, temp_username)
+        pass
+
+    linked = _link_oauth_user_model(
+        email,
+        user_id,
+        display_name,
+        photo_url,
+        provider_verified=provider_verified,
+    )
+    if linked:
+        if getattr(linked, 'is_banned', False):
+            return Response({'error': 'This account has been banned'}, status=403)
+        auth_token = issue_auth_token(linked)
+        logger.info("auth_google: linked existing user by email: %s", email)
         return Response({
             'status': 'success',
-            'isNewUser': True,
+            'isNewUser': False,
             'authToken': auth_token,
-            'user': UserSerializer(user).data
+            'user': UserSerializer(linked).data
         })
+
+    if email and User.objects.filter(email__iexact=email).exists():
+        return Response({'error': 'An account with this email already exists. Please log in with your original sign-in method first.'}, status=409)
+    temp_username = f"user_{user_id[:8]}"
+    user = User(
+        pk=user_id,
+        username=temp_username,
+        email=email,
+        display_name=display_name,
+        photo_url=photo_url,
+        email_verified=provider_verified,
+        created_at=_now_ms()
+    )
+    user.save()
+    auth_token = issue_auth_token(user)
+    logger.info("auth_google: new user created: %s (temp_username=%s)", user_id, temp_username)
+    return Response({
+        'status': 'success',
+        'isNewUser': True,
+        'authToken': auth_token,
+        'user': UserSerializer(user).data
+    })
 
 @api_view(['POST'])
 @authentication_classes([])

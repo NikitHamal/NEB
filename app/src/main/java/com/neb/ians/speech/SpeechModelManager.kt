@@ -128,6 +128,14 @@ class SpeechModelManager @Inject constructor(
     private val _voice = MutableStateFlow("default")
     val voice: StateFlow<String> = _voice.asStateFlow()
 
+    @Volatile
+    var sttSupportedCached: Boolean = true
+        private set
+
+    @Volatile
+    var ttsSupportedCached: Boolean = true
+        private set
+
     init {
         scope.launch {
             _sttLanguage.value = prefs.getString("stt_lang", "") ?: ""
@@ -135,6 +143,8 @@ class SpeechModelManager @Inject constructor(
             _stt.value = initialState(SpeechModelId.Whistle)
             _tts.value = initialState(SpeechModelId.Phonon)
             _installedVoices.value = scanVoices()
+            sttSupportedCached = runCatching { NativeSpeech.sttSupported }.getOrDefault(false)
+            ttsSupportedCached = runCatching { NativeSpeech.ttsSupported }.getOrDefault(false)
         }
     }
 
@@ -142,26 +152,29 @@ class SpeechModelManager @Inject constructor(
     /** Emitted before files are deleted so engines can drop their handles. */
     val removed: SharedFlow<SpeechModelId> = _removed.asSharedFlow()
 
-    private val jobs = HashMap<SpeechModelId, Job>()
+    private val jobs = java.util.concurrent.ConcurrentHashMap<SpeechModelId, Job>()
 
     fun isInstalled(id: SpeechModelId) = (if (id == SpeechModelId.Whistle) stt.value else tts.value) is ModelState.Installed
 
     fun setSttLanguage(code: String) {
         _sttLanguage.value = code
-        prefs.edit().putString("stt_lang", code).apply()
+        scope.launch { prefs.edit().putString("stt_lang", code).apply() }
     }
 
     fun setVoice(name: String) {
         _voice.value = name
-        prefs.edit().putString("voice", name).apply()
+        scope.launch { prefs.edit().putString("voice", name).apply() }
     }
 
     private fun stateFlow(id: SpeechModelId) = if (id == SpeechModelId.Whistle) _stt else _tts
 
+    private fun isValidModelFile(f: File, expectedBytes: Long): Boolean =
+        f.exists() && f.length() >= (expectedBytes * 95L / 100L).coerceAtLeast(1L)
+
     private fun initialState(id: SpeechModelId): ModelState {
         val files = SpeechCatalog.files(id)
         val dir = if (id == SpeechModelId.Whistle) File(root, "whistle") else File(root, "phonon-31m-en")
-        val present = files.all { File(dir, it.name).let { f -> f.exists() && f.length() > 0 } }
+        val present = files.all { isValidModelFile(File(dir, it.name), it.bytes) }
         return if (present) ModelState.Installed(files.sumOf { File(dir, it.name).length() }) else ModelState.NotInstalled
     }
 
@@ -184,10 +197,12 @@ class SpeechModelManager @Inject constructor(
                 var finished = 0L
                 for (file in SpeechCatalog.files(id)) {
                     val dest = File(dir, file.name)
-                    if (dest.exists() && dest.length() > 0) {
+                    if (isValidModelFile(dest, file.bytes)) {
                         finished += dest.length()
                         state.value = ModelState.Downloading(finished, total)
                         continue
+                    } else if (dest.exists()) {
+                        dest.delete()
                     }
                     val base = finished
                     fetch(file.url, dest) { current -> state.value = ModelState.Downloading(base + current, total) }

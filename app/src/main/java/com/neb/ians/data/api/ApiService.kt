@@ -2263,9 +2263,12 @@ interface ApiService {
                 .addInterceptor(DeviceSignalInterceptor(context))
                 .addInterceptor(RetryInterceptor(maxRetries = 2, initialBackoffMs = 500))
                 .addInterceptor { chain ->
-                    val request = chain.request().newBuilder()
-                    tokenProvider?.invoke()?.let { token ->
-                        request.header("Authorization", "Bearer $token")
+                    val original = chain.request()
+                    val request = original.newBuilder()
+                    if (original.header("Authorization").isNullOrBlank()) {
+                        tokenProvider?.invoke()?.takeIf { it.isNotBlank() }?.let { token ->
+                            request.header("Authorization", "Bearer $token")
+                        }
                     }
                     chain.proceed(request.build())
                 }

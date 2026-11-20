@@ -163,6 +163,20 @@ private fun AbroadCard(d: PwData, a: PwAbroad, i: Int, mx: Float, budget: Int, o
                     Detail("Stay after study", a.stayBack.ifBlank { "See notes" }, Modifier.weight(1f))
                 }
                 if (a.exams.isNotEmpty()) Detail("Entry test", a.exams.joinToString(", "))
+                if (a.fields.isNotEmpty()) Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Text("Popular fields", fontSize = 11.sp, color = c.onSurfaceVariant)
+                    FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        a.fields.forEach { PwOutlineChip(it) }
+                    }
+                }
+                if (a.work.isNotBlank()) Column {
+                    Text("Work rules", fontSize = 11.sp, color = c.onSurfaceVariant)
+                    PwLinkText(a.work, fontSize = 13.sp, lineHeight = 19.sp, color = c.onSurface)
+                }
+                if (a.note.isNotBlank()) Column {
+                    Text("Visa & funding notes", fontSize = 11.sp, color = c.onSurfaceVariant)
+                    PwLinkText(a.note, fontSize = 13.sp, lineHeight = 19.sp, color = c.onSurfaceVariant)
+                }
                 if (months.isNotEmpty()) Column {
                     Text("Intake months", fontSize = 11.sp, color = c.onSurfaceVariant, modifier = Modifier.padding(bottom = 4.dp))
                     PwMonths({ it in months })

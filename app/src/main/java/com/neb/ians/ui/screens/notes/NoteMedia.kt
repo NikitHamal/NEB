@@ -16,11 +16,12 @@ internal class NoteMedia(
     val drawAspect: Float,
     val table: List<List<String>>,
     val code: String,
+    val nextDue: Long = 0L,
 ) {
     val hasAny: Boolean get() = pics.isNotEmpty() || audio.isNotEmpty() || drawing.isNotEmpty() || table.isNotEmpty() || code.isNotEmpty()
 
     companion object {
-        val None = NoteMedia(emptyList(), emptyList(), emptyList(), 1.6f, emptyList(), "")
+        val None = NoteMedia(emptyList(), emptyList(), emptyList(), 1.6f, emptyList(), "", 0L)
     }
 }
 
@@ -36,7 +37,8 @@ internal object NoteMediaCache {
         cache.get(key)?.let { return it }
         val d = n.doc
         val has = d.isNotEmpty() && (
-            d.contains("\"Image\"") || d.contains("\"Audio\"") || d.contains("\"Drawing\"") || d.contains("\"Table\"") || d.contains("\"Code\"")
+            d.contains("\"Image\"") || d.contains("\"Audio\"") || d.contains("\"Drawing\"") ||
+                d.contains("\"Table\"") || d.contains("\"Code\"") || (d.contains("\"Todo\"") && d.contains("\"d\""))
             )
         val out = if (!has) NoteMedia.None else runCatching { read(d) }.getOrDefault(NoteMedia.None)
         cache.put(key, out)
@@ -58,6 +60,7 @@ internal object NoteMediaCache {
             ?.take(3)?.map { r -> r.take(3).map { it.trim() } } ?: emptyList()
         val code = blocks.firstOrNull { it.type == BlockType.Code && it.text.isNotBlank() }
             ?.text?.lineSequence()?.filter { it.isNotBlank() }?.take(3)?.joinToString("\n") ?: ""
-        return NoteMedia(pics, audio, strokes, aspect, table, code)
+        val nextDue = blocks.filter { it.type == BlockType.Todo && !it.checked && it.due > 0L }.minOfOrNull { it.due } ?: 0L
+        return NoteMedia(pics, audio, strokes, aspect, table, code, nextDue)
     }
 }

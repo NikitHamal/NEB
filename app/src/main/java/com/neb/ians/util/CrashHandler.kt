@@ -13,26 +13,31 @@ class CrashHandler private constructor(private val context: Context) : Thread.Un
     private val defaultHandler = Thread.getDefaultUncaughtExceptionHandler()
 
     override fun uncaughtException(thread: Thread, throwable: Throwable) {
-        runCatching {
-            val stackTrace = getStackTraceString(throwable)
+        val launched = runCatching {
+            val stackTrace = getStackTraceString(throwable).take(32_000)
+            val crashType = throwable.javaClass.simpleName.ifBlank { "Crash" }
+            val crashMessage = (throwable.localizedMessage ?: "Unknown error").take(2_000)
             val prefs = context.getSharedPreferences("nebians_crash_logs", Context.MODE_PRIVATE)
             prefs.edit()
                 .putString("last_crash_log", stackTrace)
-                .putString("last_crash_type", throwable.javaClass.simpleName)
-                .putString("last_crash_message", throwable.localizedMessage ?: "Unknown error")
+                .putString("last_crash_type", crashType)
+                .putString("last_crash_message", crashMessage)
                 .putLong("last_crash_timestamp", System.currentTimeMillis())
-                .apply()
+                .commit()
 
             val intent = Intent(context, CrashActivity::class.java).apply {
                 putExtra("crash_log", stackTrace)
-                putExtra("crash_type", throwable.javaClass.simpleName)
-                putExtra("crash_message", throwable.localizedMessage ?: "Unknown error")
+                putExtra("crash_type", crashType)
+                putExtra("crash_message", crashMessage)
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             }
             context.startActivity(intent)
-        }
+            true
+        }.getOrDefault(false)
 
-        defaultHandler?.uncaughtException(thread, throwable)
+        if (!launched) {
+            defaultHandler?.uncaughtException(thread, throwable)
+        }
         Process.killProcess(Process.myPid())
         exitProcess(10)
     }

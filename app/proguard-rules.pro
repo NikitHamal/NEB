@@ -211,8 +211,11 @@
 # On-device speech (JNI): Whistle STT and Phonon TTS bridge in libneb_speech.so
 # ----------------------------------------------------------------------------
 -keep class com.neb.ians.speech.NativeSpeech { *; }
+-keep interface com.neb.ians.speech.PcmSink { *; }
 -keep class com.neb.ians.speech.PcmSink { *; }
--keep class * implements com.neb.ians.speech.PcmSink { public boolean onPcm(float[]); }
+-keepclasseswithmembers class * implements com.neb.ians.speech.PcmSink {
+    public boolean onPcm(float[]);
+}
 
 # ----------------------------------------------------------------------------
 # AndroidX Credentials & Google Identity (Loaded reflectively in R8 full mode)

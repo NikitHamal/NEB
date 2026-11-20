@@ -112,9 +112,19 @@ fun PathwaysScreen(onNavigateBack: () -> Unit, viewModel: PathwaysViewModel = hi
     ) { inner ->
         Box(Modifier.fillMaxSize().padding(inner)) {
             if (data == null) {
-                Column(Modifier.fillMaxSize().statusBarsPadding().padding(32.dp), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-                    if (ui.loading) CircularProgressIndicator()
-                    else PwEmpty("Could not load Pathways")
+                Column(Modifier.fillMaxSize().statusBarsPadding()) {
+                    PwBackBar("Pathways", exit)
+                    Column(
+                        Modifier.fillMaxSize().padding(32.dp),
+                        verticalArrangement = Arrangement.spacedBy(14.dp, Alignment.CenterVertically),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        if (ui.loading) CircularProgressIndicator()
+                        else {
+                            PwEmpty("Could not load Pathways")
+                            PwButton("Try again", null, true, { viewModel.reload() })
+                        }
+                    }
                 }
                 return@Box
             }

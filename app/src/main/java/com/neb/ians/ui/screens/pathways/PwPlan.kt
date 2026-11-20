@@ -151,6 +151,8 @@ private fun MyPlan(d: PwData, ui: PathwaysUiState, vm: PathwaysViewModel, nav: P
                 "route" -> d.routeById[id]?.let { Triple(it.name, "Course") { nav.push(k) } }
                 "career" -> d.careers[id]?.let { Triple(it.name, "Career") { nav.push(k) } }
                 "exam" -> d.govtById[id]?.let { Triple(it.name, "Exam") { nav.push(k) } }
+                "sch" -> d.scholarships.firstOrNull { it.id == id }?.let { x -> Triple(x.name, "Scholarship") { s.study = "funding"; s.schCountry = ""; s.schOpen = x.id; nav.tab("study") } }
+                "abroad" -> d.abroad.firstOrNull { it.id == id }?.let { a -> Triple(a.country, "Country") { s.study = "abroad"; s.abroadOpen = a.id; nav.tab("study") } }
                 "faq" -> d.faq.firstOrNull { it.id == id }?.let { f -> Triple(f.q, "Question") { vm.sel.faqOpen = f.id; nav.tab("guides") } }
                 else -> null
             }

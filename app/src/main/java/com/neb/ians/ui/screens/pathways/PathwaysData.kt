@@ -274,7 +274,7 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
     private val _state = MutableStateFlow(PathwaysUiState())
     val state: StateFlow<PathwaysUiState> = _state.asStateFlow()
     private val cacheFile get() = File(context.filesDir, "pathways.json")
-    private val prefs get() = context.getSharedPreferences("pathways", Context.MODE_PRIVATE)
+    private val prefs by lazy { context.getSharedPreferences("pathways", Context.MODE_PRIVATE) }
 
     val sel = PwSel()
     private val sets = mutableStateMapOf<String, Set<String>>()
@@ -300,12 +300,17 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
                 }
             }
         }
+        reload()
+    }
+
+    fun reload() {
+        _state.update { if (it.data == null) it.copy(loading = true, failed = false) else it }
         loadOnNeb()
         loadPlus2Summary()
         viewModelScope.launch {
             // the saved copy shows at once; the network only refreshes it (ETag keeps that call tiny)
             val cached = withContext(Dispatchers.IO) { runCatching { parsePathways(cacheFile.readText(), wave17) }.getOrNull() }
-            if (cached != null) _state.update { it.copy(data = cached, loading = false) }
+            if (cached != null) _state.update { it.copy(data = cached, loading = false, failed = false) }
             val fresh = withContext(Dispatchers.IO) { runCatching { fetch() }.getOrNull() }
             _state.update {
                 when {

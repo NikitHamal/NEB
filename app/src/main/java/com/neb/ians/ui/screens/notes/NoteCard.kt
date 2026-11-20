@@ -116,10 +116,7 @@ internal fun NoteCard(
     val maxEntries = if (hasMedia) 2 else if (compact) 4 else 3
     val lines = remember(note.body, maxEntries, live) { previewLines(note.body, maxEntries, live) }
     val (done, total) = remember(note.body) { NoteFormatting.checkProgress(note.body) }
-    val nextDue = remember(note.doc) {
-        if (!note.doc.contains("\"Todo\"") || !note.doc.contains("\"d\"")) 0L
-        else NoteDoc.fromJson(note.doc).filter { it.type == BlockType.Todo && !it.checked && it.due > 0L }.minOfOrNull { it.due } ?: 0L
-    }
+    val nextDue = m.nextDue
     val date = remember(note.updatedAt) { dateLabel(note.updatedAt) }
     val border = when {
         selected -> BorderStroke(2.dp, c.primary)

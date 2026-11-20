@@ -65,9 +65,19 @@ class NotesRepository @Inject constructor(
 
     suspend fun restore(ids: Collection<String>) = update(ids) { it.copy(trashedAt = 0L) }
 
-    suspend fun deleteForever(ids: Collection<String>) = dao.delete(ids.toList())
+    suspend fun deleteForever(ids: Collection<String>) {
+        val list = ids.toList()
+        if (list.isEmpty()) return
+        dao.delete(list)
+        withContext(Dispatchers.IO) {
+            list.forEach { id -> runCatching { File(context.filesDir, "notes/$id").deleteRecursively() } }
+        }
+    }
 
-    suspend fun emptyTrash() = dao.emptyTrash()
+    suspend fun emptyTrash() {
+        dao.emptyTrash()
+        sweepOrphanedMediaDirs()
+    }
 
     suspend fun duplicate(id: String): String? {
         val src = dao.get(id) ?: return null
@@ -99,5 +109,18 @@ class NotesRepository @Inject constructor(
     /** Notes stay in the bin for 30 days. */
     suspend fun purgeOldTrash() {
         dao.purgeTrashedBefore(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(30))
+        sweepOrphanedMediaDirs()
+    }
+
+    private suspend fun sweepOrphanedMediaDirs() = withContext(Dispatchers.IO) {
+        runCatching {
+            val notesRoot = File(context.filesDir, "notes")
+            val dirs = notesRoot.listFiles() ?: return@withContext
+            for (dir in dirs) {
+                if (dir.isDirectory && dao.get(dir.name) == null) {
+                    dir.deleteRecursively()
+                }
+            }
+        }
     }
 }

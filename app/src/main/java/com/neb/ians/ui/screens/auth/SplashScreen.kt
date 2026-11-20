@@ -75,16 +75,19 @@ fun SplashScreen(
 
     LaunchedEffect(Unit) {
         coroutineScope {
-            val destination = async {
-                val auth = runCatching { authRepository.authState.first() }.getOrNull()
-                val seen = runCatching { settingsRepository.isIntroSeen.first() }.getOrDefault(true)
-                auth to seen
+            val warmup = async {
+                kotlinx.coroutines.withTimeoutOrNull(750L) {
+                    val auth = runCatching { authRepository.authState.first() }.getOrNull()
+                    val seen = runCatching { settingsRepository.isIntroSeen.first() }.getOrDefault(true)
+                    auth to seen
+                }
             }
 
             if (reduced) {
                 mark.snapTo(1f)
                 letters.forEach { it.snapTo(1f) }
                 delay(180)
+                warmup.await()
             } else {
                 launch { mark.animateTo(1f, spring(Spring.DampingRatioLowBouncy, Spring.StiffnessLow)) }
                 delay(240)
@@ -95,11 +98,11 @@ fun SplashScreen(
                     }
                 }
                 delay(480)
+                warmup.await()
                 exit.animateTo(1f, spring(Spring.DampingRatioNoBouncy, 600f, visibilityThreshold = 0.002f))
             }
 
             // Zero login gate & zero onboarding prison on launch: always enter Home directly.
-            destination.await()
             onNavigateToHome()
         }
     }

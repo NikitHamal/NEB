@@ -15,7 +15,6 @@ import kotlinx.coroutines.withContext
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeoutOrNull
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -414,7 +413,7 @@ class AuthRepository @Inject constructor(
             }
             if (response.status == "success") {
                 response.authToken?.let { newToken ->
-                    SecurePrefs.setAuthToken(appContext, newToken)
+                    withContext(Dispatchers.IO) { SecurePrefs.setAuthToken(appContext, newToken) }
                 }
                 PasswordResult.Success
             } else {

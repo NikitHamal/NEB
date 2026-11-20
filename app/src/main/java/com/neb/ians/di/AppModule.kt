@@ -35,7 +35,7 @@ object AppModule {
         @ApplicationContext context: Context
     ): ApiService {
         return ApiService.create(context, tokenProvider = {
-            SecurePrefs.getAuthToken(context)
+            SecurePrefs.getAuthToken(context)?.takeIf { it.isNotBlank() }
         })
     }
 

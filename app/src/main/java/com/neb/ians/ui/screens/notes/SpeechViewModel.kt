@@ -29,8 +29,8 @@ class SpeechViewModel @Inject constructor(
     val catalog: StateFlow<VoiceCatalog> = models.catalog
     val readState: StateFlow<ReadState> = phonon.state
 
-    val sttSupported: Boolean get() = whistle.supported
-    val ttsSupported: Boolean get() = phonon.supported
+    val sttSupported: Boolean get() = models.sttSupportedCached
+    val ttsSupported: Boolean get() = models.ttsSupportedCached
 
     fun download(id: SpeechModelId) = models.download(id)
     fun cancel(id: SpeechModelId) = models.cancel(id)

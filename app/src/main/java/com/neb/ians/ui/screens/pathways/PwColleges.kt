@@ -111,6 +111,10 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
                             if (p.id in matches) PwTag("On NEBians", pwTone(0))
                             else if (p.sector.isNotBlank()) PwTag(p.sector, pwTone(if (p.sector == "Public") 4 else 1))
                         }
+                        if (p.note.isNotBlank()) {
+                            Spacer(Modifier.height(4.dp))
+                            Text(p.note, fontSize = 12.sp, lineHeight = 16.sp, color = c.onSurfaceVariant, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                        }
                         if (fee != null && hi > 0f) {
                             Spacer(Modifier.height(8.dp))
                             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {

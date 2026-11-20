@@ -751,8 +751,14 @@ class NoteEditorViewModel @Inject constructor(
 
     fun listen() {
         whistle.cancel()
-        val segments = NoteSpeechText.segments(_title.value, markdown())
-        phonon.play(segments)
+        val currentTitle = _title.value
+        val currentBlocks = _blocks.value
+        viewModelScope.launch {
+            val segments = withContext(Dispatchers.Default) {
+                NoteSpeechText.segments(currentTitle, NoteDoc.toMarkdown(currentBlocks))
+            }
+            phonon.play(segments)
+        }
     }
 
     fun readPause() = phonon.toggle()

@@ -45,3 +45,38 @@ class FlatDesignTests(TestCase):
                 text = f.read()
             self.assertIsNone(emoji.search(text), name)
             self.assertNotIn('LIVE', text, name)
+
+
+class NativeGoogleOAuthTests(TestCase):
+    def test_api_google_oauth_links_existing_verified_email_account(self):
+        import json
+        from unittest.mock import patch
+        from api.models import User
+
+        existing = User.objects.create(
+            id='email_user_1',
+            username='student_np',
+            email='student@example.com',
+            email_verified=True,
+            created_at=1000,
+        )
+        fake_info = {
+            'userId': 'google_sub_999',
+            'email': 'student@example.com',
+            'email_verified': True,
+            'displayName': 'Aarav Sharma',
+            'photoUrl': 'https://example.com/p.jpg',
+        }
+        with patch('api.views_auth.verify_google_token', return_value=fake_info):
+            r = self.client.post(
+                '/api/auth/oauth/google',
+                data=json.dumps({'idToken': 'fake-id-token'}),
+                content_type='application/json',
+            )
+        self.assertEqual(r.status_code, 200)
+        body = r.json()
+        self.assertEqual(body['status'], 'success')
+        self.assertFalse(body['isNewUser'])
+        self.assertTrue(body.get('authToken'))
+        self.assertEqual(body['user']['id'], existing.id)
+        self.assertEqual(body['user']['username'], 'student_np')
