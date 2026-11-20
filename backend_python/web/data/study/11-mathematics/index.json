@@ -68,7 +68,7 @@
    "no": 8,
    "title": "Complex Numbers",
    "area": "Algebra",
-   "words": 3717,
+   "words": 3718,
    "read_min": 21,
    "figures": 4,
    "has_questions": true
@@ -86,7 +86,7 @@
    "no": 10,
    "title": "Trigonometric Equations and General Values",
    "area": "Trigonometry",
-   "words": 3059,
+   "words": 3061,
    "read_min": 17,
    "figures": 7,
    "has_questions": true
@@ -176,7 +176,7 @@
    "no": 20,
    "title": "Computational Methods",
    "area": "Computational Methods OR Mechanics",
-   "words": 6406,
+   "words": 6405,
    "read_min": 36,
    "figures": 9,
    "has_questions": true

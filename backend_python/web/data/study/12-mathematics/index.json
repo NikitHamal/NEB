@@ -5,7 +5,7 @@
    "no": 1,
    "title": "Permutation and Combination",
    "area": "Algebra",
-   "words": 5581,
+   "words": 5586,
    "read_min": 31,
    "figures": 7,
    "has_questions": true
@@ -95,7 +95,7 @@
    "no": 11,
    "title": "Probability",
    "area": "Statistics and Probability",
-   "words": 4507,
+   "words": 4508,
    "read_min": 25,
    "figures": 6,
    "has_questions": true
@@ -113,7 +113,7 @@
    "no": 13,
    "title": "Anti-derivatives",
    "area": "Calculus",
-   "words": 9129,
+   "words": 9126,
    "read_min": 51,
    "figures": 9,
    "has_questions": true
@@ -131,7 +131,7 @@
    "no": 15,
    "title": "Computational Methods",
    "area": "Computational Methods OR Mechanics",
-   "words": 6940,
+   "words": 6943,
    "read_min": 39,
    "figures": 9,
    "has_questions": true
@@ -149,7 +149,7 @@
    "no": 17,
    "title": "Appendix: Retained Examinable Topics",
    "area": "Computational Methods OR Mechanics",
-   "words": 5906,
+   "words": 5880,
    "read_min": 33,
    "figures": 8,
    "has_questions": true
@@ -161,15 +161,15 @@
    "no": 1,
    "kind": "objective",
    "title": "Mathematics: Unit-wise Objective Question Bank",
-   "words": 14626,
-   "read_min": 81
+   "words": 14733,
+   "read_min": 82
   },
   {
    "no": 2,
    "kind": "subjective",
    "title": "Mathematics: Unit-wise Subjective Question Bank",
-   "words": 14031,
-   "read_min": 78
+   "words": 14146,
+   "read_min": 79
   },
   {
    "no": 3,

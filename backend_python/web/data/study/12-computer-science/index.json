@@ -23,7 +23,7 @@
    "no": 3,
    "title": "Web Technology II",
    "area": "",
-   "words": 6907,
+   "words": 6863,
    "read_min": 38,
    "figures": 10,
    "has_questions": true
@@ -32,7 +32,7 @@
    "no": 4,
    "title": "Programming in C",
    "area": "",
-   "words": 6274,
+   "words": 6249,
    "read_min": 35,
    "figures": 11,
    "has_questions": true
@@ -78,8 +78,8 @@
    "no": 2,
    "kind": "subjective",
    "title": "Computer Science: Unit-wise Subjective Question Bank",
-   "words": 14590,
-   "read_min": 81
+   "words": 13401,
+   "read_min": 74
   },
   {
    "no": 3,
