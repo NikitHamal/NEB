@@ -11,7 +11,7 @@ object NoteSpeechText {
     private val link = Regex("\\[([^\\]]+)]\\([^)]*\\)")
     private val underscored = Regex("(?<!\\w)_([^_\\n]+)_(?!\\w)")
     private val tag = Regex("(?<![\\w&])#(\\w+)")
-    private val sentenceEnd = Regex("(?<=[.!?;:])\\s+")
+    private val sentenceEnd = Regex("(?<=[.!?;:\\u0964\\u0965])\\s+")
     private const val MAX = 280
 
     fun segments(title: String, body: String): List<String> {
@@ -49,7 +49,7 @@ object NoteSpeechText {
         return t.replace(Regex("\\s+"), " ").trim()
     }
 
-    private fun finish(s: String) = if (s.isEmpty() || s.last() in ".!?") s else "$s."
+    private fun finish(s: String) = if (s.isEmpty() || s.last() in ".!?\u0964\u0965") s else "$s."
 
     private fun split(line: String): List<String> {
         if (line.length <= MAX) return listOf(line)

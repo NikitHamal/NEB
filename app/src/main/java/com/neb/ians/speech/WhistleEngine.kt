@@ -177,7 +177,7 @@ class WhistleEngine @Inject constructor(
                 android.media.audiofx.AutomaticGainControl.create(rec.audioSessionId)?.apply { enabled = true }
             } else null
         }.getOrNull()
-        val keywords = "NEB\nSEE\nIOE\nCEE\nKathmandu\nPokhara\nTribhuvan\nLok Sewa\nCTEVT"
+        val keywords = "NEB\nSEE\nIOE\nCEE\nMECEE\nCTEVT\nKathmandu\nPokhara\nLalitpur\nBhaktapur\nTribhuvan\nKathmandu University\nPokhara University\nPurbanchal\nLok Sewa\nNRB\nMBBS\nCSIT\nBCA\nBIM\nBBA"
         val chunks = Channel<FloatArray>(capacity = 10, onBufferOverflow = kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST)
         val consumer = launch(engineThread) {
             try {
@@ -202,6 +202,7 @@ class WhistleEngine @Inject constructor(
         var total = 0L
         var chunkTarget = (rate * 65) / 100 // 0.65s first chunk for 35% faster time-to-first-word
         var silentChunks = 0
+        var hadSpeechInChunk = false
         var dcMean = 0f
         try {
             rec.startRecording()
@@ -211,6 +212,7 @@ class WhistleEngine @Inject constructor(
                 if (maxRead <= 0) {
                     chunks.send(acc.copyOf(filled))
                     filled = 0
+                    hadSpeechInChunk = false
                     continue
                 }
                 val n = rec.read(frame, 0, maxRead)
@@ -227,13 +229,15 @@ class WhistleEngine @Inject constructor(
                 filled += n
                 total += n
                 val rms = sqrt(sum / n).toFloat()
+                if (rms >= 0.0032f) hadSpeechInChunk = true
                 _level.value = min(1f, rms * 7.5f)
                 _seconds.value = (total / rate).toInt()
-                if (filled >= chunkTarget) {
+                val vadEndpointFlush = hadSpeechInChunk && rms < 0.0022f && filled >= (rate * 35) / 100
+                if (filled >= chunkTarget || vadEndpointFlush) {
                     var chunkSq = 0.0
                     for (i in 0 until filled) chunkSq += acc[i] * acc[i]
                     val chunkRms = sqrt(chunkSq / filled).toFloat()
-                    if (chunkRms < 0.0018f) {
+                    if (chunkRms < 0.0018f && !hadSpeechInChunk) {
                         silentChunks++
                     } else {
                         silentChunks = 0
@@ -243,6 +247,7 @@ class WhistleEngine @Inject constructor(
                         chunkTarget = (rate * 85) / 100 // 0.85s steady-state responsive chunks
                     }
                     filled = 0
+                    hadSpeechInChunk = false
                 }
             }
         } finally {

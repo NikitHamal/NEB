@@ -34,6 +34,10 @@ int inflateEnd(z_stream_s* strm);
 #include <unordered_map>
 #include <utility>
 
+#if defined(__ARM_NEON) || defined(__ARM_NEON__)
+#include <arm_neon.h>
+#endif
+
 namespace neb_voca {
 namespace {
 
@@ -61,12 +65,27 @@ constexpr int kPhoneOffset = 17;
 constexpr int kPhoneCount = 59;
 
 inline float halfToFloat(uint16_t bits) {
+    uint32_t sign = static_cast<uint32_t>(bits & 0x8000u) << 16;
     uint32_t exp = (bits >> 10) & 31u;
     uint32_t frac = bits & 1023u;
-    float sign = (bits >> 15) ? -1.0f : 1.0f;
-    if (exp == 0) return sign * std::ldexp(static_cast<float>(frac), -24);
-    if (exp == 31) return frac ? NAN : sign * INFINITY;
-    return sign * std::ldexp(1.0f + static_cast<float>(frac) / 1024.0f, static_cast<int>(exp) - 15);
+    uint32_t out_bits = 0;
+    if (exp == 0) {
+        if (frac != 0) {
+            exp = 113;
+            while ((frac & 1024u) == 0) { frac <<= 1; --exp; }
+            frac &= 1023u;
+            out_bits = sign | (exp << 23) | (frac << 13);
+        } else {
+            out_bits = sign;
+        }
+    } else if (exp == 31) {
+        out_bits = sign | 0x7F800000u | (frac << 13);
+    } else {
+        out_bits = sign | ((exp + 112u) << 23) | (frac << 13);
+    }
+    float res;
+    std::memcpy(&res, &out_bits, sizeof(float));
+    return res;
 }
 
 struct Tensor {
@@ -131,21 +150,35 @@ void unpackTensor(const uint8_t* ptr, uint32_t type, size_t count, std::vector<f
             dst[i] = halfToFloat(h);
         }
     } else if (type == 8) {
-        for (size_t i = 0; i < count; ++i) {
+        size_t blocks = count >> 5;
+        for (size_t b = 0; b < blocks; ++b) {
+            const uint8_t* bp = ptr + b * 34;
+            uint16_t h;
+            std::memcpy(&h, bp, 2);
+            float scale = halfToFloat(h);
+            const int8_t* qs = reinterpret_cast<const int8_t*>(bp + 2);
+            float* bd = dst + (b << 5);
+            for (int j = 0; j < 32; ++j) bd[j] = scale * static_cast<float>(qs[j]);
+        }
+        for (size_t i = blocks << 5; i < count; ++i) {
             size_t blk = (i >> 5) * 34;
             uint16_t h;
             std::memcpy(&h, ptr + blk, 2);
-            int8_t q = static_cast<int8_t>(ptr[blk + 2 + (i & 31)]);
-            dst[i] = halfToFloat(h) * static_cast<float>(q);
+            dst[i] = halfToFloat(h) * static_cast<float>(static_cast<int8_t>(ptr[blk + 2 + (i & 31)]));
         }
     } else if (type == 2) {
-        for (size_t i = 0; i < count; ++i) {
-            size_t blk = (i >> 5) * 18;
+        size_t blocks = count >> 5;
+        for (size_t b = 0; b < blocks; ++b) {
+            const uint8_t* bp = ptr + b * 18;
             uint16_t h;
-            std::memcpy(&h, ptr + blk, 2);
-            uint8_t byte = ptr[blk + 2 + (i & 15)];
-            int nib = ((i & 16) ? (byte >> 4) : (byte & 15)) - 8;
-            dst[i] = halfToFloat(h) * static_cast<float>(nib);
+            std::memcpy(&h, bp, 2);
+            float scale = halfToFloat(h);
+            float* bd = dst + (b << 5);
+            for (int j = 0; j < 16; ++j) {
+                uint8_t byte = bp[2 + j];
+                bd[j] = scale * static_cast<float>((byte & 15) - 8);
+                bd[j + 16] = scale * static_cast<float>((byte >> 4) - 8);
+            }
         }
     }
 }
@@ -366,6 +399,36 @@ std::vector<PhoneUnit> fallbackGraphemePhones(const std::string& w) {
     return out;
 }
 
+inline float dotProduct(const float* a, const float* b, int n) {
+    int i = 0;
+#if defined(__ARM_NEON) || defined(__ARM_NEON__)
+    float32x4_t s0 = vdupq_n_f32(0.0f);
+    float32x4_t s1 = vdupq_n_f32(0.0f);
+    float32x4_t s2 = vdupq_n_f32(0.0f);
+    float32x4_t s3 = vdupq_n_f32(0.0f);
+    for (; i + 16 <= n; i += 16) {
+        s0 = vfmaq_f32(s0, vld1q_f32(a + i), vld1q_f32(b + i));
+        s1 = vfmaq_f32(s1, vld1q_f32(a + i + 4), vld1q_f32(b + i + 4));
+        s2 = vfmaq_f32(s2, vld1q_f32(a + i + 8), vld1q_f32(b + i + 8));
+        s3 = vfmaq_f32(s3, vld1q_f32(a + i + 12), vld1q_f32(b + i + 12));
+    }
+    s0 = vaddq_f32(vaddq_f32(s0, s1), vaddq_f32(s2, s3));
+    for (; i + 4 <= n; i += 4) {
+        s0 = vfmaq_f32(s0, vld1q_f32(a + i), vld1q_f32(b + i));
+    }
+#if defined(__aarch64__)
+    float sum = vaddvq_f32(s0);
+#else
+    float32x2_t p = vadd_f32(vget_low_f32(s0), vget_high_f32(s0));
+    float sum = vget_lane_f32(vpadd_f32(p, p), 0);
+#endif
+#else
+    float sum = 0.0f;
+#endif
+    for (; i < n; ++i) sum += a[i] * b[i];
+    return sum;
+}
+
 std::vector<float> linearOp(const float* x, int count, const Layer& l) {
     const int out_d = l.out_dim, in_d = l.in_dim;
     std::vector<float> y(static_cast<size_t>(count) * out_d);
@@ -373,10 +436,8 @@ std::vector<float> linearOp(const float* x, int count, const Layer& l) {
         const float* xr = x + static_cast<size_t>(t) * in_d;
         float* yr = y.data() + static_cast<size_t>(t) * out_d;
         for (int o = 0; o < out_d; ++o) {
-            float sum = l.bias ? l.bias[o] : 0.0f;
             const float* wr = l.weight + static_cast<size_t>(o) * in_d;
-            for (int i = 0; i < in_d; ++i) sum += wr[i] * xr[i];
-            yr[o] = sum;
+            yr[o] = (l.bias ? l.bias[o] : 0.0f) + dotProduct(wr, xr, in_d);
         }
     }
     return y;
@@ -410,14 +471,15 @@ std::vector<float> convolveOp(const std::vector<float>& x, int count, const Laye
     std::vector<float> y(static_cast<size_t>(count) * out_d);
     for (int t = 0; t < count; ++t) {
         int first = std::max(0, reach - t), end = std::min(taps, count + reach - t);
+        float* yr = y.data() + static_cast<size_t>(t) * out_d;
         for (int o = 0; o < out_d; ++o) {
             float sum = l.bias[o];
+            const float* w_base = l.weight + static_cast<size_t>(o) * taps * in_d;
             for (int k = first; k < end; ++k) {
                 const float* xr = x.data() + static_cast<size_t>(t + k - reach) * in_d;
-                const float* wr = l.weight + (static_cast<size_t>(o) * in_d) * taps + k;
-                for (int i = 0; i < in_d; ++i) sum += wr[static_cast<size_t>(i) * taps] * xr[i];
+                sum += dotProduct(w_base + static_cast<size_t>(k) * in_d, xr, in_d);
             }
-            y[static_cast<size_t>(t) * out_d + o] = sum;
+            yr[o] = sum;
         }
     }
     return y;
@@ -461,9 +523,9 @@ std::vector<float> attentionOp(const std::vector<float>& x, int count, const Tra
         }
         for (int t = 0; t < count; ++t) {
             float top = -1e30f;
+            const float* qt = queries.data() + static_cast<size_t>(t) * width;
             for (int j = 0; j < count; ++j) {
-                float s = 0.0f;
-                for (int i = 0; i < width; ++i) s += queries[t * width + i] * keys[j * width + i];
+                float s = dotProduct(qt, keys.data() + static_cast<size_t>(j) * width, width);
                 share[t * count + j] = s;
                 if (s > top) top = s;
             }
@@ -473,10 +535,10 @@ std::vector<float> attentionOp(const std::vector<float>& x, int count, const Tra
                 share[t * count + j] = e;
                 total += e;
             }
-            for (int j = 0; j < count; ++j) share[t * count + j] /= total;
+            float inv_total = 1.0f / total;
             float* dst = mixed.data() + t * ch + h * width;
             for (int j = 0; j < count; ++j) {
-                float w = share[t * count + j];
+                float w = share[t * count + j] * inv_total;
                 const float* vr = qkv.data() + j * 3 * ch + 2 * ch + h * width;
                 for (int i = 0; i < width; ++i) dst[i] += w * vr[i];
             }
@@ -487,10 +549,14 @@ std::vector<float> attentionOp(const std::vector<float>& x, int count, const Tra
 
 std::vector<float> transformerOp(std::vector<float> x, int count, const TransformerStack& stack, int heads) {
     const int width = stack.norm.out_dim / heads;
+    std::vector<float> inv_freq(width / 2);
+    for (int i = 0; i < width; i += 2) {
+        inv_freq[i >> 1] = 1.0f / std::pow(10000.0f, static_cast<float>(i) / static_cast<float>(width));
+    }
     std::vector<float> turn(static_cast<size_t>(count) * width);
     for (int t = 0; t < count; ++t) {
         for (int i = 0; i < width; i += 2) {
-            float ang = static_cast<float>(t) / std::pow(10000.0f, static_cast<float>(i) / static_cast<float>(width));
+            float ang = static_cast<float>(t) * inv_freq[i >> 1];
             turn[t * width + i] = std::cos(ang);
             turn[t * width + i + 1] = std::sin(ang);
         }
@@ -507,73 +573,108 @@ std::vector<float> transformerOp(std::vector<float> x, int count, const Transfor
     return normalizeOp(x, count, stack.norm);
 }
 
-void fftInPlace(std::vector<double>* re_ptr, std::vector<double>* im_ptr) {
-    auto& re = *re_ptr;
-    auto& im = *im_ptr;
-    const size_t n = re.size();
-    for (size_t i = 1, j = 0; i < n; ++i) {
-        size_t bit = n >> 1;
-        for (; j & bit; bit >>= 1) j ^= bit;
-        j ^= bit;
-        if (i < j) { std::swap(re[i], re[j]); std::swap(im[i], im[j]); }
-    }
-    for (size_t span = 2; span <= n; span <<= 1) {
-        double ang = -2.0 * M_PI / static_cast<double>(span);
-        double wcos = std::cos(ang), wsin = std::sin(ang);
-        for (size_t a = 0; a < n; a += span) {
-            double cos_v = 1.0, sin_v = 0.0;
-            for (size_t k = 0; k < span / 2; ++k) {
-                size_t i0 = a + k, i1 = i0 + span / 2;
-                double xr = re[i1] * cos_v - im[i1] * sin_v;
-                double xi = re[i1] * sin_v + im[i1] * cos_v;
-                re[i1] = re[i0] - xr; im[i1] = im[i0] - xi;
-                re[i0] += xr; im[i0] += xi;
-                double ncos = cos_v * wcos - sin_v * wsin;
-                sin_v = cos_v * wsin + sin_v * wcos;
-                cos_v = ncos;
+struct FftPlan {
+    int n;
+    std::vector<std::pair<uint16_t, uint16_t>> swaps;
+    std::vector<float> tw_cos;
+    std::vector<float> tw_sin;
+    std::vector<float> window;
+    std::vector<float> window_norm;
+    std::vector<float> window_sq;
+
+    explicit FftPlan(int size) : n(size), window(size), window_norm(size), window_sq(size) {
+        for (int i = 1, j = 0; i < size; ++i) {
+            int bit = size >> 1;
+            for (; j & bit; bit >>= 1) j ^= bit;
+            j ^= bit;
+            if (i < j) swaps.emplace_back(static_cast<uint16_t>(i), static_cast<uint16_t>(j));
+        }
+        for (int span = 2; span <= size; span <<= 1) {
+            double ang = -2.0 * M_PI / static_cast<double>(span);
+            for (int k = 0; k < span / 2; ++k) {
+                tw_cos.push_back(static_cast<float>(std::cos(ang * k)));
+                tw_sin.push_back(static_cast<float>(std::sin(ang * k)));
             }
         }
+        float inv_n = 1.0f / static_cast<float>(size);
+        for (int i = 0; i < size; ++i) {
+            float w = static_cast<float>(0.5 - 0.5 * std::cos(2.0 * M_PI * i / size));
+            window[i] = w;
+            window_norm[i] = w * inv_n;
+            window_sq[i] = w * w;
+        }
     }
+
+    void run(float* re, float* im) const {
+        for (const auto& sw : swaps) {
+            std::swap(re[sw.first], re[sw.second]);
+            std::swap(im[sw.first], im[sw.second]);
+        }
+        size_t tw_off = 0;
+        for (int span = 2; span <= n; span <<= 1) {
+            const int half = span >> 1;
+            const float* cs = tw_cos.data() + tw_off;
+            const float* sn = tw_sin.data() + tw_off;
+            for (int a = 0; a < n; a += span) {
+                for (int k = 0; k < half; ++k) {
+                    int i0 = a + k, i1 = i0 + half;
+                    float c = cs[k], s = sn[k];
+                    float xr = re[i1] * c - im[i1] * s;
+                    float xi = re[i1] * s + im[i1] * c;
+                    re[i1] = re[i0] - xr; im[i1] = im[i0] - xi;
+                    re[i0] += xr; im[i0] += xi;
+                }
+            }
+            tw_off += static_cast<size_t>(half);
+        }
+    }
+};
+
+const FftPlan& getFftPlan(int size) {
+    static const FftPlan plan512(512);
+    static const FftPlan plan256(256);
+    return size == 512 ? plan512 : plan256;
 }
 
 template <typename CepFn>
 std::vector<float> filteredSource(const std::vector<float>& source, int size, int hop, int frames, CepFn cepstrum_fn) {
     const int half = size / 2;
-    std::vector<double> window(size);
-    for (int n = 0; n < size; ++n) window[n] = 0.5 - 0.5 * std::cos(2.0 * M_PI * n / size);
-    std::vector<double> re(size), im(size), cr(size), ci(size);
-    std::vector<double> sum(static_cast<size_t>(frames) * hop + size, 0.0);
-    std::vector<double> weight(sum.size(), 0.0);
+    const FftPlan& plan = getFftPlan(size);
+    std::vector<float> re(size), im(size), cr(size), ci(size);
+    std::vector<float> sum(static_cast<size_t>(frames) * hop + size, 0.0f);
+    std::vector<float> weight(sum.size(), 0.0f);
+    const int src_len = static_cast<int>(source.size());
     for (int f = 0; f < frames; ++f) {
         int first = f * hop - half;
         for (int n = 0; n < size; ++n) {
             int at = first + n;
-            re[n] = (at >= 0 && at < static_cast<int>(source.size())) ? source[at] * window[n] : 0.0;
-            im[n] = 0.0;
+            re[n] = (at >= 0 && at < src_len) ? source[at] * plan.window[n] : 0.0f;
+            im[n] = 0.0f;
         }
-        fftInPlace(&re, &im);
-        std::fill(cr.begin(), cr.end(), 0.0);
-        std::fill(ci.begin(), ci.end(), 0.0);
+        plan.run(re.data(), im.data());
+        std::fill(cr.begin(), cr.end(), 0.0f);
+        std::fill(ci.begin(), ci.end(), 0.0f);
         cepstrum_fn(f, cr);
-        fftInPlace(&cr, &ci);
+        plan.run(cr.data(), ci.data());
         for (int k = 0; k <= half; ++k) {
-            double gain = std::exp(std::min(std::max(cr[k], -14.0), 6.0));
-            double cs = gain * std::cos(ci[k]), sn = gain * std::sin(ci[k]);
-            double a = re[k], b = im[k];
+            float gain = std::exp(std::clamp(cr[k], -14.0f, 6.0f));
+            float cs = gain * std::cos(ci[k]), sn = gain * std::sin(ci[k]);
+            float a = re[k], b = im[k];
             re[k] = a * cs - b * sn;
             im[k] = -(a * sn + b * cs);
             if (k > 0 && k < half) { re[size - k] = re[k]; im[size - k] = -im[k]; }
         }
-        fftInPlace(&re, &im);
+        plan.run(re.data(), im.data());
+        size_t base = static_cast<size_t>(f) * hop;
         for (int n = 0; n < size; ++n) {
-            sum[static_cast<size_t>(f) * hop + n] += re[n] / size * window[n];
-            weight[static_cast<size_t>(f) * hop + n] += window[n] * window[n];
+            sum[base + n] += re[n] * plan.window_norm[n];
+            weight[base + n] += plan.window_sq[n];
         }
     }
     std::vector<float> out(source.size());
     for (size_t n = 0; n < out.size(); ++n) {
-        double w = weight[n + half];
-        out[n] = w > 1e-12 ? static_cast<float>(sum[n + half] / w) : 0.0f;
+        float w = weight[n + half];
+        out[n] = w > 1e-10f ? (sum[n + half] / w) : 0.0f;
     }
     return out;
 }
@@ -738,6 +839,110 @@ uint8_t punctToId(char c) {
     }
 }
 
+inline int decodeDevanagariAt(const std::string& s, size_t at) {
+    if (at + 2 >= s.size()) return -1;
+    uint8_t b0 = static_cast<uint8_t>(s[at]);
+    uint8_t b1 = static_cast<uint8_t>(s[at + 1]);
+    uint8_t b2 = static_cast<uint8_t>(s[at + 2]);
+    if (b0 != 0xE0 || (b1 != 0xA4 && b1 != 0xA5)) return -1;
+    int cp = ((b1 & 0x3F) << 6) | (b2 & 0x3F);
+    return (cp >= 0x0900 && cp <= 0x097F) ? cp : -1;
+}
+
+std::vector<PhoneUnit> phonemizeDevanagariWord(const std::vector<int>& cps) {
+    std::vector<PhoneUnit> out;
+    bool stressed = false;
+    auto pushVowel = [&](uint8_t id) {
+        uint8_t st = stressed ? 0 : 1;
+        stressed = true;
+        out.push_back({id, st});
+    };
+    for (size_t i = 0; i < cps.size(); ++i) {
+        int cp = cps[i];
+        int next = (i + 1 < cps.size()) ? cps[i + 1] : -1;
+        if (cp == 0x0901 || cp == 0x0902) { out.push_back({34, 0}); continue; } // ँ / ं -> ŋ
+        if (cp == 0x0903) { out.push_back({31, 0}); continue; } // ः -> h
+        if (cp >= 0x0904 && cp <= 0x0914) {
+            switch (cp) {
+                case 0x0905: pushVowel(52); break; // अ -> ʌ
+                case 0x0906: pushVowel(53); break; // आ -> ɑː
+                case 0x0907: pushVowel(47); break; // इ -> ɪ
+                case 0x0908: pushVowel(49); break; // ई -> iː
+                case 0x0909: pushVowel(56); break; // उ -> ʊ
+                case 0x090A: pushVowel(57); break; // ऊ -> uː
+                case 0x090B: out.push_back({41, 0}); pushVowel(47); break; // ऋ -> ɾɪ
+                case 0x090F: pushVowel(59); break; // ए -> eɪ
+                case 0x0910: pushVowel(60); break; // ऐ -> aɪ
+                case 0x0913: pushVowel(62); break; // ओ -> oʊ
+                case 0x0914: pushVowel(63); break; // औ -> aʊ
+                default: pushVowel(43); break;
+            }
+            continue;
+        }
+        if (cp >= 0x0915 && cp <= 0x0939) {
+            uint8_t c1 = 0, c2 = 0;
+            switch (cp) {
+                case 0x0915: c1 = 21; break; // क -> k
+                case 0x0916: c1 = 21; c2 = 31; break; // ख -> k h
+                case 0x0917: c1 = 22; break; // ग -> ɡ
+                case 0x0918: c1 = 22; c2 = 31; break; // घ -> ɡ h
+                case 0x0919: c1 = 34; break; // ङ -> ŋ
+                case 0x091A: c1 = 39; break; // च -> tʃ
+                case 0x091B: c1 = 39; c2 = 31; break; // छ -> tʃ h
+                case 0x091C: c1 = 40; break; // ज -> dʒ
+                case 0x091D: c1 = 40; c2 = 31; break; // झ -> dʒ h
+                case 0x091E: c1 = 33; break; // ञ -> n
+                case 0x091F: case 0x0924: c1 = 19; break; // ट/त -> t
+                case 0x0920: case 0x0925: c1 = 19; c2 = 31; break; // ठ/थ -> t h
+                case 0x0921: case 0x0926: c1 = 20; break; // ड/द -> d
+                case 0x0922: case 0x0927: c1 = 20; c2 = 31; break; // ढ/ध -> d h
+                case 0x0923: case 0x0928: case 0x0929: c1 = 33; break; // ण/न -> n
+                case 0x092A: c1 = 17; break; // प -> p
+                case 0x092B: c1 = 23; break; // फ -> f
+                case 0x092C: c1 = 18; break; // ब -> b
+                case 0x092D: c1 = 18; c2 = 31; break; // भ -> b h
+                case 0x092E: c1 = 32; break; // म -> m
+                case 0x092F: c1 = 37; break; // य -> j
+                case 0x0930: case 0x0931: c1 = 41; break; // र -> ɾ
+                case 0x0932: case 0x0933: case 0x0934: c1 = 35; break; // ल -> l
+                case 0x0935: c1 = 38; break; // व -> w
+                case 0x0936: case 0x0937: c1 = 29; break; // श/ष -> ʃ
+                case 0x0938: c1 = 27; break; // स -> s
+                case 0x0939: c1 = 31; break; // ह -> h
+                default: break;
+            }
+            if (c1 != 0) out.push_back({c1, 0});
+            if (c2 != 0) out.push_back({c2, 0});
+            if (next == 0x094D) { // ् virama suppresses inherent vowel
+                ++i;
+            } else if (next >= 0x093E && next <= 0x094C) {
+                ++i;
+                switch (next) {
+                    case 0x093E: pushVowel(53); break; // ा -> ɑː
+                    case 0x093F: pushVowel(47); break; // ि -> ɪ
+                    case 0x0940: pushVowel(49); break; // ी -> iː
+                    case 0x0941: pushVowel(56); break; // ु -> ʊ
+                    case 0x0942: pushVowel(57); break; // ू -> uː
+                    case 0x0943: out.push_back({41, 0}); pushVowel(47); break; // ृ -> ɾɪ
+                    case 0x0947: pushVowel(59); break; // े -> eɪ
+                    case 0x0948: pushVowel(60); break; // ै -> aɪ
+                    case 0x094B: pushVowel(62); break; // ो -> oʊ
+                    case 0x094C: pushVowel(63); break; // ौ -> aʊ
+                    default: pushVowel(43); break;
+                }
+            } else {
+                // Nepali word-final schwa deletion on multi-syllable words ending in a bare consonant
+                bool word_end = (i + 1 == cps.size());
+                bool after_conjunct = (i >= 2 && cps[i - 1] == 0x094D);
+                if (!word_end || !stressed || after_conjunct) {
+                    pushVowel(43); // inherent schwa ə
+                }
+            }
+        }
+    }
+    return out;
+}
+
 void phonemizeText(const VocaModel& m, const std::string& text, std::vector<int>* ids, std::vector<int>* stress) {
     ids->clear(); stress->clear();
     ids->push_back(1); stress->push_back(0);  // <bos>
@@ -746,6 +951,59 @@ void phonemizeText(const VocaModel& m, const std::string& text, std::vector<int>
     while (i < n) {
         unsigned char c = static_cast<unsigned char>(text[i]);
         if (std::isspace(c)) { ++i; continue; }
+        int dev = decodeDevanagariAt(text, i);
+        if (dev >= 0) {
+            if (dev == 0x0964 || dev == 0x0965) { // । or ॥ danda sentence stop
+                if (ids->back() != 6 && ids->size() < kMaxTokens - 2) {
+                    ids->push_back(6); stress->push_back(0);
+                    prev_was_phone = false;
+                }
+                i += 3;
+                continue;
+            }
+            if (dev >= 0x0966 && dev <= 0x096F) { // ०..९ Devanagari digits
+                long long val = 0;
+                int digits = 0;
+                while (i < n && digits < 9) {
+                    int dcp = decodeDevanagariAt(text, i);
+                    if (dcp < 0x0966 || dcp > 0x096F) break;
+                    val = val * 10 + (dcp - 0x0966);
+                    i += 3;
+                    ++digits;
+                }
+                std::string expanded = numberToWords(val);
+                std::vector<int> sub_ids, sub_st;
+                phonemizeText(m, expanded, &sub_ids, &sub_st);
+                if (sub_ids.size() > 2) {
+                    if (prev_was_phone) { ids->push_back(3); stress->push_back(0); }
+                    for (size_t k = 1; k + 1 < sub_ids.size(); ++k) {
+                        if (ids->size() < kMaxTokens - 2) {
+                            ids->push_back(sub_ids[k]); stress->push_back(sub_st[k]);
+                        }
+                    }
+                    prev_was_phone = true;
+                }
+                continue;
+            }
+            std::vector<int> cps;
+            while (i < n) {
+                int cp = decodeDevanagariAt(text, i);
+                if (cp < 0 || cp == 0x0964 || cp == 0x0965 || (cp >= 0x0966 && cp <= 0x096F)) break;
+                cps.push_back(cp);
+                i += 3;
+            }
+            auto phones = phonemizeDevanagariWord(cps);
+            if (!phones.empty()) {
+                if (prev_was_phone) { ids->push_back(3); stress->push_back(0); }
+                for (const auto& pu : phones) {
+                    if (ids->size() < kMaxTokens - 2) {
+                        ids->push_back(pu.id); stress->push_back(pu.stress);
+                    }
+                }
+                prev_was_phone = true;
+            }
+            continue;
+        }
         if (std::isdigit(c)) {
             size_t j = i;
             long long val = 0;
@@ -755,12 +1013,14 @@ void phonemizeText(const VocaModel& m, const std::string& text, std::vector<int>
             }
             i = j;
             std::string expanded = numberToWords(val);
-            std::vector< int > sub_ids, sub_st;
+            std::vector<int> sub_ids, sub_st;
             phonemizeText(m, expanded, &sub_ids, &sub_st);
             if (sub_ids.size() > 2) {
                 if (prev_was_phone) { ids->push_back(3); stress->push_back(0); }
                 for (size_t k = 1; k + 1 < sub_ids.size(); ++k) {
-                    ids->push_back(sub_ids[k]); stress->push_back(sub_st[k]);
+                    if (ids->size() < kMaxTokens - 2) {
+                        ids->push_back(sub_ids[k]); stress->push_back(sub_st[k]);
+                    }
                 }
                 prev_was_phone = true;
             }
@@ -880,15 +1140,15 @@ std::vector<float> synthesizeUtterance(const VocaModel& m, const std::vector<int
     auto voiced = filteredSource(
         pulseTrainSource(f0, kHop, kSampleRate, kHarmonicLimit),
         kSynthFft, kSynthHop, h_steps * frames + 3,
-        [&](int f, std::vector<double>& cep) {
+        [&](int f, std::vector<float>& cep) {
             int sub = std::min(f, h_steps * frames - 1);
             int here = sub / h_steps, next = std::min((sub + 1) / h_steps, frames - 1);
             for (int i = 0; i < kCepCausal; ++i) {
-                cep[i] = 0.5 * (h[here * hw + i] + h[next * hw + i]) * lifterCoeff(i);
+                cep[i] = static_cast<float>(0.5 * (h[here * hw + i] + h[next * hw + i]) * lifterCoeff(i));
             }
             for (int i = 0; i < kCepAnti; ++i) {
                 int at = kCepCausal + i;
-                cep[kSynthFft - 1 - i] = 0.5 * (h[here * hw + at] + h[next * hw + at]) * lifterCoeff(i + 1);
+                cep[kSynthFft - 1 - i] = static_cast<float>(0.5 * (h[here * hw + at] + h[next * hw + at]) * lifterCoeff(i + 1));
             }
             cep[0] += h[here * hw + kCepCausal + kCepAnti + (sub % h_steps)];
         }
@@ -899,10 +1159,10 @@ std::vector<float> synthesizeUtterance(const VocaModel& m, const std::vector<int
     auto noise_part = filteredSource(
         gaussianNoiseSource(static_cast<size_t>(samples), 0),
         kNoiseFft, kNoiseHop, g_steps * frames + 3,
-        [&](int f, std::vector<double>& cep) {
+        [&](int f, std::vector<float>& cep) {
             int sub = std::min(f, g_steps * frames - 1);
             int here = sub / g_steps;
-            for (int i = 0; i < kNoiseCep; ++i) cep[i] = g[here * gw + i] * lifterCoeff(i);
+            for (int i = 0; i < kNoiseCep; ++i) cep[i] = static_cast<float>(g[here * gw + i] * lifterCoeff(i));
             cep[0] += g[here * gw + kNoiseCep + (sub % g_steps)];
         }
     );
@@ -1014,6 +1274,19 @@ VocaModel* voca_load(const char* gguf_path, std::string* err_out) {
             Tensor t;
             t.shape = tm.shape;
             unpackTensor(r.base + data_start + tm.offset, tm.type, count, &t.data);
+            if (tm.shape.size() == 3 && tm.shape[1] > 1 && tm.shape[2] > 1) {
+                // Transpose [out_d, in_d, taps] -> [out_d, taps, in_d] for contiguous SIMD dot-products in convolveOp
+                const int od = tm.shape[0], id = tm.shape[1], tp = tm.shape[2];
+                std::vector<float> tr(t.data.size());
+                for (int o = 0; o < od; ++o) {
+                    for (int k = 0; k < tp; ++k) {
+                        float* dst = tr.data() + (static_cast<size_t>(o) * tp + k) * id;
+                        const float* src = t.data.data() + static_cast<size_t>(o) * id * tp + k;
+                        for (int i = 0; i < id; ++i) dst[i] = src[static_cast<size_t>(i) * tp];
+                    }
+                }
+                t.data = std::move(tr);
+            }
             model->tensors[tm.name] = std::move(t);
         }
     }

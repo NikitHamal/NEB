@@ -106,8 +106,8 @@ object SpeechCatalog {
     val sttLanguages = whistleLanguages
 
     val tinyVocaVoices = listOf(
-        "F2" to "Female \u00B7 American English",
-        "M2" to "Male \u00B7 American English",
+        "F2" to "Female \u00B7 English & Nepali",
+        "M2" to "Male \u00B7 English & Nepali",
     )
 
     fun files(id: SpeechModelId): List<ModelFile> = when (id) {
