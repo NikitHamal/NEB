@@ -16,9 +16,7 @@ Expect a 3- or 4-mark question such as: (i) curved surface area, total surface a
 ```photo id="math10/water-tank" caption="An overhead water tank is a cylinder, and its capacity is the volume formula $V = \pi r^2 h$ of this chapter. The hemispherical cap on top is the sphere formula." width="62"
 ```
 
-## 6.1 Cylinder and Sphere: concepts, formulas and worked problems
-
-### Units of volume and capacity
+## 6.1 Units of volume and capacity
 
 | Quantity | Relation |
 |---|---|
@@ -28,7 +26,7 @@ Expect a 3- or 4-mark question such as: (i) curved surface area, total surface a
 | Capacity | 1 litre $=1000$ cm³ |
 | Capacity | 1 m³ $=1000$ litres |
 
-### The solid cylinder
+## 6.2 The solid cylinder
 
 A **right circular cylinder** has two parallel circular faces of radius $r$ and a curved surface; $h$ is the distance between the circles (the height).
 
@@ -147,7 +145,7 @@ Litres $=\dfrac{41580}{1000}=41.58$ litres.
 - Forgetting to convert m³ or cm³ into litres when the question asks for litres.
 :::
 
-### The hollow cylinder (pipe)
+## 6.3 The hollow cylinder (pipe)
 
 A pipe has an outer radius $R$, an inner radius $r$ and length $h$. The **volume of the material** is the volume of the outer solid cylinder minus the volume of the hollow space.
 
@@ -192,7 +190,7 @@ fig.tight_layout(pad=0.3)
 Outer CSA $=2\pi Rh=2\times\dfrac{22}{7}\times 8\times 21=1056\text{ cm}^2$.
 :::
 
-### The sphere and the hemisphere
+## 6.4 The sphere and the hemisphere
 
 A **sphere** is the solid round shape of a ball; every point of its surface is the same distance $r$ from the centre. A **hemisphere** is half a sphere, cut by a plane through the centre.
 
@@ -257,7 +255,7 @@ $$ \text{CSA}=2\pi r^2=2\times\frac{22}{7}\times 196=1232\text{ m}^2 $$
 Cost $=1232\times 25=\text{Rs } 30{,}800$.
 :::
 
-### The hollow sphere
+## 6.5 The hollow sphere
 
 ::: key Hollow sphere (spherical shell)
 With outer radius $R$ and inner radius $r$:
@@ -271,7 +269,7 @@ $$ V_{\text{material}}=\frac43\pi\left(R^3-r^3\right) $$
 **Solution.** $V=\dfrac43\times\dfrac{22}{7}\times(6^3-3^3)=\dfrac43\times\dfrac{22}{7}\times(216-27)=\dfrac43\times\dfrac{22}{7}\times 189=792\text{ cm}^3$.
 :::
 
-### Recasting and displacement
+## 6.6 Recasting and displacement
 
 When a solid is **melted** and recast into other solids, no metal is lost, so the **total volume stays the same**. When a solid is **fully immersed** in water, it pushes aside a volume of water equal to its own volume.
 
@@ -323,7 +321,7 @@ $$ \pi\times 6^2\times x=36\pi \;\Rightarrow\; 36x=36 \;\Rightarrow\; x=1\text{ 
 The level rises by **1 cm**.
 :::
 
-### Combined solids
+## 6.7 Combined solids
 
 Split the solid into cylinders, hemispheres and so on. Remember: for the **surface area** of a combined solid, do not count the faces where the parts join, because they are inside.
 
@@ -372,7 +370,7 @@ $$ 2\pi rh+4\pi r^2=2\times\frac{22}{7}\times 2.1\times 4+4\times\frac{22}{7}\ti
 5. Convert to litres only at the end.
 :::
 
-## 6.2 Exercises of the SEE type
+## 6.8 Exercises of the SEE type
 
 ### Method for any question
 

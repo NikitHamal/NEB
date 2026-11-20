@@ -13,9 +13,7 @@ A plane surface is any flat shape — the floor of a classroom, a triangular plo
 Typical questions (3 or 4 marks): (i) area of a triangle by **Heron's formula**; (ii) area of a **path** around a rectangular or circular garden, with the cost; (iii) area and perimeter of a **combined figure** (rectangle plus semicircle); (iv) the number of **tiles** needed for a floor; (v) area of a **ring** or **sector**. Unless told otherwise use $\pi=\dfrac{22}{7}$. Every answer needs a unit: m, m², cm², Rs.
 :::
 
-## 5.1 Plane Surfaces: concepts, formulas and worked problems
-
-### Perimeter and area: the difference
+## 5.1 Perimeter and area: the difference
 
 **Perimeter** is the length of the boundary — measured in cm, m, km. **Area** is the amount of surface inside the boundary — measured in cm², m². Fencing a field needs the perimeter; ploughing it needs the area.
 
@@ -74,7 +72,7 @@ fig.tight_layout(pad=0.3)
 Change all lengths to the same unit **before** you multiply. For tiles of 40 cm in a room measured in metres, write 40 cm as 0.4 m. Dividing 48 m² by 40 × 40 = 1600 gives nonsense because the units differ.
 :::
 
-### Triangles and Heron's formula
+## 5.2 Triangles and Heron's formula
 
 Area of a triangle $=\dfrac12\times\text{base}\times\text{height}$. If the height is not known but the three sides $a,b,c$ are, use **Heron's formula**.
 
@@ -135,7 +133,7 @@ Cost $=180\times 500=\text{Rs } 90{,}000$.
 **Solution.** Area $=\dfrac{\sqrt{3}}{4}\times 10^2=\dfrac{1.732\times 100}{4}=43.3\text{ cm}^2$.
 :::
 
-### Quadrilaterals
+## 5.3 Quadrilaterals
 
 ::: example Parallelogram and rhombus
 **Problem.** (a) A parallelogram has base 15 cm and height 8 cm. Find its area. (b) The diagonals of a rhombus are 16 cm and 12 cm. Find its area, side and perimeter.
@@ -165,7 +163,7 @@ $$ \text{Area}=\tfrac12\times 20\times 7+\tfrac12\times 20\times 5=70+50=120\tex
 or $\dfrac12\times 20\times(7+5)=120$ cm².
 :::
 
-### The circle, semicircle and sector
+## 5.4 The circle, semicircle and sector
 
 ::: key Circle formulas ($\pi=\frac{22}{7}$ unless told otherwise)
 - Circumference $C=2\pi r=\pi d$; Area $A=\pi r^2$.
@@ -216,7 +214,7 @@ Square plot: side $=\dfrac{88}{4}=22$ m, area $=22^2=484\text{ m}^2$.
 For the same perimeter the circle encloses the larger area (616 m² against 484 m²).
 :::
 
-### Paths and rings
+## 5.5 Paths and rings
 
 A **path** around a figure is the region between the figure and a larger, similar figure outside it (or a smaller one inside). Its area is always the **difference of two areas**.
 
@@ -282,7 +280,7 @@ Outer circumference $=2\times\dfrac{22}{7}\times 21=132$ m. Fencing cost $=132\t
 **Solution.** Area $=\dfrac{22}{7}(14^2-7^2)=\dfrac{22}{7}\times 147=462\text{ m}^2$.
 :::
 
-### Combined figures
+## 5.6 Combined figures
 
 Split the figure into rectangles, triangles, semicircles; add (or subtract) the areas. For the **perimeter** include only the boundary that is outside — a side where two pieces join is **not** part of the boundary.
 
@@ -330,7 +328,7 @@ Draw it. Mark all given lengths. Split it into rectangles, triangles and circula
 - Forgetting that $\frac12 bh$ needs the **perpendicular** height. In a right-angled triangle, use the two sides containing the right angle.
 :::
 
-## 5.2 Exercises of the SEE type
+## 5.7 Exercises of the SEE type
 
 ### Method
 

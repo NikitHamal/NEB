@@ -16,9 +16,7 @@ Expect: (i) find all trigonometric ratios from one given ratio (e.g. $\sin\theta
 ```photo id="math10/theodolite" caption="A student measuring angles with a theodolite. Surveyors find the height of a tower or the width of a river with exactly the tangent ratios you use in this chapter." width="60"
 ```
 
-## 16.1 Trigonometry: concepts, formulas and worked problems
-
-### The right-angled triangle and its sides
+## 16.1 The right-angled triangle and its sides
 
 In a right-angled triangle, the side opposite the right angle is the **hypotenuse** (the longest side). For an acute angle $\theta$, the side facing $\theta$ is the **opposite** (perpendicular, $p$) and the side touching $\theta$ (other than the hypotenuse) is the **adjacent** (base, $b$). The names of the two shorter sides change if you move to the other acute angle, but the hypotenuse never changes.
 
@@ -73,7 +71,7 @@ $$ \cos\theta=\frac{12}{13},\qquad \tan\theta=\frac{5}{12},\qquad \sec\theta=\fr
 **Solution.** Opposite $=3$, adjacent $=4$, so the hypotenuse is $\sqrt{9+16}=5$. $\sin\theta=\frac{3}{5}$ and $\cos\theta=\frac{4}{5}$. (This is the 3-4-5 triangle: $\theta\approx36.9^\circ$.)
 :::
 
-### Ratios of $30^\circ$, $45^\circ$ and $60^\circ$
+## 16.2 Ratios of $30^\circ$, $45^\circ$ and $60^\circ$
 
 ::: derivation Exact values for 45°, 30° and 60°
 We read the ratios off two special triangles.
@@ -145,7 +143,7 @@ Memory trick: the sines are $\frac{\sqrt{1}}{2},\frac{\sqrt{2}}{2},\frac{\sqrt{3
 **Solution.** (a) $\sin\theta=\frac{1}{2}$, so $\theta=30^\circ$. (b) $\theta=60^\circ$. (c) $\cos^2\theta=\frac{1}{2}$, $\cos\theta=\frac{1}{\sqrt{2}}$, so $\theta=45^\circ$.
 :::
 
-### Complementary angles
+## 16.3 Complementary angles
 
 Two angles are **complementary** if they add up to $90^\circ$. In a right-angled triangle the two acute angles $\theta$ and $90^\circ-\theta$ are complementary, and the side opposite one is the side adjacent to the other. So:
 
@@ -161,7 +159,7 @@ For example $\sin25^\circ=\cos65^\circ$ and $\tan15^\circ\times\tan75^\circ=\tan
 **Solution.** (a) $\cos65^\circ=\sin25^\circ$, so the ratio is $1$. (b) $\tan75^\circ=\cot15^\circ$, so the product is $1$. (c) $\sin70^\circ=\cos20^\circ$, so the difference is $0$.
 :::
 
-### Identities
+## 16.4 Identities
 
 ::: derivation The Pythagorean identities
 **Setting up.** Take a right-angled triangle with opposite $p$, adjacent $b$ and hypotenuse $h$ for the angle $\theta$.
@@ -257,7 +255,7 @@ ax.legend(fontsize=8, frameon=False, loc='upper left')
 fig.tight_layout(pad=0.4)
 ```
 
-### Heights and distances
+## 16.5 Heights and distances
 
 When you look **up** at an object, the angle between your horizontal line of sight and the line to the object is the **angle of elevation**. When you look **down**, it is the **angle of depression**. The angle of depression of an object from a point equals the angle of elevation of that point from the object (alternate angles).
 
@@ -366,7 +364,7 @@ So $h=10\times2.732=27.32$ m.
 **Solution.** $BC=AC\sin30^\circ=8\times\frac{1}{2}=4$ cm and $AB=AC\cos30^\circ=8\times\frac{\sqrt{3}}{2}=4\sqrt{3}=6.93$ cm.
 :::
 
-## 16.2 Exercises of the SEE type
+## 16.6 Exercises of the SEE type
 
 ### Method for any question
 

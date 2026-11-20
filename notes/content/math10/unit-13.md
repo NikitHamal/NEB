@@ -16,9 +16,7 @@ Expect: (i) **prove** that parallelograms on the same base and between the same 
 ```photo id="math10/terraced-field" caption="Terraced fields cut into a hillside. A farmer measures such a plot by splitting it into triangles and quadrilaterals and adding their areas — the method of this chapter." width="92"
 ```
 
-## 13.1 Area of Triangles and Quadrilaterals: concepts, formulas and worked problems
-
-### Basic area formulas to remember
+## 13.1 Basic area formulas to remember
 
 | Figure | Area |
 |---|---|
@@ -31,7 +29,7 @@ Expect: (i) **prove** that parallelograms on the same base and between the same 
 
 **Equal in area** is written $\text{area}(\Delta ABC)=\text{area}(\Delta PQR)$. Two figures can be equal in area without being congruent: a $12\times 5$ rectangle and a $10\times 6$ rectangle both have area 60 but have different shapes.
 
-### Same base, between the same parallels
+## 13.2 Same base, between the same parallels
 
 Two figures are **on the same base and between the same parallels** if they share a base line, and their opposite vertices (or sides) lie on a single line parallel to that base. Then the **perpendicular height is the same** for both — this is the whole secret of the theorems.
 
@@ -54,7 +52,7 @@ ax.set_xlim(-0.8, 9); ax.set_ylim(-0.7, 2.7); ax.set_aspect('equal'); ax.axis('o
 fig.tight_layout(pad=0.3)
 ```
 
-### Theorem 1 — parallelograms on the same base
+## 13.3 Theorem 1 — parallelograms on the same base
 
 ::: derivation Parallelograms on the same base and between the same parallels are equal in area
 **Given.** Parallelograms $ABCD$ and $ABEF$ stand on the same base $AB$ and lie between the same parallels $AB$ and $DF$ (as in the figure above).
@@ -92,7 +90,7 @@ Perimeters: rectangle $2(10+6)=32$ cm; parallelogram $2(10+8)=36$ cm. Equal area
 **Solution.** Area $=\text{base}\times\text{height}=15\times8=120\text{ cm}^2$. Using $AD$ as base, $10\times h=120$ gives $h=12$ cm.
 :::
 
-### Theorem 2 — triangle and parallelogram
+## 13.4 Theorem 2 — triangle and parallelogram
 
 ```figure caption="Triangle ABE and parallelogram ABCD stand on the same base AB and lie between the same parallels AB and DC; the diagonal AC of the parallelogram splits it into two equal triangles."
 import numpy as np, matplotlib.pyplot as plt
@@ -140,7 +138,7 @@ $$ \text{area}(\Delta ABC)=\frac{1}{2}\,\text{area}(\text{parallelogram }ABCD) $
 6. The diagonals of a parallelogram divide it into **four triangles of equal area**.
 :::
 
-### Theorem 3 — triangles on the same base
+## 13.5 Theorem 3 — triangles on the same base
 
 ```figure caption="Triangles ABC, ABD and ABE have the same base AB and their vertices lie on the line l parallel to AB: all three have equal area."
 import numpy as np, matplotlib.pyplot as plt
@@ -208,7 +206,7 @@ fig.tight_layout(pad=0.3)
 $$ \text{area}(\Delta ABD)=\frac{2}{5}\times75=30\text{ cm}^2,\qquad \text{area}(\Delta ADC)=\frac{3}{5}\times75=45\text{ cm}^2 $$
 :::
 
-### Using the theorems
+## 13.6 Using the theorems
 
 ::: example Point on the opposite side
 **Problem.** $ABCD$ is a parallelogram with area $90\text{ cm}^2$ and $P$ is any point on $DC$. Find the area of $\Delta APB$.
@@ -285,7 +283,7 @@ Since $\Delta AOB\sim\Delta COD$ with ratio of sides $12:6=2:1$, $AO:OC=2:1$. So
 - Writing $\text{area}(\Delta ABC)=\text{area}(\Delta ABD)$ without naming the common base and the parallels.
 :::
 
-## 13.2 Exercises of the SEE type
+## 13.7 Exercises of the SEE type
 
 ### Method for any question
 

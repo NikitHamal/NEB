@@ -16,9 +16,7 @@ Typical 3- or 4-mark questions: (i) surface area and volume of a **triangular pr
 ```photo id="math10/pyramid" caption="The Great Pyramid of Cheops. A pyramid has one polygonal base and triangular faces that meet at a single apex; its volume is one third of the prism standing on the same base." width="96"
 ```
 
-## 7.1 Prism and Pyramid: concepts, formulas and worked problems
-
-### Prisms
+## 7.1 Prisms
 
 ::: definition Prism
 A **prism** is a solid whose two ends are equal, parallel polygons (the **bases**) and whose side faces are rectangles (in a **right prism**). The prism is named after its base: triangular prism, rectangular prism (cuboid), hexagonal prism. The **height** (or length) $h$ of the prism is the distance between the two bases.
@@ -35,7 +33,7 @@ $$ \text{LSA}=P\times h \qquad \text{TSA}=P\times h+2A \qquad V=A\times h $$
 - Volume $=$ area of the cross-section $\times$ length.
 :::
 
-### Cuboid and cube
+## 7.2 Cuboid and cube
 
 For a cuboid of length $l$, breadth $b$ and height $h$ the general formulas become:
 
@@ -76,7 +74,7 @@ Cost $=138\times 15=\text{Rs } 2{,}070$.
 Open tank: base $+$ four walls $=lb+2h(l+b)=2.5\times 2+2\times 1.2\times(2.5+2)=5+10.8=15.8\text{ m}^2$.
 :::
 
-### Triangular and other prisms
+## 7.3 Triangular and other prisms
 
 ```figure caption="A triangular prism whose base is a right-angled triangle with sides 6, 8 and 10 cm, and length 15 cm. Dashed edges are hidden."
 import numpy as np, matplotlib.pyplot as plt
@@ -146,7 +144,7 @@ $\text{TSA}=520+2\times 32=584\text{ dm}^2$.
 - For an open tank, counting the top face as well.
 :::
 
-### Pyramids
+## 7.4 Pyramids
 
 ::: definition Pyramid
 A **pyramid** has a polygon as its base and triangular side faces that meet at a point called the **apex** (vertex). In a **right regular pyramid** the base is a regular polygon and the apex is directly above its centre. Two lengths matter:
@@ -262,7 +260,7 @@ Volume of air $=\dfrac13\times 6^2\times 4=48\text{ m}^3$.
 Number $=\dfrac{216}{72}=3$ pyramids.
 :::
 
-### The cone: a round pyramid
+## 7.5 The cone: a round pyramid
 
 A **right circular cone** has a circular base of radius $r$, height $h$ and **slant height** $l$ along the surface from the apex to the rim of the base.
 
@@ -302,7 +300,7 @@ $V=\dfrac13\pi r^2h=\dfrac13\times\dfrac{22}{7}\times 49\times 24=1232\text{ cm}
 In a pyramid or a cone, the **height**, the **slant height** and the **half-base** (or radius) form a right-angled triangle with the slant height as hypotenuse. Sketch it and apply Pythagoras before anything else. The usual Pythagorean triples are $(3,4,5)$, $(5,12,13)$, $(8,15,17)$, $(7,24,25)$ and their multiples.
 :::
 
-## 7.2 Exercises of the SEE type
+## 7.6 Exercises of the SEE type
 
 ### Method
 

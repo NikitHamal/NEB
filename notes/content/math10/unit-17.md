@@ -16,9 +16,7 @@ Expect: (i) range and its coefficient; (ii) **quartile deviation** and its coeff
 ```photo id="math10/rain-gauge" caption="A rain gauge. It gives one raw reading a day. Mean, median and mode are the three ways of turning a whole year of such readings into a single number." width="54"
 ```
 
-## 17.1 Statistics: concepts, formulas and worked problems
-
-### Recall: measures of central tendency
+## 17.1 Recall: measures of central tendency
 
 | Measure | Individual data | Continuous data |
 |---|---|---|
@@ -28,7 +26,7 @@ Expect: (i) range and its coefficient; (ii) **quartile deviation** and its coeff
 
 Here $L$ is the lower boundary of the median class, $cf$ the cumulative frequency before it, $f$ its frequency and $h$ the class width.
 
-### Why we need dispersion
+## 17.2 Why we need dispersion
 
 ```figure caption="Two sets of marks with the same mean (50) but very different spread: set A is tightly grouped, set B is widely scattered. The mean alone cannot tell them apart."
 import numpy as np, matplotlib.pyplot as plt
@@ -56,7 +54,7 @@ fig.tight_layout(pad=0.4)
 $L$ and $S$ are the largest and smallest values. The **variance** is $\sigma^2$.
 :::
 
-### Range
+## 17.3 Range
 
 The **range** is the difference between the largest and the smallest value. It is quick but uses only two values and is badly affected by one extreme value.
 
@@ -68,7 +66,7 @@ The **range** is the difference between the largest and the smallest value. It i
 $$ R=30-12=18 \qquad \text{coefficient}=\frac{30-12}{30+12}=\frac{18}{42}=0.429 $$
 :::
 
-### Quartile deviation
+## 17.4 Quartile deviation
 
 **Quartiles** divide ordered data into four equal parts: $Q_1$ (lower quartile) has 25% of the data below it, $Q_2$ is the median and $Q_3$ (upper quartile) has 75% below it. The **quartile deviation** (semi-interquartile range) ignores the extreme quarters, so it is not disturbed by outliers.
 
@@ -155,7 +153,7 @@ ax.tick_params(labelsize=8); ax.grid(color=GRID, lw=0.5)
 fig.tight_layout(pad=0.4)
 ```
 
-### Mean deviation
+## 17.5 Mean deviation
 
 The **mean deviation** is the average distance of the values from their mean (the absolute value ignores the sign, so the deviations do not cancel).
 
@@ -197,7 +195,7 @@ $$ MD=\frac{186}{20}=9.3 \qquad \text{coefficient}=\frac{9.3}{37}=0.251 $$
 $$ MD=\frac{300}{40}=7.5 \qquad \text{coefficient}=\frac{7.5}{35}=0.214 $$
 :::
 
-### Standard deviation
+## 17.6 Standard deviation
 
 The **standard deviation** $\sigma$ (the square root of the mean of the squared deviations) is the most widely used measure of spread. The square makes every deviation positive and gives more weight to far-out values.
 
@@ -286,7 +284,7 @@ The mean is $A+h\frac{\sum fd'}{n}=35+0=35$.
 **Solution.** Adding 5 shifts the whole set and leaves the spread unchanged: $\sigma=6$. Doubling doubles every distance: $\sigma=2\times6=12$.
 :::
 
-### Coefficient of variation and consistency
+## 17.7 Coefficient of variation and consistency
 
 A larger $\sigma$ does not always mean more scattered data, because it depends on the size of the numbers. The **coefficient of variation**
 
@@ -315,7 +313,7 @@ measures the spread **relative to the mean**. The data set with the **smaller CV
 - Comparing consistency with $\sigma$ instead of $CV$.
 :::
 
-## 17.2 Exercises of the SEE type
+## 17.8 Exercises of the SEE type
 
 ### Method for any question
 

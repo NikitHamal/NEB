@@ -112,6 +112,7 @@ jobs:
           git fetch origin main
           git rebase --autostash origin/main
           tar -C backend_python -xf stage/web_sync.tar
+          python3 notes/tools/export_syllabus.py
           python3 - <<'PY'
           import json, os, shutil, subprocess
           built_map = json.load(open("stage/built_map.json", encoding="utf-8"))

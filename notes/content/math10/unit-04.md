@@ -16,9 +16,7 @@ One 3- or 4-mark question, almost always in one of these forms: (i) population a
 ```photo id="math10/kathmandu-valley" caption="The Kathmandu valley seen from Battisputali. The number of people living here does not grow by the same number each year — it grows by a fixed percentage of the number already there, which is exactly compound growth." width="88"
 ```
 
-## 4.1 Population Growth and Depreciation: concepts, formulas and worked problems
-
-### Growth and decay are repeated multiplications
+## 4.1 Growth and decay are repeated multiplications
 
 If a quantity increases by $R\%$ it becomes $\left(1+\dfrac{R}{100}\right)$ times itself. If it decreases by $R\%$ it becomes $\left(1-\dfrac{R}{100}\right)$ times itself. After $T$ periods we multiply $T$ times — the **same argument** as for compound interest in Chapter 3.
 
@@ -27,7 +25,7 @@ If a quantity increases by $R\%$ it becomes $\left(1+\dfrac{R}{100}\right)$ time
 | Increase by $R\%$ (population growth) | $1+\dfrac{R}{100}$ | $1.10$ |
 | Decrease by $R\%$ (depreciation) | $1-\dfrac{R}{100}$ | $0.90$ |
 
-### Population growth
+## 4.2 Population growth
 
 ::: key Population growth formulas
 Let $P_0$ be the population at the beginning, $R\%$ the yearly growth rate and $P_T$ the population after $T$ years.
@@ -66,7 +64,7 @@ The population 2 years ago was **20,000**.
 When the question asks for the population in the **past**, divide by the growth factor. Do not subtract 10% of the present population twice. 10% of 24,200 is 2,420, and $24200-2420-2420=19360$, which is wrong.
 :::
 
-### Different rates in different years
+## 4.3 Different rates in different years
 
 ::: example Changing yearly rates
 **Problem.** The population of a municipality is 1,25,000. It increases by 8% in the first year and by 5% in the second year, and decreases by 2% in the third year. Find the population after 3 years.
@@ -80,7 +78,7 @@ After year 3 (a decrease): $141750\times(1-0.02)=141750\times 0.98=138915$.
 The population after 3 years is **1,38,915**.
 :::
 
-### Birth, death and migration
+## 4.4 Birth, death and migration
 
 A population changes for three reasons: people are **born**, people **die**, and people **migrate** (move in or out). Each can be given as a rate (% of the population per year). **Net growth rate** is the combined effect.
 
@@ -134,7 +132,7 @@ End of year 2: $50000\times 1.05=52500$.
 The population is **52,500**.
 :::
 
-### Finding the rate or the time
+## 4.5 Finding the rate or the time
 
 ::: example Finding the rate of growth
 **Problem.** The population of a village increases from 20,000 to 22,050 in 2 years. Find the yearly rate of growth.
@@ -152,7 +150,7 @@ The rate of growth is **5% per year**.
 **Solution.** $13310=10000\times(1.1)^T$, so $(1.1)^T=1.331=(1.1)^3$, giving $T=3$ years.
 :::
 
-### Depreciation
+## 4.6 Depreciation
 
 ::: definition Depreciation
 **Depreciation** is the decrease in the value of an article (a machine, vehicle, computer, building) with time and use. The **rate of depreciation** is the percentage by which the value falls each year. The new value is the **present value**, **book value** or **depreciated value**.
@@ -260,7 +258,7 @@ $$ V=200000\times(0.9)^2=200000\times 0.81=\text{Rs } 1{,}62{,}000 $$
 (Calculated yearly it would be $200000\times 0.8=1{,}60{,}000$.)
 :::
 
-### Increase followed by decrease
+## 4.7 Increase followed by decrease
 
 A frequent trap: a rise of $x\%$ followed by a fall of $x\%$ does **not** return to the start.
 
@@ -287,7 +285,7 @@ Ask one question: *is the quantity getting larger or smaller?* Larger — factor
 - Subtracting the original population when the question asks for **increase** and giving the final population instead.
 :::
 
-### More practice in context
+## 4.8 More practice in context
 
 ::: example Comparing two towns
 **Problem.** Town A has 1,00,000 people and grows at 4% per year. Town B has 1,20,000 people and its population falls by 1% per year. Find the difference in their populations after 2 years.
@@ -317,7 +315,7 @@ This is $\dfrac{17100}{90000}\times 100=19\%$ of the cost, not $20\%$, because t
 Students after 2 years $=1{,}458$. Increase $=1458-1250=208$ students.
 :::
 
-## 4.2 Exercises of the SEE type
+## 4.9 Exercises of the SEE type
 
 ### Method
 

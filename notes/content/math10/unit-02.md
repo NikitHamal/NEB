@@ -16,9 +16,7 @@ Almost every SEE paper has one 4-mark question from this unit and often a 3-mark
 ```photo id="math10/bank-nepal" caption="Every bank in Nepal runs on the percentage arithmetic of this chapter. A branch of Nepal Rastra Bank, Janakpur: tax, commission and money exchange are the same calculations applied to millions of rupees." width="100"
 ```
 
-## 2.1 Tax and Money Exchange: concepts, formulas and worked problems
-
-### Taxes: what they are and why we pay them
+## 2.1 Taxes: what they are and why we pay them
 
 A **tax** is money that people and businesses must pay to the government. It pays for roads, schools, hospitals and the police. Taxes fall into two groups.
 
@@ -29,7 +27,7 @@ A **tax** is money that people and businesses must pay to the government. It pay
 
 In Nepal the standard rate of VAT is **13%**. Rates and slabs are changed by the government each year in the Finance Act, so in an exam you must use the rate **given in the question**. If a question says nothing, the textbook rate is 13%.
 
-### Value added tax (VAT)
+## 2.2 Value added tax (VAT)
 
 ::: definition Value added tax (VAT)
 **VAT** is a tax on the value added at each stage of production and sale, collected by the seller from the buyer and paid to the government. The price **before** VAT is the taxable price; the price **after** adding VAT is the bill amount.
@@ -71,7 +69,7 @@ Check: $13\%$ of $8000=1040$ ✓.
 When the **bill amount** is given, the VAT is **not** $13\%$ of the bill. 13% of Rs 9,040 is Rs 1,175.20, which is wrong. The 13% is on the price **without VAT**, so divide the bill by 1.13 first.
 :::
 
-### Discount and VAT together
+## 2.3 Discount and VAT together
 
 A shopkeeper first gives the **discount** on the marked price, and VAT is then charged on the **discounted price** (the actual selling price). The order matters.
 
@@ -101,7 +99,7 @@ VAT $=13\%$ of $9000=\text{Rs } 1{,}170$.
 Customer pays $9000+1170=\text{Rs } 10{,}170$.
 :::
 
-### How VAT moves along the chain
+## 2.4 How VAT moves along the chain
 
 VAT is called "value added" because each seller pays the government only the tax on **the value he or she added**. A seller collects VAT from the buyer, subtracts the VAT already paid to his own supplier, and pays the difference.
 
@@ -159,7 +157,7 @@ VAT payable $=6500-5200=\text{Rs } 1{,}300$.
 Check: $13\%$ of the value added $(50000-40000=10000)$ is $1300$ ✓.
 :::
 
-### Excise duty
+## 2.5 Excise duty
 
 ::: definition Excise duty
 **Excise duty** is an indirect tax charged by the government on certain goods produced inside the country (for example cigarettes, alcohol, cars, TVs in many questions). It is charged on the **factory price** (the price at which the producer sells), **before** VAT.
@@ -231,7 +229,7 @@ VAT $=13\%$ of $66000=\text{Rs } 8{,}580$.
 Check: $66000+8580=74580$ ✓.
 :::
 
-### Income tax
+## 2.6 Income tax
 
 ::: definition Income tax and taxable income
 **Income tax** is a direct tax on a person's yearly income. It is not charged on the whole income. Allowed deductions (for example life-insurance premium, provident fund or contributions allowed by the government) are first subtracted, and the remainder is the **taxable income**:
@@ -318,7 +316,7 @@ Taxable income $=500000+20000=\text{Rs } 5{,}20{,}000$.
 Write the slabs in a column; subtract each full slab from the income, taking the remainder to the next slab; multiply each part by its rate; add. Stop when the remainder reaches zero. Never apply the highest rate to the whole income.
 :::
 
-### Foreign exchange
+## 2.7 Foreign exchange
 
 Each country has its own currency: Nepal the rupee (Rs or NPR), India the Indian rupee (INR), the USA the dollar (USD), the UK the pound (GBP), Qatar the riyal (QAR). **Foreign exchange** is the exchange of one currency for another. The **exchange rate** is the price of one unit of a foreign currency in the home currency.
 
@@ -430,7 +428,7 @@ Yearly $=54600\times 12=\text{Rs } 6{,}55{,}200$.
 - Forgetting the unit. Always write Rs, USD, INR or GBP.
 :::
 
-## 2.2 Exercises of the SEE type
+## 2.8 Exercises of the SEE type
 
 ### Checklist for tax problems
 

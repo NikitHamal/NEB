@@ -16,9 +16,7 @@ Expect: (i) write the sample space and find a probability for coins, dice or car
 ```photo id="math10/dice" caption="A die. Each of the six faces has the same chance of landing face up, so the probability of any one face is 1/6 — the simplest equally likely sample space." width="80"
 ```
 
-## 18.1 Probability: concepts, formulas and worked problems
-
-### Key terms
+## 18.1 Key terms
 
 | Term | Meaning | Example |
 |---|---|---|
@@ -29,7 +27,7 @@ Expect: (i) write the sample space and find a probability for coins, dice or car
 | Equally likely | each outcome has the same chance | a fair coin or fair die |
 | Complement $E'$ (not $E$) | the outcomes that are **not** in $E$ | not even $=\{1,3,5\}$ |
 
-### The probability of an event
+## 18.2 The probability of an event
 
 ::: key Probability formula
 For equally likely outcomes,
@@ -68,7 +66,7 @@ $$ P(E)=\frac{\text{number of favourable outcomes}}{\text{total number of outcom
 **Solution.** There are $2\times2\times2=8$ outcomes: HHH, HHT, HTH, HTT, THH, THT, TTH, TTT. Two heads: HHT, HTH, THH. $P=\frac{3}{8}$.
 :::
 
-### Two dice: the sample-space table
+## 18.3 Two dice: the sample-space table
 
 When two dice are rolled there are $6\times6=36$ equally likely outcomes. A grid shows them all at once.
 
@@ -102,7 +100,7 @@ fig.tight_layout(pad=0.4)
 (d) $(2,6),(3,5),(4,4),(5,3),(6,2)$: 5 outcomes, $P=\frac{5}{36}$.
 :::
 
-### Playing cards
+## 18.4 Playing cards
 
 A standard pack has **52 cards**: 4 suits (spades ♠, clubs ♣ black; hearts ♥, diamonds ♦ red) of 13 cards each (A, 2–10, J, Q, K). The **face cards** are J, Q, K: 12 in all. There are 4 kings, 4 aces, 26 red cards and 26 black cards.
 
@@ -115,7 +113,7 @@ A standard pack has **52 cards**: 4 suits (spades ♠, clubs ♣ black; hearts �
 (e) Kings and queens number 8, so $P=\frac{52-8}{52}=\frac{44}{52}=\frac{11}{13}$.
 :::
 
-### Complementary events and "at least one"
+## 18.5 Complementary events and "at least one"
 
 ::: example Using the complement
 **Problem.** A bag has 5 red, 3 blue and 2 green balls. One ball is drawn. Find $P(\text{red})$, $P(\text{not red})$ and $P(\text{blue or green})$.
@@ -139,7 +137,7 @@ $$ \frac{x}{4+x}=\frac{3}{5} \;\Rightarrow\; 5x=3(4+x) \;\Rightarrow\; 5x=12+3x 
 **Solution.** Expected rainy days $=31\times0.3=9.3\approx9$ days. Expected heads $=200\times\frac{1}{2}=100$.
 :::
 
-### Addition rule for "or"
+## 18.6 Addition rule for "or"
 
 Two events are **mutually exclusive** if they cannot happen together (e.g. rolling a 2 and rolling a 5 on one die).
 
@@ -192,7 +190,7 @@ $$ P(K\cup H)=\frac{4}{52}+\frac{13}{52}-\frac{1}{52}=\frac{16}{52}=\frac{4}{13}
 **Solution.** "2" and "5" are mutually exclusive: $\frac{1}{6}+\frac{1}{6}=\frac{1}{3}$. For the second, even $=\{2,4,6\}$, multiples of 3 $=\{3,6\}$; the overlap is $\{6\}$, so $P=\frac{3}{6}+\frac{2}{6}-\frac{1}{6}=\frac{4}{6}=\frac{2}{3}$ (the outcomes are $\{2,3,4,6\}$).
 :::
 
-### Independent events and the multiplication rule
+## 18.7 Independent events and the multiplication rule
 
 Two events are **independent** if the occurrence of one does not change the probability of the other (a coin toss and a die roll, or two draws **with replacement**).
 
@@ -215,7 +213,7 @@ For dependent events (for example drawing **without replacement**) the second pr
 **Solution.** The events are independent: $\frac{1}{2}\times\frac{1}{6}=\frac{1}{12}$. (Check: 12 equally likely outcomes, one is H6.)
 :::
 
-### Tree diagrams: drawing without replacement
+## 18.8 Tree diagrams: drawing without replacement
 
 A **tree diagram** shows each stage of an experiment as branches, with the probability written on each branch. Multiply along a path to get the probability of that outcome; add the paths that belong to the event.
 
@@ -289,7 +287,7 @@ $$ P(\text{different})=1-\frac{14}{45}=\frac{31}{45} $$
 - Leaving the answer as "6 out of 36" — give a fraction in lowest terms ($\frac{1}{6}$) or a decimal.
 :::
 
-## 18.2 Exercises of the SEE type
+## 18.9 Exercises of the SEE type
 
 ### Method for any question
 

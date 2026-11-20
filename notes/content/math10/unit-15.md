@@ -16,9 +16,7 @@ Expect: (i) **prove** a theorem: the angle at the centre is twice the angle at t
 ```photo id="math10/ferris-wheel" caption="A Ferris wheel. Every point on the rim is the same distance from the centre, and the whole rim turns about that fixed centre — the two facts that define a circle." width="86"
 ```
 
-## 15.1 Circle: concepts, formulas and worked problems
-
-### Vocabulary and chords
+## 15.1 Vocabulary and chords
 
 | Term | Meaning |
 |---|---|
@@ -49,7 +47,7 @@ Expect: (i) **prove** a theorem: the angle at the centre is twice the angle at t
 **Solution.** Half-chord $=8$ cm. $r^2=8^2+6^2=100$, so $r=10$ cm.
 :::
 
-### Angle at the centre and at the circumference
+## 15.2 Angle at the centre and at the circumference
 
 ```figure caption="The angle at the centre AOB is twice the angle at the circumference ACB standing on the same arc AB. CD is drawn through O."
 import numpy as np, matplotlib.pyplot as plt
@@ -106,7 +104,7 @@ $$ \angle AOB=\angle AOD+\angle BOD=2\alpha+2\beta=2(\alpha+\beta)=2\angle ACB $
 **Solution.** $OA=OB$, so $\angle OBA=25^\circ$ and $\angle AOB=180^\circ-2\times25^\circ=130^\circ$. Then $\angle ACB=\frac{1}{2}\times130^\circ=65^\circ$.
 :::
 
-### Angles in the same segment; angle in a semicircle
+## 15.3 Angles in the same segment; angle in a semicircle
 
 ```figure caption="Left: angles ACB and ADB in the same segment are equal. Right: AB is a diameter, so the angle in a semicircle ACB is 90°."
 import numpy as np, matplotlib.pyplot as plt
@@ -184,7 +182,7 @@ $$ \angle ACB=\frac{1}{2}\angle AOB \qquad \angle ADB=\frac{1}{2}\angle AOB $$
 **Solution.** The right angle is at the circumference, so the hypotenuse is a diameter: $2r=10$ and $r=5$ cm.
 :::
 
-### Cyclic quadrilaterals
+## 15.4 Cyclic quadrilaterals
 
 ```figure caption="Cyclic quadrilateral ABCD. The opposite angles A and C (and B and D) add up to 180°, and each exterior angle equals the interior opposite angle."
 import numpy as np, matplotlib.pyplot as plt
@@ -253,7 +251,7 @@ $$ \angle A+\angle C=\frac{1}{2}\left(\angle BOD+\text{reflex}\,\angle BOD\right
 **Solution.** $98^\circ+82^\circ=180^\circ$: opposite angles are supplementary, so $PQRS$ is cyclic (converse of the theorem). Yes.
 :::
 
-### Tangents
+## 15.5 Tangents
 
 A **tangent** touches the circle at one point, the **point of contact**. Two facts are used constantly.
 
@@ -361,7 +359,7 @@ fig.tight_layout(pad=0.3)
 - Taking $PA^2=OP^2+OA^2$ — it is a *difference*, since $OP$ is the hypotenuse.
 :::
 
-## 15.2 Exercises of the SEE type
+## 15.6 Exercises of the SEE type
 
 ### Method for any question
 

@@ -13,9 +13,7 @@ A fraction such as $\frac{3}{4}$ has numbers on the top and bottom. An **algebra
 Expect: (i) reduce a fraction to its **lowest terms** by factorising; (ii) **add or subtract** two or three fractions with different denominators using the LCM; (iii) **multiply or divide** fractions and simplify to a single expression; (iv) a "simplify" or "prove" question combining all of these, often ending in a surprisingly simple answer like 1 or $x+1$. Factorise first, cancel second, and write every step.
 :::
 
-## 11.1 Algebraic Fraction: concepts, formulas and worked problems
-
-### Factorisation toolkit
+## 11.1 Factorisation toolkit
 
 Everything in this chapter rests on these factorisations. Learn them until you can see them at a glance.
 
@@ -67,7 +65,7 @@ fig.tight_layout(pad=0.3)
 (c) $a^3+27=a^3+3^3=(a+3)(a^2-3a+9)$.
 :::
 
-### Reducing to lowest terms
+## 11.2 Reducing to lowest terms
 
 ::: key Cancelling rule
 $$ \frac{p\times r}{q\times r}=\frac{p}{q}\qquad (r\ne 0) $$
@@ -105,7 +103,7 @@ $$ \frac{a^2-a-6}{a^2-9}=\frac{a+2}{a+3} $$
 - Writing "$=0$" when numerators cancel: $\frac{x}{x}=1$, not 0.
 :::
 
-### HCF and LCM of expressions
+## 11.3 HCF and LCM of expressions
 
 To add fractions you need a common denominator, and the best one is the **lowest common multiple (LCM)** of the denominators. As in Chapter 8, factorise first. The **HCF** takes each common factor with its **smallest** power; the **LCM** takes every factor that appears, with its **largest** power.
 
@@ -125,7 +123,7 @@ $$ \frac{(x+2)+(x-2)}{(x-2)(x+2)^2}=\frac{2x}{(x-2)(x+2)^2} $$
 **Check with $x=3$.** $\frac{1}{5}+\frac{1}{25}=\frac{6}{25}$, and the answer gives $\frac{6}{1\times25}=\frac{6}{25}$ ✓.
 :::
 
-### Multiplication and division
+## 11.4 Multiplication and division
 
 ::: key Rules
 $$ \frac{p}{q}\times\frac{r}{s}=\frac{pr}{qs}\qquad \frac{p}{q}\div\frac{r}{s}=\frac{p}{q}\times\frac{s}{r}=\frac{ps}{qr} $$
@@ -162,7 +160,7 @@ Cancel $(x+2)$ once and $(x-1)$ once:
 $$ \frac{(x+1)(x+1)}{x(x+2)}=\frac{(x+1)^2}{x(x+2)} $$
 :::
 
-### Addition and subtraction
+## 11.5 Addition and subtraction
 
 ::: key Steps for $\frac{p}{q}\pm\frac{r}{s}$
 1. Factorise every denominator.
@@ -220,7 +218,7 @@ $$ \frac{(x-1)-(x-2)-1}{(x-1)(x-2)}=\frac{x-1-x+2-1}{(x-1)(x-2)}=\frac{0}{(x-1)(
 $$ \frac{8x}{x^2-4} $$
 :::
 
-### Fractions inside fractions
+## 11.6 Fractions inside fractions
 
 ::: example Complex fraction
 **Problem.** Simplify $\frac{x^2-\frac{1}{x^2}}{x-\frac{1}{x}}$.
@@ -270,7 +268,7 @@ fig.tight_layout(pad=0.3)
 A fraction is undefined when its denominator is 0. In $\frac{x-3}{x+2}$ we need $x\ne-2$. In the SEE you are rarely asked to state this, but you must never put a value in that makes a denominator zero when you check an answer.
 :::
 
-### Equations with algebraic fractions
+## 11.7 Equations with algebraic fractions
 
 ::: key Solving a fractional equation
 Multiply **every term** by the LCM of the denominators to clear the fractions, solve the resulting equation, and **reject** any answer that makes a denominator zero.
@@ -298,7 +296,7 @@ $$ 3(x+1)-2(x-1)=(x-1)(x+1) \;\Rightarrow\; x+5=x^2-1 $$
 So $x^2-x-6=0$, $(x-3)(x+2)=0$ and $x=3$ or $x=-2$.
 :::
 
-### More patterns to practise
+## 11.8 More patterns to practise
 
 ::: example Trinomials on both sides
 **Problem.** Simplify $\frac{x^2+x-12}{x^2-16}$.
@@ -388,7 +386,7 @@ $$ \frac{y-x}{xy}\times\frac{x^2y^2}{(y-x)(y+x)}=\frac{xy}{x+y} $$
 **Solution.** Multiply by $3(x-3)(x-5)$: $3(x-2)(x-5)+3(x-4)(x-3)=10(x-3)(x-5)$. Expanding, $3(x^2-7x+10)+3(x^2-7x+12)=10(x^2-8x+15)$, i.e. $6x^2-42x+66=10x^2-80x+150$, which gives $4x^2-38x+84=0$ or $2x^2-19x+42=0$. Then $(2x-7)(x-6)=0$ and $x=\frac{7}{2}$ or $x=6$.
 :::
 
-## 11.2 Exercises of the SEE type
+## 11.9 Exercises of the SEE type
 
 ### Method for any question
 

@@ -3,56 +3,157 @@
 # NOTE: Chapter list from the CDC Grade 10 textbook, 18 chapters. Chapter bullets are a topic guide.
 # AREA: Compulsory Mathematics
 ## 1. Sets
-- Sets: concepts, formulas and worked problems
+- Language of sets — a quick revision
+- The four operations
+- Two sets: the formula and the Venn diagram
+- Three sets
+- Set laws verified with given sets
 - Exercises of the SEE type
 ## 2. Tax and Money Exchange
-- Tax and Money Exchange: concepts, formulas and worked problems
+- Taxes: what they are and why we pay them
+- Value added tax (VAT)
+- Discount and VAT together
+- How VAT moves along the chain
+- Excise duty
+- Income tax
+- Foreign exchange
 - Exercises of the SEE type
 ## 3. Compound Interest
-- Compound Interest: concepts, formulas and worked problems
+- Simple interest revised
+- What is compound interest?
+- The compound amount formula
+- Half-yearly and quarterly compounding
+- Finding the principal, the rate or the time
+- Compound interest and simple interest compared
+- Different rates in different years
+- Real-life applications
 - Exercises of the SEE type
 ## 4. Population Growth and Depreciation
-- Population Growth and Depreciation: concepts, formulas and worked problems
+- Growth and decay are repeated multiplications
+- Population growth
+- Different rates in different years
+- Birth, death and migration
+- Finding the rate or the time
+- Depreciation
+- Increase followed by decrease
+- More practice in context
 - Exercises of the SEE type
 ## 5. Plane Surfaces
-- Plane Surfaces: concepts, formulas and worked problems
+- Perimeter and area: the difference
+- Triangles and Heron's formula
+- Quadrilaterals
+- The circle, semicircle and sector
+- Paths and rings
+- Combined figures
 - Exercises of the SEE type
 ## 6. Cylinder and Sphere
-- Cylinder and Sphere: concepts, formulas and worked problems
+- Units of volume and capacity
+- The solid cylinder
+- The hollow cylinder (pipe)
+- The sphere and the hemisphere
+- The hollow sphere
+- Recasting and displacement
+- Combined solids
 - Exercises of the SEE type
 ## 7. Prism and Pyramid
-- Prism and Pyramid: concepts, formulas and worked problems
+- Prisms
+- Cuboid and cube
+- Triangular and other prisms
+- Pyramids
+- The cone: a round pyramid
 - Exercises of the SEE type
 ## 8. Highest Common Factor and Lowest Common Multiple
-- Highest Common Factor and Lowest Common Multiple: concepts, formulas and worked problems
+- Revision with numbers
+- Factorisation: the toolkit
+- HCF and LCM of algebraic expressions
+- The relation between HCF, LCM and the expressions
 - Exercises of the SEE type
 ## 9. Radical and Surd
-- Radical and Surd: concepts, formulas and worked problems
+- Radicals and surds
+- Laws of surds
+- Types of surds
+- Addition and subtraction
+- Multiplication and division
+- Comparing surds of different order
+- Rationalisation
+- Values of expressions: $x+\frac{1}{x}$ and its powers
+- Equations with square roots
+- Surds in geometry
 - Exercises of the SEE type
 ## 10. Indices
-- Indices: concepts, formulas and worked problems
+- Index notation
+- The laws of indices
+- Simplifying expressions
+- Exponential equations
+- Proving identities with indices
 - Exercises of the SEE type
 ## 11. Algebraic Fraction
-- Algebraic Fraction: concepts, formulas and worked problems
+- Factorisation toolkit
+- Reducing to lowest terms
+- HCF and LCM of expressions
+- Multiplication and division
+- Addition and subtraction
+- Fractions inside fractions
+- Equations with algebraic fractions
+- More patterns to practise
 - Exercises of the SEE type
 ## 12. Equations
-- Equations: concepts, formulas and worked problems
+- Pairs of linear equations
+- Word problems leading to linear equations
+- Quadratic equations
+- Solving by factorisation
+- Completing the square and the quadratic formula
+- Equations that reduce to quadratics
+- Word problems leading to quadratics
 - Exercises of the SEE type
 ## 13. Area of Triangles and Quadrilaterals
-- Area of Triangles and Quadrilaterals: concepts, formulas and worked problems
+- Basic area formulas to remember
+- Same base, between the same parallels
+- Theorem 1 — parallelograms on the same base
+- Theorem 2 — triangle and parallelogram
+- Theorem 3 — triangles on the same base
+- Using the theorems
 - Exercises of the SEE type
 ## 14. Construction
-- Construction: concepts, formulas and worked problems
+- Equipment and conventions
+- Basic constructions you need
+- Parallel line through a point
+- A triangle equal in area to a quadrilateral
+- A parallelogram equal in area to a triangle
+- A rectangle equal to a triangle
+- A square equal to a rectangle
+- Constructing the triangle first
 - Exercises of the SEE type
 ## 15. Circle
-- Circle: concepts, formulas and worked problems
+- Vocabulary and chords
+- Angle at the centre and at the circumference
+- Angles in the same segment; angle in a semicircle
+- Cyclic quadrilaterals
+- Tangents
 - Exercises of the SEE type
 ## 16. Trigonometry
-- Trigonometry: concepts, formulas and worked problems
+- The right-angled triangle and its sides
+- Ratios of $30^\circ$, $45^\circ$ and $60^\circ$
+- Complementary angles
+- Identities
+- Heights and distances
 - Exercises of the SEE type
 ## 17. Statistics
-- Statistics: concepts, formulas and worked problems
+- Recall: measures of central tendency
+- Why we need dispersion
+- Range
+- Quartile deviation
+- Mean deviation
+- Standard deviation
+- Coefficient of variation and consistency
 - Exercises of the SEE type
 ## 18. Probability
-- Probability: concepts, formulas and worked problems
+- Key terms
+- The probability of an event
+- Two dice: the sample-space table
+- Playing cards
+- Complementary events and "at least one"
+- Addition rule for "or"
+- Independent events and the multiplication rule
+- Tree diagrams: drawing without replacement
 - Exercises of the SEE type

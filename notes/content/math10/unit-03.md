@@ -13,9 +13,7 @@ When you keep money in a bank for several years, the bank does not simply pay th
 The SEE usually carries one 4-mark question on compound interest. The usual forms are: (i) find the amount or compound interest for 2 or 3 years; (ii) **half-yearly** compounding; (iii) find the principal, rate or time; (iv) the **difference between compound and simple interest** for 2 years; (v) a loan or deposit where the rate changes each year. Always write the formula first, substitute carefully, and finish with the unit (Rs).
 :::
 
-## 3.1 Compound Interest: concepts, formulas and worked problems
-
-### Simple interest revised
+## 3.1 Simple interest revised
 
 Recall the terms: **principal** $P$ is the money deposited or borrowed; **rate** $R$ is the interest per Rs 100 per year (written $R\%$ p.a.); **time** $T$ is in years; **interest** is the earning on the principal; **amount** $A=P+I$.
 
@@ -25,7 +23,7 @@ $$ I = \frac{P\times T\times R}{100}, \qquad A = P + I $$
 
 In simple interest the interest is always calculated on the **original** principal. The interest for every year is the same.
 
-### What is compound interest?
+## 3.2 What is compound interest?
 
 ::: definition Compound interest
 In **compound interest** the interest earned at the end of each period (a year, half-year or quarter) is **added to the principal**. The new, larger sum becomes the principal for the next period. The **compound interest** is the total interest earned over all periods:
@@ -49,7 +47,7 @@ Compound interest $=17496-15000=\text{Rs } 2{,}496$.
 Simple interest for the same time would be $\dfrac{15000\times 2\times 8}{100}=\text{Rs } 2{,}400$. Compound interest is more by Rs 96 because the second year's interest (Rs 1,296) is larger than the first (Rs 1,200).
 :::
 
-### The compound amount formula
+## 3.3 The compound amount formula
 
 Doing the year-by-year method for 5 or 10 years is slow. We derive a formula.
 
@@ -126,7 +124,7 @@ ax.grid(color=GRID, lw=0.5); ax.set_axisbelow(True)
 - Writing the final answer without "Rs".
 :::
 
-### Half-yearly and quarterly compounding
+## 3.4 Half-yearly and quarterly compounding
 
 Sometimes the bank adds the interest more than once a year. If interest is added every 6 months it is compounded **half-yearly** (2 times a year); every 3 months, **quarterly** (4 times a year).
 
@@ -189,7 +187,7 @@ ax.spines[['top','right']].set_visible(False)
 ax.grid(axis='y', color=GRID, lw=0.5); ax.set_axisbelow(True)
 ```
 
-### Finding the principal, the rate or the time
+## 3.5 Finding the principal, the rate or the time
 
 Use the amount formula as an equation with one unknown.
 
@@ -227,7 +225,7 @@ Since $1.1\times 1.1\times 1.1=1.331$, $T=3$ years.
 For the SEE, the numbers are chosen so that $A\div P$ is a perfect power: 1.21 $=1.1^2$, 1.331 $=1.1^3$, 1.1025 $=1.05^2$, 1.44 $=1.2^2$, 1.1664 $=1.08^2$. Divide $A$ by $P$, recognise the power, read off the rate or the exponent.
 :::
 
-### Compound interest and simple interest compared
+## 3.6 Compound interest and simple interest compared
 
 ::: derivation Difference between CI and SI for 2 years
 We start with the amount formula for 2 years and compare the compound interest with the simple interest for the same period, to find a shortcut.
@@ -271,7 +269,7 @@ Verification: $A=25000\times(1.04)^2=25000\times 1.0816=27040$, so $CI=2040$. $S
 $$ P = \frac{90}{0.0025} = \text{Rs } 36{,}000 $$
 :::
 
-### Different rates in different years
+## 3.7 Different rates in different years
 
 If the rate is different each year, apply a different growth factor for each year, one after the other.
 
@@ -309,7 +307,7 @@ After the second year: $60000\times 1.1=\text{Rs } 66{,}000$.
 $$ 0.21P = 2100 \;\Rightarrow\; P = \frac{2100}{0.21} = \text{Rs } 10{,}000 $$
 :::
 
-### Real-life applications
+## 3.8 Real-life applications
 
 ::: example A loan left unpaid
 **Problem.** A farmer borrows Rs 2,00,000 from a cooperative at 12% p.a. compound interest, compounded yearly, and pays nothing for 3 years. How much must he pay at the end of 3 years, and how much of it is interest?
@@ -335,7 +333,7 @@ Bank B gives Rs 40.10 more, because it adds interest twice a year.
 "10% p.a." with no other word means **compounded yearly** unless the question says half-yearly or quarterly. For a period such as $1\frac12$ years the question will say half-yearly, so that the number of periods is a whole number.
 :::
 
-## 3.2 Exercises of the SEE type
+## 3.9 Exercises of the SEE type
 
 ### Method for every question
 

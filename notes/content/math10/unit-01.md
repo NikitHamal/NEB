@@ -13,9 +13,7 @@ A set is a well-defined collection of objects, and almost every counting questio
 Expect one question of 3 or 4 marks that gives you a survey ("In a class of 40 students …") and asks you to **find the number who like both**, **draw a Venn diagram**, and **find the number who like exactly one**. A second, shorter question asks you to verify a set law such as $(A\cup B)' = A'\cap B'$ using given sets. Every mark is for a clear step: write the formula, substitute, solve, then label the Venn diagram.
 :::
 
-## 1.1 Sets: concepts, formulas and worked problems
-
-### Language of sets — a quick revision
+## 1.1 Language of sets — a quick revision
 
 A **set** is a collection of well-defined objects. The objects are its **elements** (or members). We write $x\in A$ for "$x$ belongs to $A$" and $x\notin A$ for "$x$ does not belong to $A$".
 
@@ -36,7 +34,7 @@ Two ways to describe a set:
 
 A set with $n$ elements has $2^n$ subsets. For example $\{a,b,c\}$ has $2^3=8$ subsets.
 
-### The four operations
+## 1.2 The four operations
 
 ::: definition Union, intersection, difference, complement
 Let $A$ and $B$ be subsets of a universal set $U$.
@@ -102,7 +100,7 @@ $A'=U-A=\{1,3,5,7,9\}$.
 Verification: $n(A)=5$, $n(B)=3$, $n(A\cap B)=1$, so $n(A)+n(B)-n(A\cap B)=5+3-1=7$. Counting $A\cup B$ directly gives 7 elements. ✓
 :::
 
-### Two sets: the formula and the Venn diagram
+## 1.3 Two sets: the formula and the Venn diagram
 
 When we add $n(A)$ and $n(B)$, the elements in $A\cap B$ are counted twice. To count each element once we subtract the overlap one time.
 
@@ -200,7 +198,7 @@ Tea only $=3\times 15=45$. Coffee only $=15$, so all who like coffee $=15+12=27$
 - Putting $n(A)$ inside the $A$-circle without subtracting the overlap, so the circle then adds up to more than $n(A)$.
 :::
 
-### Three sets
+## 1.4 Three sets
 
 For three sets the same inclusion–exclusion idea gives a longer formula. Adding $n(A)+n(B)+n(C)$ counts each pairwise overlap twice, so we subtract them; but that removes the triple overlap three times (after adding it three times), so we add it back once.
 
@@ -283,7 +281,7 @@ $$ n(F\cup V\cup B)=40+35+30-15-12-10+5=73 $$
 Check by regions: $F$ only $=40-10-5-5=20$, $V$ only $=35-10-7-5=13$, $B$ only $=30-7-5-5=13$, and $20+13+13=46$ ✓.
 :::
 
-### Set laws verified with given sets
+## 1.5 Set laws verified with given sets
 
 ::: definition Laws used in SEE verification questions
 - **Commutative:** $A\cup B=B\cup A$, $A\cap B=B\cap A$.
@@ -327,7 +325,7 @@ $n(A-B)=22-5=17$ and $n(B-A)=18-5=13$.
 Check: $17+5+13=35=n(A\cup B)$ ✓.
 :::
 
-## 1.2 Exercises of the SEE type
+## 1.6 Exercises of the SEE type
 
 ### Method for any survey question
 

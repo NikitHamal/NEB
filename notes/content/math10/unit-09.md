@@ -13,9 +13,7 @@ The diagonal of a square of side 1 cm is $\sqrt{2}$ cm. No fraction and no termi
 Usual questions: (i) **simplify** an expression with surds (3 marks); (ii) **rationalise** the denominator of a fraction such as $\frac{3}{\sqrt{7}-\sqrt{5}}$ and simplify; (iii) if $x=2+\sqrt{3}$, find $x+\frac{1}{x}$, $x^2+\frac{1}{x^2}$ or $x^3+\frac{1}{x^3}$ (4 marks); (iv) find $a$ and $b$ when $\frac{3+\sqrt{2}}{3-\sqrt{2}}=a+b\sqrt{2}$; (v) solve a simple equation containing a square root. Always **check** answers to radical equations in the original equation.
 :::
 
-## 9.1 Radical and Surd: concepts, formulas and worked problems
-
-### Radicals and surds
+## 9.1 Radicals and surds
 
 ::: definition Radical, index and radicand
 An expression $\sqrt[n]{a}$ is called a **radical**. Here $n$ is the **index** (or **order**) of the radical, $a$ is the **radicand**, and $\sqrt{\;}$ is the radical sign. The radical $\sqrt[n]{a}$ means the number whose $n$-th power is $a$, so $\left(\sqrt[n]{a}\right)^n=a$. When $n=2$ it is written $\sqrt{a}$ (square root); $\sqrt[3]{a}$ is the cube root.
@@ -77,7 +75,7 @@ ax.text(0.5, 1.07, '1', ha='center', fontsize=8.5); ax.text(1.07, 0.5, '1', ha='
 ax.set_xlim(-0.5, 2.5); ax.set_ylim(-0.6, 1.35); ax.set_aspect('equal'); ax.axis('off')
 ```
 
-### Laws of surds
+## 9.2 Laws of surds
 
 Let $a,b$ be positive rational numbers and $m,n$ positive integers.
 
@@ -88,7 +86,7 @@ $$ \sqrt[n]{a^m}=a^{m/n} \qquad \sqrt[m]{\sqrt[n]{a}}=\sqrt[mn]{a} $$
 Note: $\sqrt{a+b}\ne\sqrt{a}+\sqrt{b}$ and $\sqrt{a-b}\ne\sqrt{a}-\sqrt{b}$. For example $\sqrt{9+16}=5$, but $\sqrt{9}+\sqrt{16}=7$.
 :::
 
-### Types of surds
+## 9.3 Types of surds
 
 | Term | Meaning | Example |
 |---|---|---|
@@ -119,7 +117,7 @@ $3\sqrt{2}=\sqrt{3^2}\times\sqrt{2}=\sqrt{9\times 2}=\sqrt{18}$.
 $2\sqrt[3]{3}=\sqrt[3]{2^3\times 3}=\sqrt[3]{24}$.
 :::
 
-### Addition and subtraction
+## 9.4 Addition and subtraction
 
 Only **like surds** can be added or subtracted: add or subtract the numbers in front, keep the surd. Unlike surds must first be simplified; if they are still unlike, leave the expression as it is.
 
@@ -142,7 +140,7 @@ $$ 3\sqrt{12}-\sqrt{27}=6\sqrt{3}-3\sqrt{3}=3\sqrt{3} $$
 - Forgetting to simplify before adding: $\sqrt{50}$ and $\sqrt{18}$ look unlike but are both multiples of $\sqrt{2}$.
 :::
 
-### Multiplication and division
+## 9.5 Multiplication and division
 
 For like orders, multiply the numbers outside together and the numbers inside together.
 
@@ -164,7 +162,7 @@ $$ (\sqrt{5})^2+2\sqrt{5}\sqrt{3}+(\sqrt{3})^2=5+2\sqrt{15}+3=8+2\sqrt{15} $$
 When a binomial surd is multiplied by its conjugate (the same two terms with the sign between them reversed), the surds disappear and the result is rational: $(3+\sqrt{2})(3-\sqrt{2})=9-2=7$.
 :::
 
-### Comparing surds of different order
+## 9.6 Comparing surds of different order
 
 To compare $\sqrt[m]{a}$ and $\sqrt[n]{b}$, first write both with a **common index** (the LCM of $m$ and $n$), then compare the radicands.
 
@@ -197,7 +195,7 @@ Since $27>25$, $\sqrt[6]{27}>\sqrt[6]{25}$. Therefore $\sqrt{3}>\sqrt[3]{5}$.
 (Check by decimals: $\sqrt{3}=1.732$ and $\sqrt[3]{5}=1.710$ ✓.)
 :::
 
-### Rationalisation
+## 9.7 Rationalisation
 
 A denominator containing a surd is awkward to work with and to evaluate. **Rationalising** means multiplying the numerator and the denominator by a suitable surd so that the denominator becomes rational.
 
@@ -266,7 +264,7 @@ Sum $=(2-\sqrt{3})+(2+\sqrt{3})=4$. ✓
 $$ \frac{1}{\sqrt{3}-\sqrt{2}}=\frac{\sqrt{3}+\sqrt{2}}{3-2}=\sqrt{3}+\sqrt{2}=1.732+1.414=3.146 $$
 :::
 
-### Values of expressions: $x+\frac{1}{x}$ and its powers
+## 9.8 Values of expressions: $x+\frac{1}{x}$ and its powers
 
 If $x=a+\sqrt{b}$ then $\dfrac{1}{x}$ is its conjugate divided by a rational number, and often simply the conjugate. This makes the sum $x+\frac{1}{x}$ a **rational** number, which can then be squared and cubed with the identities
 
@@ -328,7 +326,7 @@ Perimeter $=2\left[(3+\sqrt{5})+(3-\sqrt{5})\right]=2\times 6=12$ cm.
 Both answers are rational, because the sides are conjugates.
 :::
 
-### Equations with square roots
+## 9.9 Equations with square roots
 
 To remove a square root, **square both sides**. This can introduce an extra (false) solution, so every answer must be **checked** in the original equation.
 
@@ -352,7 +350,7 @@ The solution is $x=9$.
 A square root sign means the **positive** root. When you square an equation like $\sqrt{x+7}=x-5$, the false answer $x=2$ makes the right side negative. Substitute every answer back in; reject any that fail.
 :::
 
-### Surds in geometry
+## 9.10 Surds in geometry
 
 Surds appear whenever Pythagoras' theorem gives a non-perfect square.
 
@@ -389,7 +387,7 @@ ax.set_xlim(-2.8, 2.2); ax.set_ylim(-1.2, 2.4); ax.set_aspect('equal'); ax.axis(
 $\sqrt{2}\approx 1.414$, $\sqrt{3}\approx 1.732$, $\sqrt{5}\approx 2.236$, $\sqrt{6}\approx 2.449$, $\sqrt{7}\approx 2.646$. Rationalise before substituting a decimal value — it avoids dividing by a small number.
 :::
 
-## 9.2 Exercises of the SEE type
+## 9.11 Exercises of the SEE type
 
 ### Method
 

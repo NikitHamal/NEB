@@ -16,9 +16,7 @@ Expect: (i) solve a pair of linear equations, sometimes with fractions; (ii) a *
 ```photo id="math10/balance" caption="A two-pan balance. Solving an equation is precisely this: whatever you do to one side you must also do to the other, so that the two remain equal." width="84"
 ```
 
-## 12.1 Equations: concepts, formulas and worked problems
-
-### Pairs of linear equations
+## 12.1 Pairs of linear equations
 
 A linear equation in two unknowns, such as $2x+3y=12$, has infinitely many solutions $(x,y)$: each is a point on a straight line. Two such equations have, in general, **exactly one common solution** — the point where the two lines meet.
 
@@ -85,7 +83,7 @@ From the first equation, $3+\frac{y}{3}=4$, so $y=3$. **Check.** $\frac{6}{6}+\f
 - Not checking in **both** original equations.
 :::
 
-### Word problems leading to linear equations
+## 12.2 Word problems leading to linear equations
 
 Choose letters for the two things you want to find, translate each sentence into an equation, solve, and reply in words.
 
@@ -121,7 +119,7 @@ $$ (10y+x)-(10x+y)=27 \;\Rightarrow\; 9y-9x=27 \;\Rightarrow\; y-x=3 $$
 Adding to $x+y=9$: $2y=12$, $y=6$, $x=3$. The number is **36** (reversed: 63, and $63-36=27$ ✓).
 :::
 
-### Quadratic equations
+## 12.3 Quadratic equations
 
 A **quadratic equation** has the standard form
 
@@ -135,7 +133,7 @@ If $p\times q=0$ then $p=0$ or $q=0$.
 So after moving everything to one side and factorising, set each bracket equal to 0. The right-hand side **must be 0** before you factorise.
 :::
 
-### Solving by factorisation
+## 12.4 Solving by factorisation
 
 ::: example Simple quadratic
 **Problem.** Solve $x^2-5x+6=0$.
@@ -167,7 +165,7 @@ $$ (x+12)(x-5)=0 \;\Rightarrow\; x=-12 \text{ or } x=5 $$
 **Solution.** $3x^2-12x=0$, so $3x(x-4)=0$ and $x=0$ or $x=4$. (Never divide both sides by $x$; you would lose the root $x=0$.)
 :::
 
-### Completing the square and the quadratic formula
+## 12.5 Completing the square and the quadratic formula
 
 When the quadratic does not factorise neatly we use a formula that works for every quadratic.
 
@@ -248,7 +246,7 @@ $$ x=\frac{1\pm5}{6}\;\Rightarrow\; x=1 \text{ or } x=-\frac{2}{3} $$
 **Solution.** $D=b^2-4ac=4-20=-16<0$, so there is no real root.
 :::
 
-### Equations that reduce to quadratics
+## 12.6 Equations that reduce to quadratics
 
 ::: example Fraction equation
 **Problem.** Solve $x+\frac{1}{x}=\frac{10}{3}$.
@@ -268,7 +266,7 @@ $$ x=\frac{1\pm5}{6}\;\Rightarrow\; x=1 \text{ or } x=-\frac{2}{3} $$
 **Solution.** Let $y=x^2$: $y^2-13y+36=0$, $(y-4)(y-9)=0$, so $y=4$ or $9$. Therefore $x=\pm2$ or $x=\pm3$.
 :::
 
-### Word problems leading to quadratics
+## 12.7 Word problems leading to quadratics
 
 ::: example Consecutive numbers
 **Problem.** The product of two consecutive positive integers is 156. Find them.
@@ -314,7 +312,7 @@ Multiply by $x(x+10)$: $120(x+10)-120x=x(x+10)$, i.e. $1200=x^2+10x$. Then $x^2+
 **Solution.** From the first, $y=7-2x$. Substitute into the second: $x^2+7-2x=10$, so $x^2-2x-3=0$, $(x-3)(x+1)=0$. If $x=3$, $y=1$; if $x=-1$, $y=9$. Solutions: $(3,1)$ and $(-1,9)$.
 :::
 
-## 12.2 Exercises of the SEE type
+## 12.8 Exercises of the SEE type
 
 ### Method for any question
 

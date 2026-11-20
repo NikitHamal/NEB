@@ -13,9 +13,7 @@ When we write $2\times2\times2\times2\times2$ we can shorten it to $2^5$. The sm
 Expect a 2- to 4-mark question such as: (i) simplify an expression using the laws of indices; (ii) evaluate a number with a fractional or negative index, e.g. $(64)^{2/3}$; (iii) **solve an exponential equation** by making the bases equal; (iv) **prove** that an expression such as $\left(\frac{x^a}{x^b}\right)^{a+b}\cdots=1$; (v) a "show that" with $2^x=3^y=6^{-z}$. Master the laws and the step "same base, so equate the powers".
 :::
 
-## 10.1 Indices: concepts, formulas and worked problems
-
-### Index notation
+## 10.1 Index notation
 
 In $a^n$, $a$ is the **base** and $n$ is the **index**. For a positive whole number $n$,
 
@@ -23,7 +21,7 @@ $$ a^n = a\times a\times\cdots\times a \quad (n\ \text{factors}) $$
 
 Examples: $3^4=3\times3\times3\times3=81$, $(-2)^3=-8$, $(-2)^4=+16$. A negative base raised to an **odd** power is negative; to an **even** power it is positive.
 
-### The laws of indices
+## 10.2 The laws of indices
 
 ::: key The laws of indices
 For $a\neq0$, $b\ne 0$ and rational $m,n$:
@@ -98,7 +96,7 @@ ax.legend(fontsize=8, frameon=False, loc='upper center')
 fig.tight_layout(pad=0.4)
 ```
 
-### Simplifying expressions
+## 10.3 Simplifying expressions
 
 ::: example Product and quotient laws
 **Problem.** Simplify (a) $2^5\times2^3$, (b) $\frac{3^7}{3^4}$, (c) $\frac{5^6\times5^{-2}}{5^3}$.
@@ -165,7 +163,7 @@ $$ \frac{4\cdot3^n}{8\cdot3^n}=\frac{1}{2} $$
 - $2^3+2^3=2\times2^3=2^4$, not $2^6$: only multiplication adds the indices.
 :::
 
-### Exponential equations
+## 10.4 Exponential equations
 
 An equation in which the unknown is in the index, such as $3^{x}=81$, is called an **exponential equation**. The rule that solves almost all of them is:
 
@@ -276,7 +274,7 @@ ax.tick_params(labelsize=8); ax.grid(color=GRID, lw=0.5)
 fig.tight_layout(pad=0.4)
 ```
 
-### Proving identities with indices
+## 10.5 Proving identities with indices
 
 ::: example Product of three ratios
 **Problem.** Prove that $\left(\frac{x^a}{x^b}\right)^{a+b}\times\left(\frac{x^b}{x^c}\right)^{b+c}\times\left(\frac{x^c}{x^a}\right)^{c+a}=1$.
@@ -326,7 +324,7 @@ The bases are equal, so the indices are equal: $-\frac{1}{z}=\frac{1}{x}+\frac{1
 Whatever the question, ask: "**Can I write every number with one common base?**" If yes, the laws collapse the question to an ordinary equation in the indices. If the bases are $4,8,16,32,64$, use base 2; for $9,27,81$ use base 3; for $25,125$ use base 5.
 :::
 
-## 10.2 Exercises of the SEE type
+## 10.6 Exercises of the SEE type
 
 ### Method for any question
 

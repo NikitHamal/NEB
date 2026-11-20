@@ -13,9 +13,7 @@ The **highest common factor (HCF)** is the biggest thing that divides every give
 The usual questions: (i) find the **HCF and LCM of two or three expressions** after factorising (3 or 4 marks); (ii) use $\text{HCF}\times\text{LCM}=$ product of the two expressions to **find the missing expression**; (iii) a small word problem on numbers (bells, ropes, tiles). Factorise every expression completely first, and write the final answer **in factor form**.
 :::
 
-## 8.1 Highest Common Factor and Lowest Common Multiple: concepts, formulas and worked problems
-
-### Revision with numbers
+## 8.1 Revision with numbers
 
 A **factor** divides exactly. A **multiple** is what you get by multiplying. The factors of 12 are 1, 2, 3, 4, 6, 12; the multiples of 12 are 12, 24, 36, … A **prime** number has exactly two factors, 1 and itself.
 
@@ -174,7 +172,7 @@ The required number is the LCM plus the remainder: $60+5=65$.
 Check: $65=12\times 5+5$, $65=15\times 4+5$, $65=20\times 3+5$ ✓.
 :::
 
-### Factorisation: the toolkit
+## 8.2 Factorisation: the toolkit
 
 To find the HCF and LCM of expressions, each must first be broken into factors that cannot be broken further. These are the types you need.
 
@@ -205,7 +203,7 @@ Check: $(2x+1)(x+3)=2x^2+6x+x+3=2x^2+7x+3$ ✓.
 - Sign errors: $x^2-x-6=(x-3)(x+2)$ since the numbers with product $-6$ and sum $-1$ are $-3$ and $+2$.
 :::
 
-### HCF and LCM of algebraic expressions
+## 8.3 HCF and LCM of algebraic expressions
 
 ::: key Method for expressions
 1. **Factorise** each expression completely.
@@ -309,7 +307,7 @@ $ax-ay+bx-by=a(x-y)+b(x-y)=(a+b)(x-y)$.
 $$ \text{HCF}=a+b \qquad \text{LCM}=(a+b)(x+y)(x-y) $$
 :::
 
-### The relation between HCF, LCM and the expressions
+## 8.4 The relation between HCF, LCM and the expressions
 
 ::: derivation HCF × LCM = product of the two expressions
 We show that for two expressions $A$ and $B$, the HCF and LCM multiply back to $A\times B$. This lets us find a missing expression.
@@ -371,7 +369,7 @@ Check: HCF of $(x-2)(x+2)$ and $(x+2)(x+3)$ is $x+2$ ✓; LCM is $(x-2)(x+2)(x+3
 $$ \text{HCF}=2x+1 \qquad \text{LCM}=(2x+1)(x+3)(x-1) $$
 :::
 
-## 8.2 Exercises of the SEE type
+## 8.5 Exercises of the SEE type
 
 ### Method
 

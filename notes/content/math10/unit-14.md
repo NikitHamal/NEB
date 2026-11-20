@@ -16,9 +16,7 @@ Expect one of: (i) construct a **triangle equal in area** to a given quadrilater
 ```photo id="math10/drawing-pen" caption="Technical drawing pens. Every construction in this chapter is done with a compass and a straight edge, and the result is only as accurate as the instrument and the hand that holds it." width="58"
 ```
 
-## 14.1 Construction: concepts, formulas and worked problems
-
-### Equipment and conventions
+## 14.1 Equipment and conventions
 
 | Tool | Used for |
 |---|---|
@@ -30,7 +28,7 @@ Expect one of: (i) construct a **triangle equal in area** to a given quadrilater
 
 Conventions: label every point; draw given figures with **thin full lines**; draw construction lines (parallels, perpendiculars) in **light lines**; keep **arcs visible**; the required figure should be drawn darker. Write the given data at the top of the page.
 
-### Basic constructions you need
+## 14.2 Basic constructions you need
 
 ::: key Four basic constructions
 1. **Perpendicular bisector** of $AB$: arcs of the same radius (more than $\frac{1}{2}AB$) from $A$ and from $B$ meet at two points; join them.
@@ -39,7 +37,7 @@ Conventions: label every point; draw given figures with **thin full lines**; dra
 4. **Line through a point parallel to a given line** — shown below, using a rhombus.
 :::
 
-### Parallel line through a point
+## 14.3 Parallel line through a point
 
 ```figure caption="To draw the line through P parallel to l: arc from Q through P meets l at R; arcs of the same radius from P and R meet at S. Then PQRS is a rhombus, so PS ∥ QR."
 import numpy as np, matplotlib.pyplot as plt
@@ -78,7 +76,7 @@ fig.tight_layout(pad=0.3)
 **Proof.** $PQ=QR=RS=SP$ (all equal to the radius), so $PQRS$ is a rhombus; opposite sides of a rhombus are parallel, hence $PS\parallel QR$, that is $PS\parallel l$.
 :::
 
-### A triangle equal in area to a quadrilateral
+## 14.4 A triangle equal in area to a quadrilateral
 
 The idea: the diagonal $AC$ splits quadrilateral $ABCD$ into $\Delta ABC$ and $\Delta ACD$. We replace $\Delta ACD$ by a triangle $\Delta ACE$ with the **same base $AC$** and the apex $E$ on a line through $D$ parallel to $AC$. By the theorem of Chapter 13, $\Delta ACE=\Delta ACD$.
 
@@ -133,7 +131,7 @@ $$ =\text{area}(\Delta ABC)+\text{area}(\Delta ACE)=\text{area}(\Delta ABE) $$
 - Measuring the given angle with the wrong scale on the protractor ($70^\circ$ vs $110^\circ$).
 :::
 
-### A parallelogram equal in area to a triangle
+## 14.5 A parallelogram equal in area to a triangle
 
 The idea: $\text{area}(\Delta)=\frac{1}{2}\times\text{base}\times\text{height}$ and $\text{area}(\text{parallelogram})=\text{base}\times\text{height}$. So a parallelogram with **half the base** and the same height has the same area as the triangle.
 
@@ -188,7 +186,7 @@ $$ \text{area}(MCZY)=MC\times h=\frac{1}{2}BC\times h=\text{area}(\Delta ABC) $$
 | Pentagon | Quadrilateral, then triangle | apply the "slide the apex" step twice |
 :::
 
-### A rectangle equal to a triangle
+## 14.6 A rectangle equal to a triangle
 
 ::: example Rectangle equal to a triangle
 **Problem.** Construct a rectangle equal in area to $\Delta ABC$ ($BC=6$ cm, height 3.2 cm).
@@ -198,7 +196,7 @@ $$ \text{area}(MCZY)=MC\times h=\frac{1}{2}BC\times h=\text{area}(\Delta ABC) $$
 **Proof.** Its sides are $MC=\frac{1}{2}BC=3$ cm and $MY=3.2$ cm, so area $=3\times3.2=9.6\text{ cm}^2=\frac{1}{2}\times6\times3.2=\text{area}(\Delta ABC)$.
 :::
 
-### A square equal to a rectangle
+## 14.7 A square equal to a rectangle
 
 A square of side $x$ equal to a rectangle $a\times b$ needs $x^2=ab$, i.e. $x=\sqrt{ab}$: the **geometric mean** of the sides. The semicircle gives this length.
 
@@ -232,7 +230,7 @@ fig.tight_layout(pad=0.3)
 **Proof.** The angle in a semicircle is a right angle: $\angle PTQ=90^\circ$. In the right triangle $PTQ$ with altitude $TO$, the triangles $POT$ and $TOQ$ are similar, so $\frac{PO}{OT}=\frac{OT}{OQ}$ and $OT^2=PO\times OQ=4\times2.25=9$. So $OT=3$ cm, and the square on $OT$ has area $9\text{ cm}^2=4\times2.25$. ✓
 :::
 
-### Constructing the triangle first
+## 14.8 Constructing the triangle first
 
 Many questions start with a triangle or quadrilateral described by lengths and angles. The standard cases are:
 
@@ -250,7 +248,7 @@ Many questions start with a triangle or quadrilateral described by lengths and a
 **Solution.** Area: $s=\frac{7+5+6}{2}=9$; $\text{area}=\sqrt{9\times2\times4\times3}=\sqrt{216}=14.70\text{ cm}^2$. Construct the triangle by drawing $PQ=7$ cm and arcs of radius 6 cm from $P$ and 5 cm from $Q$. The rectangle has base $\frac{1}{2}PQ=3.5$ cm and height equal to the height of $R$ above $PQ$: $h=\frac{2\times14.70}{7}=4.20$ cm. Check: $3.5\times4.20=14.7$. ✓
 :::
 
-## 14.2 Exercises of the SEE type
+## 14.9 Exercises of the SEE type
 
 ### Method for any question
 
