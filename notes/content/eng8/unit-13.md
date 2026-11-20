@@ -148,7 +148,7 @@ of women is rising gradually…"*
 - **a few / a little** = some (positive); **few / little** = almost none
   (negative feeling).
 
-### Textbook answers (Grammar I B)
+### Worked answers (Grammar I B)
 
 a. no b. less c. some d. enough e. a lot of f. a lot of g. some (*much* cannot
 go with countable *eggs*; *any* would be the most natural) h. some
@@ -225,7 +225,7 @@ at the party they gave to celebrate the woman's recovery.
 **Stative verbs** (*know, belong, remember, like, want*) are not normally used
 in continuous forms: *We **know** him well* (not *are knowing*).
 
-### Textbook answers
+### Worked answers
 
 **Grammar II A:** a. is – present simple b. shows – present simple c. Look –
 imperative; is running – present continuous d. 've found – present perfect

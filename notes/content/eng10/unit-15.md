@@ -2,7 +2,7 @@
 subject: Compulsory English
 grade: 10
 unit: 15
-title: 'Unit 15: People and Places'
+title: People and Places
 hours: 0
 area: Units
 ---
@@ -228,9 +228,7 @@ ax.spines[['top','right','bottom']].set_visible(False); ax.tick_params(labelsize
 **2.** Yes, visitors should ride the cable cars. They are a safe and comfortable way of reaching the top, so people of all ages can enjoy the view. During the ride they see the city, sea and beaches from the air. At the first station they can rest, eat and visit the play area, and at the top they can enjoy the best views of Guanabara Bay. Climbing is possible only for the fit, but the cable car is for everyone.
 :::
 
-## 15.3 Grammar and writing tasks
-
-### Grammar I — Relative clauses
+## 15.3 Grammar I: Relative clauses
 
 A **relative clause** gives more information about a noun. It begins with a **relative pronoun** or adverb.
 
@@ -326,7 +324,7 @@ ax.set_xlim(-0.2,6.4); ax.set_ylim(-0.2,2.6); ax.axis('off')
 **1.** The letter which my friend sent from abroad reached me this morning. **2.** This is the palace which Ram built. **3.** He is a liar whom you should not believe. **4.** I know an artist who moves with an artificial leg. **5.** Bring me the file which is about our new project. **6.** We met a girl who had lost her way. **7.** I saw a soldier whose bravery impressed everyone. **8.** The dog took away the ball which the kids were playing with. (or *with which the kids were playing* (formal))
 :::
 
-### Grammar II — Prepositions
+## 15.4 Grammar II: Prepositions
 
 A **preposition** shows the relationship of a noun or pronoun to another word: time, place, direction, means, cause.
 
@@ -389,7 +387,7 @@ A **preposition** shows the relationship of a noun or pronoun to another word: t
 **1.** in **2.** across **3.** to **4.** from **5.** to **6.** with **7.** On **8.** for **9.** of … by **10.** at … in **11.** by **12.** at
 :::
 
-### Writing I — A biography
+## 15.5 Writing I: A biography
 
 A **biography** tells the life story of a real person, written by someone else. It is written in the **third person** and mostly in the **past tense**. Use **notes** (birth, family, education, works, contribution, awards) and arrange them in order.
 
@@ -410,7 +408,7 @@ Jhamak became a poet, short-story writer and essayist, and she also writes colum
 
 Jhamak's life shows that determination can overcome even the hardest circumstances, and she remains a source of inspiration to young Nepalis.
 
-### Writing II — An email or letter inviting a foreign friend
+## 15.6 Writing II: An email or letter inviting a foreign friend
 
 An **email** (or **informal letter**) to a friend uses a **friendly, conversational** tone. An email has a **To, From, Subject** and a short greeting. A letter has an address, date, greeting, body and closing.
 

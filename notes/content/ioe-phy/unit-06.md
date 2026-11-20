@@ -7,7 +7,7 @@ hours: 2
 area: Physics
 ---
 
-Modern physics carries about **2 questions** (our estimate), but the syllabus is long: electrons, the photoelectric effect, Bohr, de Broglie, X-rays, semiconductors and gates, radioactivity and nuclear energy, plus a list of "recent trends" (particle physics, the universe, seismology, telecommunication, environment, new materials). The numerical questions repeat a few formulae; the recent-trends items are definitions you can score by reading once.
+Modern physics carries about **2 questions**, but the syllabus is long: electrons, the photoelectric effect, Bohr, de Broglie, X-rays, semiconductors and gates, radioactivity and nuclear energy, plus a list of "recent trends" (particle physics, the universe, seismology, telecommunication, environment, new materials). The numerical questions repeat a few formulae; the recent-trends items are definitions you can score by reading once.
 
 ::: key What the paper asks from this chapter
 - $e/m=1.76\times10^{11}$ C kg⁻¹; Millikan: charge is quantised, $e=1.6\times10^{-19}$ C.

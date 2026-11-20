@@ -13,10 +13,6 @@ Group A of the Grade 12 Biology paper is eleven one-mark multiple-choice questio
 Four things, nearly always: (1) a **definition** in one word (*porogamy*, *isograft*, *frame shift*); (2) a **sequence** (heart-beat path, urine path, steps of gametogenesis, ossicles); (3) an **application** dressed as a story ("if the oxyntic cells stopped working…"); (4) a **one-step calculation** such as a DPD or a genetic probability. Since 2081 the board has moved towards case-style stems; the facts tables below are there so that the stem is the only thing that is new to you.
 :::
 
-::: caution Where the year tags come from, and why only some questions carry one
-A tag such as **(NEB 2079)** appears only on a question that the authors of this book actually saw in that paper — the wording was read from the printed paper or its scan. Sets differ: the board printed several question-paper sets each year (2079 set *N*, 2081 sets *V* and *W*, 2082 set *M*), and a tag names the year, not the set. **(NEB model 2079)** is the official board model question. **(NEB 2082, recast)** means the concept and the keyed answer were seen but the exact wording was not, so the stem has been rewritten. Everything with no tag is original, written for this book. No question is claimed to be a leak, and nothing here predicts an exam: it shows what the board has asked.
-:::
-
 ::: tip How the paper is laid out
 Botany carries 37 marks and Zoology 38 (Botany: MCQ 5 + four 4-mark shorts + two 8-mark longs = 37; Zoology: MCQ 6 + four 4-mark shorts + two 8-mark longs = 38). Questions 1–5 are Botany MCQs and 12–17 are Zoology MCQs; shorts are 6–9 and 18–21; longs are 10–11 and 22–23. In both sections one short and one long carry an **OR**. The curriculum publishes no unit-wise mark grid for Grade 12 Biology, so the number of MCQs set per unit below follows the teaching hours and the topics the real papers have used (see the pattern analysis in the last chapter of this part).
 :::

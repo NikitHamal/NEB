@@ -2,7 +2,7 @@
 subject: Compulsory English
 grade: 10
 unit: 3
-title: 'Unit 3: Health and Wellness'
+title: Health and Wellness
 hours: 0
 area: Units
 ---
@@ -180,9 +180,7 @@ ax.set_aspect("equal")
 **1.** Yes, I think they will. The conference is meant to bring the knowledge of many countries together so that research is not repeated. With the funding of Horizon 2020, scientists can find out how food affects diseases such as diabetes and heart disease. This knowledge can be turned into healthier food products, better treatments and good advice for citizens. It will also give European companies new business, creating jobs. In the long run, people will live healthier and longer lives.
 :::
 
-## 3.3 Grammar and writing tasks of the unit
-
-### Grammar I: Reported commands, requests and advice
+## 3.3 Grammar I: Reported commands, requests and advice
 
 A **command** or **request** in direct speech uses the imperative mood (*Do it!*, *Please help me.*). In reported speech it becomes **reporting verb + person + to-infinitive** (positive) or **+ not to + infinitive** (negative). There is no backshift because there is no tense to shift.
 
@@ -259,7 +257,7 @@ Do not write *told that* with a command (*He told that I go*). Do not keep *plea
 **12.** The coach suggested playing a friendly football match.
 :::
 
-### Grammar II: Reporting verbs in different kinds of sentences
+## 3.4 Grammar II: Reporting verbs in different kinds of sentences
 
 Real reports mix statements, questions and commands. The right reporting verb tells the reader what the speaker was doing.
 
@@ -303,7 +301,7 @@ Real reports mix statements, questions and commands. The right reporting verb te
 **5.** The boy offered to carry the old woman's bag.
 :::
 
-### Writing I: An email of apology
+## 3.5 Writing I: An email of apology
 
 An **email** has a **subject line**, a salutation, a short body and a closing. Formal emails are polite, use full sentences and say clearly *why* you are writing. An **apology email** should (1) say sorry plainly, (2) state what went wrong, (3) say what you will do to put it right, and (4) end politely.
 
@@ -327,7 +325,7 @@ Yours sincerely,
 A member of staff, Children's Ward
 :::
 
-### Writing II: A speech
+## 3.6 Writing II: A speech
 
 A **speech** is written to be *heard*. Open with a greeting and a hook; state the topic; use short, clear sentences, repetition and rhetorical questions; give two or three main points; close with a summary or appeal and a thank-you.
 

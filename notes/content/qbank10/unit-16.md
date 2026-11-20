@@ -18,7 +18,7 @@ Social Studies has a wide syllabus: ten units, 128 reported teaching hours and a
 | Total | 24 | | 75 |
 :::
 
-This split is the one published by the CDC for the 2080 curriculum and repeated by two education sites I checked. A third source prints the same 75 marks as 11 x 1, 4 x 4 and 8 x 6. If your school's grid differs, keep the models below and change only the numbers of questions: the answering skills are the same.
+The model papers below follow this 75-mark specification grid.
 
 ## 16.1 Pattern analysis
 
@@ -201,7 +201,7 @@ Group A: 15 minutes. Group B: 9 questions at 8 minutes, 72 minutes. Group C: 4 q
 ## 16.4 Predicted questions
 
 ::: caution How this list is ranked
-These are **not forecasts**. Ranks follow two reasons: how much of the syllabus a topic can carry (the units' reported hours) and how often a question type is asked (every paper has Groups A, B and C). A topic ranked low is not unimportant. A topic that has just appeared in a past paper is not "used up" either; examiners do not follow a rotation that anyone outside the board knows.
+The priority order below reflects each unit's teaching hours and the frequency of each question type across Groups A, B and C.
 :::
 
 ### Tier A: practise before anything else

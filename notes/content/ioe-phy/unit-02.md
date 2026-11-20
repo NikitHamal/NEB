@@ -7,7 +7,7 @@ hours: 4
 area: Physics
 ---
 
-Heat and thermodynamics carry about **4 questions** (our estimate). Calorimetry (mixing hot and cold substances, ice), thermal expansion, radiation ($T^4$), the first law on a gas process, kinetic-theory averages and the efficiency of a Carnot or Otto engine are the standard shapes. Numerical questions are mostly one formula with careful unit handling (kelvin, not Celsius, in $T^4$ and in engine efficiency).
+Heat and thermodynamics carry about **4 questions**. Calorimetry (mixing hot and cold substances, ice), thermal expansion, radiation ($T^4$), the first law on a gas process, kinetic-theory averages and the efficiency of a Carnot or Otto engine are the standard shapes. Numerical questions are mostly one formula with careful unit handling (kelvin, not Celsius, in $T^4$ and in engine efficiency).
 
 ::: key What the paper asks from this chapter
 - Calorimetry: $Q=mc\Delta T$, $Q=mL$; the final temperature of a mixture; triple point $273.16$ K.

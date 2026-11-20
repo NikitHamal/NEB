@@ -40,13 +40,6 @@ The grid also asks for about 20% knowledge, 30% understanding, 30% application
 and 20% higher-ability questions.
 :::
 
-::: caution Practice items, not past questions
-Every item below is an original **practice** item written to the CDC pattern.
-None is claimed to have appeared in a particular year's paper. Every output of
-Python code and every SQL result was produced by actually running the code
-(Python 3.12, MySQL 8.4).
-:::
-
 ```figure caption="Marks carried by each unit in the 50-mark written paper. Programming in Python is the largest single unit; Networking and AI together carry almost half the paper."
 fig, ax = barh_ranked(["Programming in Python", "Computer Network and Communication",
                        "AI and Contemporary Technologies", "Database Management System", "Multimedia"],

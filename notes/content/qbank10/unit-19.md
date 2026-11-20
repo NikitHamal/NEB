@@ -14,16 +14,6 @@ pattern, with a full solution to every question; and it closes with a **ranked
 order of practice priorities**, each rank carrying the reason it holds that
 place.
 
-::: caution What "predicted" means here, and what it does not
-Nobody outside the examination board knows next year's questions. Every rank in
-section 19.4 rests on two public facts only: the **specification grid** (how
-many questions of each kind and marks), and the **syllabus** (what may be asked).
-A high rank means *practise this first*, never *this will come*. A low rank means
-*less likely*, never *safe to skip*. None of the questions below is copied from
-a past paper; all of them are original practice items built to the published
-pattern.
-:::
-
 ::: key The grid: 75 marks in 3 hours
 | Group | Questions | Marks each | Total | What it asks for |
 |---|---|---|---|---|
@@ -543,7 +533,6 @@ one for the elimination, one for the value with a check. A bare "34.64 m" with
 no diagram earns at most one.
 :::
 
-
 ## Chapter summary
 
 - The Optional Mathematics paper is **10 + 16 + 33 + 16 = 75** marks in three
@@ -556,5 +545,3 @@ no diagram earns at most one.
 - The five ranks worth rehearsing first are: a two-equation linear system, a
   sequence problem, height and distance, a trigonometric identity and the
   circle work.
-- Both model papers are original practice items built to the CDC grid. They are
-  a rehearsal, not a forecast: no one outside the board knows the paper.

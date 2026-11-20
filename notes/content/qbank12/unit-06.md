@@ -9,10 +9,6 @@ area: Chemistry
 
 Group B (eight questions of five marks) and Group C (three questions of eight marks) together carry **64 of the 75 marks**, and they are where a Chemistry result is decided. This chapter takes the twenty-one units of the CDC syllabus in order and, for each, sets short-answer questions in the real five-mark splits (1+4, 2+3, 1+1+3, 1+1+1+2) and long-answer questions in the eight-mark splits (2+2+2+2, 3+3+2, 5+3). **Every question is followed by a complete model answer**, worded and laid out the way a full-mark answer is written in the answer book. Numericals show the data, the formula, the substitution and the answer with its unit.
 
-::: caution Year tags and re-set data
-A tag such as (NEB 2081) means the question was actually set in that board paper; (NEB 2079 model) means it was in that official model paper; (NEB model set A) and (NEB model set B) are the two further official model sets. Where the printed paper gave numbers we could not read, the stem and the skill tested are kept and the data are re-set; those items say **data re-set**. Untagged questions are new and follow the same pattern. Every numerical was recomputed before it was printed.
-:::
-
 ::: tip How to use a unit
 Attempt the short questions with a five-minute limit each and the long questions with ten, *before* you read the model answer. Then mark yourself by the steps, not by the final line: an examiner awards a mark for each correct equation, condition and unit. The **Most repeated** line under each unit tells you what to drill first.
 :::
@@ -1662,13 +1658,3 @@ $\log K = \dfrac{nE^\circ}{0.0592} = \dfrac{2 \times 1.10}{0.0592} = 37.2$, so $
 - **The inorganic unit is about extraction and compounds**: copper with its blast furnace and matte, zinc with its retort, mercury from cinnabar, iron to steel, and the vitriols. Always write concentration, roasting, smelting or reduction, and refining as headings.
 - **Year tags mean "set in that paper".** The board papers of 2079, 2081, 2082 and 2083 and the model papers of 2078 and 2079, together with model sets A and B, were the sources; where printed numbers could not be read the item says **data re-set**.
 - **Five figures** carry the diagrams that examiners ask for by name — concentration–time graphs, energy profiles, the standard hydrogen electrode, the octahedral d-orbital splitting and the copper blast furnace — and a flow sheet of the cement process.
-
-## Sources and verification
-
-::: note Sources reached for this chapter
-**Question papers.** The Grade 12 Chemistry board papers of **2079, 2081, 2082 and 2083** and the model papers of **2078** and **2079** and two further model sets (A and B) were read as transcribed text on a public question-bank site, and the question stems and marks were compared unit by unit with the earlier Group A record held with the objective chapter. No paper for 2080 could be reached, so no question carries a 2080 tag. The 2083 paper is used as printed on that site. Where the transcription dropped the numerical data of a question (chiefly some tables and the values of electrode potentials) the stem, the skill tested and the marks are kept and the data re-set; those items carry the words **data re-set**.
-
-**Answers and numericals.** Every answer was written from the Grade 12 Chemistry chapters in this collection so that nothing here contradicts them, and every numerical was recomputed before printing: for example ΔH = −196 kJ (2079), ΔH_f of acetic acid = −126 kcal mol⁻¹ (2082), E°cell = +1.62 V (2082), k = 3.2 × 10⁻⁴ s⁻¹ (2083). Where a printed paper used a textbook value that differs from the usual one (−99 kcal for the combustion of carbon in 2082), the paper's data are used as given.
-
-**Not verified.** The scripts of the boards were not seen, only the transcribed questions; model-answer wording is our own and is not the board's marking scheme. Structural formulae are described in words where the printed paper expected a drawing.
-:::

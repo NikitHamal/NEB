@@ -7,7 +7,7 @@ hours: 4
 area: Physics
 ---
 
-Optics carries about **4 questions** (our estimate). The two halves are ray optics (mirror and lens formulae, refraction, prism, total internal reflection) and wave optics (Young's fringe width, grating, Brewster's law, Malus' law). Almost every numerical question uses one of five formulae.
+Optics carries about **4 questions**. The two halves are ray optics (mirror and lens formulae, refraction, prism, total internal reflection) and wave optics (Young's fringe width, grating, Brewster's law, Malus' law). Almost every numerical question uses one of five formulae.
 
 ::: key What the paper asks from this chapter
 - Mirror $\frac{1}{v}+\frac{1}{u}=\frac{1}{f}$, $f=\frac{R}{2}$; lens $\frac{1}{v}-\frac{1}{u}=\frac{1}{f}$; magnification; sign convention.

@@ -2,7 +2,7 @@
 subject: Compulsory English
 grade: 10
 unit: 9
-title: 'Unit 9: History and Culture'
+title: History and Culture
 hours: 0
 area: Units
 ---
@@ -202,9 +202,7 @@ Everywhere in the world people give flowers to express goodwill and affection, a
 **2.** Yes, I would like to grow chamomile. It is a pretty plant with small white flowers and a sweet smell, and bees love it. Its flowers can be dried and used to make a soothing tea that helps one sleep, and it is also used in some skin treatments. It is easy to grow, so it would be both beautiful and useful in my garden.
 :::
 
-## 9.3 Grammar and writing tasks of the unit
-
-### Grammar I: Simple past and past continuous
+## 9.3 Grammar I: Simple past and past continuous
 
 | Tense | Form | Use | Example |
 |---|---|---|---|
@@ -282,7 +280,7 @@ Do not write *While I walked, I was seeing him* (mixed). Verbs of state (*know, 
 **1.** It began to snow while we were returning home. **2.** Amit was waiting for me when I reached the station. **3.** What were you doing yesterday when I called you? **4.** I broke the glass while I was washing it. **5.** The teacher entered the class while some students were dancing in the class.
 :::
 
-### Grammar II: Past simple and past perfect in narrative
+## 9.4 Grammar II: Past simple and past perfect in narrative
 
 The **past perfect** (*had + past participle*) shows an action that happened **before another past action**. The later event is in the simple past.
 
@@ -327,7 +325,7 @@ The **past perfect** (*had + past participle*) shows an action that happened **b
 **1.** arrived. **2.** had bought. **3.** had already left. **4.** had died. **5.** had not eaten. **6.** had finished (finished is also acceptable).
 :::
 
-### Writing I: Writing about historical events and giving an opinion
+## 9.5 Writing I: Writing about historical events and giving an opinion
 
 **(a) A paragraph from a list of events.** Turn a list of dates into connected sentences. Use the **simple past**, **time connectives** (*in, on, later, after that, meanwhile, finally*) and linking words (*as a result, however*). Keep the order of time. Name people and places exactly.
 
@@ -361,7 +359,7 @@ It is true that some students find history boring when it is taught only by memo
 In conclusion, history is not a waste of time. It guides the present and helps to build a wiser future.
 :::
 
-### Writing II: A story from outlines
+## 9.6 Writing II: A story from outlines
 
 To write a story from outlines: (1) read all the cues and decide the **order**; (2) write in the **past tense**; (3) make a **beginning** (setting and characters), a **middle** (the problem and how it grows) and an **end** (the result); (4) use **connectives** (*once upon a time, one day, then, soon, at last, in the end*); (5) finish with a **moral** if the outline asks for it; (6) give the story a **title**.
 

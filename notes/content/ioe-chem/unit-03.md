@@ -7,7 +7,7 @@ hours: 7
 area: Chemistry
 ---
 
-Organic chemistry carries about **7 of 22 questions** (our estimate). The official model question "in Williamson's synthesis the haloalkane is treated with ... sodium alkoxide" shows the style: the reagent, the product or the test for a named reaction. Naming, isomer counts and acidity / basicity orders fill the rest. The six sub-areas follow one logic: what is the functional group, what attacks it, and what is formed.
+Organic chemistry carries about **7 of 22 questions**. The official model question "in Williamson's synthesis the haloalkane is treated with ... sodium alkoxide" shows the style: the reagent, the product or the test for a named reaction. Naming, isomer counts and acidity / basicity orders fill the rest. The six sub-areas follow one logic: what is the functional group, what attacks it, and what is formed.
 
 ::: key What the paper asks from this chapter
 - IUPAC names, structural isomer counts, electronic effects (inductive, resonance, hyperconjugation).

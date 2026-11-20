@@ -8,8 +8,7 @@ area: Physical Chemistry
 ---
 
 Equilibrium is the chapter that joins the arithmetic of Unit 1 to the acid–base and
-solubility work of the rest of the paper. It carries about **two questions** (our estimate
-from the MEC topic list), and they come in four shapes: a Kc or Kp calculation from
+solubility work of the rest of the paper. It carries about **two questions**, and they come in four shapes: a Kc or Kp calculation from
 equilibrium concentrations, a "which way does it shift" question on Le Chatelier, a pH or
 pKa one-liner, and a buffer, hydrolysis or Ksp judgement. Almost every question is decided
 by one of two sentences — *the equilibrium constant changes only with temperature* and

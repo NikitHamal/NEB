@@ -129,7 +129,7 @@ or arranges for something to be done.
 In the **passive**, *make* takes **to**: *They were made **to** dance at the
 party.*
 
-### Textbook answers
+### Worked answers
 
 **Grammar I A (columns):** *lets/has/makes + person + verb* → a, f;
 *get + person + to + verb* → e; *had/got + thing + past participle* → b, c, d.
@@ -169,7 +169,7 @@ have, are, were*).
 | a collective noun as one group → singular | A team of players **receives** medals. |
 | **both** → plural | Both of them **have** returned. |
 
-### Textbook answers
+### Worked answers
 
 **Grammar II A (correct ones):** a. i b. ii c. ii (it should also read *come
 **to** the meeting*) d. i e. i f. ii

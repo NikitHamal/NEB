@@ -11,10 +11,7 @@ Books, desks, water and air all have **mass** and occupy space (**volume**); hea
 light and shadows do not. **Anything that has mass and volume is matter.** Matter is
 made of atoms of the same or different kinds. It is classified into pure substances
 (elements and compounds) and impure substances (mixtures), and it is found as solid,
-liquid or gas. The CDC textbook for this unit concentrates on the **structure of the
-atom**, **valency and molecular formulae**, **atomic and molecular weight**, the
-**modern periodic table** and **chemical equations**; these are taught in full below,
-together with the other topics of the syllabus.
+liquid or gas. This unit covers the **structure of the atom**, **valency and molecular formulae**, **atomic and molecular weight**, the **modern periodic table** and **chemical equations**, together with states of matter, mixtures and separation methods.
 
 ::: key What this unit asks of you
 Describe the proton, neutron and electron; use the $2n^2$ rule to write the electronic
@@ -209,8 +206,7 @@ Ar 40, Ca 40.
 
 **(c)** Calcium carbonate, CaCO₃: $40+12+3\times16=40+12+48=100$ amu.
 
-**(d)** Magnesium chloride, MgCl₂: $24+2\times35.5=95$ amu. *(The textbook rounds Cl to 35
-and gets 94 amu; either is accepted if the value used for Cl is shown.)*
+**(d)** Magnesium chloride, MgCl₂: $24+2\times35.5=95$ amu (or $94$ amu if $\text{Cl} = 35$).
 
 **(e)** Calcium chloride, CaCl₂: $40+2\times35.5=111$ amu (110 amu with Cl = 35).
 
@@ -378,7 +374,7 @@ and Cl in group 17.
 
 ## Practice questions
 
-**Group A — Multiple choice (1 mark each)** *(Textbook exercises.)*
+**Group A — Multiple choice (1 mark each)**
 
 1. Which element has zero valency? <span class="marks">[1]</span>
    (a) hydrogen (b) sodium (c) neon (d) calcium

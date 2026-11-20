@@ -2,7 +2,7 @@
 subject: Compulsory English
 grade: 10
 unit: 13
-title: 'Unit 13: Population and Migration'
+title: Population and Migration
 hours: 0
 area: Units
 ---
@@ -218,9 +218,7 @@ This is a **popular-science article**: it explains a scientific topic in simple 
 **1.** Animals migrate for several reasons. The first is food: herbivores move to new grazing land when grass dries up, and birds follow insects. The second is breeding: sea turtles travel hundreds of kilometres to lay eggs on the beach where they were born, and many birds return to nesting sites each year. The third is climate: when winter makes the north too cold, birds travel south to find warmth. The fourth is safety, as animals try to avoid dangerous seasons or enemies. Migration is therefore a way to survive and to continue the species.
 :::
 
-## 13.3 Grammar and writing tasks
-
-### Grammar I and II — Connectives of contrast
+## 13.3 Grammar I and II: Connectives of contrast
 
 **Connectives of contrast** (concession) join two ideas that seem to oppose each other: *It was raining; we played.* The two ideas are linked in unexpected ways.
 
@@ -303,7 +301,7 @@ Many students write *Although he is rich, but he is unhappy.* Use only one conne
 **1.** Although I was exhausted, I could not sleep. **2.** She was shortlisted in spite of having no experience. **3.** I decided to work for the company even though the pay was low. **4.** We prepared well, yet we lost the match. **5.** She completed the assignment despite her injury. **6.** Ram exercises every day; however, he is gaining weight. **7.** He woke up early in spite of going to bed late. **8.** The team had only ten players; nevertheless, it won the match.
 :::
 
-### Writing I — Interpreting a graph or chart
+## 13.4 Writing I: Interpreting a graph or chart
 
 A graph or chart **interpretation** explains in words what the visual shows. Do not just list numbers; describe and conclude.
 
@@ -335,7 +333,7 @@ The bar chart shows how forty students of Class 10 travel to school. Walking is 
 
 **For the textbook-style tasks.** On a line graph about Nepali students going abroad to study, you would say that the number *increased* from about 10,000 in 2012 to over 63,000 in 2019, with only a short dip at the start, and conclude that more students were seeking better education abroad. For a pie chart of languages in Kathmandu, you would say that Nepali was spoken by the largest share (about 61 per cent), followed by Newar, and that the smaller languages together made up the rest.
 
-### Writing II — The opinion essay
+## 13.5 Writing II: The opinion essay
 
 An **essay** presents a topic in a set of connected paragraphs. For an opinion essay, state your view clearly and support it with reasons.
 

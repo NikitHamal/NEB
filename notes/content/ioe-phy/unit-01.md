@@ -7,7 +7,7 @@ hours: 8
 area: Physics
 ---
 
-Mechanics is about **a third of the Physics paper** (our estimate: 8 of 27 questions). The official syllabus lists seven sub-areas: kinematics and vectors, Newton's laws and friction, work-energy, circular motion with gravitation and SHM, rotation, elasticity, and fluids. The Section B questions combine two ideas, typically energy with circular motion, momentum with energy loss, or continuity with Bernoulli.
+Mechanics is about **a third of the Physics paper**. The official syllabus lists seven sub-areas: kinematics and vectors, Newton's laws and friction, work-energy, circular motion with gravitation and SHM, rotation, elasticity, and fluids. The Section B questions combine two ideas, typically energy with circular motion, momentum with energy loss, or continuity with Bernoulli.
 
 ::: key What the paper asks from this chapter
 - Dimensions of work, power, pressure, surface tension, viscosity, and dimensional checking.

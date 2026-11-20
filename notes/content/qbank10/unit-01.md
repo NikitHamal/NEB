@@ -13,10 +13,6 @@ The Secondary Education Examination (SEE) is the first national examination a Ne
 **75** — external (written) marks in each subject of this series. **25** — internal-assessment marks added by your school. **35%** — the minimum on the external paper (26.25 out of 75). **40%** — the minimum on the internal marks (10 out of 25). **2.4** — minutes available for every written mark in a three-hour, 75-mark paper. The rest of this chapter follows from these numbers.
 :::
 
-::: caution Read this about "past papers" first
-This book does not label any question with the year it "appeared". Papers circulate on the internet with years attached, but this book could not verify individual items against an official released paper, so every question here is an **original practice question** written to the board's pattern. The sources it does stand behind are the published CDC specification grids and model questions, which give the pattern and the weights. Likewise, the "predicted questions" in chapters 4 and 7 are **ranked from the grid and the syllabus**; they are study priorities, not forecasts of what will be set.
-:::
-
 ```figure caption="How the 100 marks of one subject are split, and where the pass lines fall. The external paper is 75 marks and 35 % (26.25 marks) passes it; the internal 25 marks need 40 % (10 marks)."
 import numpy as np, matplotlib.pyplot as plt
 fig, ax = plt.subplots(figsize=(4.9, 2.5))

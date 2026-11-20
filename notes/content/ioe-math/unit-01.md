@@ -7,7 +7,7 @@ hours: 3
 area: Mathematics
 ---
 
-This is the smallest chapter of the paper (our estimate: about **3 questions**, mostly Section A), but it is also the vocabulary of every other chapter: you cannot find a domain, an inverse or a range in calculus without it. The questions are short and exact: count something with a Venn diagram, solve an absolute-value inequality, negate a statement, decide whether a function is one-one or onto, or compose two functions. Marks are lost here by carelessness, not by difficulty.
+This is the smallest chapter of the paper, but it is also the vocabulary of every other chapter: you cannot find a domain, an inverse or a range in calculus without it. The questions are short and exact: count something with a Venn diagram, solve an absolute-value inequality, negate a statement, decide whether a function is one-one or onto, or compose two functions. Marks are lost here by carelessness, not by difficulty.
 
 ::: key What the paper asks from this chapter
 - Counting with sets: $n(A\cup B)=n(A)+n(B)-n(A\cap B)$, subsets $2^n$, De Morgan's laws.

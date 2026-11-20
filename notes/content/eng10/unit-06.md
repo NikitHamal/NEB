@@ -2,7 +2,7 @@
 subject: Compulsory English
 grade: 10
 unit: 6
-title: 'Unit 6: Food and Cuisine'
+title: Food and Cuisine
 hours: 0
 area: Units
 ---
@@ -182,9 +182,7 @@ This text is an **interview** with **Santosh Shah**, a chef born in Nepal who wo
 **1.** I have learnt that success comes from hard work and a willingness to learn, not from a rich background. Santosh Shah was poor and started work as a child, but he kept asking "What is next?" and learned from every kitchen he worked in. I learnt that one should be proud of one's own culture and show it to the world with confidence, as he does with Nepali food. Finally, I learnt that a person inspires others more by learning humbly than by simply teaching.
 :::
 
-## 6.3 Grammar and writing tasks of the unit
-
-### Grammar I: Reasons and purposes
+## 6.3 Grammar I: Reasons and purposes
 
 Connectives link ideas. **Reason** connectives answer *Why did it happen?*; **purpose** connectives answer *What for?*
 
@@ -257,7 +255,7 @@ Do not use *because* and *so* in the same sentence (*Because it rained, so we st
 **1.** because. **2.** so that. **3.** to. **4.** As. **5.** because of. **6.** so that.
 :::
 
-### Grammar II: The present continuous and time expressions
+## 6.4 Grammar II: The present continuous and time expressions
 
 **Form:** *am/is/are + verb-ing*. **Uses:**
 
@@ -308,7 +306,7 @@ Time words such as *yesterday, last week, usually, sometimes* do **not** go with
 **1.** AROUND. **2.** NOW. **3.** FUTURE. **4.** FUTURE. **5.** NOW. **6.** FUTURE.
 :::
 
-### Writing I: A recipe and a process
+## 6.5 Writing I: A recipe and a process
 
 A **recipe** has a title, a list of **ingredients** with quantities, and **method** steps in order. Use imperatives and sequence words (*first, then, next, after that, finally*) and give times (*for seven minutes*).
 
@@ -336,7 +334,7 @@ A **recipe** has a title, a list of **ingredients** with quantities, and **metho
 6. Steam for 10 to 15 minutes. Serve hot with tomato achar.
 :::
 
-### Writing II: An opinion paragraph
+## 6.6 Writing II: An opinion paragraph
 
 When asked *To what extent do you agree or disagree?*, state your position clearly, give two or three **reasons** with examples, mention the other side briefly, and end with a firm conclusion. Connectives: *firstly, moreover, however, therefore, in conclusion*.
 

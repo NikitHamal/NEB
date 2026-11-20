@@ -2,7 +2,7 @@
 subject: Compulsory English
 grade: 10
 unit: 12
-title: 'Unit 12: Nature and Development'
+title: Nature and Development
 hours: 0
 area: Units
 ---
@@ -247,9 +247,7 @@ The poem is set in a **city**. Its point is that the city shares in the beauty o
 **2.** (Open answer.) My village in the morning is as beautiful as London in the poem. The sun rises over the hills and lights the green terraces. The air is clean; mist hangs in the valley and birds sing. The streets are quiet and smoke rises gently from the kitchens. Like Wordsworth I feel a deep calm. In fact, I think a morning in the hills of Nepal is even more beautiful because the Himalayas stand in the distance.
 :::
 
-## 12.3 Grammar and writing tasks
-
-### Grammar I and II — Talking about the future
+## 12.3 Grammar I and II: Talking about the future
 
 English has no single future tense. It has several ways to talk about the future, and the right one depends on the meaning.
 
@@ -334,7 +332,7 @@ ax.set_xlim(-0.6,10.6); ax.set_ylim(-2.0,1.6); ax.axis('off')
 **1–(b)** (arrangement: present continuous). **2–(c)** (future continuous, in progress at a time). **3–(a)** (future perfect, finished before a time). **4–(d)** (going to, a definite plan). **5–(e)** (will, a prediction from opinion).
 :::
 
-### Writing I — A report
+## 12.4 Writing I: A report
 
 A **report** gives an organised account of something you have observed or studied. It is formal, in the third person and usually in the present or past tense. A report on a development work in your community should follow this layout:
 
@@ -358,7 +356,7 @@ A **report** gives an organised account of something you have observed or studie
 
 **Conclusion and recommendations.** The road will save time, make it easier for patients to reach the hospital and help farmers to sell vegetables. The contractor should water the road to reduce dust, put up signs near the school, and complete the work before the monsoon.
 
-### Writing II — A notice
+## 12.5 Writing II: A notice
 
 A **notice** is a short public message. It must be brief and complete: **name of issuing body, the word NOTICE, date, heading, body (what, when, where, who), name and designation of the writer.** Use no salutation or long sentences.
 

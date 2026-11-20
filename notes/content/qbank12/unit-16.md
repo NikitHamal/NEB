@@ -27,14 +27,6 @@ Every program in this chapter was compiled and run. C programs were built with
 MariaDB server. The SQL outputs are pasted from a real session. Where an output is
 printed under a listing, it is the output the program produced.
 
-::: key How to read the year tags
-`(NEB 2083)` means the question was read in that paper. `(2080 supplementary)` is the
-supplementary-examination paper. `(CDC model)` is the Curriculum Development Centre's
-model question. Nothing in this chapter is a claim about the coming paper: the
-predicted questions are ranked by how often and how recently a question type has
-appeared, and each one says so.
-:::
-
 ## 16.1 Pattern analysis of the Grade 12 Computer Science papers
 
 ### 16.1.1 The grid, and what has not changed

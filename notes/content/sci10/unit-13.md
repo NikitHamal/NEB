@@ -7,7 +7,7 @@ hours: 0
 area: Science and Technology
 ---
 
-When you speak into a phone, record a voice note, watch DishHome satellite TV or send a message over the internet, physical quantities such as sound and light are converted into electrical **signals**, encoded into binary digits (`0` and `1`), modulated onto carrier waves, transmitted across a channel, and reconstructed at the receiver. This unit follows the exact **CDC Grade 10 Science and Technology** curriculum: **analog and digital signals**, **bits, nibbles and bytes**, **components of a digital communication system**, **baseband and broadband transmission**, **positive and negative impacts of digital technology**, **netizenship, digital citizenship, online reputation and digital wellbeing**, and **creating and editing audio and audio-visual materials**.
+When you speak into a phone, record a voice note, watch DishHome satellite TV or send a message over the internet, physical quantities such as sound and light are converted into electrical **signals**, encoded into binary digits (`0` and `1`), modulated onto carrier waves, transmitted across a channel, and reconstructed at the receiver. This unit covers **analog and digital signals**, **bits, nibbles and bytes**, **components of a digital communication system**, **baseband and broadband transmission**, **positive and negative impacts of digital technology**, **netizenship, digital citizenship, online reputation and digital wellbeing**, and **creating and editing audio and audio-visual materials**.
 
 ::: key What SEE asks from this unit
 Expect 1-mark and 2-mark questions on **analog vs digital signals**, **bit, nibble, byte and memory units**, **ADC and DAC**, the **exact order of the 9 blocks of digital signal transmission** (`Source → Input transducer → Encoder → Modulator → Channel → Demodulator → Decoder → Output transducer → Output signal`), **carrier, modulating and modulated signals**, **baseband vs broadband transmission**, **netizen and digital citizenship**, **online reputation management vs digital wellbeing**, **audio (`.mp3`, `.wav`, `.wma`) vs video (`.mp4`, `.3gp`, `.svi`, `.avi`, `.mov`) file formats**, and 4-mark questions on **steps to cut/trim or join a video clip** (for example shortening a 5-minute or 6-minute video to 3 or 4 minutes).
@@ -51,7 +51,7 @@ A **digital signal** is a discrete (non-continuous) signal that represents infor
 :::
 
 - **Waveform:** Represented by a **square wave (rectangular pulses)** switching sharply between two voltage levels.
-- **Textbook circuit activity (Switch ON/OFF graph):** Connect a $5\ \text{V}$ source, a switch and a bulb in a circuit and record the voltage across the bulb over time:
+- **Switch ON/OFF circuit activity:** Connect a $5\ \text{V}$ source, a switch and a bulb in a circuit and record the voltage across the bulb over time:
   - When the **switch is ON (closed)**, the potential difference across the bulb is $5\ \text{V}$, representing a **HIGH signal (`1`)**.
   - When the **switch is OFF (open)**, the potential difference is $0\ \text{V}$, representing a **LOW signal (`0`)**.
 - In computers and smartphones, millions of microscopic **transistors** act as ultra-fast electronic switches turning ON (`1`) and OFF (`0`) billions of times per second.
@@ -165,11 +165,11 @@ $$\text{Number of audio files} = \frac{2048\ \text{MB}}{4\ \text{MB}} = 512\ \te
 
 ### Components of a Digital Communication System
 
-In the CDC Grade 10 textbook, a digital communication system transmits an analog physical message (such as a speaker's voice) to a distant listener through **nine sequential stages**. Memorise this exact order for the SEE examination:
+A digital communication system transmits an analog physical message (such as a speaker's voice) to a distant listener through **nine sequential stages**:
 
 > **Source → Input Transducer → Encoder → Modulator → Channel → Demodulator → Decoder → Output Transducer → Output Signal**
 
-```figure caption="Block diagram of a digital communication system in the exact textbook sequence. The transmitter side converts the physical source signal into a modulated wave for the channel; the receiver side demodulates, decodes and converts it back into the original physical output signal."
+```figure caption="Block diagram of a digital communication system. The transmitter side converts the physical source signal into a modulated wave for the channel; the receiver side demodulates, decodes and converts it back into the original physical output signal."
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
 fig, ax = plt.subplots(figsize=(5.2, 2.7))
@@ -205,7 +205,7 @@ fig.tight_layout()
 8. **Output Transducer:** Converts the decoded electrical signal back into its original physical form. *Example:* A **loudspeaker** converts electrical current into sound waves; a display screen converts it into light.
 9. **Output Signal:** The final physical message (sound, picture or text) received by the user.
 
-```figure caption="Modulation in signal transmission (asked in SEE 2080 Gandaki, Koshi and Lumbini). (a) Low-frequency modulating signal (information), (b) high-frequency carrier signal, and (c) the resulting modulated signal sent into the channel."
+```figure caption="Modulation in signal transmission. (a) Low-frequency modulating signal (information), (b) high-frequency carrier signal, and (c) the resulting modulated signal sent into the channel."
 import numpy as np, matplotlib.pyplot as plt
 fig, axs = plt.subplots(3, 1, figsize=(4.8, 2.85), sharex=True)
 t = np.linspace(0, 4*np.pi, 600)
@@ -259,11 +259,11 @@ Signals are sent through communication channels in two ways:
 
 ### Digital technologies used in daily life and their impacts
 
-Common digital devices in everyday Nepali life include the **digital and infrared thermometer**, **smartwatch**, **digital wallet (eSewa, Khalti, Fonepay QR)**, **online library (such as the CDC e-library)**, **online newspapers (`gorkhapatraonline.com`)**, **digital camera**, **calculator** and **digital vehicle speedometer**.
+Common digital devices in everyday Nepali life include the **digital and infrared thermometer**, **smartwatch**, **digital wallet (eSewa, Khalti, Fonepay QR)**, **online digital library**, **online newspapers (`gorkhapatraonline.com`)**, **digital camera**, **calculator** and **digital vehicle speedometer**.
 
 | Positive Effects of Digital Technology | Negative Effects of Digital Technology |
 |---|---|
-| **1. Digital library:** Free access to CDC textbooks, reference books and journals anytime, encouraging reading habits | **1. Social behaviour changes:** Excessive screen time leads to irritability, social isolation and weaker family interaction |
+| **1. Digital library:** Free access to digital books, reference materials and journals anytime, encouraging reading habits | **1. Social behaviour changes:** Excessive screen time leads to irritability, social isolation and weaker family interaction |
 | **2. Online newspapers:** Instant access to national and global news on smartphones without waiting for print delivery | **2. Cybercrime:** Hacking, online fraud, phishing, identity theft and character assassination harm individuals and families |
 | **3. Digital payment:** Cashless shopping, utility bill payment, tax payment and ticket booking via QR codes and mobile banking | **3. Lack of physical exercise:** Children spending hours on screens suffer from obesity, physical weakness and poor posture |
 | **4. Online business:** Local producers and shops can promote and sell goods nationwide over the internet | **4. Harmful digital games:** Violent online games cause addiction, mental stress, sleep loss and aggressive behaviour |
@@ -376,7 +376,7 @@ fig.tight_layout()
 4. Tick/select all the clips on the storyboard and click **Finish video**.
 5. Click **Export** and choose a location to save the combined single `.MP4` video file.
 
-::: example Planning a 5-minute Science video and shortening it to 3 minutes (Textbook & SEE question)
+::: example Planning a 5-minute Science video and shortening it to 3 minutes
 **Problem.** Prepare a plan to create a 5-minute audio-visual material on any topic of Class 10 Science, and write the steps to shorten that video to 3 minutes.
 
 **Solution.**
@@ -410,7 +410,7 @@ fig.tight_layout()
    (a) infrared thermometer (b) computer (c) smartwatch (d) medium-wave radio
 2. Which binary sequence represents 1 byte of computer memory? <span class="marks">[1]</span>
    (a) 0000 (b) 00000000 (c) 100000 (d) 000001
-3. Which is the correct relationship between a nibble and a byte? (SEE 2081) <span class="marks">[1]</span>
+3. Which is the correct relationship between a nibble and a byte? <span class="marks">[1]</span>
    (a) 1 nibble = 4 bytes (b) 2 nibbles = 1 byte (c) 4 nibbles = 1 byte (d) 8 nibbles = 1 byte
 4. Which of the following shows the stages of digital signal transmission in the correct order? <span class="marks">[1]</span>
    (a) Source, input transducer, decoder, modulator, channel, demodulator, encoder, output transducer
@@ -419,7 +419,7 @@ fig.tight_layout()
    (d) Source, encoder, input transducer, modulator, channel, decoder, demodulator, output transducer
 5. Which of the following is an audio file format? <span class="marks">[1]</span>
    (a) .SVI (b) .MP4 (c) .MP3 (d) .3GP
-6. What are people who actively use the internet called? (SEE 2080) <span class="marks">[1]</span>
+6. What are people who actively use the internet called? <span class="marks">[1]</span>
    (a) citizens (b) online managers (c) audio-video editors (d) netizens
 7. What does the habit of regularly posting accurate information about new scientific discoveries on social media indicate? <span class="marks">[1]</span>
    (a) unsystematic use of social media (b) digital wellbeing skill (c) digital detox (d) digital reputation management
@@ -436,11 +436,11 @@ fig.tight_layout()
 
 **Group B — Short answer (2 marks each)**
 
-1. Define a bit, a nibble and a byte. What is the purpose of a DAC in a computer system? (SEE 2080) <span class="marks">[2]</span>
+1. Define a bit, a nibble and a byte. What is the purpose of a DAC in a computer system? <span class="marks">[2]</span>
 2. Differentiate between an analog signal and a digital signal in any two points. <span class="marks">[2]</span>
-3. Differentiate between baseband transmission and broadband transmission in two points. (SEE 2080) <span class="marks">[2]</span>
-4. Define digital citizenship. Write any two characteristics of a good netizen. (SEE 2080/2081) <span class="marks">[2]</span>
-5. What is digital wellbeing? Mention any two precautions to maintain digital wellbeing. (SEE 2080/2081) <span class="marks">[2]</span>
+3. Differentiate between baseband transmission and broadband transmission in two points. <span class="marks">[2]</span>
+4. Define digital citizenship. Write any two characteristics of a good netizen. <span class="marks">[2]</span>
+5. What is digital wellbeing? Mention any two precautions to maintain digital wellbeing. <span class="marks">[2]</span>
 6. Differentiate between digital wellbeing and digital reputation in two points. <span class="marks">[2]</span>
 
 ::: note Answers to Group B
@@ -454,10 +454,10 @@ fig.tight_layout()
 
 **Group C — Long answer (4 marks each)**
 
-1. Draw the block diagram of a digital communication system and state the function of the input transducer, encoder, modulator and demodulator. (SEE 2080) <span class="marks">[4]</span>
+1. Draw the block diagram of a digital communication system and state the function of the input transducer, encoder, modulator and demodulator. <span class="marks">[4]</span>
 2. Write any four advantages of digital signal transmission over analog transmission. Why is high-speed internet considered a broadband transmission? <span class="marks">[4]</span>
-3. Write any two positive and two negative impacts of digital technology in daily life. What health problems are seen in a child who uses a mobile phone excessively for years? (SEE 2080/2081) <span class="marks">[4]</span>
-4. If you have to shorten a 6-minute video clip into a 4-minute video clip, write in order the four main steps you follow in a video editor. (SEE 2080/2081) <span class="marks">[4]</span>
+3. Write any two positive and two negative impacts of digital technology in daily life. What health problems are seen in a child who uses a mobile phone excessively for years? <span class="marks">[4]</span>
+4. If you have to shorten a 6-minute video clip into a 4-minute video clip, write in order the four main steps you follow in a video editor. <span class="marks">[4]</span>
 
 ::: note Answers to Group C
 **1.** Draw the 9-block diagram: `Source → Input Transducer → Encoder → Modulator → Channel → Demodulator → Decoder → Output Transducer → Output Signal`. Functions: (i) **Input transducer** (e.g. microphone) converts the physical signal into an electrical signal; (ii) **Encoder** compresses the signal and converts it into binary digits (`0` and `1`); (iii) **Modulator** superimposes the digital data onto a high-frequency carrier wave for transmission through the channel; (iv) **Demodulator** separates the transmitted signal from the carrier wave at the receiver.
@@ -465,5 +465,4 @@ fig.tight_layout()
 **3.** Positive impacts: (i) cashless digital payments (QR/mobile wallets) and online banking save time; (ii) digital libraries and online classes make study materials accessible anywhere. Negative impacts: (i) cybercrime, phishing and online harassment harm personal security; (ii) excessive screen time causes social isolation and physical inactivity. Health problems in the child: **poor eyesight (vision strain), insomnia (lack of sleep), obesity, and lack of concentration in study**.
 **4.** To trim a 6-minute video to 4 minutes: (i) Launch **Video Editor**, click **New video project**, name the project, import the 6-minute video into the **Project library**, and drag it onto the **Storyboard / Editing panel**. (ii) Select the video clip and click **Trim**. (iii) Play the video and drag the **start and end blue bars** so that 2 minutes of unwanted footage are excluded and the selected clip length is **4 minutes**, then click **Done**. (iv) Click **Finish video**, select **Export**, and save the 4-minute `.MP4` video file to the computer.
 :::
-
 

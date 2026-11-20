@@ -15,10 +15,6 @@ Groups C and D of the SEE Science and Technology paper are fourteen 2-mark and s
 - **Draw where asked.** A neat labelled diagram is often worth one or two of the four marks. Describe a diagram in words only if you cannot draw it.
 :::
 
-::: caution About years and sources
-Every question below is an original **practice** question written to the CDC pattern. No question is labelled with a year, because none is claimed to have appeared in a specific paper. Take $g=10\ \text{m s}^{-2}$ unless a question says otherwise.
-:::
-
 ## 3.1 Scientific Learning
 
 1. Define a hypothesis and give one example. <span class="marks">[2]</span>

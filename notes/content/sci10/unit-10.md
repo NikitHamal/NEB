@@ -329,7 +329,7 @@ Diamond has a very small critical angle, so light entering it undergoes total in
 
 Applications of total internal reflection: **optical fibres** (light signals travel long distances by repeated total internal reflection; used for high-speed telecommunication/internet, and in medical **endoscopy / laparoscopy** to examine internal organs like the stomach without major surgery), totally reflecting prisms in binoculars and periscopes, the sparkle of diamonds, and **mirage** on hot roads or deserts (hot air near the ground is optically rarer than cooler air above, so rays from the sky bend away from the normal and suffer total internal reflection upward, appearing as a pool of water).
 
-### Dispersion of Light through a Prism and Rainbow Formation (CDC Grade 10 focus)
+### Dispersion of Light through a Prism and Rainbow Formation
 
 ::: definition Dispersion of light
 The splitting of a beam of white light into its **seven constituent colours — Violet, Indigo, Blue, Green, Yellow, Orange and Red (VIBGYOR)** — when it passes through a transparent refracting medium such as a glass prism is called **dispersion of light**. The colored band obtained on a screen is called the **visible spectrum**.
@@ -343,7 +343,7 @@ The splitting of a beam of white light into its **seven constituent colours — 
   2. **Internal reflection** at the back inner surface of the droplet, and
   3. **Refraction** again as the rays exit the front of the drop towards the observer's eye (red exits at $\sim 42^\circ$ and violet at $\sim 40^\circ$, making the arc semicircular).
 
-### Corneal Transplantation, Cataract and Colour/Night Blindness (CDC Grade 10 focus)
+### Corneal Transplantation, Cataract and Colour/Night Blindness
 
 - **Corneal blindness and Corneal Transplantation (Keratoplasty):** If the transparent **cornea** at the front of the eye becomes scarred, cloudy or damaged by injury, infection or vitamin-A deficiency, light cannot enter the eye properly. Vision is restored by **corneal transplantation** — surgically replacing the damaged cornea with a healthy transparent cornea donated after death (such as through the **Tilganga Institute of Ophthalmology / Nepal Eye Bank**). Because the cornea has no blood vessels, tissue rejection is rare.
 - **Cataract (*Motibindu*):** In old age, the crystalline **eye lens becomes milky, cloudy and opaque**, causing blurred vision or blindness. Treated by **intraocular cataract surgery** (phacoemulsification), replacing the cloudy lens with a clear artificial **intraocular lens (IOL)** (pioneered at low cost in Nepal by **Dr. Sanduk Ruit**).

@@ -2,7 +2,7 @@
 subject: Compulsory English
 grade: 10
 unit: 10
-title: 'Unit 10: Games and Sports'
+title: Games and Sports
 hours: 0
 area: Units
 ---
@@ -214,9 +214,7 @@ Cricket and baseball both use a bat and a ball, but they are different games. In
 **2.** (Open answer; a sample.) My first choice is football, because I enjoy running and team play and it needs little equipment. My second is cricket, because it is exciting to watch and is loved in Nepal. Third is volleyball, which we play in school, followed by basketball, table tennis and lawn tennis. I rank golf and rugby last because they need special grounds or involve a risk of injury.
 :::
 
-## 10.3 Grammar and writing tasks
-
-### Grammar I — Present perfect and present perfect continuous
+## 10.3 Grammar I: Present perfect and present perfect continuous
 
 Both tenses connect the **past with the present**. They answer the question "What is the situation now, and how did it come about?"
 
@@ -282,7 +280,7 @@ ax.set_xlim(-0.2,10.2); ax.set_ylim(-0.7,2.0); ax.axis('off')
 **1.** have been waiting **2.** has just finished **3.** have been playing **4.** have never seen **5.** has been studying (or has studied) **6.** have already eaten **7.** Have you been digging **8.** has lived (or has been living) **9.** Have you finished **10.** has been snowing **11.** has written **12.** have been trying
 :::
 
-### Grammar II — The passive voice
+## 10.4 Grammar II: The passive voice
 
 In the **active voice** the subject does the action: *The farmers are ploughing the field.* In the **passive voice** the subject receives the action: *The field is being ploughed by the farmers.* We use the passive when the doer is unknown, unimportant or obvious, or when we want to stress what happened.
 
@@ -350,7 +348,7 @@ In the **active voice** the subject does the action: *The farmers are ploughing 
 **1.** He hurt his leg in the accident. **2.** People built the bridge last year. **3.** The farmers are ploughing the field. **4.** How do people trap a tiger? **5.** The boys have eaten the packet of biscuits. **6.** You should finish your homework by evening.
 :::
 
-### Writing I — The paragraph
+## 10.5 Writing I: The paragraph
 
 A **paragraph** is a group of sentences about **one idea**. A good paragraph has three parts.
 
@@ -366,7 +364,7 @@ A **paragraph** is a group of sentences about **one idea**. A good paragraph has
 
 *(Topic)* My favourite sport is football, because it is simple, fast and full of teamwork. *(Supporting)* All we need is a ball and a field, so my friends and I play almost every evening after school. The game keeps us fit and teaches us to pass, to trust one another and to accept defeat. Moreover, matches on television, such as the World Cup, make us feel part of a huge world family. Some of my best friendships began on the playground, and the discipline I learn there helps me in my studies too. *(Concluding)* For these reasons, football is more than a game for me; it is a way of growing up happily.
 
-### Writing II — The dialogue
+## 10.6 Writing II: The dialogue
 
 A **dialogue** is a conversation between two or more people. Write the speakers' names (or *Me* and *Friend*) followed by a colon, and begin a new line for each turn. Use short sentences, contractions (*I'm, we'll*), question tags and reactions (*Really? That's great!*). Cover **every point** you are given, and give the conversation a natural beginning and ending.
 

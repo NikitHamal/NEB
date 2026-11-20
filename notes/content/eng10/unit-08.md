@@ -2,7 +2,7 @@
 subject: Compulsory English
 grade: 10
 unit: 8
-title: 'Unit 8: Hobbies and Interests'
+title: Hobbies and Interests
 hours: 0
 area: Units
 ---
@@ -217,9 +217,7 @@ Determination and imagination help us reach our goals. Failure in the past (*Bef
 **2.** I agree. Determination keeps us trying when things are difficult. A student who fails a test but studies harder is more likely to succeed than one who gives up. Great people such as Mount Everest's first climbers, Tenzing Norgay and Edmund Hillary, reached the top after earlier failed expeditions. Of course, talent and planning also matter, but without determination even talent is wasted. So, the more determined we are, the more chance we have in life.
 :::
 
-## 8.3 Grammar and writing tasks of the unit
-
-### Grammar I: The passive voice
+## 8.3 Grammar I: The passive voice
 
 In an **active** sentence the doer (agent) is the subject: *Ram feeds the dogs.* In a **passive** sentence the receiver of the action is the subject: *The dogs are fed by Ram.* Use the passive when the doer is unknown, unimportant or obvious, or when you want to stress the action or the receiver.
 
@@ -307,7 +305,7 @@ Use the **past participle**, not the past simple (*was eaten*, not *was ate*). K
 **1.** English is spoken in many countries. **2.** Rice is grown in the Tarai (by the farmers). **3.** The room was cleaned yesterday. **4.** The wall is being painted by the students. **5.** A new road has been built by the government. **6.** All the neighbours will be invited by Raju. **7.** This problem cannot be solved. **8.** The window was broken by Hari.
 :::
 
-### Grammar II: Passive with *being* and *having*; passive to active
+## 8.4 Grammar II: Passive with being and having; passive to active
 
 The **-ing forms** of the passive are used after prepositions and verbs such as *enjoy, avoid, mind, like*: **being + past participle** (present) and **having been + past participle** (earlier action).
 
@@ -364,7 +362,7 @@ To change a passive sentence back to active: make the *by-agent* the subject (ad
 **1.** Devkota wrote the poem. **2.** Workers are repairing the road. **3.** Someone has sent a letter to the headteacher. **4.** The boys had broken the window. **5.** Somebody made a mistake.
 :::
 
-### Writing I: An essay on hobbies and career
+## 8.5 Writing I: An essay on hobbies and career
 
 **Task.** People have different hobbies and interests, which may lead them to their careers. Write an essay on your hobbies explaining how they might influence your career.
 
@@ -384,7 +382,7 @@ My hobbies also help me relax after hard study, so I do my school work with a fr
 In conclusion, hobbies are not a waste of time. Mine have shown me what I enjoy, and I would like to choose a career in which I can use them.
 :::
 
-### Writing II: An advertisement and paraphrasing
+## 8.6 Writing II: An advertisement and paraphrasing
 
 An **advertisement (vacancy announcement)** is short and formal. It gives: **name of the institution**, **the post and number of vacancies**, **qualifications**, **experience**, **age/other conditions**, **how to apply and the deadline**, and **contact details**. Use a box or a bold heading and a list.
 

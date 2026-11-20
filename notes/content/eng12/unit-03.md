@@ -419,7 +419,7 @@ refusal to hear "let me die"); and they say what Desai's irony is asking — whe
 devotion that overrules a person's wishes is devotion at all.
 :::
 
-## 3.8 Textbook exercises
+## 3.8 Comprehension and critical thinking
 
 **Before you read**
 

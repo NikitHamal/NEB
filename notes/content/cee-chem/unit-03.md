@@ -7,8 +7,7 @@ hours: 1
 area: Physical Chemistry
 ---
 
-Periodicity carries about **one question** in the paper (our estimate from the MEC topic
-list), but its trends are used again in bonding, s-block, non-metal and transition-metal
+Periodicity carries about **one question** in the paper, but its trends are used again in bonding, s-block, non-metal and transition-metal
 questions. The question is almost always one of four kinds: locate an element (period,
 group, block) from its atomic number, put a set of atoms or ions in order of a property,
 explain an exception (Be > B, N > O, Cl > F), or read successive ionisation energies.

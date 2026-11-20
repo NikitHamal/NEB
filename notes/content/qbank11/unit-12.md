@@ -15,10 +15,6 @@ Sixty-four of the seventy-five marks in the Mathematics paper are written answer
 - **Eight-mark questions are split** into parts (for example $3+3+2$): treat each part as its own short question.
 :::
 
-::: caution Practice items, not past papers
-No question here is tagged with an examination year. NEB does not publish its Grade 11 papers, and we will not print a year we cannot verify. Every item is an original practice question set to the CDC syllabus pattern.
-:::
-
 ## 12.1 Logic and Set
 
 **Short questions (5 marks each)**

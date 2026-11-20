@@ -22,16 +22,36 @@
    "hours": null,
    "area": "Compulsory Mathematics",
    "topics": [
-    "Sets: concepts, formulas and worked problems",
+    "Language of sets — a quick revision",
+    "The four operations",
+    "Two sets: the formula and the Venn diagram",
+    "Three sets",
+    "Set laws verified with given sets",
     "Exercises of the SEE type"
    ],
    "sections": [
     {
      "no": "1.1",
-     "title": "Sets: concepts, formulas and worked problems"
+     "title": "Language of sets — a quick revision"
     },
     {
      "no": "1.2",
+     "title": "The four operations"
+    },
+    {
+     "no": "1.3",
+     "title": "Two sets: the formula and the Venn diagram"
+    },
+    {
+     "no": "1.4",
+     "title": "Three sets"
+    },
+    {
+     "no": "1.5",
+     "title": "Set laws verified with given sets"
+    },
+    {
+     "no": "1.6",
      "title": "Exercises of the SEE type"
     }
    ],
@@ -50,7 +70,7 @@
     "Laws used in SEE verification questions"
    ],
    "stats": {
-    "words": 2604,
+    "words": 2601,
     "figures": 3,
     "examples": 10
    },
@@ -62,16 +82,46 @@
    "hours": null,
    "area": "Compulsory Mathematics",
    "topics": [
-    "Tax and Money Exchange: concepts, formulas and worked problems",
+    "Taxes: what they are and why we pay them",
+    "Value added tax (VAT)",
+    "Discount and VAT together",
+    "How VAT moves along the chain",
+    "Excise duty",
+    "Income tax",
+    "Foreign exchange",
     "Exercises of the SEE type"
    ],
    "sections": [
     {
      "no": "2.1",
-     "title": "Tax and Money Exchange: concepts, formulas and worked problems"
+     "title": "Taxes: what they are and why we pay them"
     },
     {
      "no": "2.2",
+     "title": "Value added tax (VAT)"
+    },
+    {
+     "no": "2.3",
+     "title": "Discount and VAT together"
+    },
+    {
+     "no": "2.4",
+     "title": "How VAT moves along the chain"
+    },
+    {
+     "no": "2.5",
+     "title": "Excise duty"
+    },
+    {
+     "no": "2.6",
+     "title": "Income tax"
+    },
+    {
+     "no": "2.7",
+     "title": "Foreign exchange"
+    },
+    {
+     "no": "2.8",
      "title": "Exercises of the SEE type"
     }
    ],
@@ -91,7 +141,7 @@
     "Income tax and taxable income"
    ],
    "stats": {
-    "words": 3637,
+    "words": 3633,
     "figures": 4,
     "examples": 16
    },
@@ -103,16 +153,51 @@
    "hours": null,
    "area": "Compulsory Mathematics",
    "topics": [
-    "Compound Interest: concepts, formulas and worked problems",
+    "Simple interest revised",
+    "What is compound interest?",
+    "The compound amount formula",
+    "Half-yearly and quarterly compounding",
+    "Finding the principal, the rate or the time",
+    "Compound interest and simple interest compared",
+    "Different rates in different years",
+    "Real-life applications",
     "Exercises of the SEE type"
    ],
    "sections": [
     {
      "no": "3.1",
-     "title": "Compound Interest: concepts, formulas and worked problems"
+     "title": "Simple interest revised"
     },
     {
      "no": "3.2",
+     "title": "What is compound interest?"
+    },
+    {
+     "no": "3.3",
+     "title": "The compound amount formula"
+    },
+    {
+     "no": "3.4",
+     "title": "Half-yearly and quarterly compounding"
+    },
+    {
+     "no": "3.5",
+     "title": "Finding the principal, the rate or the time"
+    },
+    {
+     "no": "3.6",
+     "title": "Compound interest and simple interest compared"
+    },
+    {
+     "no": "3.7",
+     "title": "Different rates in different years"
+    },
+    {
+     "no": "3.8",
+     "title": "Real-life applications"
+    },
+    {
+     "no": "3.9",
      "title": "Exercises of the SEE type"
     }
    ],
@@ -129,7 +214,7 @@
     "Compound interest"
    ],
    "stats": {
-    "words": 2819,
+    "words": 2818,
     "figures": 2,
     "examples": 15
    },
@@ -141,16 +226,51 @@
    "hours": null,
    "area": "Compulsory Mathematics",
    "topics": [
-    "Population Growth and Depreciation: concepts, formulas and worked problems",
+    "Growth and decay are repeated multiplications",
+    "Population growth",
+    "Different rates in different years",
+    "Birth, death and migration",
+    "Finding the rate or the time",
+    "Depreciation",
+    "Increase followed by decrease",
+    "More practice in context",
     "Exercises of the SEE type"
    ],
    "sections": [
     {
      "no": "4.1",
-     "title": "Population Growth and Depreciation: concepts, formulas and worked problems"
+     "title": "Growth and decay are repeated multiplications"
     },
     {
      "no": "4.2",
+     "title": "Population growth"
+    },
+    {
+     "no": "4.3",
+     "title": "Different rates in different years"
+    },
+    {
+     "no": "4.4",
+     "title": "Birth, death and migration"
+    },
+    {
+     "no": "4.5",
+     "title": "Finding the rate or the time"
+    },
+    {
+     "no": "4.6",
+     "title": "Depreciation"
+    },
+    {
+     "no": "4.7",
+     "title": "Increase followed by decrease"
+    },
+    {
+     "no": "4.8",
+     "title": "More practice in context"
+    },
+    {
+     "no": "4.9",
      "title": "Exercises of the SEE type"
     }
    ],
@@ -169,7 +289,7 @@
     "Depreciation"
    ],
    "stats": {
-    "words": 2638,
+    "words": 2635,
     "figures": 3,
     "examples": 16
    },
@@ -181,16 +301,41 @@
    "hours": null,
    "area": "Compulsory Mathematics",
    "topics": [
-    "Plane Surfaces: concepts, formulas and worked problems",
+    "Perimeter and area: the difference",
+    "Triangles and Heron's formula",
+    "Quadrilaterals",
+    "The circle, semicircle and sector",
+    "Paths and rings",
+    "Combined figures",
     "Exercises of the SEE type"
    ],
    "sections": [
     {
      "no": "5.1",
-     "title": "Plane Surfaces: concepts, formulas and worked problems"
+     "title": "Perimeter and area: the difference"
     },
     {
      "no": "5.2",
+     "title": "Triangles and Heron's formula"
+    },
+    {
+     "no": "5.3",
+     "title": "Quadrilaterals"
+    },
+    {
+     "no": "5.4",
+     "title": "The circle, semicircle and sector"
+    },
+    {
+     "no": "5.5",
+     "title": "Paths and rings"
+    },
+    {
+     "no": "5.6",
+     "title": "Combined figures"
+    },
+    {
+     "no": "5.7",
      "title": "Exercises of the SEE type"
     }
    ],
@@ -206,7 +351,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2523,
+    "words": 2520,
     "figures": 5,
     "examples": 15
    },
@@ -218,16 +363,46 @@
    "hours": null,
    "area": "Compulsory Mathematics",
    "topics": [
-    "Cylinder and Sphere: concepts, formulas and worked problems",
+    "Units of volume and capacity",
+    "The solid cylinder",
+    "The hollow cylinder (pipe)",
+    "The sphere and the hemisphere",
+    "The hollow sphere",
+    "Recasting and displacement",
+    "Combined solids",
     "Exercises of the SEE type"
    ],
    "sections": [
     {
      "no": "6.1",
-     "title": "Cylinder and Sphere: concepts, formulas and worked problems"
+     "title": "Units of volume and capacity"
     },
     {
      "no": "6.2",
+     "title": "The solid cylinder"
+    },
+    {
+     "no": "6.3",
+     "title": "The hollow cylinder (pipe)"
+    },
+    {
+     "no": "6.4",
+     "title": "The sphere and the hemisphere"
+    },
+    {
+     "no": "6.5",
+     "title": "The hollow sphere"
+    },
+    {
+     "no": "6.6",
+     "title": "Recasting and displacement"
+    },
+    {
+     "no": "6.7",
+     "title": "Combined solids"
+    },
+    {
+     "no": "6.8",
      "title": "Exercises of the SEE type"
     }
    ],
@@ -243,7 +418,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2595,
+    "words": 2592,
     "figures": 4,
     "examples": 16
    },
@@ -255,16 +430,36 @@
    "hours": null,
    "area": "Compulsory Mathematics",
    "topics": [
-    "Prism and Pyramid: concepts, formulas and worked problems",
+    "Prisms",
+    "Cuboid and cube",
+    "Triangular and other prisms",
+    "Pyramids",
+    "The cone: a round pyramid",
     "Exercises of the SEE type"
    ],
    "sections": [
     {
      "no": "7.1",
-     "title": "Prism and Pyramid: concepts, formulas and worked problems"
+     "title": "Prisms"
     },
     {
      "no": "7.2",
+     "title": "Cuboid and cube"
+    },
+    {
+     "no": "7.3",
+     "title": "Triangular and other prisms"
+    },
+    {
+     "no": "7.4",
+     "title": "Pyramids"
+    },
+    {
+     "no": "7.5",
+     "title": "The cone: a round pyramid"
+    },
+    {
+     "no": "7.6",
      "title": "Exercises of the SEE type"
     }
    ],
@@ -283,7 +478,7 @@
     "Pyramid"
    ],
    "stats": {
-    "words": 2435,
+    "words": 2430,
     "figures": 4,
     "examples": 11
    },
@@ -295,16 +490,31 @@
    "hours": null,
    "area": "Compulsory Mathematics",
    "topics": [
-    "Highest Common Factor and Lowest Common Multiple: concepts, formulas and worked problems",
+    "Revision with numbers",
+    "Factorisation: the toolkit",
+    "HCF and LCM of algebraic expressions",
+    "The relation between HCF, LCM and the expressions",
     "Exercises of the SEE type"
    ],
    "sections": [
     {
      "no": "8.1",
-     "title": "Highest Common Factor and Lowest Common Multiple: concepts, formulas and worked problems"
+     "title": "Revision with numbers"
     },
     {
      "no": "8.2",
+     "title": "Factorisation: the toolkit"
+    },
+    {
+     "no": "8.3",
+     "title": "HCF and LCM of algebraic expressions"
+    },
+    {
+     "no": "8.4",
+     "title": "The relation between HCF, LCM and the expressions"
+    },
+    {
+     "no": "8.5",
      "title": "Exercises of the SEE type"
     }
    ],
@@ -322,7 +532,7 @@
     "HCF and LCM"
    ],
    "stats": {
-    "words": 2443,
+    "words": 2433,
     "figures": 4,
     "examples": 16
    },
@@ -334,16 +544,61 @@
    "hours": null,
    "area": "Compulsory Mathematics",
    "topics": [
-    "Radical and Surd: concepts, formulas and worked problems",
+    "Radicals and surds",
+    "Laws of surds",
+    "Types of surds",
+    "Addition and subtraction",
+    "Multiplication and division",
+    "Comparing surds of different order",
+    "Rationalisation",
+    "Values of expressions: x+(1)/(x) and its powers",
+    "Equations with square roots",
+    "Surds in geometry",
     "Exercises of the SEE type"
    ],
    "sections": [
     {
      "no": "9.1",
-     "title": "Radical and Surd: concepts, formulas and worked problems"
+     "title": "Radicals and surds"
     },
     {
      "no": "9.2",
+     "title": "Laws of surds"
+    },
+    {
+     "no": "9.3",
+     "title": "Types of surds"
+    },
+    {
+     "no": "9.4",
+     "title": "Addition and subtraction"
+    },
+    {
+     "no": "9.5",
+     "title": "Multiplication and division"
+    },
+    {
+     "no": "9.6",
+     "title": "Comparing surds of different order"
+    },
+    {
+     "no": "9.7",
+     "title": "Rationalisation"
+    },
+    {
+     "no": "9.8",
+     "title": "Values of expressions: x+(1)/(x) and its powers"
+    },
+    {
+     "no": "9.9",
+     "title": "Equations with square roots"
+    },
+    {
+     "no": "9.10",
+     "title": "Surds in geometry"
+    },
+    {
+     "no": "9.11",
      "title": "Exercises of the SEE type"
     }
    ],
@@ -375,16 +630,36 @@
    "hours": null,
    "area": "Compulsory Mathematics",
    "topics": [
-    "Indices: concepts, formulas and worked problems",
+    "Index notation",
+    "The laws of indices",
+    "Simplifying expressions",
+    "Exponential equations",
+    "Proving identities with indices",
     "Exercises of the SEE type"
    ],
    "sections": [
     {
      "no": "10.1",
-     "title": "Indices: concepts, formulas and worked problems"
+     "title": "Index notation"
     },
     {
      "no": "10.2",
+     "title": "The laws of indices"
+    },
+    {
+     "no": "10.3",
+     "title": "Simplifying expressions"
+    },
+    {
+     "no": "10.4",
+     "title": "Exponential equations"
+    },
+    {
+     "no": "10.5",
+     "title": "Proving identities with indices"
+    },
+    {
+     "no": "10.6",
      "title": "Exercises of the SEE type"
     }
    ],
@@ -400,7 +675,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2215,
+    "words": 2212,
     "figures": 2,
     "examples": 29
    },
@@ -412,16 +687,51 @@
    "hours": null,
    "area": "Compulsory Mathematics",
    "topics": [
-    "Algebraic Fraction: concepts, formulas and worked problems",
+    "Factorisation toolkit",
+    "Reducing to lowest terms",
+    "HCF and LCM of expressions",
+    "Multiplication and division",
+    "Addition and subtraction",
+    "Fractions inside fractions",
+    "Equations with algebraic fractions",
+    "More patterns to practise",
     "Exercises of the SEE type"
    ],
    "sections": [
     {
      "no": "11.1",
-     "title": "Algebraic Fraction: concepts, formulas and worked problems"
+     "title": "Factorisation toolkit"
     },
     {
      "no": "11.2",
+     "title": "Reducing to lowest terms"
+    },
+    {
+     "no": "11.3",
+     "title": "HCF and LCM of expressions"
+    },
+    {
+     "no": "11.4",
+     "title": "Multiplication and division"
+    },
+    {
+     "no": "11.5",
+     "title": "Addition and subtraction"
+    },
+    {
+     "no": "11.6",
+     "title": "Fractions inside fractions"
+    },
+    {
+     "no": "11.7",
+     "title": "Equations with algebraic fractions"
+    },
+    {
+     "no": "11.8",
+     "title": "More patterns to practise"
+    },
+    {
+     "no": "11.9",
      "title": "Exercises of the SEE type"
     }
    ],
@@ -436,7 +746,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 1987,
+    "words": 1986,
     "figures": 2,
     "examples": 34
    },
@@ -448,16 +758,46 @@
    "hours": null,
    "area": "Compulsory Mathematics",
    "topics": [
-    "Equations: concepts, formulas and worked problems",
+    "Pairs of linear equations",
+    "Word problems leading to linear equations",
+    "Quadratic equations",
+    "Solving by factorisation",
+    "Completing the square and the quadratic formula",
+    "Equations that reduce to quadratics",
+    "Word problems leading to quadratics",
     "Exercises of the SEE type"
    ],
    "sections": [
     {
      "no": "12.1",
-     "title": "Equations: concepts, formulas and worked problems"
+     "title": "Pairs of linear equations"
     },
     {
      "no": "12.2",
+     "title": "Word problems leading to linear equations"
+    },
+    {
+     "no": "12.3",
+     "title": "Quadratic equations"
+    },
+    {
+     "no": "12.4",
+     "title": "Solving by factorisation"
+    },
+    {
+     "no": "12.5",
+     "title": "Completing the square and the quadratic formula"
+    },
+    {
+     "no": "12.6",
+     "title": "Equations that reduce to quadratics"
+    },
+    {
+     "no": "12.7",
+     "title": "Word problems leading to quadratics"
+    },
+    {
+     "no": "12.8",
      "title": "Exercises of the SEE type"
     }
    ],
@@ -472,7 +812,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2326,
+    "words": 2325,
     "figures": 2,
     "examples": 25
    },
@@ -484,16 +824,41 @@
    "hours": null,
    "area": "Compulsory Mathematics",
    "topics": [
-    "Area of Triangles and Quadrilaterals: concepts, formulas and worked problems",
+    "Basic area formulas to remember",
+    "Same base, between the same parallels",
+    "Theorem 1 — parallelograms on the same base",
+    "Theorem 2 — triangle and parallelogram",
+    "Theorem 3 — triangles on the same base",
+    "Using the theorems",
     "Exercises of the SEE type"
    ],
    "sections": [
     {
      "no": "13.1",
-     "title": "Area of Triangles and Quadrilaterals: concepts, formulas and worked problems"
+     "title": "Basic area formulas to remember"
     },
     {
      "no": "13.2",
+     "title": "Same base, between the same parallels"
+    },
+    {
+     "no": "13.3",
+     "title": "Theorem 1 — parallelograms on the same base"
+    },
+    {
+     "no": "13.4",
+     "title": "Theorem 2 — triangle and parallelogram"
+    },
+    {
+     "no": "13.5",
+     "title": "Theorem 3 — triangles on the same base"
+    },
+    {
+     "no": "13.6",
+     "title": "Using the theorems"
+    },
+    {
+     "no": "13.7",
      "title": "Exercises of the SEE type"
     }
    ],
@@ -508,7 +873,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2927,
+    "words": 2921,
     "figures": 4,
     "examples": 13
    },
@@ -520,16 +885,51 @@
    "hours": null,
    "area": "Compulsory Mathematics",
    "topics": [
-    "Construction: concepts, formulas and worked problems",
+    "Equipment and conventions",
+    "Basic constructions you need",
+    "Parallel line through a point",
+    "A triangle equal in area to a quadrilateral",
+    "A parallelogram equal in area to a triangle",
+    "A rectangle equal to a triangle",
+    "A square equal to a rectangle",
+    "Constructing the triangle first",
     "Exercises of the SEE type"
    ],
    "sections": [
     {
      "no": "14.1",
-     "title": "Construction: concepts, formulas and worked problems"
+     "title": "Equipment and conventions"
     },
     {
      "no": "14.2",
+     "title": "Basic constructions you need"
+    },
+    {
+     "no": "14.3",
+     "title": "Parallel line through a point"
+    },
+    {
+     "no": "14.4",
+     "title": "A triangle equal in area to a quadrilateral"
+    },
+    {
+     "no": "14.5",
+     "title": "A parallelogram equal in area to a triangle"
+    },
+    {
+     "no": "14.6",
+     "title": "A rectangle equal to a triangle"
+    },
+    {
+     "no": "14.7",
+     "title": "A square equal to a rectangle"
+    },
+    {
+     "no": "14.8",
+     "title": "Constructing the triangle first"
+    },
+    {
+     "no": "14.9",
      "title": "Exercises of the SEE type"
     }
    ],
@@ -556,16 +956,36 @@
    "hours": null,
    "area": "Compulsory Mathematics",
    "topics": [
-    "Circle: concepts, formulas and worked problems",
+    "Vocabulary and chords",
+    "Angle at the centre and at the circumference",
+    "Angles in the same segment; angle in a semicircle",
+    "Cyclic quadrilaterals",
+    "Tangents",
     "Exercises of the SEE type"
    ],
    "sections": [
     {
      "no": "15.1",
-     "title": "Circle: concepts, formulas and worked problems"
+     "title": "Vocabulary and chords"
     },
     {
      "no": "15.2",
+     "title": "Angle at the centre and at the circumference"
+    },
+    {
+     "no": "15.3",
+     "title": "Angles in the same segment; angle in a semicircle"
+    },
+    {
+     "no": "15.4",
+     "title": "Cyclic quadrilaterals"
+    },
+    {
+     "no": "15.5",
+     "title": "Tangents"
+    },
+    {
+     "no": "15.6",
      "title": "Exercises of the SEE type"
     }
    ],
@@ -581,7 +1001,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2936,
+    "words": 2933,
     "figures": 5,
     "examples": 19
    },
@@ -593,16 +1013,36 @@
    "hours": null,
    "area": "Compulsory Mathematics",
    "topics": [
-    "Trigonometry: concepts, formulas and worked problems",
+    "The right-angled triangle and its sides",
+    "Ratios of 30^°, 45^° and 60^°",
+    "Complementary angles",
+    "Identities",
+    "Heights and distances",
     "Exercises of the SEE type"
    ],
    "sections": [
     {
      "no": "16.1",
-     "title": "Trigonometry: concepts, formulas and worked problems"
+     "title": "The right-angled triangle and its sides"
     },
     {
      "no": "16.2",
+     "title": "Ratios of 30^°, 45^° and 60^°"
+    },
+    {
+     "no": "16.3",
+     "title": "Complementary angles"
+    },
+    {
+     "no": "16.4",
+     "title": "Identities"
+    },
+    {
+     "no": "16.5",
+     "title": "Heights and distances"
+    },
+    {
+     "no": "16.6",
      "title": "Exercises of the SEE type"
     }
    ],
@@ -617,7 +1057,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2348,
+    "words": 2345,
     "figures": 5,
     "examples": 26
    },
@@ -629,16 +1069,46 @@
    "hours": null,
    "area": "Compulsory Mathematics",
    "topics": [
-    "Statistics: concepts, formulas and worked problems",
+    "Recall: measures of central tendency",
+    "Why we need dispersion",
+    "Range",
+    "Quartile deviation",
+    "Mean deviation",
+    "Standard deviation",
+    "Coefficient of variation and consistency",
     "Exercises of the SEE type"
    ],
    "sections": [
     {
      "no": "17.1",
-     "title": "Statistics: concepts, formulas and worked problems"
+     "title": "Recall: measures of central tendency"
     },
     {
      "no": "17.2",
+     "title": "Why we need dispersion"
+    },
+    {
+     "no": "17.3",
+     "title": "Range"
+    },
+    {
+     "no": "17.4",
+     "title": "Quartile deviation"
+    },
+    {
+     "no": "17.5",
+     "title": "Mean deviation"
+    },
+    {
+     "no": "17.6",
+     "title": "Standard deviation"
+    },
+    {
+     "no": "17.7",
+     "title": "Coefficient of variation and consistency"
+    },
+    {
+     "no": "17.8",
      "title": "Exercises of the SEE type"
     }
    ],
@@ -653,7 +1123,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2543,
+    "words": 2542,
     "figures": 3,
     "examples": 17
    },
@@ -665,16 +1135,51 @@
    "hours": null,
    "area": "Compulsory Mathematics",
    "topics": [
-    "Probability: concepts, formulas and worked problems",
+    "Key terms",
+    "The probability of an event",
+    "Two dice: the sample-space table",
+    "Playing cards",
+    "Complementary events and \"at least one\"",
+    "Addition rule for \"or\"",
+    "Independent events and the multiplication rule",
+    "Tree diagrams: drawing without replacement",
     "Exercises of the SEE type"
    ],
    "sections": [
     {
      "no": "18.1",
-     "title": "Probability: concepts, formulas and worked problems"
+     "title": "Key terms"
     },
     {
      "no": "18.2",
+     "title": "The probability of an event"
+    },
+    {
+     "no": "18.3",
+     "title": "Two dice: the sample-space table"
+    },
+    {
+     "no": "18.4",
+     "title": "Playing cards"
+    },
+    {
+     "no": "18.5",
+     "title": "Complementary events and \"at least one\""
+    },
+    {
+     "no": "18.6",
+     "title": "Addition rule for \"or\""
+    },
+    {
+     "no": "18.7",
+     "title": "Independent events and the multiplication rule"
+    },
+    {
+     "no": "18.8",
+     "title": "Tree diagrams: drawing without replacement"
+    },
+    {
+     "no": "18.9",
      "title": "Exercises of the SEE type"
     }
    ],
@@ -697,6 +1202,6 @@
   }
  ],
  "unit_count": 18,
- "topic_count": 36,
+ "topic_count": 137,
  "notes_ready": 18
 }

@@ -1003,24 +1003,3 @@ seventy.
   scheme, so an eliminated guess between two options is worth half a mark on
   average and a blank is worth nothing.
 
-::: note Sources reached for this chapter
-- **NEB 2080 (2023), Computer Science, Sub. Code 4281, "New course", 2 hrs, Full
-  Marks 50** — the original scanned question paper, read page by page. All nine
-  Group A items in this chapter tagged *(NEB 2080)* are transcribed from it.
-- **NEB 2079 Grade 12 Computer examination paper**, published with worked
-  solutions at nepalieducate.com. The nine items tagged *(NEB 2079)* come from
-  it. Note that the published solution to the `DELETE`/`DROP` item is wrong; the
-  answer given in this chapter is the correct one.
-- **NEB Grade 12 Computer model question** for the new course (Group A 9×1,
-  Group B 5×5, Group C 2×8), same source. Items tagged *(NEB model question)*
-  come from it.
-- **NEB Grade 12 Computer Science curriculum**, units and teaching hours, as
-  used throughout this book.
-- **Could not be verified:** the 2078 and 2081 Computer Science papers were not
-  reachable, and neb.gov.np's model-question repository did not respond. No
-  question in this chapter is tagged with either of those years. One item in the
-  model question (the `<A>` tag) listed "create a link" and "create a hyperlink"
-  as separate options; it is reproduced here in corrected form and marked as
-  adapted. One model-question item depended on a program image that could not be
-  recovered, and is not reproduced.
-:::

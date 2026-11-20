@@ -7,7 +7,7 @@ hours: 8
 area: Mathematics
 ---
 
-Calculus is, with algebra, the heaviest block of the paper (our estimate: about **8 questions**). The official booklet's model questions include a hyperbolic-inverse derivative and a first-order linear differential equation, so the syllabus is read broadly: standard limits, derivatives of inverse and hyperbolic functions, tangent / rate / extremum problems, a definite integral or an area, and a first-order differential equation. Speed comes from knowing the standard results cold.
+Calculus is, with algebra, the heaviest block of the paper. The official booklet's model questions include a hyperbolic-inverse derivative and a first-order linear differential equation, so the syllabus is read broadly: standard limits, derivatives of inverse and hyperbolic functions, tangent / rate / extremum problems, a definite integral or an area, and a first-order differential equation. Speed comes from knowing the standard results cold.
 
 ::: key What the paper asks from this chapter
 - Standard limits and L'Hôpital: $\frac{\sin x}{x}$, $\frac{1-\cos x}{x^2}$, $\frac{e^x-1}{x}$, $(1+x)^{1/x}$.

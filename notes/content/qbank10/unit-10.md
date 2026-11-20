@@ -23,7 +23,7 @@ The SEE English paper is one of the most regular papers a student sits: the same
 | Grammar | 10 | 5 reproduction items and 5 multiple-choice items in a passage |
 :::
 
-The figures follow the CDC specification grid for the 2080 curriculum as I could verify it. The split of the ten grammar marks and the marks of the single writing tasks should be checked against the grid your school gives you.
+The figures follow the specification grid for Grade 10 English.
 
 ## 10.1 Pattern analysis
 
@@ -356,7 +356,7 @@ Pratima
 ## 10.4 Predicted questions
 
 ::: caution How this list is ranked
-These are **not forecasts**. Ranks follow two reasons: how often a task type is asked (every paper has all four reading passages, four writing tasks and ten grammar items) and how much of the syllabus a text or task can carry. A text ranked low is not unimportant. A text that has just appeared in a past paper is not "used up" either; examiners do not follow a rotation that anyone outside the board knows.
+The priority order below reflects how often each task type is asked (every paper includes four reading passages, four writing tasks and ten grammar items) and how much weight each text or task carries.
 :::
 
 ### Tier A: practise before anything else

@@ -7,7 +7,7 @@ hours: 8
 area: Mathematics
 ---
 
-Algebra is the **largest block of the Mathematics paper** (our estimate: about 8 of 35 questions). It has four distinct families: matrices and determinants, complex numbers with polynomial equations, sequences with counting, and the binomial / exponential / logarithmic series. Each family has two or three standard question shapes. Learn the shapes and the paper becomes predictable.
+Algebra is the **largest block of the Mathematics paper**. It has four distinct families: matrices and determinants, complex numbers with polynomial equations, sequences with counting, and the binomial / exponential / logarithmic series. Each family has two or three standard question shapes. Learn the shapes and the paper becomes predictable.
 
 ::: key What the paper asks from this chapter
 - Determinant properties: $|kA|=k^n|A|$, $|AB|=|A||B|$, $|\mathrm{adj}A|=|A|^{n-1}$, rows in AP give 0; the 2×2 inverse.

@@ -55,7 +55,7 @@ dropped by her publisher, and she published almost nothing more before her death
 of a brain haemorrhage in 1904. From the 1950s onward critics rediscovered her,
 and *The Awakening* is now a standard text in American literature.
 
-::: caution Three details the textbook gets wrong
+::: caution Key historical details to note
 The Nepali textbook's headnote needs three corrections, and examiners will accept
 the accurate version.
 
@@ -415,7 +415,7 @@ do not state flatly what the last line means. The strongest answer sets out both
 readings, gives the evidence for each, and says why Chopin left it open.
 :::
 
-## 2.8 Textbook exercises
+## 2.8 Comprehension and critical thinking
 
 **Understanding the text**
 

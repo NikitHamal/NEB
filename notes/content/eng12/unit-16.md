@@ -356,7 +356,7 @@ scholarly article.
 | puncture | to make a hole in something so that the air escapes |
 | tribes | (here) any group that thinks of itself as "us" against "them" |
 
-## 16.7 Textbook exercises
+## 16.7 Comprehension and critical thinking
 
 **Before you read**
 

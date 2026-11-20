@@ -567,28 +567,6 @@ comes first. Do both, in that order.
   with two Maths papers; MECEE-BL needs 50% aggregate or GPA 2.4. Admission
   rank comes from the entrance score.
 
-::: note Sources reached for this chapter
-**Examination pattern and marks:** NEB Grade 12 past papers 2079 and 2080
-(subject codes 4281, 0041, 0021) and the CDC *Curriculum for Grades 11 and 12,
-Compulsory Subjects, 2076*, which carries the English (Reading 35 / Writing 25
-/ Grammar 10 / Vocabulary 5) and Nepali mark-allocation tables.
-**IOE:** the Institute of Engineering undergraduate BE admission page,
-`ioe.tu.edu.np`, read 2026-09-28.
-**MECEE-BL:** Medical Education Commission, *Syllabus for Bachelor Level Common
-Entrance Examination 2020*, third revision dated 28 April 2026, published at
-`mec.gov.np`.
-**Cognitive science:** Roediger & Karpicke, *Psychological Science* 17(3), 2006;
-Karpicke & Roediger, *Science* 319, 2008; Cepeda, Pashler, Vul, Wixted & Rohrer,
-*Psychological Bulletin* 132(3), 2006; Cepeda et al., *Psychological Science*
-19(11), 2008; Dunlosky, Rawson, Marsh, Nathan & Willingham, *Psychological
-Science in the Public Interest* 14(1), 2013.
-**Not verified:** no standalone CDC specification grid for Grade 11–12
-Compulsory English, Nepali or Computer Science could be reached; the grids above
-are taken from the curriculum documents and from the papers themselves. The
-current CMAT structure could not be verified from an official source and is
-therefore not stated.
-:::
-
 ## Practice questions
 
 **Group A — Do you know your own paper? (1 mark each)**

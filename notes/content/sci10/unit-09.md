@@ -181,7 +181,7 @@ Heat capacity $= mc$.
 | Mercury | 140 |
 | Lead | 130 |
 
-**Three metal balls on a paraffin wax slab (Textbook experiment):**
+**Three metal balls on a paraffin wax slab:**
 Take three solid balls of **iron** ($c \approx 450$), **copper** ($c \approx 390$) and **lead** ($c \approx 130\ \text{J kg}^{-1}\ ^\circ\text{C}^{-1}$) of **equal mass**, heat all three together in boiling water ($100\ ^\circ\text{C}$) so they reach the same initial temperature, and place them simultaneously on a thick slab of **paraffin wax**:
 - **Iron ball sinks the deepest:** Because iron has the **highest specific heat capacity** among the three, it absorbs the most heat at $100\ ^\circ\text{C}$ and releases the greatest amount of heat ($Q = mc\Delta T$) while cooling, melting the most wax.
 - **Copper ball sinks to an intermediate depth.**

@@ -31,7 +31,7 @@ Questions are usually: define taxonomy / binomial nomenclature (2 marks); differ
 
 ### Early classification
 
-The Greek scientist **Aristotle** (384–322 BC) first grouped organisms as plants and animals, and plants as herbs, shrubs and trees. **Carolus Linnaeus** (1707–1778), a Swedish botanist, is called the **father of taxonomy**. He introduced the system of naming organisms with two names and arranged them in ranks. **R. H. Whittaker** (1969) proposed the five-kingdom system that this unit follows.
+The Greek scientist **Aristotle** (384–322 BC) first grouped organisms as plants and animals, and plants as herbs, shrubs and trees. **Carolus Linnaeus** (1707–1778), a Swedish botanist, is called the **father of taxonomy**. He introduced the system of naming organisms with two names and arranged them in ranks. **R. H. Whittaker** (1969) proposed the five-kingdom system of classification.
 
 ### Taxonomic hierarchy
 
@@ -222,7 +222,7 @@ Protista is often called the "kingdom of leftovers", because it contains eukaryo
 - **Multicellular**, **eukaryotic** organisms with a rigid **cell wall made of cellulose**.
 - Contain **chlorophyll** inside plastids (chloroplasts) and prepare their own food by **photosynthesis** (**autotrophic** producers).
 - Reserve food is stored mainly as **starch**.
-- In the official CDC Grade 10 curriculum, **Kingdom Plantae** is classified into **three main divisions**: **Algae**, **Bryophyta** and **Tracheophyta** (vascular plants), and Division **Tracheophyta** is further divided into **three sub-divisions**: **Pteridophyta**, **Gymnosperms** and **Angiosperms**.
+- **Kingdom Plantae** is classified into **three main divisions**: **Algae**, **Bryophyta** and **Tracheophyta** (vascular plants), and Division **Tracheophyta** is further divided into **three sub-divisions**: **Pteridophyta**, **Gymnosperms** and **Angiosperms**.
 
 | Division / Sub-division | Key identifying characteristics | Examples |
 |---|---|---|

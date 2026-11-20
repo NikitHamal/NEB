@@ -7,8 +7,7 @@ hours: 1
 area: Physical Chemistry
 ---
 
-Redox reactions carry about **one question** in the paper (our estimate from the MEC topic
-list), but oxidation numbers and balanced redox equations are used again in
+Redox reactions carry about **one question** in the paper, but oxidation numbers and balanced redox equations are used again in
 electrochemistry, volumetric analysis (permanganate and dichromate titrations), metallurgy
 and the chemistry of non-metals. The question is usually an oxidation number (often a
 tricky one such as Fe₃O₄, CrO₅ or S₄O₆²⁻), identifying the oxidant, reductant or a

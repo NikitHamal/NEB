@@ -9,10 +9,6 @@ area: Optional Mathematics
 
 This chapter does three jobs. It sets out the **pattern** of the 50-mark Optional Mathematics paper used throughout this bank and shows where each unit's marks come from; it gives **two complete model papers**, each of 50 marks and two hours, with a full solution to every question; and it closes with a **ranked list of practice priorities**, each with the reason it holds its place. Sit each model paper in one go, with a clock, before you look at the solutions.
 
-::: caution What "predicted" means here, and what it does not
-Optional Mathematics in grade 8 is set and marked by your own school, so no outsider knows your paper. The ranks in section 22.4 rest only on the paper's pattern and on the syllabus: a high rank means **practise this first**, never "this will come"; a low rank means "less likely to carry many marks", never "safe to skip". Every question in this chapter is an original practice item; none is copied from any school's paper.
-:::
-
 ::: key The pattern: 50 marks in 2 hours
 | Group | Questions | Marks each | Total | What it asks for |
 |---|---|---|---|---|

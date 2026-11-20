@@ -13,10 +13,6 @@ Group A of the NEB Grade 11 Chemistry paper is eleven one-mark multiple-choice q
 Almost nothing in Group A is a long calculation. It tests four things: a **definition or name**, a **formula or reagent**, a **one-step calculation** (a mole, a ratio, an oxidation number), or a **misconception** offered as a distractor. If an MCQ is taking you more than ninety seconds, you have misread it.
 :::
 
-::: caution No question here carries a year tag — and that is deliberate
-NEB does not publish its Grade 11 question papers, and this book could not verify any item against an official released paper. Rather than print a year it cannot stand behind, it prints none. What it can stand behind is the **syllabus weighting** (General and Physical 48 h, Inorganic 35 h, Organic 30 h, Applied 15 h of 128), and every question below is built from it. Treat this as a bank of exam-shaped questions, not a leaked paper.
-:::
-
 ## 5.1 Foundation and Fundamentals
 
 | High-yield fact | Value / form |

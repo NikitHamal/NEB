@@ -15,10 +15,6 @@ The SEE Compulsory Mathematics paper is 16 questions, each worth about four or f
 - **Use the stated constants.** Take $\pi=\frac{22}{7}$ unless the question says otherwise, and give units (Rs, cm², m³, litres).
 :::
 
-::: caution About years and sources
-Every question is an original **practice** question written to the CDC pattern. No question is labelled with a year because none is claimed to have appeared in a specific paper.
-:::
-
 ## 6.1 Sets
 
 1. In a survey of 100 people, 60 like tea, 50 like coffee and 15 like neither. (a) Find the number who like both. (b) Draw a Venn diagram. (c) How many like only tea? <span class="marks">[1+1+2]</span>

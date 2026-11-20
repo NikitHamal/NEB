@@ -7,7 +7,7 @@ hours: 4
 area: Mathematics
 ---
 
-Trigonometry carries about **4 questions** (our estimate). Three kinds dominate: a general solution or a count of solutions in $[0,2\pi]$; an inverse-trigonometric identity or principal value; and a triangle question (sine rule, cosine rule, area, inradius, circumradius). All three are formula-driven, and the Section B versions simply chain two formulas.
+Trigonometry carries about **4 questions**. Three kinds dominate: a general solution or a count of solutions in $[0,2\pi]$; an inverse-trigonometric identity or principal value; and a triangle question (sine rule, cosine rule, area, inradius, circumradius). All three are formula-driven, and the Section B versions simply chain two formulas.
 
 ::: key What the paper asks from this chapter
 - General solutions: $\sin\theta=\sin\alpha\Rightarrow\theta=n\pi+(-1)^n\alpha$; $\cos\theta=\cos\alpha\Rightarrow\theta=2n\pi\pm\alpha$; $\tan\theta=\tan\alpha\Rightarrow\theta=n\pi+\alpha$.

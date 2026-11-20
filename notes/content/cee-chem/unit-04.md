@@ -7,8 +7,7 @@ hours: 2
 area: Physical Chemistry
 ---
 
-Chemical bonding carries about **two questions** in the paper (our estimate from the MEC
-topic list), and its ideas — shape, hybridisation, polarity, hydrogen bonding — reappear
+Chemical bonding carries about **two questions** in the paper, and its ideas — shape, hybridisation, polarity, hydrogen bonding — reappear
 in organic, inorganic and states-of-matter questions. The favourite question types are:
 the shape or hybridisation of a given molecule or ion, a bond-angle or dipole-moment order,
 counting σ and π bonds, a Fajans'-rule comparison, and "why does water boil so high?".

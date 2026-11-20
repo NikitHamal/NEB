@@ -7,10 +7,10 @@ hours: 0
 area: Science and Technology
 ---
 
-Every day we preserve pickles with salt and oil, wash clothes with soap or detergent, see fruits ripened for the market, and hear of farmers protecting crops from pests. In the **CDC Grade 10 Science and Technology** curriculum, this unit examines **food preservatives** (natural/organic and chemical preservatives, plus **artificial fruit-ripening agents** such as calcium carbide, ethylene and ethephon), **cleaning chemicals** (natural cleansers, **soap and laboratory saponification**, **detergents / soapless soaps**), **pesticides** (**chemical vs biological pesticides**, insecticides, herbicides, fungicides, rodenticides, miticides, and precautions under the **Pesticides Management Act 2076**), and **chemical pollution and its management**.
+Every day we preserve pickles with salt and oil, wash clothes with soap or detergent, see fruits ripened for the market, and hear of farmers protecting crops from pests. This unit covers **food preservatives** (natural/organic and chemical preservatives, plus **artificial fruit-ripening agents** such as calcium carbide, ethylene and ethephon), **cleaning chemicals** (natural cleansers, **soap and laboratory saponification**, **detergents / soapless soaps**), **pesticides** (**chemical vs biological pesticides**, insecticides, herbicides, fungicides, rodenticides, miticides, and precautions under the **Pesticides Management Act 2076**), and **chemical pollution and its management**.
 
 ::: key What SEE asks from this chapter
-Expect 1-mark and 2-mark questions on **natural vs chemical food preservatives**, **why calcium carbide is harmful for ripening fruits compared to ethylene/ethephon** (SEE 2080), **why detergent is called a soapless soap** and **why detergent is more efficient in laundry yet more polluting than soap** (SEE 2080 Bagmati, Karnali, Lumbini), **why common salt ($\text{NaCl}$) is added during soap making**, **full forms of DDT and BHC**, **chemical vs biological pesticides**, and 4-mark questions on the **laboratory soap-making process**, **precautions in storing/using pesticides** (SEE 2080 Koshi), and **causes, effects and management of industrial/chemical pollution**.
+Expect 1-mark and 2-mark questions on **natural vs chemical food preservatives**, **why calcium carbide is harmful for ripening fruits compared to ethylene/ethephon**, **why detergent is called a soapless soap** and **why detergent is more efficient in laundry yet more polluting than soap**, **why common salt ($\text{NaCl}$) is added during soap making**, **full forms of DDT and BHC**, **chemical vs biological pesticides**, and 4-mark questions on the **laboratory soap-making process**, **precautions in storing/using pesticides**, and **causes, effects and management of industrial/chemical pollution**.
 :::
 
 ## 19.1 Food preservatives and artificial fruit ripening agents
@@ -21,7 +21,7 @@ Expect 1-mark and 2-mark questions on **natural vs chemical food preservatives**
 **Food preservatives** are natural or synthetic substances added to food items to prevent or slow down spoilage, decay and loss of nutritional value caused by microorganisms (bacteria, fungi, moulds and yeasts) or oxidation, thereby extending their shelf life.
 :::
 
-**Why food preservatives are used (Advantages — SEE 2080 Gandaki/Sudurpaschim):**
+**Why food preservatives are used (Advantages):**
 1. They inhibit the growth of bacteria, moulds and yeast, keeping food safe for a long period.
 2. They preserve the colour, flavour, texture and nutritional quality of food and reduce food wastage and cost.
 3. They allow seasonal foods, fruits and vegetables to be stored and transported to distant markets.
@@ -58,7 +58,7 @@ To bring unripe fruits (such as mangoes, bananas and papayas) to market quickly,
 1. **Calcium carbide ($\text{CaC}_2$ — Harmful / Banned):**
    When calcium carbide comes in contact with moisture in the air, it reacts to release **acetylene gas ($\text{C}_2\text{H}_2$)**, which artificially heats and turns the skin of fruits yellow:
    $$\text{CaC}_2 + 2\text{H}_2\text{O} \longrightarrow \text{Ca(OH)}_2 + \text{C}_2\text{H}_2 \uparrow \text{ (acetylene gas)}$$
-   - **Why calcium carbide is dangerous (SEE 2080):** Commercial calcium carbide contains traces of toxic **arsenic and phosphorus hydrides**. Eating fruits ripened with $\text{CaC}_2$ causes **skin itching and rashes, red and itchy eyes, mouth ulcers, vomiting, diarrhoea, dizziness, breathing difficulty**, and chronic damage to the **liver, kidneys and nervous system** (and cancer).
+   - **Why calcium carbide is dangerous:** Commercial calcium carbide contains traces of toxic **arsenic and phosphorus hydrides**. Eating fruits ripened with $\text{CaC}_2$ causes **skin itching and rashes, red and itchy eyes, mouth ulcers, vomiting, diarrhoea, dizziness, breathing difficulty**, and chronic damage to the **liver, kidneys and nervous system** (and cancer).
 2. **Ethylene gas ($\text{C}_2\text{H}_4$ — Safe):**
    Ethylene is the **natural plant hormone** produced by ripening fruits themselves. Releasing controlled concentrations of pure ethylene gas in ripening chambers ripens fruits uniformly and safely without toxic residues.
 3. **Ethephon ($2$-chloroethylphosphonic acid):**
@@ -85,7 +85,7 @@ $$\text{Fat or Oil} + 3\text{NaOH} \xrightarrow{\Delta} 3\text{C}_{17}\text{H}_{
 ```photo id="sci10/soap" caption="Bars of ordinary hard soap (sodium salt of fatty acids), manufactured by heating vegetable oil or animal fat with sodium hydroxide and salting out with common salt." width="54"
 ```
 
-- **Laboratory preparation of soap (Textbook & SEE 4-mark procedure):**
+- **Laboratory preparation of soap:**
   - *Materials required:* Vegetable oil (e.g. $40\ \text{mL}$ coconut, mustard or cottonseed oil) or animal fat, sodium hydroxide ($\text{NaOH}$, $15\ \text{g}$ dissolved in $50\ \text{mL}$ water), common salt ($\text{NaCl}$), beaker, glass rod, Bunsen burner, funnel, filter paper and mould.
   - *Procedure:*
     1. Take about $40\ \text{mL}$ of vegetable oil in a beaker and add $50\ \text{mL}$ of concentrated $\text{NaOH}$ solution.
@@ -130,13 +130,13 @@ A **detergent** is a synthetic petrochemical cleansing agent — typically the *
   1. **Sodium lauryl sulphate** ($\text{C}_{12}\text{H}_{25}\text{OSO}_3\text{Na}$)
   2. **Sodium alkyl benzene sulphonate** (e.g. sodium dodecylbenzene sulphonate)
   3. **Sodium pyrophosphate**
-- **Why detergent is more efficient than soap in laundry (SEE 2080 Lumbini):**
+- **Why detergent is more efficient than soap in laundry:**
   Hard water contains dissolved calcium ($\text{Ca}^{2+}$) and magnesium ($\text{Mg}^{2+}$) ions. Ordinary soap reacts with $\text{Ca}^{2+}$ and $\text{Mg}^{2+}$ to form sticky, insoluble curdy precipitate (**scum**, $(\text{C}_{17}\text{H}_{35}\text{COO})_2\text{Ca} \downarrow$), wasting soap and staining clothes. In contrast, the calcium and magnesium salts of detergents are **soluble in water**, so detergents lather freely in both **hard water and soft water** (and even acidic water) and remove dirt without vigorous hand-rubbing.
-- **Why detergent is considered a greater pollutant than soap (SEE 2080 Karnali):**
+- **Why detergent is considered a greater pollutant than soap:**
   Soap is made from natural vegetable oils or fats and is completely **biodegradable** (broken down by aquatic bacteria). Many synthetic detergents contain branched hydrocarbon chains and phosphates that are **non-biodegradable**; when discharged into ponds, rivers and soil, they persist as toxic foam, cause **eutrophication (excessive algal bloom that depletes dissolved oxygen)**, kill fish and aquatic life, and degrade soil fertility.
 - **Other household cleaning chemicals and their effects:** **Phenyl** (contains phenol/chlorophenol, a disinfectant that can pollute water and soil), **bleaching powder ($\text{CaOCl}_2$)** (disinfects water and toilets, but chlorine can react with organic matter to form toxic compounds), and **hydrochloric acid toilet cleaners** (corrosive; kill beneficial septic/soil bacteria).
 
-| Basis | Soap (SEE 2080 Bagmati) | Detergent |
+| Basis | Soap | Detergent |
 |---|---|---|
 | **Chemical nature** | Sodium or potassium salt of long-chain fatty acids (e.g. sodium stearate) | Sodium salt of long-chain alkyl benzene sulphonic acid or alkyl sulphate |
 | **Raw materials** | Natural vegetable oils or animal fats + alkali ($\text{NaOH}/\text{KOH}$) | Synthetic petrochemicals (hydrocarbons from petroleum) + $\text{H}_2\text{SO}_4$ + $\text{NaOH}$ |
@@ -178,11 +178,11 @@ A **detergent** is a synthetic petrochemical cleansing agent — typically the *
    - **Systemic pesticides:** Absorbed by plant roots or leaves and translocated through the sap, killing sap-sucking pests (e.g. Dimethoate, Imidacloprid).
    - **Fumigants:** Produce poisonous vapour/gas to kill pests in stored grain godowns (e.g. Aluminium phosphide / Celphos).
 
-::: caution Why DDT is banned in many countries (Give reason — SEE pattern)
+::: caution Why DDT is banned in many countries
 **DDT** (*Dichlorodiphenyltrichloroethane*) is a **non-biodegradable** organochlorine insecticide that persists in soil and water for decades. It kills beneficial insects (like honey bees) alongside pests, enters food chains, and undergoes **biomagnification** (accumulating in fatty tissues of fish, birds and humans), causing thin eggshells in birds, ecological imbalance, reproductive disorders and cancer.
 :::
 
-### Precautions in Storing and Using Chemical Pesticides (SEE 2080 Koshi)
+### Precautions in Storing and Using Chemical Pesticides
 
 1. Import, production, sale and use of pesticides must strictly follow the **Pesticides Management Act 2076 (जीवनाशक विषादी व्यवस्थापन ऐन, २०७६)**; banned pesticides must never be used.
 2. Buy and apply pesticides only in the exact dose recommended by an agricultural technician (**JTA / JT**).
@@ -232,7 +232,7 @@ ax.text(6.0, 0.25, "Increasing concentration of non-biodegradable DDT along the 
 fig.tight_layout()
 ```
 
-::: example Identifying fruit-ripening hazard (SEE 2080 Grade Increment Question)
+::: example Identifying a fruit-ripening hazard
 **Problem.** A person ate mangoes ripened artificially to reach the market early. Soon after, he developed skin itching and rashes, red and itchy eyes, and breathing difficulty. (a) Which chemical was likely used to ripen the mangoes? (b) Which gas does it release with moisture, and what is a chronic effect of its excessive use?
 
 **Solution.** (a) The chemical used was **calcium carbide ($\text{CaC}_2$)**, which contains toxic arsenic and phosphorus impurities.
@@ -280,7 +280,7 @@ Detergents form water-soluble calcium and magnesium salts, so no scum precipitat
    (a) Calcium carbonate (b) Calcium carbide (c) Sodium sulphate (d) Sodium benzoate
 5. Which of the following is a chemical food preservative used in fruit juices and squashes? <span class="marks">[1]</span>
    (a) Sodium lauryl sulphate (b) Sodium stearate (c) Sodium benzoate (d) Zinc phosphide
-6. Which of the following pollutants is non-biodegradable? (SEE 2080 Koshi) <span class="marks">[1]</span>
+6. Which of the following pollutants is non-biodegradable? <span class="marks">[1]</span>
    (a) Vegetable peel (b) Paper (c) Cattle dung (d) Plastic and glass
 
 ::: note Answers to Group A
@@ -295,11 +295,11 @@ Detergents form water-soluble calcium and magnesium salts, so no scum precipitat
 **Group B — Short answer (2 marks each)**
 
 1. Write the full forms of **DDT** and **BHC**. Why is salt ($\text{NaCl}$) added during the process of making soap? <span class="marks">[2]</span>
-2. Differentiate between **soap and detergent** in any two points. (SEE 2080 Bagmati) <span class="marks">[2]</span>
-3. Give reason: **Detergent is considered more efficient in laundry than soap, yet it is a greater pollutant than soap.** (SEE 2080 Karnali / Lumbini) <span class="marks">[2]</span>
+2. Differentiate between **soap and detergent** in any two points. <span class="marks">[2]</span>
+3. Give reason: **Detergent is considered more efficient in laundry than soap, yet it is a greater pollutant than soap.** <span class="marks">[2]</span>
 4. Differentiate between **natural (organic) food preservatives and chemical food preservatives** in two points. <span class="marks">[2]</span>
 5. Differentiate between **chemical pesticides and biological pesticides** in two points. <span class="marks">[2]</span>
-6. Give reason: **We should store and use chemical pesticides very carefully** (SEE 2080 Koshi), and **the use of DDT causes imbalance in the ecosystem**. <span class="marks">[2]</span>
+6. Give reason: **We should store and use chemical pesticides very carefully**, and **the use of DDT causes imbalance in the ecosystem**. <span class="marks">[2]</span>
 
 ::: note Answers to Group B
 **1.** **DDT:** *Dichlorodiphenyltrichloroethane*; **BHC:** *Benzene hexachloride*. Common salt ($\text{NaCl}$) is added during soap making to decrease the solubility of soap and **precipitate solid soap out of the glycerol solution** ("salting out").
@@ -313,9 +313,9 @@ Detergents form water-soluble calcium and magnesium salts, so no scum precipitat
 **Group C — Long answer (4 marks each)**
 
 1. Explain the laboratory process of making soap with a labelled diagram, listing the required materials and the role of sodium chloride. <span class="marks">[4]</span>
-2. What are food preservatives? Write any two advantages of using food preservatives and two precautions to remember while using them. Also explain how fruits are ripened artificially using ethylene gas and why calcium carbide should be avoided. (SEE 2080) <span class="marks">[4]</span>
+2. What are food preservatives? Write any two advantages of using food preservatives and two precautions to remember while using them. Also explain how fruits are ripened artificially using ethylene gas and why calcium carbide should be avoided. <span class="marks">[4]</span>
 3. What precautions should be taken while buying, storing and spraying chemical pesticides? Mention any four points. What alternatives would you suggest to a village facing health and soil problems from excessive pesticide use? <span class="marks">[4]</span>
-4. What is chemical pollution? Mention the causes of pollution from industrial products (cement, glass, ceramics, plastics, chemical fertilisers and detergents) in your locality and write four practical ways to manage them. (SEE 2080) <span class="marks">[4]</span>
+4. What is chemical pollution? Mention the causes of pollution from industrial products (cement, glass, ceramics, plastics, chemical fertilisers and detergents) in your locality and write four practical ways to manage them. <span class="marks">[4]</span>
 
 ::: note Answers to Group C
 **1.** *Materials:* Vegetable oil ($40\ \text{mL}$), $\text{NaOH}$ ($15\ \text{g}$ in $50\ \text{mL}$ water), common salt ($\text{NaCl}$), beaker, burner, filter paper. *Process:* (i) Mix vegetable oil and $\text{NaOH}$ solution in a beaker and heat gently while stirring in one direction until a thick paste forms (saponification: $\text{Fat/Oil} + \text{NaOH} \rightarrow \text{Soap} + \text{Glycerol}$). (ii) Add common salt ($\text{NaCl}$) and stir; soap precipitates as a solid upper layer because soap is insoluble in brine. (iii) Cool and filter the solid soap on filter paper, wash with cold water and press into a mould. (Draw Figure 1b.)
@@ -323,5 +323,4 @@ Detergents form water-soluble calcium and magnesium salts, so no scum precipitat
 **3.** *Precautions:* (i) Use only pesticides permitted under the **Pesticides Management Act 2076** as prescribed by a JTA; (ii) wear PPE (mask, gloves, goggles, boots) while spraying; (iii) store in labelled, sealed containers out of reach of children; (iv) observe the pre-harvest waiting period before selling or eating crops and wash hands with soap after use. *Alternatives:* Switch to **biological pesticides** (Neem, *Titepati*, ash, cow urine), **organic compost/manure**, crop rotation and **Integrated Pest Management (IPM)**.
 **4.** Contamination of air, water and soil by harmful synthetic/industrial chemicals is chemical pollution. *Causes:* haphazard dumping of non-biodegradable plastics, glass, ceramics and synthetic fibres; overuse of chemical fertilisers and pesticides; untreated discharge of detergent/phenyl wastewater; and unsealed cement/industrial dust. *Management:* (i) segregate biodegradable and non-biodegradable wastes and apply the **3R principle** to plastics, glass and metals; (ii) keep cement bags covered and install industrial dust/effluent filters; (iii) use organic manure and biopesticides instead of excess agrochemicals; (iv) use biodegradable cleansers and never discharge chemical wastewater directly into rivers or farmland.
 :::
-
 

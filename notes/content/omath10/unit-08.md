@@ -16,7 +16,7 @@ Expect (i) a dot product from components, the angle between two vectors and the 
 ```photo id="omath10/tower-crane" caption="A tower crane. The load's weight, the weight of the jib and the tension in the tie are three forces that add as vectors; equilibrium means their vector sum is zero." width="96"
 ```
 
-**Notation.** A vector in the plane is written $\vec{a}=(a_1,a_2)$, which is the same as $a_1\hat{i}+a_2\hat{j}$. (The CDC textbook stacks the two numbers in a column; they are the same numbers. We write them in a row so they can be typed inside a line of text.) The vector from the origin $O$ to a point $A$ is the **position vector** $\vec{OA}=\vec{a}$, and the vector from $A$ to $B$ is $\vec{AB}=\vec{b}-\vec{a}$, the position vector of the end point minus that of the start. Its length is $|\vec{a}|=\sqrt{a_1^2+a_2^2}$.
+**Notation.** A vector in the plane is written $\vec{a}=(a_1,a_2)$, which is the same as $a_1\hat{i}+a_2\hat{j}$. The vector from the origin $O$ to a point $A$ is the **position vector** $\vec{OA}=\vec{a}$, and the vector from $A$ to $B$ is $\vec{AB}=\vec{b}-\vec{a}$, the position vector of the end point minus that of the start. Its length is $|\vec{a}|=\sqrt{a_1^2+a_2^2}$.
 
 ## 8.1 Scalar (dot) product of two vectors
 

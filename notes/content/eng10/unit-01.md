@@ -2,7 +2,7 @@
 subject: Compulsory English
 grade: 10
 unit: 1
-title: 'Unit 1: Current Affairs and Issues'
+title: Current Affairs and Issues
 hours: 0
 area: Units
 ---
@@ -214,9 +214,7 @@ The final paragraph repeats the **request**: please make the group inclusive of 
 **2.** As a student I can do much even though I cannot sign treaties. At school I can plant trees and join clean-up campaigns. At home I can save electricity and water, avoid plastic bags and walk or cycle for short journeys. I can explain climate change to friends and family, since awareness leads to action. I can also write to local leaders, as the children's letter does, asking them to protect forests and rivers. If every student does a little, the total effect will be large.
 :::
 
-## 1.3 Grammar and writing tasks of the unit
-
-### Grammar: Reported speech — statements
+## 1.3 Grammar: Reported speech: statements
 
 **Direct speech** gives the speaker's exact words in quotation marks. **Reported (indirect) speech** tells what was said, without the quotation marks, from the reporter's point of view.
 
@@ -391,7 +389,7 @@ Do not write *She said me* (correct: *She told me* / *She said to me*). Do not k
 **5.** wanted.
 :::
 
-### Writing I: A newspaper article
+## 1.4 Writing I: A newspaper article
 
 A **newspaper article** gives information about an event or issue in a clear, factual style. It has a **headline**, a **by-line** (writer's name), an **introduction** that answers who/what/when/where/why, a **body** in short paragraphs and a **conclusion**. Use the present or past tense carefully, avoid *I* and use formal vocabulary.
 
@@ -414,7 +412,7 @@ Finally, AI is **expensive**. It needs powerful computers, reliable data and tra
 Specialists say the answer is not to stop AI but to guide it with careful laws, honest data and good education. If these steps are taken, AI can serve everyone safely.
 :::
 
-### Writing II: A letter to the Mayor
+## 1.5 Writing II: A letter to the Mayor
 
 **Task.** Write a letter to the Mayor of your municipality requesting him/her to involve representatives of children in decisions about children's issues.
 

@@ -467,7 +467,7 @@ until adulthood.
 
 ## Practice questions
 
-**Group A — Multiple choice (1 mark each)** *(Textbook exercises.)*
+**Group A — Multiple choice (1 mark each)**
 
 1. How are new organisms formed during regeneration? <span class="marks">[1]</span>
    (a) new life grows from a fresh fragment (b) the separated part regenerates into a whole body (c) the part fragments again (d) the body develops directly

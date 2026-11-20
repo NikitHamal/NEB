@@ -7,7 +7,7 @@ hours: 6
 area: Mathematics
 ---
 
-Coordinate geometry carries about **6 questions** (our estimate), and the official booklet's own model question — "the value of $k$ for which $x+y-1=0$ touches $y^2=kx$" — shows the style: a tangency condition, a standard property of a conic, or a plane in space. Memorising the standard forms and the three tangency conditions ($c^2=r^2(1+m^2)$, $c=a/m$, $c^2=a^2m^2\pm b^2$) answers more than half of them.
+Coordinate geometry carries about **6 questions**, and the official booklet's own model question — "the value of $k$ for which $x+y-1=0$ touches $y^2=kx$" — shows the style: a tangency condition, a standard property of a conic, or a plane in space. Memorising the standard forms and the three tangency conditions ($c^2=r^2(1+m^2)$, $c=a/m$, $c^2=a^2m^2\pm b^2$) answers more than half of them.
 
 ::: key What the paper asks from this chapter
 - Distance of a point from a line, angle between two lines, concurrency, area of a triangle.

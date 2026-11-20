@@ -143,7 +143,7 @@ In a colony the work is shared among the castes, and a worker changes her job as
 
 **The drones** are haploid ($n = 16$) males with large compound eyes, stout bodies, and **no sting, no wax glands and no pollen baskets**. Their roles are to keep the hive warm and to fertilise a young queen during the **nuptial (mating) flight**. **Why a drone dies after mating:** during copulation in mid-air, the drone's reproductive organ (endophallus) is forcefully everted and torn off inside the queen's reproductive tract, rupturing its abdomen so the drone dies immediately after mating. In autumn or during food scarcity, workers drive remaining drones out of the hive.
 
-**The workers** are sterile diploid ($2n = 32$) females whose hind legs bear **pollen baskets (corbiculae)** for carrying pollen, heads contain **hypopharyngeal glands** for secreting royal jelly, and abdomens possess **four pairs of wax glands** and a barbed **stinger**. Their duties change systematically with adult age according to the CDC curriculum:
+**The workers** are sterile diploid ($2n = 32$) females whose hind legs bear **pollen baskets (corbiculae)** for carrying pollen, heads contain **hypopharyngeal glands** for secreting royal jelly, and abdomens possess **four pairs of wax glands** and a barbed **stinger**. Their duties change systematically with adult age:
 
 | Age of adult worker | Physiological development & duties in the colony |
 |---|---|

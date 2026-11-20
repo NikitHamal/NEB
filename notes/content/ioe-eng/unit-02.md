@@ -7,7 +7,7 @@ hours: 6
 area: English
 ---
 
-Grammar II is the **largest English chapter** (our estimate: about 6 of 16 questions) and also the widest: sentence patterns and conditionals, parts of speech and the passive, infinitive / gerund / participle, punctuation and prepositions, vocabulary and idioms. The official model samples include a preposition item ("He is one person, I count ___ in times of difficulty": *on*) and a tense item, which tells you the level: single-fact recall with one tricky distractor.
+Grammar II is the **largest English chapter** and also the widest: sentence patterns and conditionals, parts of speech and the passive, infinitive / gerund / participle, punctuation and prepositions, vocabulary and idioms. The official model samples include a preposition item ("He is one person, I count ___ in times of difficulty": *on*) and a tense item, which tells you the level: single-fact recall with one tricky distractor.
 
 ::: key What the paper asks from this chapter
 - The three real conditionals plus *wish*, *if only*, *had … would have*, and inverted conditionals.

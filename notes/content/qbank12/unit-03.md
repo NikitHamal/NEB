@@ -24,17 +24,6 @@ units** and the **answer**. Read the Examiner's note at the end of each section 
 it lists what the marker looks for and the mistakes that cost marks in real papers.
 :::
 
-::: caution What a year tag means here
-**(NEB 2081)** is printed only on a question that we saw in that year's board paper;
-**(NEB 2079 model)** marks the official NEB model question for 2079, which we
-downloaded and read. A tag covers the *question as set*; where the printed question
-depended on a figure we could not reproduce, the data in the stem have been rebuilt
-and the question is given without a tag. The 2078 paper circulates under two labels
-(board and model); it is tagged **(NEB 2078)** and its label is treated as disputed.
-Untagged questions are original practice questions of the same pattern, not
-leaked papers.
-:::
-
 ## 3.1 Rotational dynamics
 
 CDC allots **7 teaching hours**. The unit produces a Group B question almost every

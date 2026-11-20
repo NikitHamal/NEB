@@ -218,7 +218,7 @@ Sometimes neither allele is fully dominant. In the **four o'clock plant** (*Mira
 
 ## 4.2 Cell division (mitosis and meiosis), chromosomes, DNA, RNA and genes
 
-### Cell division: Amitosis, Mitosis and Meiosis (CDC Grade 10 focus)
+### Cell division: Amitosis, Mitosis and Meiosis
 
 Living organisms grow, repair damaged tissues and reproduce through **cell division** — the process by which a parent (mother) cell divides into new daughter cells. Each division consists of **karyokinesis** (division of the nucleus) followed by **cytokinesis** (division of the cytoplasm). Aside from primitive **amitosis** (direct division in bacteria, amoeba and yeast), eukaryotic cells divide by two main methods:
 
@@ -421,12 +421,12 @@ These are due to a change in the number of chromosomes, usually from a mistake i
 |---|---|---|
 | **Down's syndrome** | 47: an extra chromosome 21 (**trisomy 21**) | Short height, flat face, slanting eyes, mental retardation; the risk increases with the age of the mother |
 
-### Genetic Technology: Selective Breeding, AI, IVF and DNA Testing (CDC Grade 10 focus)
+### Genetic Technology: Selective Breeding, AI, IVF and DNA Testing
 
 1. **Selective Breeding (Artificial Selection):** Choosing parent plants or animals with desirable hereditary traits and breeding them to produce improved offspring:
    - **Inbreeding:** Mating closely related individuals of the same breed for several generations to preserve pure traits (though prolonged inbreeding reduces vigour and fertility, called *inbreeding depression*).
    - **Crossbreeding (Hybridisation):** Mating individuals of two different breeds, varieties or species to combine their best qualities (**hybrid vigour / heterosis**).
-     - *Textbook examples of hybrids:* **Mule (*Khachchar*)** — sterile hybrid produced by crossing a **male donkey (*Equus asinus*, $2n=62$) and a female horse (*Equus caballus*, $2n=64$)** (has $63$ chromosomes, combining the horse's size and strength with the donkey's endurance and sure-footedness on mountain trails); **Hinny** (male horse $\times$ female donkey); **Liger / Tigon** (lion $\times$ tiger); **Pomato** (somatic hybrid of potato and tomato); **Triticale** (wheat $\times$ rye).
+     - *Examples of hybrids:* **Mule (*Khachchar*)** — sterile hybrid produced by crossing a **male donkey (*Equus asinus*, $2n=62$) and a female horse (*Equus caballus*, $2n=64$)** (has $63$ chromosomes, combining the horse's size and strength with the donkey's endurance and sure-footedness on mountain trails); **Hinny** (male horse $\times$ female donkey); **Liger / Tigon** (lion $\times$ tiger); **Pomato** (somatic hybrid of potato and tomato); **Triticale** (wheat $\times$ rye).
 2. **Artificial Insemination (AI):** Collecting semen from a healthy, high-yielding male bull, preserving it in liquid nitrogen ($-196\ ^\circ\text{C}$), and introducing it artificially into the reproductive tract of a female at the fertile period to improve livestock breeds rapidly and cheaply.
 3. **In Vitro Fertilisation (IVF / "Test-tube Baby"):** Fertilising an ovum (egg) with sperm **outside the mother's body in a laboratory dish** under controlled conditions and transferring the resulting early embryo (**zygote/blastocyst**) into the mother's uterus to help infertile couples (for example with blocked Fallopian tubes) have a biological child.
 4. **Genetic Engineering and DNA Testing (DNA Fingerprinting):**

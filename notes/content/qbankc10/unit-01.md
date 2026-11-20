@@ -10,7 +10,7 @@ area: How to Use This Book
 Two elective papers make up the commerce/management side of the SEE: **Accountancy (कार्यालय सञ्चालन तथा लेखा)** and **Economics (अर्थशास्त्र)**. Both are scored out of 100, of which 75 marks are the written paper and 25 marks the internal or practical assessment. Both use exactly the same written pattern, and both reward the same thing: a student who knows the definitions, can fill in a table correctly, and can write an answer in the shape the examiner expects. This chapter sets out the pattern, the mark distribution taken from the CDC specification grids, and the order in which to attempt the paper.
 
 ::: key What this book is
-This is a **question bank**, not a textbook. Every question in it is an **original practice question** written to the official pattern; none is claimed to have appeared in any year's paper. Every answer is worked out in full. Use it after you have studied the chapter, never instead of studying it.
+This is a **question bank**, not a textbook. Every answer is worked out in full. Use it after you have studied the chapter, never instead of studying it.
 :::
 
 ## 1.1 The written paper: full marks, time and pattern

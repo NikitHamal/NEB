@@ -2,7 +2,7 @@
 subject: Compulsory English
 grade: 10
 unit: 14
-title: 'Unit 14: Travel and Adventure'
+title: Travel and Adventure
 hours: 0
 area: Units
 ---
@@ -254,9 +254,7 @@ On the surface, the poem is a charming description of two kinds of weather. Unde
 **2.** (Open answer.) I would like to travel in autumn. In Nepal, September to November has clear skies, mild temperatures and the clearest views of the mountains. The paths are dry and the rivers have calmed down after the monsoon. There are also big festivals, such as Dashain and Tihar, which make the journey more joyful. Spring is also good, but autumn is the best.
 :::
 
-## 14.3 Grammar and writing tasks
-
-### Grammar I and II — Question tags
+## 14.3 Grammar I and II: Question tags
 
 A **question tag** is a short question added to the end of a statement. It asks the listener to agree or confirm: *It is a lovely day, isn't it?* It is made of an **auxiliary verb + pronoun**.
 
@@ -369,7 +367,7 @@ Words like *hardly, scarcely, barely, rarely, seldom, never, nobody, nothing* al
 **1.** can she **2.** did you **3.** do I **4.** did it **5.** aren't I **6.** will he **7.** shall we **8.** isn't there **9.** does he **10.** did they **11.** won't they **12.** wouldn't I
 :::
 
-### Writing I — A travelogue
+## 14.4 Writing I: A travelogue
 
 A **travelogue** is a personal account of a journey. Write it in the **first person** and mostly in the **past tense**. Include sights, activities, people, food and your feelings. Keep a lively, descriptive style and give the piece a title.
 
@@ -390,7 +388,7 @@ Early next morning, we drove up to Sarangkot to watch the sunrise. It was cold, 
 
 I was surprised that so much beauty could be seen in a single day. We returned to Kathmandu tired, happy and full of memories. I hope to go there again, perhaps to try paragliding.
 
-### Writing II — A brochure
+## 14.5 Writing II: A brochure
 
 A **brochure** is a short, folded leaflet that promotes a place, product or service. It uses **headings, short phrases and bullet points** instead of long paragraphs, and attractive, persuasive words (*breathtaking, peaceful, unforgettable*).
 

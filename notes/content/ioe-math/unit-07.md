@@ -7,7 +7,7 @@ hours: 3
 area: Mathematics
 ---
 
-Statistics and probability carry about **3 questions** (our estimate). The booklet's model question — a lottery with 10 prizes and 25 blanks — shows the usual level: a direct probability, a conditional or Bayes calculation, a binomial, or the mean / standard deviation / regression of a small data set. All are computed from short formulas; the risk is arithmetic, not concepts.
+Statistics and probability carry about **3 questions**. The booklet's model question — a lottery with 10 prizes and 25 blanks — shows the usual level: a direct probability, a conditional or Bayes calculation, a binomial, or the mean / standard deviation / regression of a small data set. All are computed from short formulas; the risk is arithmetic, not concepts.
 
 ::: key What the paper asks from this chapter
 - Mean, median, mode (and $\text{mode}\approx3\,\text{median}-2\,\text{mean}$); variance, standard deviation, coefficient of variation.

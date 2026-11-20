@@ -228,7 +228,7 @@ for a, b in zip(xs[:-1], xs[1:]):
 fig.tight_layout()
 ```
 
-**Example from the textbook.** Muscle fibres (cells) form **muscular tissue**.
+**Example.** Muscle fibres (cells) form **muscular tissue**.
 Muscular tissue lies in the middle layer of the food pipe, stomach and
 intestine. Its rhythmic contraction and relaxation (peristalsis) pushes food
 along. **Glandular tissue** in the inner wall of the stomach and intestine
@@ -485,7 +485,7 @@ diseases for which there is no vaccine.
 
 ## Practice questions
 
-**Group A — Multiple choice (1 mark each)** *(Textbook exercises.)*
+**Group A — Multiple choice (1 mark each)**
 
 1. The branch of science that deals with the study of the cell is <span class="marks">[1]</span>
    (a) histology (b) cytology (c) cytogenetics (d) anatomy

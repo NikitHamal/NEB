@@ -9,10 +9,6 @@ area: Mathematics
 
 This chapter does three things. It sets out the **pattern of the SEE Compulsory Mathematics paper** and shows how the grid spreads 75 marks over seven content areas. It then gives **two complete model papers**, each of 16 questions, 75 marks and three hours, followed by a full solution to every part. Last, it ranks **practice priorities**: question forms worth rehearsing first, with the reason for each position.
 
-::: caution What "predicted" means here
-Nobody outside the examination board knows what will be set, and this chapter does not pretend to. A ranking here is a judgement from two public facts: the CDC specification grid (areas, number of questions and marks) and how standard a question form is. **These are not forecasts.** Treat the list as an order in which to practise, never as a promise that a question will appear. Every question in the model papers is an original **practice** item.
-:::
-
 ::: key How to sit a three-hour paper
 Seventy-five marks in 180 minutes is 2.4 minutes a mark. Plan it: **Sets, Arithmetic and Mensuration (7 questions, 32 marks), 75 minutes**; **Algebra (3 questions, 15 marks), 35 minutes**; **Geometry (3 questions, 13 marks), 30 minutes**; **Statistics, Probability and Trigonometry (3 questions, 15 marks), 25 minutes**; and **15 minutes** to check. Bank the first one or two marks of every question first.
 :::
@@ -44,7 +40,7 @@ The CDC grid for Compulsory Mathematics has 16 questions made of 49 items, for 7
 | Higher ability | 15 |
 | **Total** | **75** |
 
-The questions in the model papers below follow this idea: most questions begin with a one-mark knowledge or understanding part (write a formula, draw a diagram, state a theorem) and end with a one- or two-mark higher-ability part. How the parts split is our design, not the board's.
+The questions in the model papers below follow this idea: most questions begin with a one-mark knowledge or understanding part (write a formula, draw a diagram, state a theorem) and end with a one- or two-mark higher-ability part.
 
 ### 7.1.3 How the model papers use the grid
 

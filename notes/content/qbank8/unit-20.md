@@ -22,10 +22,6 @@ Each section opens with a **facts line**, the few results that the items of that
 There is no national specification grid for this school paper. The weights in the chart below are the ones this bank uses for its model papers (chapter 22): every unit gets one Group A item, and the longer questions follow the size of each unit.
 :::
 
-::: caution Practice items, not past questions
-Every item below is an original **practice** item written to the pattern above and to the chapters of the Optional Mathematics 8 book. None is claimed to come from any school's paper. Every numerical answer was worked out independently before it was written down.
-:::
-
 ```figure caption="Marks per unit in the 50-mark paper used in this bank. Trigonometry and coordinate geometry carry the most; every unit has at least one Group A item, so no unit can be skipped."
 fig, ax = barh_ranked(
     ["Trigonometry", "Coordinate Geometry", "Relation and Function", "Matrix", "Vector",

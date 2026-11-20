@@ -376,7 +376,7 @@ that Hongr and Shuisheng "will surely have a better life": the narrator says onl
 hope, not a prophecy.
 :::
 
-## 5.8 Textbook exercises
+## 5.8 Comprehension and critical thinking
 
 **Before you read — warm-up discussion**
 

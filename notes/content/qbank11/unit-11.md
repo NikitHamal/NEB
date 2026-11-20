@@ -13,10 +13,6 @@ Group A of the NEB Grade 11 Mathematics paper is eleven one-mark multiple-choice
 An MCQ in Mathematics is almost never a long calculation. It tests a **formula you must recall**, a **single substitution**, a **definition or property**, or a **common slip** (a sign, a missing factor of 2, a wrong quadrant) offered as a distractor. If a question is taking you more than ninety seconds, step back and look for the shortcut.
 :::
 
-::: caution Practice items, not past papers
-Every question below is an original practice item built from the public CDC syllabus. None is labelled with an examination year, because we cannot verify any item against an officially released paper. Use the bank for exam-shaped practice, not as a leaked list.
-:::
-
 ## 11.1 Logic and Set
 
 1. The negation of the statement "All students are present" is <span class="marks">[1]</span>

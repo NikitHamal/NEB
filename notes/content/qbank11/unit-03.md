@@ -15,10 +15,6 @@ Groups B and C of the Grade 11 Physics paper are sixty-four of the seventy-five 
 - **Use the stated $g$.** Questions here say $g = 10\ \text{m s}^{-2}$ or $9.8\ \text{m s}^{-2}$; use whatever your paper states.
 :::
 
-::: caution About years and sources
-Every question below is an original *practice* question written to the CDC pattern and carries no past-paper year. The syllabus outline asks for "years each appeared", but Grade 11 papers are not published by NEB, so no year is claimed here. Instead, the section headings give each area's **teaching hours** (Mechanics 45, Heat 26, Waves and Optics 15, Electricity and Magnetism 27, Modern Physics 15 of 128), the public measure of how much of the paper to expect.
-:::
-
 ## 3.1 Mechanics (units 1–8, 45 hours)
 
 **Group B — Short answer (5 marks each)**

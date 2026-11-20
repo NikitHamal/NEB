@@ -612,7 +612,7 @@ more. **Third-party** libraries such as `pandas`, `matplotlib`, `numpy`,
 Libraries save time: instead of writing a square-root routine or a chart from
 scratch, you import code that thousands of programmers have already tested.
 
-::: caution Two library slips in the textbook
+::: caution Standard Python library functions to remember
 The textbook calls `math` a "package"; it is a **module** (one file of
 functions). And it gives `import requests` as an example of a *standard*
 library; `requests` is a **third-party** package that must first be installed
@@ -1860,14 +1860,14 @@ column. Plotly opens the chart in a web browser, where hovering over a bar shows
 its exact value and the chart can be zoomed; the `color` argument colours the
 bars by gender and adds a legend.
 
-::: caution The textbook's bar-chart code swaps its arguments
+::: caution Correct argument order in `plt.bar()`
 In `plt.bar(data['total_bill'], data['day'])` the categories should come
 first and the numbers second: `plt.bar(data['day'], data['tip'])`. The x-axis
 label should then be "Day" and the y-axis label "Tip", as the textbook's labels
 already say.
 :::
 
-## Textbook exercises: model answers
+## Worked exercise solutions
 
 The textbook has an exercise after each part of this unit; all five are
 answered here, followed by its practical questions. Where a full program

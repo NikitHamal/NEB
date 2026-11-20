@@ -18,13 +18,15 @@
  "units": [
   {
    "no": 1,
-   "title": "Unit 1: Current Affairs and Issues",
+   "title": "Current Affairs and Issues",
    "hours": null,
    "area": "Units",
    "topics": [
     "How Driverless Cars Will Change Our World",
     "Open Letter to UN Secretary-General Antonio Guterres",
-    "Grammar and writing tasks of the unit"
+    "Grammar: Reported speech: statements",
+    "Writing I: A newspaper article",
+    "Writing II: A letter to the Mayor"
    ],
    "sections": [
     {
@@ -37,7 +39,15 @@
     },
     {
      "no": "1.3",
-     "title": "Grammar and writing tasks of the unit"
+     "title": "Grammar: Reported speech: statements"
+    },
+    {
+     "no": "1.4",
+     "title": "Writing I: A newspaper article"
+    },
+    {
+     "no": "1.5",
+     "title": "Writing II: A letter to the Mayor"
     }
    ],
    "summary": [
@@ -52,7 +62,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 6528,
+    "words": 6519,
     "figures": 1,
     "examples": 6
    },
@@ -60,13 +70,15 @@
   },
   {
    "no": 2,
-   "title": "Unit 2: Festivals and Celebrations",
+   "title": "Festivals and Celebrations",
    "hours": null,
    "area": "Units",
    "topics": [
     "Battle of the Oranges",
     "Thanksgiving Around the World",
-    "Grammar and writing tasks of the unit"
+    "Grammar: Reported questions",
+    "Writing I: An essay on a festival",
+    "Writing II: A news story from clues"
    ],
    "sections": [
     {
@@ -79,7 +91,15 @@
     },
     {
      "no": "2.3",
-     "title": "Grammar and writing tasks of the unit"
+     "title": "Grammar: Reported questions"
+    },
+    {
+     "no": "2.4",
+     "title": "Writing I: An essay on a festival"
+    },
+    {
+     "no": "2.5",
+     "title": "Writing II: A news story from clues"
     }
    ],
    "summary": [
@@ -91,7 +111,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5347,
+    "words": 5339,
     "figures": 1,
     "examples": 7
    },
@@ -99,13 +119,16 @@
   },
   {
    "no": 3,
-   "title": "Unit 3: Health and Wellness",
+   "title": "Health and Wellness",
    "hours": null,
    "area": "Units",
    "topics": [
     "A Letter from a Patient",
     "A Healthy Diet for a Healthy Life",
-    "Grammar and writing tasks of the unit"
+    "Grammar I: Reported commands, requests and advice",
+    "Grammar II: Reporting verbs in different kinds of sentences",
+    "Writing I: An email of apology",
+    "Writing II: A speech"
    ],
    "sections": [
     {
@@ -118,7 +141,19 @@
     },
     {
      "no": "3.3",
-     "title": "Grammar and writing tasks of the unit"
+     "title": "Grammar I: Reported commands, requests and advice"
+    },
+    {
+     "no": "3.4",
+     "title": "Grammar II: Reporting verbs in different kinds of sentences"
+    },
+    {
+     "no": "3.5",
+     "title": "Writing I: An email of apology"
+    },
+    {
+     "no": "3.6",
+     "title": "Writing II: A speech"
     }
    ],
    "summary": [
@@ -130,7 +165,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 4778,
+    "words": 4771,
     "figures": 1,
     "examples": 7
    },
@@ -138,13 +173,16 @@
   },
   {
    "no": 4,
-   "title": "Unit 4: Work and Leisure",
+   "title": "Work and Leisure",
    "hours": null,
    "area": "Units",
    "topics": [
     "Cabbage White",
     "Leave This Chanting and Singing",
-    "Grammar and writing tasks of the unit"
+    "Grammar I: Modal verbs and their functions",
+    "Grammar II: Imperatives",
+    "Writing I: A job application",
+    "Writing II: Rules and regulations"
    ],
    "sections": [
     {
@@ -157,7 +195,19 @@
     },
     {
      "no": "4.3",
-     "title": "Grammar and writing tasks of the unit"
+     "title": "Grammar I: Modal verbs and their functions"
+    },
+    {
+     "no": "4.4",
+     "title": "Grammar II: Imperatives"
+    },
+    {
+     "no": "4.5",
+     "title": "Writing I: A job application"
+    },
+    {
+     "no": "4.6",
+     "title": "Writing II: Rules and regulations"
     }
    ],
    "summary": [
@@ -171,7 +221,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5066,
+    "words": 5059,
     "figures": 1,
     "examples": 7
    },
@@ -179,13 +229,16 @@
   },
   {
    "no": 5,
-   "title": "Unit 5: Science and Experiment",
+   "title": "Science and Experiment",
    "hours": null,
    "area": "Units",
    "topics": [
     "Yes, You Can Boil Water at Room Temperature",
     "The Voice of the Rain",
-    "Grammar and writing tasks of the unit"
+    "Grammar I: Zero and first conditional",
+    "Grammar II: Second and third conditional",
+    "Writing I: Instructions",
+    "Writing II: A letter to the editor"
    ],
    "sections": [
     {
@@ -198,7 +251,19 @@
     },
     {
      "no": "5.3",
-     "title": "Grammar and writing tasks of the unit"
+     "title": "Grammar I: Zero and first conditional"
+    },
+    {
+     "no": "5.4",
+     "title": "Grammar II: Second and third conditional"
+    },
+    {
+     "no": "5.5",
+     "title": "Writing I: Instructions"
+    },
+    {
+     "no": "5.6",
+     "title": "Writing II: A letter to the editor"
     }
    ],
    "summary": [
@@ -211,7 +276,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5017,
+    "words": 5010,
     "figures": 2,
     "examples": 9
    },
@@ -219,13 +284,16 @@
   },
   {
    "no": 6,
-   "title": "Unit 6: Food and Cuisine",
+   "title": "Food and Cuisine",
    "hours": null,
    "area": "Units",
    "topics": [
     "Strange Food from Around the World",
-    "You Inspire Others by Learning, Not Teaching",
-    "Grammar and writing tasks of the unit"
+    "You Inspire Others by Learning, Not by Teaching",
+    "Grammar I: Reasons and purposes",
+    "Grammar II: The present continuous and time expressions",
+    "Writing I: A recipe and a process",
+    "Writing II: An opinion paragraph"
    ],
    "sections": [
     {
@@ -238,7 +306,19 @@
     },
     {
      "no": "6.3",
-     "title": "Grammar and writing tasks of the unit"
+     "title": "Grammar I: Reasons and purposes"
+    },
+    {
+     "no": "6.4",
+     "title": "Grammar II: The present continuous and time expressions"
+    },
+    {
+     "no": "6.5",
+     "title": "Writing I: A recipe and a process"
+    },
+    {
+     "no": "6.6",
+     "title": "Writing II: An opinion paragraph"
     }
    ],
    "summary": [
@@ -251,7 +331,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 4591,
+    "words": 4584,
     "figures": 1,
     "examples": 9
    },
@@ -259,13 +339,16 @@
   },
   {
    "no": 7,
-   "title": "Unit 7: Cyber Security",
+   "title": "Cyber Security",
    "hours": null,
    "area": "Units",
    "topics": [
     "Parents",
     "Cyber Security: Basic Internet Safety Tips",
-    "Grammar and writing tasks of the unit"
+    "Grammar I: should, ought to and must",
+    "Grammar II: Articles: a, an, the and no article",
+    "Writing I: Emails",
+    "Writing II: A newspaper article"
    ],
    "sections": [
     {
@@ -278,7 +361,19 @@
     },
     {
      "no": "7.3",
-     "title": "Grammar and writing tasks of the unit"
+     "title": "Grammar I: should, ought to and must"
+    },
+    {
+     "no": "7.4",
+     "title": "Grammar II: Articles: a, an, the and no article"
+    },
+    {
+     "no": "7.5",
+     "title": "Writing I: Emails"
+    },
+    {
+     "no": "7.6",
+     "title": "Writing II: A newspaper article"
     }
    ],
    "summary": [
@@ -291,7 +386,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 4685,
+    "words": 4677,
     "figures": 1,
     "examples": 8
    },
@@ -299,13 +394,16 @@
   },
   {
    "no": 8,
-   "title": "Unit 8: Hobbies and Interests",
+   "title": "Hobbies and Interests",
    "hours": null,
    "area": "Units",
    "topics": [
     "Common Hobbies",
     "Climbing",
-    "Grammar and writing tasks of the unit"
+    "Grammar I: The passive voice",
+    "Grammar II: Passive with being and having; passive to active",
+    "Writing I: An essay on hobbies and career",
+    "Writing II: An advertisement and paraphrasing"
    ],
    "sections": [
     {
@@ -318,7 +416,19 @@
     },
     {
      "no": "8.3",
-     "title": "Grammar and writing tasks of the unit"
+     "title": "Grammar I: The passive voice"
+    },
+    {
+     "no": "8.4",
+     "title": "Grammar II: Passive with being and having; passive to active"
+    },
+    {
+     "no": "8.5",
+     "title": "Writing I: An essay on hobbies and career"
+    },
+    {
+     "no": "8.6",
+     "title": "Writing II: An advertisement and paraphrasing"
     }
    ],
    "summary": [
@@ -330,7 +440,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5061,
+    "words": 5054,
     "figures": 1,
     "examples": 9
    },
@@ -338,13 +448,16 @@
   },
   {
    "no": 9,
-   "title": "Unit 9: History and Culture",
+   "title": "History and Culture",
    "hours": null,
    "area": "Units",
    "topics": [
     "Pratap Malla",
     "Flowers in Russian Culture",
-    "Grammar and writing tasks of the unit"
+    "Grammar I: Simple past and past continuous",
+    "Grammar II: Past simple and past perfect in narrative",
+    "Writing I: Writing about historical events and giving an opinion",
+    "Writing II: A story from outlines"
    ],
    "sections": [
     {
@@ -357,7 +470,19 @@
     },
     {
      "no": "9.3",
-     "title": "Grammar and writing tasks of the unit"
+     "title": "Grammar I: Simple past and past continuous"
+    },
+    {
+     "no": "9.4",
+     "title": "Grammar II: Past simple and past perfect in narrative"
+    },
+    {
+     "no": "9.5",
+     "title": "Writing I: Writing about historical events and giving an opinion"
+    },
+    {
+     "no": "9.6",
+     "title": "Writing II: A story from outlines"
     }
    ],
    "summary": [
@@ -370,7 +495,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5395,
+    "words": 5388,
     "figures": 1,
     "examples": 9
    },
@@ -378,13 +503,16 @@
   },
   {
    "no": 10,
-   "title": "Unit 10: Games and Sports",
+   "title": "Games and Sports",
    "hours": null,
    "area": "Units",
    "topics": [
     "The First Olympic Games",
     "Popularity of Different Sports in the World",
-    "Grammar and writing tasks of the unit"
+    "Grammar I: Present perfect and present perfect continuous",
+    "Grammar II: The passive voice",
+    "Writing I: The paragraph",
+    "Writing II: The dialogue"
    ],
    "sections": [
     {
@@ -397,7 +525,19 @@
     },
     {
      "no": "10.3",
-     "title": "Grammar and writing tasks"
+     "title": "Grammar I: Present perfect and present perfect continuous"
+    },
+    {
+     "no": "10.4",
+     "title": "Grammar II: The passive voice"
+    },
+    {
+     "no": "10.5",
+     "title": "Writing I: The paragraph"
+    },
+    {
+     "no": "10.6",
+     "title": "Writing II: The dialogue"
     }
    ],
    "summary": [
@@ -411,7 +551,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5675,
+    "words": 5667,
     "figures": 2,
     "examples": 4
    },
@@ -419,13 +559,17 @@
   },
   {
    "no": 11,
-   "title": "Unit 11: Ethics and Morality",
+   "title": "Ethics and Morality",
    "hours": null,
    "area": "Units",
    "topics": [
     "Wisdom of Little Girls",
     "World Record",
-    "Grammar and writing tasks of the unit"
+    "Grammar I: Positive and negative sentences",
+    "Grammar II: Subject–verb agreement",
+    "Writing I: A story with a moral",
+    "Writing II: Message of condolence",
+    "Writing III: Letter of sympathy"
    ],
    "sections": [
     {
@@ -438,7 +582,23 @@
     },
     {
      "no": "11.3",
-     "title": "Grammar and writing tasks"
+     "title": "Grammar I: Positive and negative sentences"
+    },
+    {
+     "no": "11.4",
+     "title": "Grammar II: Subject–verb agreement"
+    },
+    {
+     "no": "11.5",
+     "title": "Writing I: A story with a moral"
+    },
+    {
+     "no": "11.6",
+     "title": "Writing II: Message of condolence"
+    },
+    {
+     "no": "11.7",
+     "title": "Writing III: Letter of sympathy"
     }
    ],
    "summary": [
@@ -451,7 +611,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5618,
+    "words": 5610,
     "figures": 3,
     "examples": 4
    },
@@ -459,13 +619,15 @@
   },
   {
    "no": 12,
-   "title": "Unit 12: Nature and Development",
+   "title": "Nature and Development",
    "hours": null,
    "area": "Units",
    "topics": [
-    "Kathmandu-Terai/Madhesh Fast Track",
-    "Composed Upon Westminster Bridge",
-    "Grammar and writing tasks of the unit"
+    "Kathmandu–Terai/Madhesh Fast Track",
+    "Composed Upon Westminster Bridge, September 3, 1802",
+    "Grammar I and II: Talking about the future",
+    "Writing I: A report",
+    "Writing II: A notice"
    ],
    "sections": [
     {
@@ -478,7 +640,15 @@
     },
     {
      "no": "12.3",
-     "title": "Grammar and writing tasks"
+     "title": "Grammar I and II: Talking about the future"
+    },
+    {
+     "no": "12.4",
+     "title": "Writing I: A report"
+    },
+    {
+     "no": "12.5",
+     "title": "Writing II: A notice"
     }
    ],
    "summary": [
@@ -492,7 +662,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5034,
+    "words": 5026,
     "figures": 3,
     "examples": 4
    },
@@ -500,13 +670,15 @@
   },
   {
    "no": 13,
-   "title": "Unit 13: Population and Migration",
+   "title": "Population and Migration",
    "hours": null,
    "area": "Units",
    "topics": [
     "A Century of World Population Trends: 1950 to 2050",
     "Discovering Migration: What Birds Reveal",
-    "Grammar and writing tasks of the unit"
+    "Grammar I and II: Connectives of contrast",
+    "Writing I: Interpreting a graph or chart",
+    "Writing II: The opinion essay"
    ],
    "sections": [
     {
@@ -519,7 +691,15 @@
     },
     {
      "no": "13.3",
-     "title": "Grammar and writing tasks"
+     "title": "Grammar I and II: Connectives of contrast"
+    },
+    {
+     "no": "13.4",
+     "title": "Writing I: Interpreting a graph or chart"
+    },
+    {
+     "no": "13.5",
+     "title": "Writing II: The opinion essay"
     }
    ],
    "summary": [
@@ -532,7 +712,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 4971,
+    "words": 4963,
     "figures": 3,
     "examples": 4
    },
@@ -540,13 +720,15 @@
   },
   {
    "no": 14,
-   "title": "Unit 14: Travel and Adventure",
+   "title": "Travel and Adventure",
    "hours": null,
    "area": "Units",
    "topics": [
     "Expect the Unexpected",
-    "Weather",
-    "Grammar and writing tasks of the unit"
+    "Weathers",
+    "Grammar I and II: Question tags",
+    "Writing I: A travelogue",
+    "Writing II: A brochure"
    ],
    "sections": [
     {
@@ -559,7 +741,15 @@
     },
     {
      "no": "14.3",
-     "title": "Grammar and writing tasks"
+     "title": "Grammar I and II: Question tags"
+    },
+    {
+     "no": "14.4",
+     "title": "Writing I: A travelogue"
+    },
+    {
+     "no": "14.5",
+     "title": "Writing II: A brochure"
     }
    ],
    "summary": [
@@ -571,7 +761,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 4919,
+    "words": 4911,
     "figures": 3,
     "examples": 4
    },
@@ -579,13 +769,16 @@
   },
   {
    "no": 15,
-   "title": "Unit 15: People and Places",
+   "title": "People and Places",
    "hours": null,
    "area": "Units",
    "topics": [
     "Me at the Beginning of Life",
     "Sugarloaf Mountain: 5 Interesting Facts",
-    "Grammar and writing tasks of the unit"
+    "Grammar I: Relative clauses",
+    "Grammar II: Prepositions",
+    "Writing I: A biography",
+    "Writing II: An email or letter inviting a foreign friend"
    ],
    "sections": [
     {
@@ -598,7 +791,19 @@
     },
     {
      "no": "15.3",
-     "title": "Grammar and writing tasks"
+     "title": "Grammar I: Relative clauses"
+    },
+    {
+     "no": "15.4",
+     "title": "Grammar II: Prepositions"
+    },
+    {
+     "no": "15.5",
+     "title": "Writing I: A biography"
+    },
+    {
+     "no": "15.6",
+     "title": "Writing II: An email or letter inviting a foreign friend"
     }
    ],
    "summary": [
@@ -611,7 +816,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5605,
+    "words": 5597,
     "figures": 3,
     "examples": 5
    },
@@ -619,13 +824,15 @@
   },
   {
    "no": 16,
-   "title": "Unit 16: Success and Celebration",
+   "title": "Success and Celebration",
    "hours": null,
    "area": "Units",
    "topics": [
     "Walt Disney: An Example of Struggle and Success",
     "If",
-    "Grammar and writing tasks of the unit"
+    "Grammar I and II: Prepositions",
+    "Writing I: Message and letter of congratulation",
+    "Writing II: A speech"
    ],
    "sections": [
     {
@@ -638,7 +845,15 @@
     },
     {
      "no": "16.3",
-     "title": "Grammar and writing tasks"
+     "title": "Grammar I and II: Prepositions"
+    },
+    {
+     "no": "16.4",
+     "title": "Writing I: Message and letter of congratulation"
+    },
+    {
+     "no": "16.5",
+     "title": "Writing II: A speech"
     }
    ],
    "summary": [
@@ -650,7 +865,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5800,
+    "words": 5792,
     "figures": 3,
     "examples": 4
    },
@@ -658,13 +873,16 @@
   },
   {
    "no": 17,
-   "title": "Unit 17: Countries and Towns",
+   "title": "Countries and Towns",
    "hours": null,
    "area": "Units",
    "topics": [
     "London vs Paris",
     "The Country Mouse and the City Mouse",
-    "Grammar and writing tasks of the unit"
+    "Grammar I: Adjectives and adverbs",
+    "Grammar II: Connectives of reason and contrast",
+    "Writing I: Comparing two places",
+    "Writing II: Describing a village"
    ],
    "sections": [
     {
@@ -677,7 +895,19 @@
     },
     {
      "no": "17.3",
-     "title": "Grammar and writing tasks"
+     "title": "Grammar I: Adjectives and adverbs"
+    },
+    {
+     "no": "17.4",
+     "title": "Grammar II: Connectives of reason and contrast"
+    },
+    {
+     "no": "17.5",
+     "title": "Writing I: Comparing two places"
+    },
+    {
+     "no": "17.6",
+     "title": "Writing II: Describing a village"
     }
    ],
    "summary": [
@@ -690,7 +920,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5229,
+    "words": 5221,
     "figures": 3,
     "examples": 5
    },
@@ -698,13 +928,16 @@
   },
   {
    "no": 18,
-   "title": "Unit 18: Media and Entertainment",
+   "title": "Media and Entertainment",
    "hours": null,
    "area": "Units",
    "topics": [
     "Hachi: A Dog's Tale",
     "Interesting Social Media Stories",
-    "Grammar and writing tasks of the unit"
+    "Grammar I: Asking questions",
+    "Grammar II: Causative verbs",
+    "Writing I: A film review",
+    "Writing II: An essay on the impact of social media"
    ],
    "sections": [
     {
@@ -717,7 +950,19 @@
     },
     {
      "no": "18.3",
-     "title": "Grammar and writing tasks"
+     "title": "Grammar I: Asking questions"
+    },
+    {
+     "no": "18.4",
+     "title": "Grammar II: Causative verbs"
+    },
+    {
+     "no": "18.5",
+     "title": "Writing I: A film review"
+    },
+    {
+     "no": "18.6",
+     "title": "Writing II: An essay on the impact of social media"
     }
    ],
    "summary": [
@@ -730,7 +975,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5717,
+    "words": 5709,
     "figures": 3,
     "examples": 5
    },
@@ -738,6 +983,6 @@
   }
  ],
  "unit_count": 18,
- "topic_count": 54,
+ "topic_count": 103,
  "notes_ready": 18
 }

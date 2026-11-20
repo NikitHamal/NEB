@@ -94,7 +94,7 @@ Then it describes inventions.
 | Radio / television | radio: **Marconi** (Italian), text says 1902; TV: **John Logie Baird**, text says 1939 | news and music; radios now replaced by mobiles |
 | Telephone / mobile | **Bell**, telephone, 1876; **Reginald Fessenden**, first wireless telephone, 23 Dec 1900; **Martin Cooper** led the team that made the first practical mobile phone | foundation of radio and mobile networks |
 
-::: caution Fact check — what the textbook simplifies
+::: note Additional scientific detail
 For the exam, answer from the text. But know the real facts:
 - Watt **improved** the steam engine (his separate condenser, 1765); earlier
   engines (Newcomen, 1712) already existed. The kettle story is a popular legend.
@@ -159,7 +159,7 @@ phone was made in 1973, about fifty years ago.
 - *at this time yesterday* → past continuous.
 - *before / after / already / by the time* → past perfect for the earlier action.
 
-### Textbook answers
+### Worked answers
 
 **Grammar I A:** a. ii remained b. i were having c. ii were playing d. i had
 painted e. i was working (*all day yesterday*; iii *worked* is also
@@ -188,7 +188,7 @@ e. called f. had had g. had … been h. fell off i. had read
 
 Note: after *did/didn't* write **use to** (no *-d*).
 
-### Textbook answers
+### Worked answers
 
 **Grammar II A:** the habitual forms are every *used to* (*used to stay, used to
 start, used to go, used to do, used to work, used to work hard, used to create,

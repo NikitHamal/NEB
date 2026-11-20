@@ -2,7 +2,7 @@
 subject: Compulsory English
 grade: 10
 unit: 4
-title: 'Unit 4: Work and Leisure'
+title: Work and Leisure
 hours: 0
 area: Units
 ---
@@ -209,9 +209,7 @@ Then Sarah has a "brilliant" idea, "as brilliant as Einstein coming up with E = 
 **2.** Many people, including me, believe in God. I try to please Him by being honest, helping others and respecting parents and teachers. I study carefully, do not waste food and water, and help neighbours when they are in trouble. I also pray, but I believe that good deeds matter more than ritual, which is the same message as Tagore's poem.
 :::
 
-## 4.3 Grammar and writing tasks of the unit
-
-### Grammar I: Modal verbs and their functions
+## 4.3 Grammar I: Modal verbs and their functions
 
 **Modal verbs** (*can, could, may, might, must, should, would, will, shall*) are helping verbs that show *attitude*: ability, permission, possibility, advice or obligation. They have **no -s** in the third person and are followed by the **bare infinitive**: *She could swim* (not *She could to swim*).
 
@@ -298,7 +296,7 @@ Do not write *He can swims*, *She musts go* or *I should to go*. *Must* has no p
 **1.** must. **2.** can't. **3.** must. **4.** can't. **5.** must.
 :::
 
-### Grammar II: Imperatives
+## 4.4 Grammar II: Imperatives
 
 An **imperative** gives a command, instruction, request, advice, warning or invitation. It uses the **base form** of the verb and usually has **no subject** (*Open the door.*). The negative uses **do not / don't** (*Don't run.*). Tagore's poem is full of imperatives: *Leave… Open… Put off… Come out…*.
 
@@ -337,7 +335,7 @@ An **imperative** gives a command, instruction, request, advice, warning or invi
 **1.** request. **2.** instruction (or advice). **3.** warning. **4.** invitation. **5.** advice (encouragement).
 :::
 
-### Writing I: A job application
+## 4.5 Writing I: A job application
 
 A **job application** is a formal letter. Sender's address and date come at the top. The receiver's designation and address follow. The **subject** names the post. The body has three or four short paragraphs: (1) why you are writing and which advertisement you saw; (2) your qualifications and experience; (3) your skills and why you suit the post; (4) mention of enclosures, a request for an interview and thanks. End with *Yours faithfully/sincerely*, your signature and name.
 
@@ -365,7 +363,7 @@ Yours faithfully,
 Pabitra Nepali
 :::
 
-### Writing II: Rules and regulations
+## 4.6 Writing II: Rules and regulations
 
 **Rules and regulations** tell people what they must, may and must not do in a place. Use a title, a numbered list, **imperatives** (*Keep silence*) and **modals** (*Visitors must…*, *Visitors should not…*). Make each rule short and clear.
 

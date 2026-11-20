@@ -8,8 +8,7 @@ area: Physical Chemistry
 ---
 
 Stoichiometry tells you what a reaction produces; kinetics tells you how fast it gets
-there. The paper carries about **one question** from this chapter (our estimate from the
-MEC topic list), and it is nearly always one of three things: a definition that turns on
+there. The paper carries about **one question** from this chapter, and it is nearly always one of three things: a definition that turns on
 the difference between order and molecularity, a one-line calculation with $t_{1/2}$ or
 the integrated rate law, or a statement about catalysts and collision theory that is
 true except for one wrong word. Almost every mark here is lost to a sign, a unit or a

@@ -700,7 +700,7 @@ example of text, graphics, audio, video and animation you can find, then
 discuss in class how each one helps the message.
 :::
 
-## Textbook exercises: model answers
+## Worked exercise solutions
 
 **1. Full forms.** (i) RTF — Rich Text Format. (ii) PNG — Portable Network
 Graphics. (iii) GIF — Graphics Interchange Format. (iv) JPG — Joint

@@ -52,7 +52,7 @@ completely: a voice, no scenery, and a national audience. He drank heavily, was
 permanently short of money, and died in New York on 9 November 1953, aged
 thirty-nine, during an American reading tour.
 
-::: caution Two slips in the textbook blurb to correct in your notes
+::: caution Key biographical details to note
 The blurb prints "nineteenth century **Englnad**" (England), and it says *Under
 Milk Wood* is from 1953. Thomas was writing it through 1952–53 and gave its
 first public reading in New York on 14 May 1953, but the famous BBC radio
@@ -792,7 +792,6 @@ meeting our neighbours, and a bearable answer to death. Where religion supplies
 those things kindly, as it does in Eli Jenkins's prayer, it remains one of the
 most valuable institutions we have. Where it supplies them cruelly, the
 invention has failed, and Voltaire would have been the first to say so.
-
 
 ## Group D: Long answers (10 marks)
 

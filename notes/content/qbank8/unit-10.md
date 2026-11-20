@@ -156,15 +156,6 @@ Give the format mark only if every element of the layout is there. Give the cont
 
 ## 10.4 Predicted questions: ranked practice priorities
 
-::: caution What "predicted" means here
-Nothing below is a forecast of a particular paper, and no local level's
-question is reproduced. These are **practice priorities**, ranked from the
-specification grid and from the shape of the syllabus: a topic ranks higher
-when it can be asked cleanly at the size the grid allows, when it has a fixed
-method that is quick to mark, and when the textbook gives it a full chapter.
-Work the top tier until the method is automatic.
-:::
-
 ### 10.4.1 Tier A — rehearse until automatic
 
 | Rank | Topic and likely form | Marks | Why it ranks here |

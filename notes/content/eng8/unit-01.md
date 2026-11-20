@@ -188,7 +188,7 @@ swims* or *can to swim*).
 **Yes/no questions:** move the modal to the front.
 *They could rescue the victims.* → ***Could** they rescue the victims?*
 
-### Textbook answers
+### Worked answers
 
 **Exercise A (yes/no questions):** a. Could they rescue the victims? b. Can Linda
 win the match? c. Can your mother drive a car? d. Could you help me? (In a
@@ -230,7 +230,7 @@ not *Does she works?*).
 main verb but **after** *be*: *She **always** drives too fast.* / *He is
 **always** late.*
 
-### Textbook answers
+### Worked answers
 
 **Exercise A:** a. are b. provides c. helps d. have e. limits
 

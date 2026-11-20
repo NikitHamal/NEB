@@ -386,13 +386,13 @@ and humane. The last sentences rise to a serious warning.
 | augments | increases |
 | bound up | closely tied to something (the textbook's gloss, "to limit", is not the meaning here) |
 
-::: note Two mistakes in the textbook text
+::: note Textual notes
 In the printed passage "as fat as possible" should read **"as far as possible"**, and "the extent
 and complexity for the specialized knowledge" should read "…**of** the specialized knowledge".
 They are typing errors; do not copy them in your answers.
 :::
 
-## 15.7 Textbook exercises
+## 15.7 Comprehension and critical thinking
 
 **Before you read**
 
@@ -672,7 +672,6 @@ it occurs, what comes before, what it means and what it adds to the essay. For t
 instance: it follows Russell's rejection of the idea that one should hate those who do harm, and
 it prepares his statement that the way out is understanding.
 :::
-
 
 ## Group D: Long answers (10 marks)
 

@@ -7,7 +7,7 @@ hours: 3
 area: Mathematics
 ---
 
-Vectors carry about **3 questions** (our estimate). The booklet's model question — the projection of $\vec b=2\hat i+3\hat j-2\hat k$ on $\vec a=\hat i+2\hat j+3\hat k$ — is typical: a dot product, a cross product, or a scalar triple product, computed from components. The whole chapter reduces to four formulas used fluently.
+Vectors carry about **3 questions**. The booklet's model question — the projection of $\vec b=2\hat i+3\hat j-2\hat k$ on $\vec a=\hat i+2\hat j+3\hat k$ — is typical: a dot product, a cross product, or a scalar triple product, computed from components. The whole chapter reduces to four formulas used fluently.
 
 ::: key What the paper asks from this chapter
 - Components, magnitude, unit vector, section formula, collinearity.

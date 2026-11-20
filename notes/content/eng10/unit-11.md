@@ -2,7 +2,7 @@
 subject: Compulsory English
 grade: 10
 unit: 11
-title: 'Unit 11: Ethics and Morality'
+title: Ethics and Morality
 hours: 0
 area: Units
 ---
@@ -218,9 +218,7 @@ ax.tick_params(labelsize=7.5,colors=MUTED)
 **2.** (Open answer.) I do not think people should risk their health for records. A record lasts only for a little time but an injury may last for life. Albert could have burnt his foot badly for no real benefit. Records of skill, such as in athletics or mountaineering, can inspire others, but they should be attempted with training and safety. A sensible person weighs the danger against the benefit.
 :::
 
-## 11.3 Grammar and writing tasks
-
-### Grammar I — Positive and negative sentences
+## 11.3 Grammar I: Positive and negative sentences
 
 An **affirmative** (positive) sentence says something is true. A **negative** sentence says something is not true. Changing between them is a common SEE grammar task.
 
@@ -283,7 +281,7 @@ An **affirmative** (positive) sentence says something is true. A **negative** se
 **1.** Ram performs well. **2.** The dog bit Ram. **3.** He always drinks wine. **4.** Pour a little water in the curry. **5.** Somebody came to me. **6.** She has something in her bag. **7.** Either the boy or the man goes to school. **8.** He works with us.
 :::
 
-### Grammar II — Subject–verb agreement
+## 11.4 Grammar II: Subject–verb agreement
 
 The verb must agree with its **subject** in number: a singular subject takes a singular verb; a plural subject takes a plural verb. Most mistakes occur with unusual subjects.
 
@@ -356,7 +354,7 @@ In "The box of chocolates **is** on the table", the subject is *box*, not *choco
 **1.** were **2.** has **3.** is **4.** were **5.** need **6.** is **7.** lies **8.** were **9.** has **10.** is **11.** is **12.** is
 :::
 
-### Writing I — A story with a moral
+## 11.5 Writing I: A story with a moral
 
 A **story** has a beginning (characters and setting), a middle (a problem and how it grows), an end (the result) and a **moral** — the lesson. Use the past tense and time-linkers: *once upon a time, one day, suddenly, after that, at last*. Keep it to one clear problem and give the characters names.
 
@@ -378,7 +376,7 @@ From that day on he never forgot that a small kindness can come back in a great 
 
 **Moral:** No act of kindness, however small, is ever wasted.
 
-### Writing II — Message of condolence
+## 11.6 Writing II: Message of condolence
 
 A **condolence message** expresses sorrow after a death. It is short, sincere and respectful. Do not describe the death in detail. Include: the sad news, praise of the person, sympathy with the family and a wish for peace.
 
@@ -396,7 +394,7 @@ In this hour of grief we extend our heartfelt condolences to his family, friends
 
 *Principal and students, Sunrise Secondary School*
 
-### Writing III — Letter of sympathy
+## 11.7 Writing III: Letter of sympathy
 
 A **sympathy letter** is written to a friend or relative who is ill, injured or has suffered a loss. Use the layout of an informal letter: address and date at top right, salutation (*Dear Ram,*), body, subscription (*Yours sincerely, / Your friend,*) and name.
 

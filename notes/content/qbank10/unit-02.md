@@ -13,10 +13,6 @@ Group A of the SEE Science and Technology paper is ten multiple-choice questions
 Almost nothing in Groups A and B is a long calculation. They test a **definition**, a **unit or value**, a **one-step substitution** or a **misconception** offered as a distractor. The CDC model MCQs are often small scenarios, so read the stem slowly and eliminate two options first. If one MCQ takes more than 90 seconds, you have probably misread it.
 :::
 
-::: caution Practice items, not past questions
-Every question below is an original **practice** question written to the pattern. None is claimed to have appeared in any year's paper. Where a numerical is used, the stem states the value of $g$ or other constants, and the key gives the working.
-:::
-
 ## 2.1 Scientific Learning
 
 **Facts.** The SI unit of length is the metre, of mass the kilogram, of time the second. A scientific method runs: observation, problem, hypothesis, experiment, analysis, conclusion. A hypothesis is a testable guess.

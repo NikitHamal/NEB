@@ -24,17 +24,6 @@ Group B or C; a wrong answer with correct working earns most of the marks. Read 
 "Most repeated" list at the end of each section last.
 :::
 
-::: caution What a year tag means here
-**(NEB 2081)** is printed only on a question that we read in that year's board paper —
-verified years are **2079, 2080, 2081 and 2082**, plus the **CDC model question 2080**
-(tagged **(CDC model 2080)**). Where the printed wording depended on a figure we could
-not reproduce, the data have been rebuilt and the question is untagged. Where a
-printed item turned out to be unsolvable as recorded, the section says so and gives
-the nearest corrected version. Untagged questions are original practice questions of
-the same pattern. Every numerical answer was recomputed by computer algebra before
-printing.
-:::
-
 ## 12.1 Permutation and Combination
 
 CDC allots **10 teaching hours** and the unit sits inside Algebra, which carries **20

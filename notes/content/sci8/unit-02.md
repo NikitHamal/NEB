@@ -13,7 +13,7 @@ television, ATMs, photocopiers, scanners, printers, routers and Wi-Fi are all IC
 tools. Newer technologies such as artificial intelligence, virtual reality,
 robotics and cloud computing are spreading every year. With these benefits come
 dangers, so we must also know the computer code of conduct, cyber law and the
-rules of internet security. This unit follows the lessons of the CDC textbook.
+rules of internet security.
 
 ::: key What this unit asks of you
 Know the use and main parts of an ATM, photocopier, scanner, printer, router,
@@ -297,7 +297,7 @@ documents used in e-banking and e-commerce.
 In Nepal the Electronic Transaction and Digital Signature Ordinance (popularly
 the "cyber law") came on 30 Bhadra 2061 BS (15 September 2004). It was followed
 by the **Electronic Transactions Act, 2063** and the Electronic Transactions
-Rules, 2064. The textbook lists these penalties under the Act:
+Rules, 2064. Major penalties under the Act include:
 
 | Offence | Punishment (up to) |
 |---|---|
@@ -512,7 +512,7 @@ learning), because the machine found the pattern from data.
 
 ## Practice questions
 
-**Group A — Multiple choice (1 mark each)** *(Textbook exercise 1.)*
+**Group A — Multiple choice (1 mark each)**
 
 1. What is the main function of a set-top box (STB)? <span class="marks">[1]</span>
    (a) receiving the digital signal (b) displaying TV channels (c) decoding (d) all of the above
@@ -536,7 +536,7 @@ learning), because the machine found the pattern from data.
 **6.** (b) — data and programs can be reached from anywhere in the world.
 :::
 
-**Group B — Short answer (2 marks each)** *(Textbook exercises 2 and 3.)*
+**Group B — Short answer (2 marks each)**
 
 1. Differentiate between (a) printer and scanner (b) search engine and website. <span class="marks">[2]</span>
 2. Differentiate between (a) virtual reality and artificial intelligence (b) computer code of conduct and cyber law (c) robot and human. <span class="marks">[3]</span>

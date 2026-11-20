@@ -22,10 +22,6 @@ Each section opens with a **facts line** — the few facts that the items of tha
 There is no national specification grid for this school paper. The weights in the chart below are the ones this bank uses for its model papers (chapter 25). The six lessons on computer fundamentals carry 14 marks, the three on application software 8, the five on the web, communication and society 13, number system, graphics and multimedia 5, and the three on programming 10.
 :::
 
-::: caution Practice items, not past questions
-Every item below is an original **practice** item written to the pattern above and to the lessons of the Computer Science 8 book. None is claimed to come from any school's paper. Every calculation, conversion and Python result was worked out independently before it was written down.
-:::
-
 ```figure caption="Marks per lesson in the 50-mark paper used in this bank. Python programming and web page design carry the most; the six lessons on computer fundamentals together carry 14 marks, so no area can be skipped."
 fig, ax = barh_ranked(
     ["Computer Programming using Python", "Web Page Design", "Fundamentals of Computer", "History of Computer",

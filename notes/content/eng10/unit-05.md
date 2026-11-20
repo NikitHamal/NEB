@@ -2,7 +2,7 @@
 subject: Compulsory English
 grade: 10
 unit: 5
-title: 'Unit 5: Science and Experiment'
+title: Science and Experiment
 hours: 0
 area: Units
 ---
@@ -231,9 +231,7 @@ ax.axis("off")
 **2.** If it does not rain for a long time, rivers, ponds and wells will dry up. Crops will fail and there will be drought and famine. Animals and people will lack drinking water and may fall ill. Forests will become dry and catch fire easily. People may have to leave their land and migrate. This shows how much life on earth depends on rain.
 :::
 
-## 5.3 Grammar and writing tasks of the unit
-
-### Grammar I: Zero and first conditional
+## 5.3 Grammar I: Zero and first conditional
 
 A **conditional sentence** has an **if-clause** (the condition) and a **main clause** (the result). When the if-clause comes first, put a comma after it.
 
@@ -291,7 +289,7 @@ Never use *will* in the if-clause. Write *If it rains, we will stay home*, not *
 (a)–(iii), (b)–(i), (c)–(ii), (d)–(iv), (e)–(v).
 :::
 
-### Grammar II: Second and third conditional
+## 5.4 Grammar II: Second and third conditional
 
 | Type | Use | If-clause | Main clause | Example |
 |---|---|---|---|---|
@@ -350,7 +348,7 @@ Do not write *If I would be rich, I would help you*. The if-clause takes the pas
 **1.** you will miss the bus. **2.** the roads will be slippery. **3.** you tell the truth. **4.** it invests in education. **5.** they insult you.
 :::
 
-### Writing I: Instructions
+## 5.5 Writing I: Instructions
 
 **Instructions** tell the reader how to do something in order. Features: a title (*How to…*); a list of materials; numbered steps; **imperative verbs** in the correct order; sequence words (*first, next, then, after that, finally*); short sentences.
 
@@ -376,7 +374,7 @@ Do not write *If I would be rich, I would help you*. The if-clause takes the pas
 6. Release the plunger, and the bubbles disappear.
 :::
 
-### Writing II: A letter to the editor
+## 5.6 Writing II: A letter to the editor
 
 A **letter to the editor** is a formal letter addressed to a newspaper. The writer gives an address and date, addresses *The Editor*, writes a **subject line**, states the problem, gives its causes and effects with evidence, suggests solutions and thanks the editor. A complaint should be polite, factual and constructive.
 

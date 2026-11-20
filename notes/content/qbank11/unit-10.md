@@ -9,10 +9,6 @@ area: Biology
 
 This chapter does three things. It sets out the **pattern of the Grade 11 Biology paper** and shows how the teaching hours of the CDC syllabus translate into marks. It gives **two complete model papers**, each of 75 marks and three hours, followed by a full solution written the way you should write in the hall. And it ends with a **ranked list of predicted questions**, each with the reason for its rank.
 
-::: caution What "predicted" means here
-Nobody outside the examination board knows what will be set, and this chapter does not pretend to. A prediction is a judgement from two public facts: how many teaching hours the syllabus gives a topic, and how standard the question form is (a differentiation, a labelled diagram, a family description). Use the list to decide what to **revise first**, never as a promise. Every question below is an original practice item; none is claimed to be from a past paper.
-:::
-
 ::: key How to sit a three-hour paper
 Seventy-five marks in 180 minutes is 2.4 minutes a mark. Plan it: **MCQs, 12 minutes** (11 marks); **short answers, 80 minutes** (8 questions of 4 marks, about 10 minutes each); **long answers, 75 minutes** (4 questions of 8 marks, about 18 minutes each, diagram included); 13 minutes to check. A four-mark answer needs four separate markable points; an eight-mark answer needs a structure of definition, body, diagram and significance.
 :::
@@ -37,7 +33,7 @@ The paper is out of 75; internal assessment adds 25. Written answers carry 64 of
 
 ### 10.1.2 Hours as a guide to marks
 
-The CDC syllabus gives 128 theory hours, 64 to Botany and 64 to Zoology. The table converts hours to a proportional share of 75 marks. It is **our guide, not the official specification grid**.
+The CDC syllabus gives 128 theory hours, 64 to Botany and 64 to Zoology. The table converts hours to a proportional share of 75 marks.
 
 | Unit | Hours | Share of 75 marks |
 |---|---|---|

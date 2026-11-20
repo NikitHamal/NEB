@@ -56,10 +56,6 @@ A **specification grid** tells you how many marks a chapter is worth and at whic
 
 Two consequences follow, and both are practical. First, **no chapter can be skipped**: the grid spreads marks across every unit, so four chapters left unread cost more than any single long answer can return. Second, roughly a quarter of the paper is *application* — a question you have not seen before, built from ideas you have. Memorising answers prepares you for 75 % of the paper at best.
 
-::: caution Practice questions, not past papers
-Every item in this book is an original **practice** question written to the official pattern and to the chapter sequence of the CDC textbooks. None is claimed to be a reproduction of any year's paper, and no local level's paper is quoted. Where a numerical answer depends on a constant, the question states it.
-:::
-
 ## 1.3 A revision timetable that works
 
 Ten weeks is enough if the weeks are honest. The plan below assumes about an hour a day on examination preparation, on top of classwork.

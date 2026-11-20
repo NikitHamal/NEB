@@ -154,7 +154,7 @@ by the time…*). Negative: **won't have + pp**.
 | He will leave home at 8 a.m. (he leaves *at* 8) | He will have left home by 8 a.m. (he leaves *before* 8) |
 | I will eat lunch at 12 noon. | I will have eaten lunch by 12 noon. |
 
-### Textbook answers
+### Worked answers
 
 **Grammar I B:** a. 'll (decision now) b. am going to (plan; boots already on)
 c. will (condition) d. am going to (plan) e. is going to (evidence: dark clouds)

@@ -7,7 +7,7 @@ hours: 6
 area: Chemistry
 ---
 
-Inorganic chemistry carries about **6 of 22 questions** (our estimate). Unlike physical chemistry it is mostly factual: an industrial process and its catalyst, the product of a named reaction, an ore and its extraction, the formula of a compound in daily use. Section A items are one-fact recall; Section B items add a short stoichiometric step. Learn each topic as *name – formula – process – use*.
+Inorganic chemistry carries about **6 of 22 questions**. Unlike physical chemistry it is mostly factual: an industrial process and its catalyst, the product of a named reaction, an ore and its extraction, the formula of a compound in daily use. Section A items are one-fact recall; Section B items add a short stoichiometric step. Learn each topic as *name – formula – process – use*.
 
 ::: key What the paper asks from this chapter
 - Preparation, properties and tests: H₂, O₂, O₃, H₂O₂, water hardness, NH₃, HNO₃, Cl₂, HCl, bleaching powder, SO₂, H₂SO₄.

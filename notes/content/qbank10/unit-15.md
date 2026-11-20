@@ -7,7 +7,7 @@ hours: 0
 area: Social Studies
 ---
 
-Most of the 75 marks of the Social Studies paper are written answers. The CDC grid, as published for the 2080 curriculum, has nine short answers of 4 marks (36 marks) and four long answers of 7 marks (28 marks). Another source I checked prints a different split of the same marks (4 x 4 and 8 x 6), so confirm the figures against the grid your school gives you. Whichever split is used, the skill is the same: give a clear definition, then numbered points with a fact in each, then a closing line. This chapter gives, for each of the ten units, three short questions and one long question with model answers.
+Most of the 75 marks of the Social Studies paper are written answers. The CDC grid, as published for the 2080 curriculum, has nine short answers of 4 marks (36 marks) and four long answers of 7 marks (28 marks). Whichever split is used, the skill is the same: give a clear definition, then numbered points with a fact in each, then a closing line. This chapter gives, for each of the ten units, three short questions and one long question with model answers.
 
 ::: key How to use this chapter
 Write your own answer first and compare **points**, not words. A 4-mark answer needs about four separate points in 60 to 80 words. A 7-mark answer needs a short introduction, five or six developed points with facts, and a conclusion in about 150 words. Every answer here is original practice material based on the Social Studies book chapters of this series, not a copy of any board answer.

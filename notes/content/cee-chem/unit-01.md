@@ -8,7 +8,7 @@ area: Physical Chemistry
 ---
 
 This chapter is the arithmetic of chemistry. It carries about **two of the seventeen
-Physical Chemistry questions** in the paper (our estimate from the MEC topic list), but
+Physical Chemistry questions** in the paper, but
 the mole concept it builds is used again in volumetric analysis, equilibrium,
 electrochemistry and thermodynamics questions — a slip here costs marks several times
 over. The questions come in three kinds: a definition or a law with its author, a

@@ -2,7 +2,7 @@
 subject: Compulsory English
 grade: 10
 unit: 2
-title: 'Unit 2: Festivals and Celebrations'
+title: Festivals and Celebrations
 hours: 0
 area: Units
 ---
@@ -195,9 +195,7 @@ This is an **informative article**. It shows that Thanksgiving, which many peopl
 **1.** In my community, farmers thank the land when the rice is ripe. In Mangsir the first rice of the new harvest is cut and a small part is offered to the household gods and to cattle before the family eats. This is *Nwagi* among the Newars and *Nabanna* in the Tarai. Neighbours share newly harvested grain, and in Tihar we worship cows and oxen, which work in the fields. At the end of the harvest, villagers hold a feast with songs and dances. All of these customs show that we remember that our food depends on nature and on the labour of animals and neighbours.
 :::
 
-## 2.3 Grammar and writing tasks of the unit
-
-### Grammar: Reported questions
+## 2.3 Grammar: Reported questions
 
 A direct question becomes a **statement-shaped** clause when reported: no question mark, no auxiliary verb in front, no inversion.
 
@@ -312,7 +310,7 @@ A student interviewed her teacher about the Newar ritual *Ihi* and reported: "Ni
 What is Ihi? Why is it done? Why was it started? What age group performs it? How long does the ritual last? What things are done during these two days?
 :::
 
-### Writing I: An essay on a festival
+## 2.4 Writing I: An essay on a festival
 
 An **essay** has an introduction, a body of three or four paragraphs, and a conclusion. When describing a festival, plan your paragraphs around the points the task lists: **history**, **people involved**, **main activities**, **religious or social importance**, **duration**, and **drawbacks**.
 
@@ -332,7 +330,7 @@ There are some drawbacks. Firecrackers cause noise and air pollution and sometim
 In short, Tihar is a joyful festival of light, family and gratitude, and we must preserve it while avoiding its harmful habits.
 :::
 
-### Writing II: A news story from clues
+## 2.5 Writing II: A news story from clues
 
 A **news story** answers *who, what, where, when, why and how* in its first paragraph, then adds details in order of importance. It has a **headline**, a **dateline**, is written in the **past tense** and in the third person, and uses reported speech for quotations.
 

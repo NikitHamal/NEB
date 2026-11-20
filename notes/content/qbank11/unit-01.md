@@ -13,10 +13,6 @@ Grade 11 is the first year in which the science stream is examined to a fixed na
 **75** — written marks in Physics, Chemistry, Biology, Mathematics, Compulsory English and अनिवार्य नेपाली. **50** — written marks in Computer Science, in a 2-hour paper. **25** — the internal-assessment marks each subject adds. **2.4** — minutes you have for every written mark, in *every* paper. The rest of this chapter follows from those four numbers.
 :::
 
-::: caution Read this about "past papers" first
-NEB does not release Grade 11 papers as it does for Grade 12, and this book could not verify any individual Grade 11 question against an official paper. So **no question in this book is labelled with a year it supposedly appeared**. Where a chapter outline promises "years each appeared", this book gives you something it can stand behind instead: the **syllabus weight** (teaching hours and marks per area), which is public, and a plain label — *practice*, *model* or *predicted* — on every item. Be suspicious of any list that prints "NEB 2079, Q5" for Grade 11 without showing the paper.
-:::
-
 ## 1.1 The specification grid of every Grade 11 science subject
 
 A **specification grid** (विशिष्टीकरण तालिका) is the table that fixes how a paper is built: how many questions, of what type, carrying what marks, from which content areas. The paper setter cannot ignore it, so only the wording of questions changes from year to year.

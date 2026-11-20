@@ -9,10 +9,6 @@ area: Mathematics
 
 This chapter does three things. It **reads the real papers** — the NEB Grade 12 Mathematics papers of 2079, 2080, 2081 and 2082 and the CDC model question of 2080, all transcribed from the printed scans — and tabulates what the examiner asks, unit by unit. It then sets **two complete model papers** to the exact grid of the real paper ($11\times1+8\times5+3\times8=75$ marks, three hours), each with full solutions. Finally it lists **forty-four predicted questions**, ranked, with the reason for each rank and a short model answer.
 
-::: caution What "predicted" means here
-No paper is leaked to anyone, and this chapter does not claim to know what will be set. A prediction is a judgement from three things shown in the tables below: how often a topic appeared in the five papers read, how many marks its area carries in the CDC grid, and how long it has been since it last appeared. Five papers are a small sample. Use the list to decide **what to practise first**, never what to skip. Model papers and predicted questions are original, not reproductions, except where a year tag says that a question was read in that paper.
-:::
-
 ::: key How to sit a three-hour paper
 Seventy-five marks in $180$ minutes is $2.4$ minutes a mark. Plan it: **Group A, $15$ minutes** ($11$ marks, about $1.4$ min each); **Group B, $85$ minutes** ($40$ marks, about $10$ min per five-mark question); **Group C, $65$ minutes** ($24$ marks, about $22$ min per eight-mark question); $15$ minutes left to re-check. Since 2082 the eleven MCQs reach you as a separate booklet **$30$ minutes after the start** — begin with Group B, and answer Group A when the booklet arrives. Show the formula, every substitution and the units: a correct answer without working earns little in Group B or C.
 :::
@@ -64,7 +60,7 @@ The **2079 and 2080** papers differ in two ways. The simplex question was compul
 
 ### 13.1.3 Unit by unit: marks carried, years seen, expected weight
 
-*B/C* counts the five papers (2079, 2080, 2081, 2082, CDC model 2080) in which the unit supplied at least one Group B or Group C question or part. *MCQ* counts the papers in which it supplied a Group A item. **Expected weight** is our estimate from the grid and these counts.
+*B/C* counts the five papers (2079, 2080, 2081, 2082, CDC model 2080) in which the unit supplied at least one Group B or Group C question or part. *MCQ* counts the papers in which it supplied a Group A item. **Expected weight** is based on the specification grid and paper frequency.
 
 | # | Unit | Hours | B/C (of 5) | MCQ (of 5) | Typical item | Expected weight |
 |---|---|---|---|---|---|---|

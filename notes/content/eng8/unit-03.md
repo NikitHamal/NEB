@@ -167,7 +167,7 @@ If the reporting verb is **present** (*says, asks*), do **not** change the tense
 *"Is your sister coming?" says Pallawi.* → *Pallawi **asks** if my sister **is**
 coming.*
 
-### Textbook answers — Grammar I
+### Worked answers — Grammar I
 
 **A (matching):** a–iii, b–v, c–vi, d–ii, e–i, f–iv.
 
@@ -181,7 +181,7 @@ table. h. My father asked if his mother was a professor of History. i. Rachana
 inquired whether his sister had gone to market. j. She asked if I was a
 foreigner.
 
-### Textbook answers — Grammar II
+### Worked answers — Grammar II
 
 a. Pawan asked if I was going to the store. b. Pallawi asks if my sister is
 coming to the party. c. Sophie asked me if I liked pizza. d. Siddhartha asked

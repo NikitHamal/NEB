@@ -447,7 +447,7 @@ floor.
 5. Moyn wants human rights **supplemented**, not substituted.
 :::
 
-## 17.8 Textbook exercises
+## 17.8 Comprehension and critical thinking
 
 The wording below follows the CDC Grade 12 textbook; printings and guides differ in
 small details, so read the question carefully in your own copy.

@@ -26,18 +26,6 @@ seconds, re-read the question: you have probably missed a word such as
 *maximum*, *minimum* or *same*.
 :::
 
-::: caution How the year tags in this chapter work
-A tag such as **(NEB 2081)** is printed only on a question that we saw in that
-year's board paper; **(NEB 2079 model)** means the official NEB model question
-set for 2079, which we downloaded and read. Items tagged like this are
-reproduced in substance, with the options shortened or reordered. The word
-**data** after a tag means that the numbers come from a real past numerical
-question whose stem has been turned into a one-mark item. The 2078
-paper circulates online under two labels (board and model); we tag it
-**(NEB 2078)** and note that its label is disputed. Every untagged question is
-original and built to the same pattern — it is practice, not a leaked paper.
-:::
-
 ## 2.1 Rotational dynamics
 
 | High-yield fact | Value / form |

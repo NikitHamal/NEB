@@ -14,15 +14,6 @@ the grid, with a full answer to every question; and it closes with a **ranked
 list of practice priorities**, each with the reason it holds its place. Every
 program and SQL query in the answers was run (Python 3.12, MySQL 8.4).
 
-::: caution What "predicted" means here, and what it does not
-Nobody outside the examination board knows next year's questions. The ranks in
-section 22.4 rest on public facts only: the **CDC specification grid** (how
-many questions of each kind each unit carries), the **CDC model question** that
-accompanies it, and the **syllabus**. A high rank means *practise this first*,
-never *this will come*. All the questions below are original practice items,
-not copies of any past or model paper.
-:::
-
 ::: key The grid: 50 marks in 2 hours
 | Group | Questions | Marks each | Total | What it asks for |
 |---|---|---|---|---|

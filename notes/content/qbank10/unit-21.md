@@ -24,11 +24,6 @@ MySQL 8.4) and its output is printed: compare yours line by line. A 2-mark
 question deserves about **4 minutes** and a 4-mark question about **8**.
 :::
 
-::: caution Practice items, not past questions
-Every question below is an original **practice** item written to the CDC grid
-and model paper. None is claimed to have appeared in an SEE paper.
-:::
-
 ```figure caption="Where the 40 written-answer marks come from. Python and AI each carry three short questions; every unit has exactly one long question."
 import numpy as np, matplotlib.pyplot as plt
 fig, ax = plt.subplots(figsize=(4.9, 2.6))

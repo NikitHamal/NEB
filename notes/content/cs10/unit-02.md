@@ -458,7 +458,7 @@ ax.set_xlim(0.0, 7.0); ax.set_ylim(0.15, 3.8); ax.axis("off")
 | only one per table | a table may have several |
 | example: `roll` in students | example: `roll` in marks |
 
-::: caution The textbook's Library table breaks its own rule
+::: caution Primary key uniqueness in a Library table
 In the textbook's example, two different books both have BookID `B_01`. If
 BookID is the key of the Library table, that is impossible — the DBMS would
 reject the second row. Each book needs its own BookID (B_01, B_02, …); it is
@@ -1151,7 +1151,7 @@ SELECT COUNT(*) FROM students;             -- 10 again
 
 ROLLBACK undid the delete; COMMIT would have made it permanent.
 
-::: caution Six slips in the textbook's SQL activities
+::: caution Common SQL syntax pitfalls to avoid
 1. *Activity 5(a)* inserts the date `'2007  '`; MySQL rejects it with error 1292
    because a DATE must be 'YYYY-MM-DD', and the explanation then calls it 1990.
 2. *Activity 5(b)* says column names are "not specified", but `(ID, Name)` is a
@@ -1353,7 +1353,7 @@ records in each table, as the project requires, and write five report queries of
 your own.
 :::
 
-## Textbook exercises: model answers
+## Worked exercise solutions
 
 ::: note 1. Multiple choice — answers
 **a.** (iii) — word processing is not a DBMS function.

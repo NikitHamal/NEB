@@ -22,15 +22,6 @@ formula**, or a **misconception** deliberately offered as a distractor. If an
 MCQ is taking you more than ninety seconds, you have misread it.
 :::
 
-::: caution No question here carries a year tag — and that is deliberate
-Coaching sites circulate lists labelled "NEB 2078", "NEB 2081" and so on, but
-NEB does not publish its Grade 11 question papers, and we could not verify a
-single item against an official released paper. Rather than print a year we
-cannot stand behind, we print none. What we *can* stand behind is the
-**syllabus weighting**, which is public, and every question below is built from
-it. Treat this as a bank of exam-shaped questions, not a leaked paper.
-:::
-
 ## 2.1 Physical Quantities
 
 ```photo id="phy11/vernier" caption="A vernier calliper, the instrument behind most least-count questions: the main scale is on the fixed jaw and the vernier scale slides along it." width="60"
@@ -1177,7 +1168,6 @@ ax.annotate('valence band', (6.35, 0.55), ha='left', va='center',
 ax.set_xlim(-0.35, 9.4); ax.set_ylim(-1.15, 4.9)
 ax.axis('off')
 ```
-
 
 1. The forbidden energy gap of silicon at room temperature is about <span class="marks">[1]</span>
    (a) $0.7\ \text{eV}$ (b) $1.1\ \text{eV}$ (c) $3.2\ \text{eV}$ (d) $5.4\ \text{eV}$

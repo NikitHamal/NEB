@@ -16,10 +16,6 @@ Groups B and C of the Grade 11 Chemistry paper carry sixty-four of the seventy-f
 - **Atomic masses used:** H $= 1$, C $= 12$, N $= 14$, O $= 16$, Na $= 23$, Cl $= 35.5$, Ca $= 40$, Cu $= 63.5$.
 :::
 
-::: caution About years and sources
-Every question below is an original *practice* question written to the CDC pattern and carries no past-paper year. The syllabus outline asks for "years each appeared", but Grade 11 papers are not published by NEB, so no year is claimed. Instead the section headings give each area's **teaching hours** (General and Physical 48, Inorganic 35, Organic 30, Applied 15 of 128), the public measure of how much of the paper to expect.
-:::
-
 ## 6.1 General and Physical Chemistry (units 1–8, 48 hours)
 
 **Group B — Short answer (5 marks each)**

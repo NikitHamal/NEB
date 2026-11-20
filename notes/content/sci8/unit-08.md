@@ -237,7 +237,7 @@ board with MCBs / fuses** → switches → sockets and lamps.
 
 ### 8.6.1 Live, neutral and earth wires
 
-| Wire | Description | Colour (textbook) |
+| Wire | Description | Insulation colour |
 |---|---|---|
 | **Live (phase)** | carries current at high potential (220 V); touching it gives a shock; switch and fuse are put in it | red (brown in new cables) |
 | **Neutral** | at zero potential; completes the circuit back to the supply | black or blue |
@@ -309,7 +309,7 @@ where $E$ is energy in kWh, $P$ the power of one appliance in kW, $N$ the number
 appliances and $t$ the time in hours. **Bill = units × rate.** (If the meter shows 40 units
 and the rate is Rs 8 per unit, the bill is $40\times8=$ Rs 320.)
 
-::: example Monthly bill for bulbs (textbook example)
+::: example Monthly bill for bulbs
 **Problem.** Four 60 W bulbs are used for 3.5 h a day. Find the monthly (30-day) bill at
 Rs 8.50 per unit.
 
@@ -388,7 +388,7 @@ moving a magnet in a coil produces current, which is how generators in hydropowe
 **1.** (c). **2.** (d). **3.** (d). **4.** (a) — the needle lies horizontal. **5.** (b) — low melting point. **6.** (b).
 :::
 
-**Group B — Short answer (2 marks each)** *(Textbook exercise 2–4.)*
+**Group B — Short answer (2 marks each)**
 
 1. Differentiate: (a) natural and artificial magnet (b) plug and socket (c) live and neutral wire. <span class="marks">[3]</span>
 2. Give reasons: (a) A magnet is demagnetised by hammering. (b) The angle of dip at the magnetic poles is 90°. (c) Different coloured wires are used in house wiring. (d) The fuse is connected in the live wire. <span class="marks">[4]</span>
@@ -424,8 +424,8 @@ moving a magnet in a coil produces current, which is how generators in hydropowe
 6. Write the steps of wiring a three-pin plug. <span class="marks">[4]</span>
 
 ::: note Answers to Group C
-**1.** Units per day $=\frac{15}{15}=1$; per month $=1\times30=30$ units. Bill $=30\times9.50=$ **Rs 285**. *(The textbook prints Rs 1425; that would need 150 units a month, i.e. 75 units in 15 days. With the data as given, the bill is Rs 285.)*
-**2.** $P=25$ W $=0.025$ kW, $N=8$, $t=4\frac{40}{60}=4.667$ h. $E=0.025\times8\times4.667=0.933$ units. *(The textbook prints 0.0932; the correct value is about 0.933 units.)*
+**1.** Units per day $=\frac{15}{15}=1$; per month $=1\times30=30$ units. Bill $=30\times9.50=$ **Rs 285**.
+**2.** $P=25$ W $=0.025$ kW, $N=8$, $t=4\frac{40}{60}=4.667$ h. $E=0.025\times8\times4.667=0.933$ units.
 **3.** Units per day $=\frac{8.5}{30}=0.2833$ kWh. $t=\frac{E}{P}=\frac{0.2833}{0.065}=4.36$ h (about 4 h 22 min).
 **4.** $E$ per day $=1.5\times14\times6.5=136.5$ units; per month $=136.5\times30=4095$ units. Bill $=4095\times12.50=$ **Rs 51,187.50**.
 **5.** Bringing electricity from the power house to homes through transmission lines and wiring the house safely. Devices: service line → electric meter → main switch → distribution board with MCBs/fuses → switches → lamps and sockets. Live wire: high potential (220 V), gives shock, red/brown, has switch and fuse. Neutral wire: zero potential, completes the circuit, black/blue.

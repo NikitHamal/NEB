@@ -9,10 +9,6 @@ area: Computer Science
 
 This chapter does three jobs. It sets out the grid of the Grade 11 Computer Science paper and what it implies for study; it gives **two complete model papers** with full solutions, each to the exact pattern of 2 hours and 50 marks; and it ends with a **ranked list of predicted questions**, each with the reason for its rank.
 
-::: caution What "predicted" means here
-Nobody outside the examination board knows next year's paper. The ranking below rests on two things only: the **grid**, which fixes how many questions of each kind are asked, and the **syllabus**, which fixes what can be asked. It is not a claim that any question will come, and none of the model questions is a copy of a past paper. If a topic is ranked low, that means it is less likely, never that it is safe to skip.
-:::
-
 ::: key The grid (50 marks, 2 hours)
 | Group | Questions | Marks | Skill |
 |---|---|---|---|

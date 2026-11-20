@@ -7,7 +7,7 @@ hours: 2
 area: English
 ---
 
-Phonetics carries about **2 of the 16 English questions** (our estimate), and the official model paper shows exactly what they look like: *"The word 'procrastination' has its stress on the … syllable"* and *"Which of the following pairs have the same initial vowel sound? (ago, alone)"*. Both are answerable with a short rule set and a little practice reading phonetic values aloud.
+Phonetics carries about **2 of the 16 English questions**, and the official model paper shows exactly what they look like: *"The word 'procrastination' has its stress on the … syllable"* and *"Which of the following pairs have the same initial vowel sound? (ago, alone)"*. Both are answerable with a short rule set and a little practice reading phonetic values aloud.
 
 ::: key What the paper asks from this chapter
 - The 44 phonemes of Received Pronunciation: 20 vowels (12 pure + 8 diphthongs) and 24 consonants.

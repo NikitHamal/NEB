@@ -133,7 +133,7 @@ longer found in Nepal's wild.
 | hard to control poaching, fire and disease | easy to look after, treat and study |
 | national parks, wildlife reserves, hunting reserve, conservation areas | zoo, botanical garden, nursery, safari park, aquarium, seed bank, gene bank |
 
-**Protected areas of Nepal** (as listed in the textbook): **12 national parks**
+**Protected areas of Nepal**: **12 national parks**
 (Chitwan, Sagarmatha, Bardiya, Rara, Khaptad, Langtang, Makalu-Barun,
 Shey-Phoksundo, Shivapuri-Nagarjun, Parsa, Banke, Shuklaphanta), **1 wildlife
 reserve** (Koshi Tappu), **1 hunting reserve** (Dhorpatan) and **6 conservation
@@ -228,8 +228,7 @@ sides of every project so that its benefits last a long time.
 
 *Example.* A bridge or road built at a landslide-prone place lasts only if
 landslide control (retaining walls, drainage, planting grass and trees on the
-slope) is done at the same time. Then many generations benefit. In the textbook
-story, Norbu's father could not repair a broken paddy-field ridge with mud alone
+slope) is done at the same time. Then many generations benefit. For example, a farmer could not repair a broken paddy-field ridge with mud alone
 while water was flowing; diverting the water first, and binding the mud with
 leafy twigs and grass, makes the repair last.
 
@@ -355,7 +354,7 @@ that they take ownership of the road.
 
 ## Practice questions
 
-**Group A — Multiple choice (1 mark each)** *(Textbook exercises.)*
+**Group A — Multiple choice (1 mark each)**
 
 1. Where was the 1992 Earth Summit on biodiversity held? <span class="marks">[1]</span>
    (a) China (b) Brazil (c) Africa (d) Japan

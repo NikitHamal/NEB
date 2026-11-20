@@ -417,7 +417,7 @@ person who looks after it). **Serendipity** (finding something good by chance) a
 computer) and **physical** (held in the hand).
 :::
 
-## 13.7 Textbook exercises
+## 13.7 Comprehension and critical thinking
 
 **Before you read**
 

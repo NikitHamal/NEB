@@ -303,7 +303,6 @@ The **Montreal Protocol** (1987) is an international agreement that has phased o
 - Buy local food and avoid waste of food.
 - Spread awareness; support the national and global agreements (the **Kyoto Protocol**, **Paris Agreement of 2015**, which aims to keep warming well below 2 °C).
 
-
 ::: example Worked example 6.2 (carbon dioxide change)
 **Problem.** The carbon dioxide level in the air was 280 ppm before industry and is about 420 ppm today. Find the increase and the percentage increase.
 
@@ -440,7 +439,7 @@ Nepal has about **23%** of its land in protected areas. It has **12 national par
 ```photo id="sci10/snow-leopard" caption="The snow leopard, the top predator of the high Himalaya, found in Nepal's mountain national parks such as Shey Phoksundo." width="60"
 ```
 
-### Endangered Plants and Animals of Nepal (CDC Grade 10 focus)
+### Endangered Plants and Animals of Nepal
 
 Due to habitat destruction, climate change, forest fires, poaching and invasive species, many indigenous plants and animals of Nepal have become rare or **endangered** (at high risk of extinction from the wild):
 
@@ -448,7 +447,7 @@ Due to habitat destruction, climate change, forest fires, poaching and invasive 
 - **Protected Birds (9 species) and Reptiles (3 species):** Danphe (Impeyan pheasant, national bird), Crimson horned pheasant (*Munal*), Cheer pheasant (*Kalij*), Bengal florican (*Khar Mayur*), Lesser florican (*Sano Khar Mayur*), Great hornbill (*Thulo Rajdhanesh*), Sarus crane (*Saras*), White stork, Black stork; **Gharial crocodile (*Ghadoyal गोही*)**, Golden monitor lizard (*Sun Gohoro*) and Asiatic rock python (*Ajingar*).
 - **Endangered Plants of Nepal:** **Champ / Golden Michelia** (*Michelia champaca*), **Jatamasi / Spikenard** (*Nardostachys grandiflora*), **Sarpagandha / Serpentina** (*Rauvolfia serpentina*), **Panchaule** (*Dactylorhiza hatagirea*), **Lauth Salla / Himalayan Yew** (*Taxus wallichiana* — source of anticancer drug *Taxol*), **Yarsagumba** (*Ophiocordyceps sinensis*), **Sughandhawal** (*Valeriana jatamansi*), **Bijaysal** (*Pterocarpus marsupium*), **Satisal** (*Dalbergia latifolia*) and **Kutki** (*Picrorhiza kurroa*).
 
-### Medicinal Plants of Nepal (जडीबुटी) and Their Uses (CDC Grade 10 Table)
+### Medicinal Plants of Nepal (जडीबुटी) and Their Uses
 
 Nepal's diverse climatic zones from the Terai to the high Himalaya harbour over $700$ species of **medicinal and aromatic plants (जडीबुटी)** that form the foundation of Ayurveda and modern pharmaceuticals:
 

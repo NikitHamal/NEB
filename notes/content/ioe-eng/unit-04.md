@@ -7,7 +7,7 @@ hours: 4
 area: English
 ---
 
-Comprehension carries about **4 of the 16 English questions** (our estimate) and mixes General English and Technical English passages. In the official model paper one passage with a Section B question (2 marks) is printed: a passage on how English words label animals, with the question "In the English language the animals are used for unpleasant comparisons". Passage questions are the most *learnable* English marks: there is no unseen rule, only a method.
+Comprehension carries about **4 of the 16 English questions** and mixes General English and Technical English passages. In the official model paper one passage with a Section B question (2 marks) is printed: a passage on how English words label animals, with the question "In the English language the animals are used for unpleasant comparisons". Passage questions are the most *learnable* English marks: there is no unseen rule, only a method.
 
 ::: key What the paper asks from this chapter
 - The main idea / purpose of the passage and the best title.

@@ -7,7 +7,7 @@ hours: 9
 area: Chemistry
 ---
 
-Physical chemistry carries the largest share of the Chemistry paper (our estimate: about **9 of 22 questions**) and is the most numerical part of it. The eight syllabus topics reduce to a handful of calculation types: mole and stoichiometry, a gas-law problem, quantum numbers and configurations, oxidation numbers, pH and buffers, titration, Faraday and cell potential, and rate or equilibrium. The official booklet's own chemistry samples (a limiting-reagent count of HCl molecules, the mass of copper deposited by 2 faradays, the number of electrons in a p-orbital) are all of these types.
+Physical chemistry carries the largest share of the Chemistry paper and is the most numerical part of it. The eight syllabus topics reduce to a handful of calculation types: mole and stoichiometry, a gas-law problem, quantum numbers and configurations, oxidation numbers, pH and buffers, titration, Faraday and cell potential, and rate or equilibrium. The official booklet's own chemistry samples (a limiting-reagent count of HCl molecules, the mass of copper deposited by 2 faradays, the number of electrons in a p-orbital) are all of these types.
 
 ::: key What the paper asks from this chapter
 - Mole concept: $n=\frac{m}{M}=\frac{N}{N_A}=\frac{V}{22.4}$ (STP), limiting reagent, empirical formula, equivalent mass.

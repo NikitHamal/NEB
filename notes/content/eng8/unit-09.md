@@ -82,7 +82,7 @@ cost, workload and social life, so that they are prepared for the challenges.
 **not as** expensive **as** Y.* / *the highest peak **in** the world* / *the
 best **of** all*.
 
-### Textbook answers
+### Worked answers
 
 **Grammar I A (adjectives in the text):**
 
@@ -166,7 +166,7 @@ An **adverb** tells *how, when, how often* or *to what degree*:
 | -ly adverbs: *carefully, clearly, fluently* | **more** carefully | **most** carefully |
 | well / badly | better / worse | best / worst |
 
-### Textbook answers (Grammar II B)
+### Worked answers (Grammar II B)
 
 a. more carefully b. harder … hardest c. most beautifully d. more clearly
 e. earlier f. fastest g. better … best h. more fluently i. later j. more

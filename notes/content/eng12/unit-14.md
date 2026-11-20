@@ -356,7 +356,7 @@ again and again, so that the reader ends up thinking in Nock's vocabulary.
 | voluntarily | by free choice |
 | fidelity | faithfulness to a partner |
 
-## 14.7 Textbook exercises
+## 14.7 Comprehension and critical thinking
 
 **Before you read**
 

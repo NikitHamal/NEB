@@ -9,10 +9,6 @@ area: Mathematics
 
 This chapter does three things. It lays out the **pattern of the Grade 11 Mathematics paper** and shows how the teaching hours of the CDC syllabus translate into a sensible spread of marks. It then gives **two complete model papers** ($11\times1+8\times5+3\times8=75$ marks, three hours), each followed by a full solution. Finally it gives a **ranked list of predicted questions**, each with the reason for its rank.
 
-::: caution What "predicted" means here
-Nobody outside the examination board knows what will be set, and this chapter does not pretend to. A prediction is a judgement from two public facts: how many teaching hours the CDC syllabus gives a chapter, and how standard the question form is in a board paper (a truth table, a maxima problem, an area between curves). Treat the list as a guide to what to **practise first**, never as a promise. Every question below is an original practice item; none is claimed to be from a past paper.
-:::
-
 ::: key How to sit a three-hour paper
 Seventy-five marks in 180 minutes is 2.4 minutes a mark. Plan: **Group A, 15 minutes**; **Group B, 85 minutes** (about 10 per question); **Group C, 65 minutes** (about 22 per question); 15 minutes to check. In every written answer, write the formula, substitute, simplify, then box the result. Part-marks are given for method.
 :::
@@ -31,7 +27,7 @@ The paper is out of 75; internal assessment adds 25. The last chapter is a choic
 
 ### 13.1.2 Hours as a guide to marks
 
-The CDC syllabus allots 160 working hours. The table converts each area's hours into a proportional share of 75 marks. It is **our guide, not the official specification grid**.
+The CDC syllabus allots 160 working hours. The table converts each area's hours into a proportional share of 75 marks.
 
 | Area (chapters) | Hours | Share of 75 marks |
 |---|---|---|

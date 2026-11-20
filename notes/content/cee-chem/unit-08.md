@@ -9,8 +9,7 @@ area: Physical Chemistry
 
 Volumetric analysis is the branch of the paper where chemistry becomes a measurement: a
 solution of known strength is run from a burette into a measured volume of the unknown
-until the reaction is just complete. It carries about **one question** (our estimate from
-the MEC topic list), and that question is nearly always arithmetic — an equivalent weight,
+until the reaction is just complete. It carries about **one question**, and that question is nearly always arithmetic — an equivalent weight,
 a conversion between two concentration units, or a titration volume from
 $N_1V_1 = N_2V_2$. The definitions are few; the marks are lost on units, on the n-factor
 of the reagent, and on the difference between molality and molarity.
@@ -282,7 +281,6 @@ calculation. Twenty millilitres of 0.1 N acid neutralises exactly twenty millili
 
 ```photo id="chem12/volflask" caption="A 500 cm³ volumetric flask: the single mark on the narrow neck is the volume it is calibrated to contain." width="32"
 ```
-
 
 ::: example Acid against base, by both routes
 **Problem.** 25.0 mL of 0.100 M Na₂CO₃ is titrated with 0.200 M HCl to the methyl orange

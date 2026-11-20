@@ -247,7 +247,7 @@ Some useful derived units:
 | Specific heat capacity | $s = Q/(m\Delta T)$ | $\text{J kg}^{-1}\text{K}^{-1}$ | $\text{m}^2\text{s}^{-2}\text{K}^{-1}$ |
 | Gravitational constant ($G$) | $G = Fd^2/(m_1m_2)$ | $\text{N m}^2\text{kg}^{-2}$ | $\text{m}^3\text{kg}^{-1}\text{s}^{-2}$ |
 
-### Rules for working with variables in scientific research (CDC Grade 10 focus)
+### Rules for working with variables in scientific research
 
 1. A valid scientific experiment must have **only one independent variable** (the factor changed by the experimenter) and **only one dependent variable** (the effect measured).
 2. All other factors that could affect the outcome must be kept strictly constant as **controlled variables** so the test is fair.
@@ -399,7 +399,7 @@ Digits that are known with certainty plus one uncertain digit are called **signi
 
 ## 1.4 Project work
 
-A **project** is a small investigation that you plan and carry out yourself, over some days or weeks, and then report. Project work trains you to solve real problems, to work in a team, and to present results. Under the Grade 10 curriculum it also earns internal marks.
+A **project** is a small investigation that you plan and carry out yourself, over some days or weeks, and then report. Project work trains you to solve real problems, to work in a team, and to present results clearly.
 
 ### Steps of a project
 

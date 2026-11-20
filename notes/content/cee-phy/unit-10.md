@@ -8,7 +8,7 @@ area: Heat and Thermodynamics
 ---
 
 This is the heaviest chapter in the Heat area: **3 of the 50 Physics questions**
-come from it (our estimate from the official 7-question weightage of the area).
+come from it.
 Three kinds of question are set. The **gas law** — a state change, a density, an rms
 speed, a ratio of speeds. The **first law** — the four processes, the work done, and
 the molar heat capacities. And the **second law** — engine efficiency, refrigerator

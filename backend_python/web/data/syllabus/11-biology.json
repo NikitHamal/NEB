@@ -23,9 +23,9 @@
    "hours": 15,
    "area": "Botany",
    "topics": [
-    "Biomolecules [4]: carbohydrates, proteins, lipids, nucleic acids, minerals, enzymes, water",
-    "Cell [8]: prokaryotic and eukaryotic cell; cell wall; cell membrane; mitochondria; plastids; endoplasmic reticulum; golgi apparatus; lysosomes; ribosomes; nucleus; chromosomes; cilia and flagella; cell inclusions",
-    "Cell division [3]: cell cycle; amitosis; mitosis; meiosis"
+    "Biomolecules: carbohydrates, proteins, lipids, nucleic acids, minerals, enzymes, water",
+    "Cell: prokaryotic and eukaryotic cell; cell wall; cell membrane; mitochondria; plastids; endoplasmic reticulum; golgi apparatus; lysosomes; ribosomes; nucleus; chromosomes; cilia and flagella; cell inclusions",
+    "Cell division: cell cycle; amitosis; mitosis; meiosis"
    ],
    "sections": [
     {
@@ -68,14 +68,14 @@
    "hours": 30,
    "area": "Botany",
    "topics": [
-    "Introduction [1]: three domains of life; binomial nomenclature; five-kingdom classification; flora status of Nepal",
+    "Introduction: three domains of life; binomial nomenclature; five-kingdom classification; flora status of Nepal",
     "Fungi",
     "Lichen",
     "Algae",
     "Bryophyta",
     "Pteridophyta",
     "Gymnosperm",
-    "Angiosperm [16]: morphology; taxonomic hierarchy; artificial, natural and phylogenetic systems; Brassicaceae; Fabaceae; Solanaceae; Liliaceae"
+    "Angiosperm: morphology; taxonomic hierarchy; artificial, natural and phylogenetic systems; Brassicaceae; Fabaceae; Solanaceae; Liliaceae"
    ],
    "sections": [
     {
@@ -234,7 +234,7 @@
    "hours": 3,
    "area": "Botany",
    "topics": [
-    "Vegetation [2]: types of vegetation in Nepal; In-situ and Ex-situ conservation",
+    "Vegetation: types of vegetation in Nepal; In-situ and Ex-situ conservation",
     "Natural environment, vegetation and human activities"
    ],
    "sections": [
@@ -357,7 +357,7 @@
    "area": "Zoology",
    "topics": [
     "Protista",
-    "Animalia [10]: level of organization; body plan; nine phyla",
+    "Animalia: level of organization; body plan; nine phyla",
     "Earthworm (Pheretima posthuma)",
     "Frog (Rana tigrina)"
    ],
@@ -446,7 +446,7 @@
    "area": "Zoology",
    "topics": [
     "Conservation Biology",
-    "Wildlife [2]: IUCN categories; endangered species of Nepal"
+    "Wildlife: IUCN categories; endangered species of Nepal"
    ],
    "sections": [
     {

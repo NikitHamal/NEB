@@ -18,10 +18,6 @@ This chapter gives, for each of the eight units, short (5-mark) and long (8-mark
 - **For programs:** declare, read, process, print; indent consistently; a missing semicolon or `&` costs marks.
 :::
 
-::: caution About years and labels
-Every question here is an **original practice question** written to the NEB pattern from the Grade 11 syllabus. No question carries a past-paper year, because a wrong year teaches you to trust the wrong thing. Do not treat any question as "sure to come"; treat each as a skill to practise.
-:::
-
 ## 15.1 What the examiner is paying for
 
 | Question type | Marks | What earns the marks |

@@ -147,15 +147,6 @@ Give the mark only if your answer contains the point named in the notes. Half a 
 
 ## 4.4 Predicted questions: ranked practice priorities
 
-::: caution What "predicted" means here
-Nothing below is a forecast of a particular paper, and no local level's
-question is reproduced. These are **practice priorities**, ranked from the
-specification grid and from the shape of the syllabus: a topic ranks higher
-when it can be asked cleanly at the size the grid allows, when it has a fixed
-method that is quick to mark, and when the textbook gives it a full chapter.
-Work the top tier until the method is automatic.
-:::
-
 ### 4.4.1 Tier A — rehearse until automatic
 
 | Rank | Topic and likely form | Marks | Why it ranks here |

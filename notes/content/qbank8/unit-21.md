@@ -13,10 +13,6 @@ Group A is ten single marks. The other **40 marks** of the Optional Mathematics 
 Read the model question first. Then cover the solutions and write the seven questions out in full, on paper, against the clock: about **4 minutes** for a 2-mark question and **10 minutes** for a 4-mark question. Mark yourself **step by step**, not just by the final answer. In the real paper a correct method with one arithmetic slip still earns most of the marks, while a bare answer with no working may earn none.
 :::
 
-::: caution Practice items, not past questions
-Every question below is an original **practice** item written for the 50-mark school paper and the chapters of the Optional Mathematics 8 book. None is claimed to have appeared in any school's paper. All numerical answers were worked out independently, and most solutions end with the check that proves them.
-:::
-
 ```figure caption="Groups B and C carry 20 marks each, but a long question needs more time per mark than a short one. A sensible plan gives about 40 minutes to Group B and 50 minutes to Group C."
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.0, 2.6))
 groups = ['B (10 × 2)', 'C (5 × 4)']

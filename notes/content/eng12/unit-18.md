@@ -372,7 +372,7 @@ this reading, since the actress's "help" saves only her own secret.
 5. Techniques: irony (verbal, situational, dramatic), twist ending, stage directions, persuasive monologue.
 :::
 
-## 18.9 Textbook exercises
+## 18.9 Comprehension and critical thinking
 
 The wording follows the CDC Grade 12 textbook as reproduced in common guides; your
 printing may differ slightly, so match the question in your own book.

@@ -904,7 +904,7 @@ IoT, cloud computing, blockchain and XR — with each one's key features and how
 it is changing the IT industry and jobs in Nepal. Present it to your class.
 :::
 
-## Textbook exercises: model answers
+## Worked exercise solutions
 
 ::: note 1. Multiple choice
 **i.** (c) — AI imitates intelligence; it does not put a human brain into a machine.

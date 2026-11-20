@@ -9,7 +9,7 @@ area: Physical Chemistry
 
 Thermodynamics answers a different question from kinetics: not *how fast*, but *will it
 happen at all, and how much heat is involved*. The paper carries about **one question**
-from this chapter (our estimate from the MEC topic list). It is usually a Hess's-law
+from this chapter. It is usually a Hess's-law
 addition, a $\Delta G = \Delta H - T\Delta S$ sign decision, or a definition question
 about the enthalpy of formation, combustion or neutralisation. The marks are lost on
 three things: a sign convention applied inconsistently, a non-zero enthalpy of formation

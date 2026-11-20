@@ -115,7 +115,7 @@ might be habitable.
 **Rule to remember:** *although* and *but* are **not** used together:
 *~~Although~~ she was rich, ~~but~~ she lived simply* — use only one.
 
-### Textbook answers
+### Worked answers
 
 **Grammar I A:** a. because b. Although c. because d. however e. to f. so that
 

@@ -94,7 +94,7 @@ In my opinion, it is, if we check that the information is reliable.*
 | *There is/are* agrees with the noun after it | There **is** time. There **are** two buses. |
 | A gerund subject → singular | Participating in sports **reduces** stress. |
 
-### Textbook answers (Grammar I B)
+### Worked answers (Grammar I B)
 
 a. come b. is c. want d. needs e. look f. are g. was h. is i. is j. is
 k. is
@@ -160,7 +160,7 @@ me.
 **Rewriting:** *too young* = *not old enough*; *too far* = *not near enough*;
 *too short* = *not tall enough*; *too expensive* = *not cheap enough*.
 
-### Textbook answers
+### Worked answers
 
 **Grammar II A:** a. similar b. similar c. similar d. **different** (i says they
 *can* lift it; ii says it is too light — illogical) e. similar

@@ -257,7 +257,7 @@ Pressure falls as we climb because the column of air above becomes shorter, and 
 
 Other uses and instruments: the **aneroid barometer** (a metal box, used as an altimeter in aircraft); weather forecasting (low pressure usually means rain or storms); a pressure cooker works by raising the pressure so that water boils at a higher temperature.
 
-### Devices based on atmospheric pressure (CDC Grade 10 curriculum)
+### Devices based on atmospheric pressure
 
 1. **Syringe (Medical syringe):**
    - A syringe consists of a cylindrical barrel with a narrow nozzle (fitted with a hollow needle) and an airtight movable **plunger (piston)**.

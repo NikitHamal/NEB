@@ -125,7 +125,7 @@ opened by the stranger.*
 **Two objects** (*give, show, send*): *Naresh gave **him** some water.* → ***He**
 was given some water by Naresh.* (or *Some water was given to him.*)
 
-### Textbook answers
+### Worked answers
 
 **Grammar I A:** a–iii, b–vi, c–i, d–v, e–ii, f–iv
 

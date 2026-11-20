@@ -7,7 +7,7 @@ hours: 0
 area: Guide
 ---
 
-This is the one page to read before you start. It states the **verified facts** of the IOE B.E. / B.Arch. entrance examination, then the strategy that follows from them. Where a fact is *our estimate* (for example the split of questions between chapters) it says so.
+This chapter sets out the structure, marking scheme and section-wise strategy of the IOE B.E. / B.Arch. entrance examination.
 
 ## 1. What the examination is
 
@@ -40,7 +40,7 @@ The paper tests the **Grade 11–12 science syllabus at entrance depth**: IOE's 
 - Section B (2 marks): two or three steps. *Example: the projection of one vector on another; the depth at which a rubber ball's volume falls by 1 %; copper deposited by 2 faradays.*
 - English: concord and tense, prepositions, word stress, initial vowel sound, one comprehension passage.
 
-## 3. How the marks are distributed (this book's estimate)
+## 3. How the marks are distributed
 
 | Subject | Marks | Questions (1-mark + 2-mark) | Heaviest chapters |
 |---|---|---|---|

@@ -7,7 +7,7 @@ hours: 0
 area: Science and Technology
 ---
 
-LPG in your kitchen, petrol in a motorbike, the wax of a candle, the plastic of a bucket, vinegar in a pickle and the alcohol in a hand sanitiser are all compounds of **carbon**. Carbon forms more compounds than all other elements together, because its atoms join to each other in long chains and rings. The study of these compounds is called **organic chemistry**. This chapter starts with the simplest organic compounds, the hydrocarbons, and then moves to two families that you meet in daily life: alcohols and carboxylic acids.
+LPG in your kitchen, petrol in a motorbike, the wax of a candle, the plastic of a bucket, and the alcohol in a hand sanitiser are all compounds of **carbon**. Carbon forms more compounds than all other elements together, because its atoms join to each other in long chains and rings. The study of these compounds is called **organic chemistry**. This chapter starts with the simplest organic compounds, the **hydrocarbons** (methane, ethane, propane and butane), and then moves to **alcohols** (methanol, ethanol and glycerol).
 
 ::: key What the SEE paper asks from this chapter
 Expect: the general formula and the first members of alkanes, alkenes and alkynes (1 to 2 marks); drawing the structural formula of a given compound (2 marks); the chemical tests that tell an alkane from an alkene (2 marks); the preparation, properties and uses of ethanol and ethanoic acid (4 marks).
@@ -211,7 +211,7 @@ A **functional group** is the atom or group of atoms that decides the chemical p
 
 An **alcohol** is an organic compound formed when one or more hydrogen atoms of a saturated hydrocarbon (alkane) are replaced by one or more **hydroxyl functional groups ($-\text{OH}$)**.
 
-### Classification of Alcohols by Number of Hydroxyl ($-\text{OH}$) Groups (CDC Grade 10 focus)
+### Classification of Alcohols by Number of Hydroxyl ($-\text{OH}$) Groups
 
 | Type of Alcohol | Definition | Example, Molecular & Condensed Formula | IUPAC Name |
 |---|---|---|---|
@@ -219,7 +219,7 @@ An **alcohol** is an organic compound formed when one or more hydrogen atoms of 
 | **2. Dihydric alcohol (Glycol)** | Contains **two $-\text{OH}$ groups** attached to two different carbon atoms | **Ethylene glycol:** $\text{C}_2\text{H}_4\text{(OH)}_2$<br>$\text{HO}-\text{CH}_2-\text{CH}_2-\text{OH}$ | **Ethane-1,2-diol** (used as car-radiator antifreeze) |
 | **3. Trihydric alcohol (Glycerol)** | Contains **three $-\text{OH}$ groups** attached to three carbon atoms | **Glycerol (Glycerine):** $\text{C}_3\text{H}_5\text{(OH)}_3$<br>$\text{CH}_2\text{(OH)}-\text{CH(OH)}-\text{CH}_2\text{(OH)}$ | **Propane-1,2,3-triol** |
 
-```figure caption="Structural formulas of the three alcohols emphasised in the CDC Grade 10 textbook: (a) Methanol (monohydric, CH₃OH), (b) Ethanol (monohydric, C₂H₅OH), and (c) Glycerol / Propane-1,2,3-triol (trihydric, C₃H₅(OH)₃), alongside Dihydric Ethylene Glycol."
+```figure caption="Structural formulas of common alcohols: (a) Methanol (monohydric, CH₃OH), (b) Ethanol (monohydric, C₂H₅OH), and (c) Glycerol / Propane-1,2,3-triol (trihydric, C₃H₅(OH)₃), alongside Dihydric Ethylene Glycol."
 import matplotlib.pyplot as plt
 fig, axs = plt.subplots(1, 3, figsize=(5.2, 2.25))
 for ax in axs:

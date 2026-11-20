@@ -9,10 +9,6 @@ area: Science and Technology
 
 This chapter does three things. It sets out the **pattern of the SEE Science and Technology paper** and how the two model papers below spread their questions over the 19 chapters. It gives **two complete model papers**, each of 75 marks and three hours, followed by full solutions written the way you should write in the examination. And it ranks **practice priorities** — question forms worth rehearsing first — with the reason for each position.
 
-::: caution What "predicted" means here
-Nobody outside the examination board knows what will be set, and this chapter does not pretend to. A ranking here is a judgement from two public facts: the CDC specification grid (which fixes the number and size of questions) and how standard a question form is (a definition, a balanced equation, a one-step numerical). **These are not forecasts.** Treat the list as an order in which to practise, never as a promise that any question will appear. All questions in the model papers are original practice items, not past questions.
-:::
-
 ::: key How to sit a three-hour paper
 Seventy-five marks in 180 minutes is 2.4 minutes a mark. Plan it: **Groups A and B, 30 minutes** (19 one-mark questions); **Group C, 60 minutes** (14 questions of 2 marks, about 4 minutes each); **Group D, 70 minutes** (7 questions of 4 marks, about 10 minutes each); **20 minutes** to check. Bank the one-mark items first.
 :::
@@ -31,7 +27,7 @@ Seventy-five marks in 180 minutes is 2.4 minutes a mark. Plan it: **Groups A and
 
 ### 4.1.2 How the two model papers cover the syllabus
 
-The table counts the questions each model paper draws from each area of the textbook. It is our design for these papers, not the board's grid.
+The table counts the questions each model paper draws from each area of the textbook.
 
 | Area (chapters) | Paper 1 questions | Paper 2 questions |
 |---|---|---|

@@ -33,12 +33,6 @@ the only group with no method marks to fall back on: an item is right or it is
 zero.
 :::
 
-::: caution Practice items, not past questions
-Every item below is an original **practice** item written to the CDC pattern.
-None is claimed to have appeared in a particular year's paper. Every numerical
-answer has been recomputed independently before it was written down.
-:::
-
 ```figure caption="Where the 75 marks of the Optional Mathematics paper sit. Group A is ten single marks — small, cheap and the easiest place to lose marks through a slipped formula."
 import matplotlib.pyplot as plt
 labels = ["A  10 x 1", "B  8 x 2", "C  11 x 3", "D  4 x 4"]

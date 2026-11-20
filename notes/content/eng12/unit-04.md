@@ -388,7 +388,7 @@ Hooker's thumb — and say what each meant. Never write that Chang-hi died in th
 dead man is someone else.
 :::
 
-## 4.8 Textbook exercises
+## 4.8 Comprehension and critical thinking
 
 **Before you read**
 

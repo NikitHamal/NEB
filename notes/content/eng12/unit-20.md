@@ -380,7 +380,7 @@ society that makes men weep for a dead animal to save their own lives needs to c
 5. A satire on the feudal system: dehumanisation, fear, chakari, patriarchy.
 :::
 
-## 20.9 Textbook exercises
+## 20.9 Comprehension and critical thinking
 
 The wording follows the CDC Grade 12 textbook as reproduced in common guides; match it with
 your own printing.

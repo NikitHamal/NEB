@@ -2,7 +2,7 @@
 subject: Compulsory English
 grade: 10
 unit: 16
-title: 'Unit 16: Success and Celebration'
+title: Success and Celebration
 hours: 0
 area: Units
 ---
@@ -265,9 +265,7 @@ The central theme is the **making of character**. True success does not depend o
 **2.** My parents and teachers advise me to set clear goals and make a timetable. They tell me to work hard and to be regular in my studies. They ask me to be honest, respectful and punctual, and to learn from my mistakes without being discouraged. They also tell me to read newspapers, to keep a positive attitude and to choose good friends. They remind me that success comes to those who persevere.
 :::
 
-## 16.3 Grammar and writing tasks
-
-### Grammar I and II — Prepositions
+## 16.3 Grammar I and II: Prepositions
 
 Unit 15 introduced the main time and place prepositions. This unit adds more precise uses and **prepositional phrases**: a preposition plus a noun that work as a fixed expression.
 
@@ -375,7 +373,7 @@ Use *between* for two (or clearly separate) things and *among* for many: *betwee
 **1.** with each other **2.** at large **3.** out of reach **4.** out of hand **5.** on a diet **6.** in a hurry **7.** on board **8.** in cash **9.** interested in
 :::
 
-### Writing I — Message and letter of congratulation
+## 16.4 Writing I: Message and letter of congratulation
 
 A **congratulation message** expresses joy and respect for someone's success. It must be **short, warm and specific**. For a notice-board message, put the greeting in a clear heading, say who succeeded and in what, praise the qualities that led to success and close with good wishes.
 
@@ -413,7 +411,7 @@ Heartiest congratulations to our school football team on winning the Inter-schoo
 | Layout | heading + body + name | address, date, greeting, body, closing, name |
 | Tone | formal and bright | personal and warm |
 
-### Writing II — A speech
+## 16.5 Writing II: A speech
 
 A **speech** is spoken to an audience, so it uses a clear opening, simple sentences, repetition and direct appeal ("my friends", "we"). Its parts are: **greeting → introduction of the topic → body (2–3 points with examples) → conclusion with a call to action → thanks.**
 

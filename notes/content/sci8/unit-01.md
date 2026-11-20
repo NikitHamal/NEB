@@ -29,7 +29,7 @@ method, observation (or analysis) and conclusion.
 observation and testing. A statement is scientific only if it can be checked by
 observation or experiment.
 
-The CDC textbook names the main **activities of scientific learning**:
+The main **activities of scientific learning** are:
 
 | Activity | What you do | Example |
 |---|---|---|
@@ -120,8 +120,7 @@ the danger *before* you touch a bottle.
 
 ### 1.2.2 Safety rules in the laboratory
 
-These are the rules given in the textbook. The reason is what an examiner wants
-when the question says "why".
+Each laboratory safety rule has a clear scientific reason:
 
 | Rule | Reason |
 |---|---|
@@ -168,7 +167,7 @@ nose, touching with the skin and tasting with the tongue (tasting is never
 allowed with laboratory chemicals). When the sense organs are not enough, we use
 instruments such as a **hand lens** or a **microscope**.
 
-*Example from the textbook.* Mamta kept a caterpillar on a leaf in an open jar
+*Example.* Mamta kept a caterpillar on a leaf in an open jar
 and gave it fresh soft leaves every day. After 15–16 days it became a pupa and
 stopped eating. After another 13–14 days a yellow butterfly with black spots came
 out. By careful, day-by-day observation she learnt the life cycle herself.
@@ -255,7 +254,7 @@ to find the answer to a question. All discoveries are the results of such
 study. A researcher must work patiently by a fixed procedure. If the work fails,
 the researcher finds the weakness, improves it and tries again.
 
-::: memory Steps of research work (textbook order)
+::: memory Steps of research work
 1. Goal setting (fixing the objective)
 2. Making a hypothesis (inference)
 3. Choosing the method of collecting data
@@ -332,7 +331,7 @@ more chemical or organic fertiliser, or how families store food.
 written list of questions), an **interview** (asking questions face to face), a
 **discussion** with a group, and **observation** of the place.
 
-::: memory Steps of a survey (textbook order)
+::: memory Steps of a survey
 1. Selecting the objective
 2. Choosing the data collection method
 3. Collecting the data
@@ -368,7 +367,7 @@ for example every fifth house along each lane, not only the houses of friends.
 The number of houses is found as percentage × 50 ÷ 100; for example
 $\frac{30\times50}{100}=15$.
 
-```figure caption="Bar diagram of the solid-waste survey of 50 households (textbook Activity 1.8)."
+```figure caption="Bar diagram of the solid-waste survey of 50 households."
 fig, ax = plt.subplots(figsize=(4.8, 2.6))
 labels = ["not separated", "compost from\ndegradable waste", "compost + reuse of\nnon-degradable"]
 vals = [50, 30, 20]
@@ -464,7 +463,7 @@ presentation in class.
 
 ## Practice questions
 
-**Group A — Multiple choice (1 mark each)** *(Questions 1–5 are the textbook exercise.)*
+**Group A — Multiple choice (1 mark each)**
 
 1. What is the process of experiencing an object, event or process carefully through the sense organs? <span class="marks">[1]</span>
    (a) test (b) hypothesis (c) curiosity (d) observation
@@ -488,7 +487,7 @@ presentation in class.
 **6.** (a) — nothing is added to it, so the others are compared with it.
 :::
 
-**Group B — Short answer (2 marks each)** *(Textbook exercise questions 2–4.)*
+**Group B — Short answer (2 marks each)**
 
 1. Distinguish between (a) observation and test (b) research and survey. <span class="marks">[2]</span>
 2. Give reasons: (a) Precautions should be taken while doing experimental work. (b) A report is prepared after an experiment or survey. (c) Observation is the first step in scientific learning. <span class="marks">[3]</span>
@@ -510,7 +509,7 @@ presentation in class.
 **8.** A survey is done when the information is spread among many people, households or places (e.g. waste management in a community, use of fertiliser by farmers) and must be collected directly. Survey tools are the means of collecting data: questionnaire, interview, group discussion and observation.
 :::
 
-**Group C — Long answer (4 marks each)** *(Textbook exercise 4 (i) and (j), plus one more.)*
+**Group C — Long answer (4 marks each)**
 
 1. Elina wants to study whether green plants need sunlight. Suggest a clear method for her. <span class="marks">[4]</span>
 2. A class must be held in the absence of the science teacher. Prepare a worksheet for a practical class on the study of plant and animal cells. <span class="marks">[4]</span>

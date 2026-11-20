@@ -7,8 +7,7 @@ hours: 2
 area: Physical Chemistry
 ---
 
-States of matter carries about **two questions** in the paper (our estimate from the MEC
-topic list). It is a wide chapter, so the questions spread: a gas-law or kinetic-theory
+States of matter carries about **two questions** in the paper. It is a wide chapter, so the questions spread: a gas-law or kinetic-theory
 calculation (combined gas equation, Graham's law, partial pressure, rms speed), a
 real-gas idea (van der Waals constants, when gases behave ideally), a liquid property
 (vapour pressure, boiling point, surface tension, viscosity, liquid crystals, solubility
@@ -385,7 +384,6 @@ face centres or end-face centres gives **fourteen Bravais lattices** in all (Bra
 ```photo id="chem11/nacl-cell" caption="A ball-and-stick model of the sodium chloride unit cell: each ion sits at the centre of an octahedron of six ions of the opposite charge (6 : 6 coordination)." width="50"
 ```
 
-
 | Crystal system | Edges | Angles | Bravais lattices | Examples |
 |---|---|---|---|---|
 | Cubic | a = b = c | α = β = γ = 90° | 3 (simple, body-centred, face-centred) | NaCl, Cu, diamond, ZnS |
@@ -406,7 +404,6 @@ a face-centre particle by 2 (1/2), and a body-centre particle belongs wholly to 
 
 ```photo id="chem11/halite-crystal" caption="A crystal of halite (rock salt, NaCl). Its cube-like faces and cleavage planes reflect the face-centred cubic arrangement of the ions inside." width="60"
 ```
-
 
 ```figure caption="The three cubic unit cells. Z is the number of atoms belonging to one cell and CN the coordination number (nearest neighbours of each atom)."
 import numpy as np, matplotlib.pyplot as plt

@@ -23,13 +23,6 @@ keeps them. Two-mark items should take two minutes, three-mark items four
 minutes, four-mark items six minutes.
 :::
 
-::: caution Practice items, not past questions
-Every question below is an original **practice** item written to the CDC
-pattern. None is claimed to have appeared in a particular year's paper. All
-numerical answers were recomputed independently before being written down, and
-each one is followed by the check that proves it.
-:::
-
 ```figure caption="Where the 75 marks sit and how long each group should take. The three-mark group is nearly half the paper, which is why a practised four-minute rhythm for 3-mark items matters more than speed in Group A."
 import matplotlib.pyplot as plt
 groups = ["A (10 x 1)", "B (8 x 2)", "C (11 x 3)", "D (4 x 4)"]

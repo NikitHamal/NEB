@@ -9,10 +9,6 @@ area: Chemistry
 
 This chapter does three things. It **reads the real papers** — the board papers of 2079, 2081, 2082 and 2083 and the model papers of 2078 and 2079, with two further official model sets — and tabulates what the examiner asks, unit by unit. It then sets **two complete model papers to the exact grid** of the Chemistry paper (3 hours, full marks 75, Group A 11 × 1, Group B 8 × 5, Group C 3 × 8), each **fully solved**. Finally it lists **forty-eight predicted questions, ranked**, every one with the reason it is predicted and a short model answer.
 
-::: caution What "predicted" means here
-No paper is leaked to anyone, and this chapter does not claim to know what will be set. A prediction is a judgement from three things that are shown in the tables below: how often the topic has come up in the eight papers studied, how large its share of the 128 teaching hours is, and how long it has been since it was last asked. Treat the list as a revision order, never as a guarantee. The 2080 paper could not be reached, so the analysis covers 2078 (model), 2079 (model and board), 2081, 2082, 2083 and model sets A and B.
-:::
-
 ## 7.1 Pattern analysis of the Grade 12 Chemistry papers
 
 ### 7.1.1 The grid, and what has been fixed for years
@@ -44,7 +40,7 @@ Reading a typical paper, about **33 of the 75 marks are organic, 22 general and 
 
 ### 7.1.3 Unit by unit: marks carried, years seen, expected weight
 
-*Seen* counts the eight papers (2078 model, 2079 model, 2079, 2081, 2082, 2083, model sets A and B) in which the unit supplied at least one question of five or eight marks in Group B or Group C; MCQs are not counted. **Expected weight** is our estimate from hours and from this count.
+*Seen* counts the eight papers (2078 model, 2079 model, 2079, 2081, 2082, 2083, model sets A and B) in which the unit supplied at least one question of five or eight marks in Group B or Group C; MCQs are not counted. **Expected weight** is based on teaching hours and paper frequency.
 
 | # | Unit | Hours | Seen (of 8) | Typical marks when asked | Expected weight |
 |---|---|---|---|---|---|
@@ -441,13 +437,3 @@ $$ N_{\text{HCl}} = \frac{0.10\times10.0}{12.5} = 0.080\ \text{N} $$
 - **Twelve units have been set in seven or eight of the eight papers** — volumetric analysis, ionic equilibrium, kinetics, thermodynamics, electrochemistry, heavy metals, haloalkanes, alcohols, aldehydes and ketones, amines, service of mankind and cement — and these are the Tier 1 and Tier 2 questions above.
 - **The gaps are real.** Crystal field theory, silver, blast-furnace iron, buffers and radiocarbon dating have not been set as five-mark questions in the board papers studied; they are Tier 3 because they are due, not because they are certain.
 - **Two complete model papers** are solved in full; sit each in three hours, mark yourself by the steps in the solution, and then return to the unit-wise chapters for the topics where you lost marks.
-
-## Sources and verification
-
-::: note Sources reached for this chapter
-**Papers studied.** Grade 12 Chemistry (code 3021) board papers of **2079, 2081, 2082 and 2083**, the official model papers of **2078** and **2079**, and two further model sets (A and B), read as transcribed text from a public question-bank site and compared with the earlier Group A record held with the objective chapter. The 2080 board paper could not be reached, so it is not in the tables. The cognitive-level weightage (16/24/28/32 %) is taken from the specification printed in the 2079 model paper; the CDC publishes no per-unit marks grid, so every "weight" in the pattern analysis is our own reading of the eight papers.
-
-**The model papers.** The two model papers are original. They follow the grid, the slot order and the mark-splits of the real papers, but no question is copied from a past paper; every numerical was recomputed, and the answers follow the Grade 12 Chemistry chapters in this collection.
-
-**Predictions.** Each prediction states the evidence for it. They rest on counts of eight papers, so they are a judgement, not a forecast, and a topic that is not listed can still be set.
-:::

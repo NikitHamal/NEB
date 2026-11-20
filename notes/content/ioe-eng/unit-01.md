@@ -7,7 +7,7 @@ hours: 4
 area: English
 ---
 
-Grammar I carries about **4 of the 16 English questions** (our estimate): agreement of the verb with its subject, the sequence of tenses, direct and indirect speech, and the transformation of sentences. The official model paper tests concord ("It ... two weeks since he left the city") and tense at both mark levels. The rules are few and rigid, so this is the most reliable part of the English paper to score in full.
+Grammar I carries about **4 of the 16 English questions**: agreement of the verb with its subject, the sequence of tenses, direct and indirect speech, and the transformation of sentences. The official model paper tests concord ("It ... two weeks since he left the city") and tense at both mark levels. The rules are few and rigid, so this is the most reliable part of the English paper to score in full.
 
 ::: key What the paper asks from this chapter
 - Concord: collective and singular-looking subjects, *either … or*, *neither … nor*, *each / every / one of*, *a number of* versus *the number of*.

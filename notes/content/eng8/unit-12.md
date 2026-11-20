@@ -125,7 +125,7 @@ Some verbs are followed by **-ing**, some by **to + verb**, and some by both.
 - **help** + object + base verb (or *to*): *Munal helped me **carry** this load.*
 - *I like swimming* (I enjoy it in general) / *I'd like to swim* (I want to now).
 
-### Textbook answers
+### Worked answers
 
 **Grammar I B:** a. going b. to tell c. to come d. asking e. talking f. to
 speak g. giving h. carry i. waiting j. preparing
@@ -228,7 +228,7 @@ computer?* If the wh-word **is the subject** (*who, what*), there is no
 | why | reason |
 | how | manner |
 
-### Textbook answers
+### Worked answers
 
 **Grammar II A:** a–iv, b–v, c–vi, d–i, e–iii, f–vii, g–ii
 

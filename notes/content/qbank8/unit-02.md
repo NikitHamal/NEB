@@ -13,11 +13,6 @@ Group A of the Science paper is ten one-mark items, and they are the fastest ten
 Do one section immediately after you read that chapter in the notes, and again in the last week. Cover the key with a sheet of paper. Mark yourself honestly: a half-remembered answer is a wrong answer in the hall.
 :::
 
-::: caution Practice items, not past questions
-Every item is an original practice question written to the CDC pattern. Values of constants are stated in the stem where a calculation needs them.
-:::
-
-
 ```figure caption="Where the Science marks sit. The eleven units are not equal: mechanics, electricity, life processes and matter together carry about half the written paper, which is why they are drilled hardest in this book."
 fig, ax = barh_ranked(
     ["Force and motion", "Life process", "Electricity", "Living beings",

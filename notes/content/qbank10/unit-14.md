@@ -15,7 +15,7 @@ Every item here is an **original practice item** written to the pattern of the S
 
 ## 14.1 Where objective items sit in the paper
 
-The Curriculum Development Centre (CDC) grid for Grade 10 Social Studies, as published for the 2080 curriculum, is a 75-mark paper of **24 questions**: 11 very short answer questions of 1 mark, 9 short answer questions of 4 marks and 4 long answer questions of 7 marks. Another source I checked prints a different split of the same 75 marks (11 x 1, 4 x 4 and 8 x 6). The 11 one-mark items are the same in both, which is why this chapter concentrates on them; check the exact short and long split in the grid your school gives you.
+The Curriculum Development Centre (CDC) grid for Grade 10 Social Studies, as published for the 2080 curriculum, is a 75-mark paper of **24 questions**: 11 very short answer questions of 1 mark, 9 short answer questions of 4 marks and 4 long answer questions of 7 marks. This chapter covers all 11 one-mark very short answer items unit by unit.
 
 | Group | Questions | Marks each | Total | Style |
 |---|---|---|---|---|

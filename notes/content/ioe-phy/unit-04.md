@@ -7,7 +7,7 @@ hours: 2
 area: Physics
 ---
 
-Waves and sound carry about **2 questions** (our estimate), from a short list: $v=f\lambda$, the speed of sound and what changes it, resonance in a closed or open pipe, the fundamental of a stretched string, beats, decibels, and the Doppler effect. Each has a one-line formula; the skill is choosing the right one and keeping track of which end of a pipe is closed.
+Waves and sound carry about **2 questions**, from a short list: $v=f\lambda$, the speed of sound and what changes it, resonance in a closed or open pipe, the fundamental of a stretched string, beats, decibels, and the Doppler effect. Each has a one-line formula; the skill is choosing the right one and keeping track of which end of a pipe is closed.
 
 ::: key What the paper asks from this chapter
 - $v=f\lambda$; wave equation $y=A\sin(\omega t-kx)$, $k=\frac{2\pi}{\lambda}$; nodes and antinodes.

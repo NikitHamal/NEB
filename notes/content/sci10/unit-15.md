@@ -164,7 +164,7 @@ A reaction takes place when particles **collide** with enough energy. The more o
 | Catalyst | Changes the rate, itself unchanged | MnO₂ speeds up the decomposition of H₂O₂ to H₂O and O₂. |
 | Light | Some reactions speed up | Photosynthesis; AgBr in photographic film. |
 
-::: definition Catalyst: Positive Catalyst and Negative Catalyst (CDC Grade 10 focus)
+::: definition Catalyst: Positive Catalyst and Negative Catalyst
 A **catalyst** is a chemical substance that alters (increases or decreases) the rate of a chemical reaction without itself undergoing any permanent chemical change in mass or composition at the end of the reaction.
 - **1. Positive catalyst (Promoter of rate):** A catalyst that **increases (accelerates)** the rate of a chemical reaction by lowering the activation energy.
   - *Examples:* **Manganese dioxide ($\text{MnO}_2$)** speeds up the decomposition of hydrogen peroxide ($2\text{H}_2\text{O}_2 \xrightarrow{\text{MnO}_2} 2\text{H}_2\text{O} + \text{O}_2 \uparrow$) and potassium chlorate ($2\text{KClO}_3 \xrightarrow{\text{MnO}_2,\ \Delta} 2\text{KCl} + 3\text{O}_2 \uparrow$); **Finely divided iron ($\text{Fe}$)** in Haber's process ($\text{N}_2 + 3\text{H}_2 \rightleftharpoons 2\text{NH}_3$); **Nickel ($\text{Ni}$)** in hydrogenation of vegetable oil; **Vanadium pentoxide ($\text{V}_2\text{O}_5$)** in the Contact process.

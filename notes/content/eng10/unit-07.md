@@ -2,7 +2,7 @@
 subject: Compulsory English
 grade: 10
 unit: 7
-title: 'Unit 7: Cyber Security'
+title: Cyber Security
 hours: 0
 area: Units
 ---
@@ -218,9 +218,7 @@ ax.axis("off")
 **1.** Students spend many hours online for study, entertainment and communication, so they can be targets for fraud, bullying and identity theft. Safe behaviour protects their money, privacy and reputation. Four rules: (1) use strong, different passwords and never share them; (2) do not give personal details to strangers; (3) enable two-factor authentication and keep devices updated; (4) tell a parent or teacher if you meet bullying or suspicious messages. Following such rules makes the internet a safe place to learn.
 :::
 
-## 7.3 Grammar and writing tasks of the unit
-
-### Grammar I: *should*, *ought to* and *must*
+## 7.3 Grammar I: should, ought to and must
 
 | Modal | Meaning | Example |
 |---|---|---|
@@ -277,7 +275,7 @@ ax.axis("off")
 **1.** should (ought to). **2.** ought to (should). **3.** should. **4.** must. **5.** ought to (should). **6.** must (should). **7.** ought to (should).
 :::
 
-### Grammar II: Articles — *a*, *an*, *the* and no article
+## 7.4 Grammar II: Articles: a, an, the and no article
 
 | Article | Use | Example |
 |---|---|---|
@@ -319,7 +317,7 @@ Do not write *a information* or *an advices* (uncountable: *some information*). 
 **1.** a. **2.** an. **3.** The. **4.** an. **5.** × (Mount Everest takes no article), the. **6.** ×. **7.** an, a, The. **8.** ×.
 :::
 
-### Writing I: Emails
+## 7.5 Writing I: Emails
 
 An email follows the layout: **To / Cc / Subject**, salutation, body, closing, name. *Informal* emails to friends use contractions and a warm tone; *formal* emails use full forms and polite expressions. A **reply email** answers the earlier message directly.
 
@@ -341,7 +339,7 @@ With love,
 Niti
 :::
 
-### Writing II: A newspaper article
+## 7.6 Writing II: A newspaper article
 
 **Task.** Write a newspaper article on "Internet and Cyber Security" using these guidelines: introduction to the internet and technology; use of the internet in daily life; abuse of the internet; the need and ways of data privacy; conclusion.
 

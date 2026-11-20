@@ -7,7 +7,7 @@ hours: 7
 area: Physics
 ---
 
-Electricity and magnetism carry about **7 questions** (our estimate), second only to mechanics. Seven sub-areas share them: electrostatics and capacitors, DC circuits, thermoelectricity, magnetic force and fields, magnetic materials, induction, and AC. Most numerical questions are a single formula; Section B ones chain two (a cell with internal resistance, an RLC power factor, a charge in a magnetic field).
+Electricity and magnetism carry about **7 questions**, second only to mechanics. Seven sub-areas share them: electrostatics and capacitors, DC circuits, thermoelectricity, magnetic force and fields, magnetic materials, induction, and AC. Most numerical questions are a single formula; Section B ones chain two (a cell with internal resistance, an RLC power factor, a charge in a magnetic field).
 
 ::: key What the paper asks from this chapter
 - Coulomb $F=\frac{kq_1q_2}{r^2}$, field and potential of a point charge, Gauss's law, field of sphere / sheet / line.

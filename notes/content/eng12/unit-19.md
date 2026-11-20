@@ -415,7 +415,7 @@ family, in plain speech, about money.
 5. It is a **modern tragedy**: an ordinary man, money and family, plain speech, a private death.
 :::
 
-## 19.9 Textbook exercises
+## 19.9 Comprehension and critical thinking
 
 The wording follows the CDC Grade 12 textbook as reproduced in common guides; your
 printing may differ slightly.

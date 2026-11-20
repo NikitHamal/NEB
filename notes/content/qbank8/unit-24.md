@@ -13,10 +13,6 @@ Group A is ten single marks. The other **40 marks** of the Computer Science pape
 Read the model question first. Then cover the solutions and write the other answers yourself, on paper, against the clock: about **4 minutes** for a 2-mark question and **8 to 10 minutes** for a 4-mark question. Mark yourself **point by point**: a 2-mark difference needs two separate, complete points; a [1+3] question needs the definition plus three explained points; a program needs input with type conversion, processing, indentation and labelled output. Every Python program below was run in Python 3.12 and its output is printed exactly; every number was computed twice.
 :::
 
-::: caution Practice items, not past questions
-Every question in this chapter is an original **practice** item written for the 50-mark school paper and the lessons of the Computer Science 8 book. None is claimed to have appeared in any school's examination.
-:::
-
 ```figure caption="Where the 40 written-answer marks come from in the model papers of the next chapter. Every area has two short questions; programming has two long questions, so it carries the most marks."
 import numpy as np, matplotlib.pyplot as plt
 fig, ax = plt.subplots(figsize=(4.9, 2.8))

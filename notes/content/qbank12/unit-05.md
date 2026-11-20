@@ -9,10 +9,6 @@ area: Chemistry
 
 Group A of the Grade 12 Chemistry paper is eleven one-mark questions, all compulsory, and it is the cheapest part of the paper to win if you practise it the right way. This chapter walks through **all twenty-one syllabus units in the order of the CDC curriculum**. Every unit opens with a one-table digest of the facts the examiner keeps returning to, then sets a block of multiple-choice questions, and closes with an answer key in which each option is justified in one line — including the wrong-answer trap that the distractors were built to catch.
 
-::: caution How to read the year tags
-A tag such as (NEB 2081) or (NEB 2079 model) means that **the question, or the same stem on the same topic, was actually set** in that board paper or official model paper. Where the original print was garbled in the source we could reach, the options here are re-set but the stem and the answer are unchanged. Untagged questions are new, written to the syllabus and to the same pattern. There is no published per-unit marks grid for Grade 12 Chemistry, so teaching hours are used as a *proxy* for weight — not as a promise.
-:::
-
 ::: key What Group A actually tests
 Across the papers of 2078 (model) to 2083, the eleven Group A questions come from six families: an **equivalent weight** or normality calculation; a **Ksp, pH or Ka** calculation; the **order** of a reaction from its half-life or rate law; a comparison of **E° values**; an identification of a **transition-metal or heavy-metal fact**; and the **product of a named organic reaction**. Organic chemistry carries 55 of the 128 teaching hours, and about seven of the eleven questions. Do each numerical on paper before you look at the options: the wrong options are built from arithmetic slips, not from ignorance of the chemistry.
 :::
@@ -1572,43 +1568,3 @@ ax.text(8.0, -1.55, "heavy, charge +2\n→ small deflection", fontsize=6.9,
 - Work every numerical MCQ on paper to one decimal place before you look at the
   options — the distractors are built from the arithmetic slips, not from
   ignorance of the chemistry.
-
-## Sources and verification
-
-::: note Sources reached for this chapter
-**Verified.** The examination pattern (3 hours, full marks 75, Group A 11 × 1 =
-11, Group B 8 × 5 = 40, Group C 3 × 8 = 24, all questions compulsory with
-internal alternatives only) is taken from the NEB Grade 12 Chemistry curriculum
-and specification grid published by the Curriculum Development Centre, Sanothimi,
-and matches the printed examination papers of 2081 and 2082. The teaching hours
-used to weight the questions — 8, 10, 7, 8, 7, 5, 15, 8, 3, 7, 4, 2, 10, 9, 3, 7,
-2, 4, 4, 3, 2 for units 1 to 21, totalling 128 — are the CDC allocations in the
-same curriculum document. All chemical facts, reagents, conditions, colours and
-formulae have been checked against the Grade 12 Chemistry chapters in this same
-collection of notes, so that nothing in this question bank contradicts them.
-Every numerical answer was recomputed independently before the key was written.
-
-**Year tags.** A tag such as (NEB 2081) appears only where the question comes
-from a Group A list that could be checked against a transcribed past paper for
-that year. Forty-three questions carry such a tag: eleven from the 2078 model
-set, ten from the 2079 model set, eleven from the 2081 paper and eleven from the
-2082 paper. Every other question in this chapter is newly written to the
-syllabus and deliberately carries **no** year tag.
-
-**Not verified.** Transcribed Chemistry board papers for 2078, 2079 and 2080
-could not be reached as text, so no question is tagged with those three years
-except where a *model* set for 2078 or 2079 was available, and those are marked
-"model". Where a transcription recorded only the *type* of question — for
-instance "equivalent weight in a given reaction", or "which of these is the most
-basic" — the specific reaction and option set printed here are a faithful
-reconstruction in the same style, not a facsimile of the original wording; the
-year tag is kept because the topic and its position in Group A are attested. One
-further stem from the 2079 model set, asking for the product formed when a
-red-hot copper wire meets steam, has been left out of this chapter altogether:
-the Grade 12 textbook chapter on heavy metals lists no reaction between copper
-and steam, and the expected answer could not be confirmed against any
-independent source, so printing it with a key would have risked teaching
-something wrong. There is no officially published per-unit marks grid for
-Chemistry at Grade 12; the question counts here follow the CDC teaching hours,
-which are a reasonable proxy for weighting but not a guarantee of it.
-:::

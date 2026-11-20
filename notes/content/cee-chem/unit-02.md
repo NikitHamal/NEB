@@ -7,8 +7,7 @@ hours: 2
 area: Physical Chemistry
 ---
 
-Atomic structure carries about **two questions** in the paper (our estimate from the MEC
-topic list). They are among the most predictable in Physical Chemistry: a Bohr-model
+Atomic structure carries about **two questions** in the paper. They are among the most predictable in Physical Chemistry: a Bohr-model
 number (radius, speed or energy, almost always as a ratio in n and Z), a hydrogen-spectrum
 question (series, wavelength, number of lines), a de Broglie or uncertainty calculation,
 or a quantum-number rule (which set is allowed, how many nodes, the configuration of

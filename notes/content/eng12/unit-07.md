@@ -326,7 +326,7 @@ buzzard's wings falls into the mud, and the narrator reports it as calmly as the
 angel".
 :::
 
-## 7.8 Textbook exercises
+## 7.8 Comprehension and critical thinking
 
 **Understanding the text**
 

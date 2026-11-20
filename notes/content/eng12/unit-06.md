@@ -349,7 +349,7 @@ stupa, Himalaya) and the eyes the guide shows (the child). And always say what t
 the boy's eyes as "beautiful" as the Buddha's, so that beauty and suffering become one.
 :::
 
-## 6.8 Textbook exercises
+## 6.8 Comprehension and critical thinking
 
 **Understanding the text**
 

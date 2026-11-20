@@ -12,7 +12,7 @@ planets, asteroids, comets and meteors. The most accepted scientific explanation
 the origin of the universe is the **Big Bang theory**. In the beginning the earth was
 too hot for life; it slowly cooled, its surface of rock, soil, minerals and water and
 its atmosphere formed, and simple living beings appeared and evolved into today's
-biodiversity. This unit, following the CDC textbook, studies minerals, the structure
+biodiversity. This unit studies minerals, the structure
 and origin of the earth, the history of life on it, and the bodies of the universe —
 asteroids, comets, meteors, galaxies and constellations — together with the solar
 system and space exploration.
@@ -88,7 +88,7 @@ copper and coal have been mined since ancient times (iron of Ramechhap, coal of 
 Effective exploration and sustainable commercial mining have not yet been done, mainly for
 lack of research, technology, capital and roads.
 
-| Mineral | Places (as given in the textbook) |
+| Mineral | Major locations in Nepal |
 |---|---|
 | Iron | Phulchoki (Lalitpur), Thoshe (Ramechhap) |
 | Copper | more than 100 places |
@@ -130,8 +130,8 @@ old. Several hypotheses try to explain how it formed.
 | Hypothesis | Proposed by | Main idea |
 |---|---|---|
 | **Nebular hypothesis** | Immanuel Kant (1755), modified by Pierre-Simon Laplace (1796) | a huge, flat, slowly spinning cloud of gas and dust (nebula) contracted by gravity; its centre became very hot and dense and formed the sun; the outer flattened part broke into rings or lumps that formed the planets, and smaller lumps formed satellites, asteroids and comets |
-| **Collision (comet) hypothesis** — called the *planetesimal hypothesis* in the textbook | Georges Buffon (about 1745–1749) | a giant comet struck the sun at a low angle and splashed out matter; the pieces revolved round the sun and cooled into planets |
-| **Passing-star (planetesimal) hypothesis** — called the *binary hypothesis* in the textbook | T. C. Chamberlin and F. R. Moulton (1905) | a star came close to the sun and pulled out matter, which formed small solid bodies (planetesimals) that joined into planets |
+| **Collision (comet) hypothesis** (*planetesimal hypothesis*) | Georges Buffon (about 1745–1749) | a giant comet struck the sun at a low angle and splashed out matter; the pieces revolved round the sun and cooled into planets |
+| **Passing-star (planetesimal) hypothesis** (*binary hypothesis*) | T. C. Chamberlin and F. R. Moulton (1905) | a star came close to the sun and pulled out matter, which formed small solid bodies (planetesimals) that joined into planets |
 | **Tidal hypothesis** | James Jeans and Harold Jeffreys (around 1917–1919) | a giant star passing close to the sun pulled out a cigar-shaped tide of hot matter; small planets formed at its thin ends and big ones (Jupiter, Saturn) in the thick middle |
 
 **Specialities of the nebular hypothesis:** it explains why all planets revolve round the
@@ -151,7 +151,7 @@ first simple **prokaryotes** appeared in water. All present life evolved from th
 
 The earth's history is divided into **eons**, **eras** and periods.
 
-```figure caption="Geological time scale (approximate ages in million years ago, as used in the textbook). The Cryptozoic eon covers about 88 % of the earth's history."
+```figure caption="Geological time scale (approximate ages in million years ago). The Cryptozoic eon covers about 88 % of the earth's history."
 fig, ax = plt.subplots(figsize=(5.1, 2.4))
 ax.set_xlim(0, 10); ax.set_ylim(0, 4.4); ax.axis("off")
 segs = [("Cryptozoic\n(Precambrian)", 0.2, 6.4, "#cfcfcf", "4600–570"),
@@ -377,7 +377,7 @@ forecasting, television and communication.
 
 ## Practice questions
 
-**Group A — Multiple choice (1 mark each)** *(Textbook exercises.)*
+**Group A — Multiple choice (1 mark each)**
 
 1. The branch of science that studies minerals is <span class="marks">[1]</span>
    (a) geology (b) palaeontology (c) mineralogy (d) archaeology
@@ -436,7 +436,7 @@ forecasting, television and communication.
 
 ::: note Answers to Group C
 **1.** Nebular (Kant 1755, Laplace 1796), collision (Buffon), passing-star / planetesimal (Chamberlin and Moulton, 1905) and tidal (Jeans and Jeffreys). *Nebular:* a huge, flat, slowly spinning nebula of gas and dust contracted under its own gravity; its centre grew hot and dense and became the sun; as it spun faster, the outer part flattened and broke into rings or lumps that collected matter and became planets; smaller lumps became satellites, and leftover matter formed asteroids and comets. It explains why the planets revolve in one plane and one direction.
-**2.** 240–65 million years ago (textbook values); climate became drier with seasons; conifer forests; reptiles, especially dinosaurs, dominated land, water and air; toothed birds, small mammals and the first flowering plants appeared. Dinosaurs died out at the end of the Cretaceous, probably because of huge meteorite impacts and volcanic eruptions that filled the air with fire, dust and poisonous gases. If they were alive, large dinosaurs would compete with or prey on mammals, including humans, and the present food webs could not exist in their present form.
+**2.** 240–65 million years ago; climate became drier with seasons; conifer forests; reptiles, especially dinosaurs, dominated land, water and air; toothed birds, small mammals and the first flowering plants appeared. Dinosaurs died out at the end of the Cretaceous, probably because of huge meteorite impacts and volcanic eruptions that filled the air with fire, dust and poisonous gases. If they were alive, large dinosaurs would compete with or prey on mammals, including humans, and the present food webs could not exist in their present form.
 **3.** Hubble found that distant galaxies are moving away; Lemaître (1927) explained that the universe is expanding. Reversing the expansion, all matter and energy were once in one extremely hot, dense point (primeval atom). About 13.8 billion years ago it exploded — the Big Bang — and expanded rapidly; as it cooled, subatomic particles, then atoms and molecules, and finally galaxies, stars and planets formed. The universe is still expanding.
 **4.** A small body of ice, dust, rock and gas moving round the sun in a highly elliptical orbit. Parts (figure in 11.4.2): nucleus — solid icy centre; coma — glowing cloud of gas and dust round the nucleus near the sun; tails — a white dust tail and a bluish ion tail, pointing away from the sun because of the solar wind.
 **5.** Asteroids are small, irregular rocky and metallic bodies revolving round the sun, mostly between Mars and Jupiter. Characteristics: irregular shape (weak gravity), size about 1–1000 km (Ceres about 940 km), made of rock, metal and clay, orbits slightly irregular so they collide; some are Trojans, some near-earth asteroids. Meteoroids are small pieces of rock and metal in the solar system; when one enters the atmosphere at high speed, friction with the air makes it glow and burn, giving a streak of light — a meteor.

@@ -2,7 +2,7 @@
 subject: Compulsory English
 grade: 10
 unit: 18
-title: 'Unit 18: Media and Entertainment'
+title: Media and Entertainment
 hours: 0
 area: Units
 ---
@@ -205,9 +205,7 @@ This is an **informative article** that gives several short real stories to supp
 **2.** (Open answer.) A story I heard was about a poor student in a village who posted a video of himself solving maths problems on a broken blackboard. It went viral. Many people sent him books and a laptop, and a well-known college offered him a scholarship. The story shows how a single video can change a life when people who care are watching.
 :::
 
-## 18.3 Grammar and writing tasks
-
-### Grammar I — Asking questions
+## 18.3 Grammar I: Asking questions
 
 There are three main kinds of question in English.
 
@@ -303,7 +301,7 @@ ax.set_xlim(-0.1,5.4); ax.set_ylim(-0.3,2.5); ax.axis('off')
 **1.** Shall we go to a movie? **2.** Where does Ram live? **3.** Will you come to my home tomorrow? **4.** May I sit here? **5.** Have you seen my dog? **6.** How many books do you have, Ram? **7.** How often does your friend's father cook? **8.** What will the weather be like tomorrow?
 :::
 
-### Grammar II — Causative verbs
+## 18.4 Grammar II: Causative verbs
 
 A **causative verb** shows that the subject **causes** something to happen rather than doing it directly. The main causative verbs are **have, get, make, let**.
 
@@ -379,7 +377,7 @@ ax.set_xlim(-0.1,5.6); ax.set_ylim(-0.1,2.6); ax.axis('off')
 At the camp we were made to wake up at five o'clock and to run two kilometres before breakfast. The leaders made us cook our own food, and they got us to clean the camp every evening. They had a doctor check our health on the first day. However, they let us swim in the river on Saturdays and let us sing around the campfire at night.
 :::
 
-### Writing I — A film review
+## 18.5 Writing I: A film review
 
 A **review** gives information about a film (or book) **and** your judgement. Be fair: mention strengths and weaknesses.
 
@@ -403,7 +401,7 @@ The film's greatest strength is its emotional honesty. Richard Gere plays the pr
 
 Overall, this is a film that proves that love and loyalty need no words. I recommend it to all families, but keep a handkerchief ready.
 
-### Writing II — An essay on the impact of social media
+## 18.6 Writing II: An essay on the impact of social media
 
 Many people say that social networking sites have a negative effect on individuals and society. Others believe that they have connected the world. An essay on this topic should give **both sides** and then your own opinion.
 

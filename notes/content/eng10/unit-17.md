@@ -2,7 +2,7 @@
 subject: Compulsory English
 grade: 10
 unit: 17
-title: 'Unit 17: Countries and Towns'
+title: Countries and Towns
 hours: 0
 area: Units
 ---
@@ -234,9 +234,7 @@ ax.set_xlim(-1,7.2); ax.set_ylim(-0.2,5.1); ax.axis('off')
 **2.** (Open answer.) I live in a village. The advantages are fresh air, clean water, fresh food, low costs and a peaceful life where everyone knows each other. The disadvantages are fewer schools, hospitals, shops and job opportunities, and poor roads and internet. In a town, one gets better facilities and jobs but must face crowds, pollution, noise and high costs. Each has its own merits.
 :::
 
-## 17.3 Grammar and writing tasks
-
-### Grammar I — Adjectives and adverbs
+## 17.3 Grammar I: Adjectives and adverbs
 
 An **adjective** describes a noun (*a quiet child*). An **adverb** describes a verb, an adjective or another adverb (*She spoke quietly; very quiet*).
 
@@ -349,7 +347,7 @@ ax.set_xlim(-0.2,6.3); ax.set_ylim(-0.2,2.5); ax.axis('off')
 **1.** more complicated **2.** heavier **3.** heavy **4.** more quickly **5.** better **6.** fast **7.** more beautifully **8.** longer **9.** highest **10.** worst
 :::
 
-### Grammar II — Connectives of reason and contrast
+## 17.4 Grammar II: Connectives of reason and contrast
 
 Unit 13 covered the connectives of contrast. This unit adds **reason** and compares the two groups.
 
@@ -390,7 +388,7 @@ Ask: does the second part **explain** the first (reason: *because*) or **surpris
 **1.** Although **2.** However **3.** but **4.** Despite / In spite of **5.** Although **6.** Because **7.** because **8.** because of **9.** Despite **10.** although
 :::
 
-### Writing I — Comparing two places
+## 17.5 Writing I: Comparing two places
 
 A **comparison essay** shows the similarities and differences between two things. There are two ways to organise it.
 
@@ -409,7 +407,7 @@ Kathmandu and Pokhara are two of the most popular cities of Nepal, but they offe
 
 In terms of facilities, Kathmandu has more hospitals, colleges and shopping centres, whereas Pokhara's strength is its natural beauty and adventure sports such as paragliding. Kathmandu is more crowded and polluted; Pokhara has cleaner air and wider streets. On the other hand, living costs are higher in Kathmandu. Both cities are rich in culture and food, and both are worth visiting. A traveller who likes history and bustle should choose Kathmandu, while one who prefers peace and views will love Pokhara.
 
-### Writing II — Describing a village
+## 17.6 Writing II: Describing a village
 
 A **description** paints a picture in words. Cover **location, scenery, people, buildings, occupation, culture and your feelings**. Use the present tense for a place as it is now, or past tense if it is a memory. Use vivid adjectives and comparisons.
 

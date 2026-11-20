@@ -12,10 +12,7 @@ Vehicles run on petrol or diesel, and electrical appliances run on electricity.
 **Energy is the capacity to do work.** Its SI unit is the **joule (J)**; the
 calorie is an older unit, and **1 calorie ≈ 4.2 J**. Energy exists in many forms —
 mechanical, heat, light, sound, magnetic, electrical, chemical and nuclear — and
-changes from one form to another. This unit, following the CDC textbook, studies
-heat and its transfer, light and spherical mirrors, and sound, together with the
-other topics of the syllabus (thermometers, expansion, specific heat capacity,
-refraction, lenses and energy sources).
+changes from one form to another. This unit studies heat and its transfer, light and spherical mirrors, sound, thermometers, thermal expansion, specific heat capacity, refraction, lenses and energy sources.
 
 ::: key What this unit asks of you
 Explain conduction, convection and radiation with examples and applications; tell
@@ -482,7 +479,7 @@ $v=f\lambda$ (speed = frequency × wavelength), in m/s. In a given medium the sp
 constant, so a higher frequency means a shorter wavelength.
 :::
 
-::: example Speed and wavelength of sound (textbook examples)
+::: example Speed and wavelength of sound
 **Problem (a).** Find the speed of a sound of frequency 66 Hz and wavelength 5 m.
 **Solution.** $v=f\lambda=66\times5=330$ m/s.
 
@@ -520,7 +517,7 @@ measured in **decibels (dB)**.
 | busy traffic | about 70–90 dB |
 | threshold of pain | about 120–140 dB |
 
-According to the textbook, a person who cannot hear sounds of 45–60 dB has partial hearing
+A person who cannot hear sounds of 45–60 dB has partial hearing
 loss, and one who cannot hear even 80 dB is **deaf**.
 
 **Factors affecting intensity:** **amplitude** ($I\propto A^2$); **distance** from the source
@@ -588,7 +585,7 @@ energy source; solar panels and biogas plants are common in villages.
 
 ## Practice questions
 
-**Group A — Multiple choice (1 mark each)** *(Textbook exercises.)*
+**Group A — Multiple choice (1 mark each)**
 
 1. Transfer of heat by the actual movement of particles is <span class="marks">[1]</span>
    (a) conduction (b) convection (c) radiation (d) temperature
@@ -618,7 +615,7 @@ energy source; solar panels and biogas plants are common in villages.
    (a) 2 Hz – 20 Hz (b) 20 Hz – 20 kHz (c) 20 kHz – 200 kHz (d) 2 Hz – 200 Hz
 14. A sound with greater amplitude has <span class="marks">[1]</span>
    (a) more intensity (b) less intensity (c) the same intensity (d) no intensity
-15. According to the textbook, a person who cannot hear even this level is deaf: <span class="marks">[1]</span>
+15. A person who cannot hear even this level of sound is considered deaf: <span class="marks">[1]</span>
    (a) 90 dB (b) 80 dB (c) 60 dB (d) 55 dB
 16. Which animal can produce and hear ultrasound? <span class="marks">[1]</span>
    (a) elephant (b) bat (c) crocodile (d) rhino
@@ -664,8 +661,8 @@ energy source; solar panels and biogas plants are common in villages.
 7. Write the causes, two effects and two ways to control sound pollution. <span class="marks">[4]</span>
 
 ::: note Answers to Group C
-**1.** $\lambda=\frac{v}{f}=\frac{332}{10}=33.2$ m. *(The textbook prints 33.3 m; the exact value is 33.2 m.)*
-**2.** $v=f\lambda=10\times22=220$ m/s. *(The textbook's printed answer, 330 m/s, does not match the data; with 22 m and 10 Hz the speed is 220 m/s.)*
+**1.** $\lambda=\frac{v}{f}=\frac{332}{10}=33.2$ m.
+**2.** $v=f\lambda=10\times22=220$ m/s.
 **3.** Shortest wavelength at the highest audible frequency, 20 000 Hz: $\lambda=\frac{332}{20000}=0.0166$ m. Longest at 20 Hz: $\lambda=\frac{332}{20}=16.6$ m.
 **4.** $E=I\times A\times t=2\times10^{-5}\times6\times1=1.2\times10^{-4}$ J.
 **5.** Use the three rules of 7.5.1. (i) Beyond C: image between F and C, real, inverted, diminished (figure in 7.5.1). (ii) At infinity: parallel rays meet at F — image at F, real, inverted, point-sized. (iii) Between C and F: image beyond C, real, inverted, magnified.

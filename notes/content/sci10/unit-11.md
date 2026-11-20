@@ -210,7 +210,7 @@ Do not write "the bulb used 100 W". A watt is a rate (joules per second). The en
 
 ## 11.4 Direct Current (DC), Alternating Current (AC) and Magnetic Effect of Current
 
-### Direct Current (DC) and Alternating Current (AC) (CDC Grade 10 focus)
+### Direct Current (DC) and Alternating Current (AC)
 
 | Basis | Direct Current (DC) | Alternating Current (AC) |
 |---|---|---|

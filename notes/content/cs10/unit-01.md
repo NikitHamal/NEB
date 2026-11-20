@@ -823,7 +823,7 @@ failure rarely stops everything, but it is more complex to design and manage.
 | Tree | more | that branch is cut off | moderate | moderate | schools, offices on several floors |
 | Hybrid | depends | usually local | depends | depends | large organisations |
 
-::: caution Three textbook statements about the ring that are not right
+::: caution Key facts about ring topology
 The textbook says a ring "uses fibre optic cable", "is not affected by high
 traffic or by adding more nodes" and "is cheap to set up and expand". A ring can
 use any cable (the classic Token Ring used twisted pair); every extra node adds
@@ -1260,7 +1260,7 @@ records, that part becomes an extranet.
 | Security | least secure; users need firewalls and antivirus | most secure, behind the firewall | secure, but must balance access for outsiders |
 | Example | websites, Google, Facebook, YouTube | company portal, school staff portal | supplier ordering portal, parents' result portal |
 
-## Textbook exercises: model answers
+## Worked exercise solutions
 
 **1. Full forms.** (a) DSL — Digital Subscriber Line. (b) bps — bits per second.
 (c) LAN — Local Area Network. (d) TCP/IP — Transmission Control Protocol /

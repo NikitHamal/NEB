@@ -7,7 +7,7 @@ hours: 0
 area: Economics
 ---
 
-This chapter drills the Economics paper unit by unit. Each section opens with a **facts line** — the numbers, names and formulae that the one-mark questions keep returning to — then gives twelve questions for Group A and four for Group B, with keys and answer outlines. The two units that carry the most marks are unit 2 (**microeconomics**, 24 marks) and unit 6 (**quantitative methods**, 15 marks); if you have limited time, drill those two twice. Every question is an original practice question written to the official pattern; none is claimed to have appeared in any year's paper.
+This chapter drills the Economics paper unit by unit. Each section opens with a **facts line** — the numbers, names and formulae that the one-mark questions keep returning to — then gives twelve questions for Group A and four for Group B, with keys and answer outlines. The two units that carry the most marks are unit 2 (**microeconomics**, 24 marks) and unit 6 (**quantitative methods**, 15 marks); if you have limited time, drill those two twice.
 
 ## 6.1 Basic Concepts of Economics and Allocation of Resources
 

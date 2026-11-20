@@ -161,7 +161,7 @@ ax.set_xlim(-1.0, 5.2); ax.set_ylim(-0.2, n+0.1); ax.axis('off')
 ```photo id="sci10/bauxite" caption="Bauxite, the ore from which aluminium is extracted." width="56"
 ```
 
-| Metal | Atomic No. & Valency | Important Ores (CDC Grade 10 Table) | Chemical Formula |
+| Metal | Atomic No. & Valency | Important Ores | Chemical Formula |
 |---|---|---|---|
 | **1. Iron ($\text{Fe}$)** | $Z = 26$; valency $2, 3$ ($d$-block) | **Haematite** (principal ore)<br>**Magnetite** (magnetic ore)<br>**Siderite** (spathic iron ore)<br>**Limonite** (brown ore)<br>**Iron pyrite** ("fool's gold") | $\text{Fe}_2\text{O}_3$<br>$\text{Fe}_3\text{O}_4$<br>$\text{FeCO}_3$<br>$2\text{Fe}_2\text{O}_3\cdot 3\text{H}_2\text{O}$<br>$\text{FeS}_2$ |
 | **2. Aluminium ($\text{Al}$)** | $Z = 13$; valency $3$ ($p$-block) | **Bauxite** (principal ore)<br>**Cryolite**<br>**Corundum** / Kaolin (China clay) | $\text{Al}_2\text{O}_3\cdot 2\text{H}_2\text{O}$<br>$\text{Na}_3\text{AlF}_6$<br>$\text{Al}_2\text{O}_3$ / $\text{Al}_2\text{Si}_2\text{O}_5\text{(OH)}_4$ |
@@ -174,7 +174,7 @@ ax.set_xlim(-1.0, 5.2); ax.set_ylim(-0.2, n+0.1); ax.axis('off')
 
 **Why all ores are minerals, but not all minerals are ores (SEE Give Reason):** Every ore is a naturally occurring metallic mineral in the Earth's crust, so all ores are minerals. However, minerals that contain a very low percentage of metal or contain objectionable impurities from which the metal cannot be extracted profitably (such as clay for aluminium or iron pyrite $\text{FeS}_2$ for iron) are not ores.
 
-### The Five General Steps of Metallurgy (CDC Grade 10 focus)
+### The Five General Steps of Metallurgy
 
 1. **Mining, Crushing and Grinding (Pulverisation):** The ore is mined from the Earth's crust, crushed into small pieces in jaw crushers, and ground into a fine powder in ball mills or stamp mills.
 2. **Concentration (Ore Dressing):** Removing earthy impurities (**gangue / matrix**) from the powdered ore to increase metal percentage:

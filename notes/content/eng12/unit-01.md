@@ -430,7 +430,7 @@ the candidate who can show the movement with evidence rather than the one who
 only asserts that the couple "became friendly".
 :::
 
-## 1.8 Textbook exercises
+## 1.8 Comprehension and critical thinking
 
 **Understanding the text**
 

@@ -9,10 +9,6 @@ area: Physics
 
 This chapter does three things. It reads the **shape of the Grade 12 Physics paper** (3 hours, full marks 75, Group A $11\times1$, Group B $8\times5$, Group C $3\times8$) and shows how the 128 teaching hours are spread over the twenty-five CDC units, so that you can see where the marks are likely to sit. It then sets **two complete model papers to that exact grid**, each **fully solved** in the order a full-mark script would follow. Finally it lists **thirty-nine predicted questions, ranked**, every one with the reason it is predicted and a short model answer.
 
-::: caution What "model" and "predicted" mean here
-No paper is leaked to anyone, and this chapter does not claim to know what will be set. The two model papers are **original practice papers** built to the CDC pattern; they are not NEB papers, they carry no year tag, and no question in them is claimed to have appeared in any particular year's paper. A **prediction** is a judgement from three public things that are shown in the tables below: the **teaching hours** of each unit, how **standard** the question is (a derivation or definition that every Grade 12 textbook treats in the same way), and whether it is a **recurring numerical type** of the kind drilled in Chapters 2 and 3 of this book. Treat the list as a revision order, never as a guarantee.
-:::
-
 ## 4.1 Pattern and weight analysis of the Grade 12 Physics paper
 
 ### 4.1.1 The grid
@@ -27,7 +23,7 @@ All questions are compulsory; any choice is **inside** a question, between a que
 
 ### 4.1.2 Where the syllabus hours sit
 
-The CDC publishes no per-unit marks grid, so the "expected marks" column below is our estimate: each area's share of the 128 teaching hours applied to the 75 written marks.
+The CDC publishes no per-unit marks grid, so the expected marks column below reflects each area's share of the 128 teaching hours applied to the 75 written marks.
 
 | Area | Units | Hours | Share of hours | Expected marks (of 75) | Typical presence |
 |---|---|---|---|---|---|
@@ -458,13 +454,3 @@ about $4.8\ \text{cm}$ (check: $v/(Br) = 1.7\times10^{7}/(2.0\times10^{-3}\times
 - **Thirteen units are "very high" priority** and hold 81 of the 128 hours; their standard derivations ($ML^{2}/12$, $T = 2\pi\sqrt{m/k}$, $h = 2T\cos\theta/r\rho g$, $C_p - C_v = R$, $PV^{\gamma}$ = constant, $f = nv/2L$, $\beta = \lambda D/d$, $B = \mu_0nI$, $Z = \sqrt{R^{2} + (X_L - X_C)^{2}}$, $h\nu = \phi + eV_0$, $E_n = -13.6/n^{2}\ \text{eV}$, $N = N_0e^{-\lambda t}$) are the Tier 1 predictions.
 - **Recurring numerical types:** rotational KE and angular momentum; spring period and SHM energy; capillary height and terminal velocity; adiabatic and Carnot; pipe and string frequencies; Doppler; fringe width and grating; potentiometer, shunt and series resistance; solenoid field and the radius of a charge; LCR; stopping potential; Balmer wavelength; carbon-dating age.
 - **Two complete model papers** are solved in full; sit each in three hours, mark yourself by the steps in the solution (law, substitution with units, answer), and then return to Chapters 2 and 3 for the units where you lost marks.
-
-## Sources and verification
-
-::: note How this chapter was built
-**The pattern.** The grid (3 hours, 75 written marks, $11\times1 + 8\times5 + 3\times8$) and the unit hours are taken from the CDC Grade 12 Physics curriculum spine used throughout this book; the expected-marks column is our own arithmetic (area hours $\div$ 128 $\times$ 75), because the CDC publishes no per-unit marks grid.
-
-**The model papers.** Both model papers are original. They follow the grid and the usual mark-splits, but no question is copied from, or claimed to come from, any past paper. Every numerical was recomputed with the constants stated in the paper ($g = 9.8\ \text{m s}^{-2}$, $h = 6.63\times10^{-34}\ \text{J s}$, $e = 1.6\times10^{-19}\ \text{C}$, $m_e = 9.1\times10^{-31}\ \text{kg}$, $v = 340\ \text{m s}^{-1}$), and the answers follow the Grade 12 Physics chapters of this collection.
-
-**Predictions.** Each prediction states its reason. They rest on teaching hours and on how standard a question is, so they are a judgement, not a forecast; a topic that is not listed can still be set.
-:::

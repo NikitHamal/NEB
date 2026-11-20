@@ -12,7 +12,7 @@ acids, bases or salts. The water we drink may be soft or hard, and the vessels a
 tools we use are often made of alloys rather than pure metals. This unit studies the
 materials of daily life: water (its hardness, purification and pollution, including
 acid rain), building and household materials (cement, glass, plastics, soap,
-fertiliser, fibres and fuels), and — the main lessons of the CDC textbook — **acids,
+fertiliser, fibres and fuels), and **acids,
 bases and salts**, **acid rain**, **hardness of water** and **alloys**.
 
 ::: key What this unit asks of you
@@ -89,7 +89,7 @@ ax.text(5.7, 0.35, "soft water out", va="center", fontsize=7.8, color=ACCENT)
 fig.tight_layout()
 ```
 
-::: example Advice for Roshan and Riya (textbook questions)
+::: example Advice for Roshan and Riya
 **Roshan** gets little lather with well water. *Advice:* boil the water first (removes
 temporary hardness) or add a little washing soda, and let the precipitate settle;
 alternatively use rain water or a detergent, which works even in hard water.
@@ -388,7 +388,7 @@ is soft and rusts, while stainless steel is hard, shiny and rust-free.
 
 ## Practice questions
 
-**Group A — Multiple choice (1 mark each)** *(Textbook exercises.)*
+**Group A — Multiple choice (1 mark each)**
 
 1. A property of an acid is <span class="marks">[1]</span>
    (a) bitter (b) slippery (c) sour (d) colourless

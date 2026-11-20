@@ -9,10 +9,6 @@ area: Chemistry
 
 This chapter does three things. It reads the **shape of the Grade 11 Chemistry paper** (3 hours, full marks 75, Group A $11\times1$, Group B $8\times5$, Group C $3\times8$) and shows how the 128 teaching hours are spread over the 17 units. It then sets **two complete model papers** to that grid, each **fully solved**. Finally it lists **twenty-four predicted questions in ranked order**, each with the reason it is predicted and a short model answer.
 
-::: caution What "model" and "predicted" mean here
-The model papers are original practice papers built to the CDC pattern; they are not NEB papers and do not claim to resemble any particular year. A **prediction** is a judgement, not a leak: nobody outside the board knows the paper. The ranking uses three public things only — the **teaching hours** of each unit, how **standard** the question is (a definition, reaction or numerical type that every textbook treats), and whether it is a **recurring numerical type**. Treat the list as a revision order. No question carries a past-paper year, because Grade 11 papers are not published by NEB.
-:::
-
 ## 7.1 Pattern and weight analysis of the Grade 11 Chemistry paper
 
 ### 7.1.1 The grid
@@ -60,7 +56,7 @@ Two points follow. The single heaviest unit is **non-metals (22 hours)**, one-si
 
 ## 7.2 Model Set 1
 
-**Time: 3 hours. Full marks: 75.** Attempt all the questions. Figures in the margin indicate full marks. Atomic masses: H $= 1$, C $= 12$, N $= 14$, O $= 16$, Na $= 23$, S $= 32$, Cl $= 35.5$, K $= 39$, Cr $= 52$, Fe $= 56$, Ag $= 108$. *This is an original practice paper, built to the CDC pattern.*
+**Time: 3 hours. Full marks: 75.** Attempt all the questions. Figures in the margin indicate full marks. Atomic masses: H $= 1$, C $= 12$, N $= 14$, O $= 16$, Na $= 23$, S $= 32$, Cl $= 35.5$, K $= 39$, Cr $= 52$, Fe $= 56$, Ag $= 108$.
 
 **Group A — Rewrite the correct option of each question in your answer sheet.** $(11\times1 = 11)$
 
@@ -144,7 +140,7 @@ Two points follow. The single heaviest unit is **non-metals (22 hours)**, one-si
 
 ## 7.3 Model Set 2
 
-**Time: 3 hours. Full marks: 75.** Attempt all the questions. Atomic masses: H $= 1$, C $= 12$, N $= 14$, O $= 16$, Na $= 23$, Cl $= 35.5$, Ca $= 40$. $R = 0.0821\ \text{L atm mol}^{-1}\text{K}^{-1}$; $1\ \text{F} = 96\,500\ \text{C}$. *This is an original practice paper, built to the CDC pattern.*
+**Time: 3 hours. Full marks: 75.** Attempt all the questions. Atomic masses: H $= 1$, C $= 12$, N $= 14$, O $= 16$, Na $= 23$, Cl $= 35.5$, Ca $= 40$. $R = 0.0821\ \text{L atm mol}^{-1}\text{K}^{-1}$; $1\ \text{F} = 96\,500\ \text{C}$.
 
 **Group A — Rewrite the correct option of each question in your answer sheet.** $(11\times1 = 11)$
 

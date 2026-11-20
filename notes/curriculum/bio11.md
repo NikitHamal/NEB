@@ -3,18 +3,18 @@
 # PATTERN: MCQ 5(Bot)+6(Zoo)=11x1 | Short 4x4 per section =32 | Long 2x8 per section =32
 # PART: Botany
 ## 1. Biomolecules and Cell Biology [15]
-- Biomolecules [4]: carbohydrates, proteins, lipids, nucleic acids, minerals, enzymes, water
-- Cell [8]: prokaryotic and eukaryotic cell; cell wall; cell membrane; mitochondria; plastids; endoplasmic reticulum; golgi apparatus; lysosomes; ribosomes; nucleus; chromosomes; cilia and flagella; cell inclusions
-- Cell division [3]: cell cycle; amitosis; mitosis; meiosis
+- Biomolecules: carbohydrates, proteins, lipids, nucleic acids, minerals, enzymes, water
+- Cell: prokaryotic and eukaryotic cell; cell wall; cell membrane; mitochondria; plastids; endoplasmic reticulum; golgi apparatus; lysosomes; ribosomes; nucleus; chromosomes; cilia and flagella; cell inclusions
+- Cell division: cell cycle; amitosis; mitosis; meiosis
 ## 2. Floral Diversity [30]
-- Introduction [1]: three domains of life; binomial nomenclature; five-kingdom classification; flora status of Nepal
+- Introduction: three domains of life; binomial nomenclature; five-kingdom classification; flora status of Nepal
 - Fungi [3]
 - Lichen [1]
 - Algae [2]
 - Bryophyta [2]
 - Pteridophyta [2]
 - Gymnosperm [3]
-- Angiosperm [16]: morphology; taxonomic hierarchy; artificial, natural and phylogenetic systems; Brassicaceae; Fabaceae; Solanaceae; Liliaceae
+- Angiosperm: morphology; taxonomic hierarchy; artificial, natural and phylogenetic systems; Brassicaceae; Fabaceae; Solanaceae; Liliaceae
 ## 3. Introductory Microbiology [5]
 - Monera [3]
 - Virus [1]
@@ -24,7 +24,7 @@
 - Ecological Adaptation [2]
 - Ecological Imbalances [2]
 ## 5. Vegetation [3]
-- Vegetation [2]: types of vegetation in Nepal; In-situ and Ex-situ conservation
+- Vegetation: types of vegetation in Nepal; In-situ and Ex-situ conservation
 - Natural environment, vegetation and human activities [1]
 # PART: Zoology
 ## 6. Introduction to Biology [1]
@@ -36,7 +36,7 @@
 - Human evolution [5]
 ## 8. Faunal Diversity [34]
 - Protista [4]
-- Animalia [10]: level of organization; body plan; nine phyla
+- Animalia: level of organization; body plan; nine phyla
 - Earthworm (Pheretima posthuma) [10]
 - Frog (Rana tigrina) [10]
 ## 9. Biota and Environment [10]
@@ -45,4 +45,4 @@
 - Environmental Pollution [3]
 ## 10. Conservation Biology [4]
 - Conservation Biology [2]
-- Wildlife [2]: IUCN categories; endangered species of Nepal
+- Wildlife: IUCN categories; endangered species of Nepal

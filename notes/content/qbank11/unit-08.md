@@ -22,15 +22,6 @@ reason line in the key matters more than the letter — if you cannot say *why* 
 other three options are wrong, you have not finished the question.
 :::
 
-::: caution About the year tags in this book
-A few questions carry a source tag. Everything untagged is an original or
-predicted question written to the CDC syllabus. NEB has released one official
-Grade 11 Biology paper (Botany + Zoology, Sub. Code 114) but **does not state
-which year's examination it came from**, so questions drawn from it are tagged
-`(NEB released paper)` and never with a year. No question in this book carries a
-year we could not verify from a primary source.
-:::
-
 ## 8.1 Biomolecules and Cell Biology
 
 1. The most abundant organic compound found in nature is <span class="marks">[1]</span>
@@ -512,7 +503,6 @@ fig.subplots_adjust(wspace=0.02, hspace=0.30)
 
 ```photo id="bio11/rhizopus" caption="Rhizopus, the bread mould: a coenocytic mycelium with sporangia." width="60"
 ```
-
 
 1. Bacteria were first observed and described by <span class="marks">[1]</span>
    (a) Louis Pasteur (b) Robert Koch (c) Anton van Leeuwenhoek (d) Edward Jenner

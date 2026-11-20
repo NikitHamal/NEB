@@ -15,7 +15,7 @@ The questions here are short and definitional: "What is indirect tax?", "Write t
 
 ## 3.1 Revenue: meaning and sources
 
-**Revenue** (राजस्व) is the income a government raises to meet its public expenditure. The CDC textbook defines a tax as the money that the people are **compelled by law** to pay to the government for the public good, for which they do **not** receive a direct, individual benefit in return.
+**Revenue** (राजस्व) is the income a government raises to meet its public expenditure. A tax is defined as the money that the people are **compelled by law** to pay to the government for the public good, for which they do **not** receive a direct, individual benefit in return.
 
 The sources of government revenue in Nepal fall into two groups.
 

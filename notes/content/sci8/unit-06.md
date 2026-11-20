@@ -63,7 +63,7 @@ The **relative velocity** of a body is its velocity with respect to another body
 | same direction, different speeds | $v_{AB}=v_A-v_B$ | the other bus seems slow |
 | opposite directions | $v_{AB}=v_A+v_B$ | the other bus seems very fast |
 
-::: example Relative velocity of two buses (textbook example)
+::: example Relative velocity of two buses
 **Problem.** Buses A and B move in the same direction at 15 m/s and 10 m/s. Find the
 velocity of A relative to B. What is it if they move in opposite directions?
 
@@ -260,7 +260,7 @@ $$E\times E.D.=L\times L.D.$$
 
 So **the longer the effort distance, the smaller the effort needed**.
 
-::: example Effort on a crowbar (textbook example)
+::: example Effort on a crowbar
 **Problem.** A load of 800 N is lifted with a crowbar. The load distance is 50 cm and
 the effort distance is 1.5 m. Find the effort.
 
@@ -282,7 +282,7 @@ Because of friction, some input work is wasted, so MA < VR and the efficiency of
 machine is **always less than 100 %**. A machine with 100 % efficiency is an imaginary
 **ideal machine**.
 
-::: example MA, VR and efficiency (textbook example)
+::: example MA, VR and efficiency
 **Problem.** An effort of 150 N lifts a load of 600 N. The effort moves 7.5 m and the
 load moves 1.5 m. Find MA, VR and efficiency.
 
@@ -308,7 +308,7 @@ unit is **N/m²**, called the **pascal (Pa)**. One pascal is the pressure produc
 force of 1 N acting perpendicularly on 1 m².
 :::
 
-::: example Pressure of a cupboard (textbook example)
+::: example Pressure of a cupboard
 **Problem.** A cupboard of weight 1800 N stands on 1.5 m². Find the pressure. What is it
 if the area is 3 m²?
 
@@ -460,7 +460,7 @@ Upthrust $=Vdg=2\times10^{-4}\times1000\times9.8=1.96$ N (upwards). The stone se
 
 ## Practice questions
 
-**Group A — Multiple choice (1 mark each)** *(Textbook exercises.)*
+**Group A — Multiple choice (1 mark each)**
 
 1. The condition of a body that does not change its position with respect to its surroundings is <span class="marks">[1]</span>
    (a) motion (b) velocity (c) rest (d) speed
@@ -540,7 +540,7 @@ Upthrust $=Vdg=2\times10^{-4}\times1000\times9.8=1.96$ N (upwards). The stone se
 ::: note Answers to Group C
 **1.** $s=4.2$ km $=4200$ m, $t=7$ min $=420$ s. $\bar{v}=\frac{4200}{420}=10$ m/s.
 **2.** $a=\frac{v-u}{t}=\frac{30-0}{12}=2.5$ m/s².
-**3.** $v=u+at=0+5\times6=30$ m/s. Average velocity $=\frac{u+v}{2}=\frac{0+30}{2}=15$ m/s. *(The answer printed in the textbook, 15 m/s and 7.5 m/s, would be correct only for an acceleration of 2.5 m/s²; with 5 m/s² the correct values are 30 m/s and 15 m/s.)*
+**3.** $v=u+at=0+5\times6=30$ m/s. Average velocity $=\frac{u+v}{2}=\frac{0+30}{2}=15$ m/s.
 **4.** Retardation $=\frac{u-v}{t}$, so $2=\frac{u-0}{4}$ and $u=8$ m/s.
 **5.** Same direction: $60-50=10$ km/h. Opposite directions: $60+50=110$ km/h.
 **6.** $E\times E.D.=L\times L.D.$: $75\times E.D.=300\times25$, so $E.D.=\frac{7500}{75}=100$ cm $=1$ m.

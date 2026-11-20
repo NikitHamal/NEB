@@ -112,7 +112,7 @@ to the ladies who snatched the mirror.
   have been** the queen.*
 - **Never** put *will/would* in the *if*-clause: *If it ~~will rain~~ rains…*
 
-### Textbook answers
+### Worked answers
 
 **Grammar I A:** a–vi, b–iv, c–v, d–i, e–iii, f–ii
 

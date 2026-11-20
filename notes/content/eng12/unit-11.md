@@ -31,8 +31,8 @@ change.**
 **Sir Ben Okri** was born on **15 March 1959** in **Minna**, in central Nigeria,
 to an Urhobo family.
 
-::: caution A date to correct in your textbook
-The CDC textbook gives Okri's date of birth as **1949**. This is an error. Okri
+::: note Author biography note
+Ben Okri
 was born in **1959**. If a question asks for the poet's dates, write 1959; if you
 are anxious about contradicting the book, write "born 1959 (the textbook's 1949
 is a misprint)".
@@ -891,7 +891,6 @@ currently exports its work and imports the money; the real question for the next
 generation is whether the wisdom and creativity that come home with the returning
 migrant can be used here. Close on an image, not a summary — the same departure
 gate, and what it would take to make it quieter.
-
 
 ## Group D: Long answers (10 marks)
 

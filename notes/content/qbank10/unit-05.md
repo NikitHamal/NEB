@@ -13,10 +13,6 @@ The SEE Compulsory Mathematics paper has no multiple-choice group. Its 16 questi
 These items are the 12 knowledge marks and some of the 18 understanding marks of the grid. They look easy, and the examiner means them to be; the risk is a slip in a formula or a unit. Work each item in under a minute, then read the reason. Take $\pi=\frac{22}{7}$ unless an item says otherwise.
 :::
 
-::: caution Practice items, not past questions
-Every item is an original **practice** item written to the CDC pattern. None is claimed to have appeared in a particular year's paper. The numbers have been recomputed with a program as well as by hand.
-:::
-
 ## 5.1 Sets
 
 **Facts.** $n(A\cup B)=n(A)+n(B)-n(A\cap B)$; $(A\cup B)'=A'\cap B'$; $(A\cap B)'=A'\cup B'$; $n(U)=n(A\cup B)+n(A\cup B)'$.

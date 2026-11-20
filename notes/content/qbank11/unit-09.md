@@ -40,16 +40,6 @@ attempted the question in writing and against the clock.
   move on.
 :::
 
-::: caution About the year tags in this book
-A question here carries the tag **(NEB released paper)** only where it could be
-traced to an official National Examination Board or Curriculum Development
-Centre release. **No question in this book carries an invented year.** Every
-untagged question is either an original question written to the CDC grid or one
-taken from an undated official release. Books that print "NEB 2079" against
-every question are guessing, and a wrong tag teaches you to trust the wrong
-things.
-:::
-
 ## 9.1 Biomolecules and Cell Biology
 
 **Short-answer questions (4 marks each)**

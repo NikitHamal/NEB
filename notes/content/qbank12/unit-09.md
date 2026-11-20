@@ -9,10 +9,6 @@ area: Biology
 
 Groups B and C of the Biology paper carry **64 of the 75 marks**: four 4-mark short answers and two 8-mark long answers in each of Botany and Zoology. The board's own model answers are never published, so this chapter does what a good teacher does: for every syllabus unit it lists the questions the board has actually set, adds further questions built on the same pattern, and gives a **full-mark model answer** in the shape a marker ticks — definition first, then structure or steps, then a labelled diagram wherever the question says "with diagram", then the significance. The marks in brackets such as [1+3] are the real splits, because the marker awards them part by part.
 
-::: caution What the year tags mean
-**(NEB 2079)**, **(NEB 2081)** and **(NEB 2082)** mark a question the authors read in the printed board paper of that year (sets N, W and M). **(NEB model 2079)** is the board's official model question of that year. A question with **OR** in the paper is shown with the alternative named. **(predicted)** means the question has not been seen in the papers listed but follows from the pattern analysis in the next chapter; **(original)** means written for this book. The 2080 paper could not be obtained in full and is therefore not quoted in this chapter. Nothing here is a leak.
-:::
-
 ::: tip How to write a four-mark and an eight-mark answer
 A 4-mark short answer is **one idea, well built**: a definition line, three or four points (a table if the question says "differentiate"), and a small labelled diagram if asked. An 8-mark long answer is **five blocks**: definition or introduction (1), main mechanism in steps (4), labelled diagram (2) and one closing line on significance or application (1). Draw the diagram first, in pencil, at full size and with straight label lines: examiners award the diagram marks separately, and it is the cheapest two marks in the paper.
 :::

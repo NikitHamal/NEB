@@ -9,10 +9,6 @@ area: Computer Science
 
 This chapter does three jobs. It sets out the **pattern** of the 50-mark Computer Science paper used throughout this bank and shows where each area's marks come from; it gives **two complete model papers**, each of 50 marks and two hours, built to that pattern, with a full answer to every question; and it closes with a **ranked list of practice priorities**, each with the reason it holds its place. Sit each model paper in one go, with a clock, before you look at the answers. Every Python program in the answers was run in Python 3.12, and its output is printed exactly.
 
-::: caution What "predicted" means here, and what it does not
-Computer Science in grade 8 is set and marked by your own school, so no outsider knows your paper. The ranks in section 25.4 rest only on the pattern of the paper, on the syllabus of the CDC course and on how much each topic can be asked in a written test: a high rank means **practise this first**, never "this will come"; a low rank means "likely to carry fewer marks", never "safe to skip". Every question in this chapter is an original practice item; none is copied from any school's paper.
-:::
-
 ::: key The pattern: 50 marks in 2 hours
 | Group | Questions | Marks each | Total | What it asks for |
 |---|---|---|---|---|
