@@ -1732,26 +1732,18 @@ def admin_pending_payments(request):
                         from api.marketplace import grant_purchase_rewards
                         grant_purchase_rewards(payment_obj)
 
-                        if payment_obj.course_id:
-                            from django.db.models import F
-                            from api.models import CreatorCourse
-                            CreatorCourse.objects.filter(pk=payment_obj.course_id).update(
-                                sale_count=F('sale_count') + 1,
-                                enrollment_count=F('enrollment_count') + 1,
-                            )
-
                         _notif.create_notification(
                             recipient=payment_obj.buyer,
                             actor=admin_user or payment_obj.seller,
                             verb='payment_approved',
-                            target=payment_obj.course or payment_obj.resource,
+                            target=payment_obj.resource,
                             message=f"Your payment of Rs. {payment_obj.amount} for '{title}' has been verified & approved! You now have full access."
                         )
                         _notif.create_notification(
                             recipient=payment_obj.seller,
                             actor=payment_obj.buyer,
                             verb='sale_credited',
-                            target=payment_obj.course or payment_obj.resource,
+                            target=payment_obj.resource,
                             message=f"You earned Rs. {payment_obj.seller_earnings} from the sale of '{title}' to @{payment_obj.buyer.username}!"
                         )
 
@@ -1768,7 +1760,7 @@ def admin_pending_payments(request):
                     recipient=payment_obj.buyer,
                     actor=admin_user or payment_obj.seller,
                     verb='payment_rejected',
-                    target=payment_obj.course or payment_obj.resource,
+                    target=payment_obj.resource,
                     message=f"Your payment verification for '{title}' was rejected. Reason: {reason or 'Invalid proof'}"
                 )
         except PaymentVerification.DoesNotExist:

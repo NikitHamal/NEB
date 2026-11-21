@@ -126,7 +126,7 @@ TERMS_SECTIONS = [
         'id': 'description-of-service',
         'title': 'Description of Service',
         'paragraphs': [
-            'NEBians (operated by Consica Labs) is an educational platform and learning community for students, teachers, institutions, and lifelong learners across Nepal, covering School (up to Class 10 / SEE), Plus Two (Class 11 and 12 / NEB), Diploma (CTEVT), Bachelor\'s, Master\'s, and Entrance Preparation. Core features include the study resource library (notes, past papers, solved books, syllabi), an interactive PDF and book reader with offline and read-aloud support, discussion forums and polls, AI study tools (Ask Neby, summaries, quizzes, flashcards, mindmaps, 3D labs, Study Spaces, and Canvas boards), the NEB and SEE Result Checker, the Nepal Institutions Directory, academic portfolios, and the Creator Marketplace.',
+            'NEBians (operated by Consica Labs) is an educational platform and learning community for students, teachers, institutions, and lifelong learners across Nepal, covering School (up to Class 10 / SEE), Plus Two (Class 11 and 12 / NEB), Diploma (CTEVT), Bachelor\'s, Master\'s, and Entrance Preparation. Core features include the study resource library (notes, past papers, solved books, syllabi), an interactive PDF and book reader with offline and read-aloud support, discussion forums and polls, AI study tools (Ask Neby, summaries, quizzes, flashcards, mindmaps, 3D labs, Study Spaces, and Canvas boards), the NEB and SEE Result Checker, the Nepal Institutions Directory, and academic portfolios.',
         ],
     },
     {
@@ -150,9 +150,9 @@ TERMS_SECTIONS = [
     {
         'number': '5',
         'id': 'marketplace-paid-resources-courses',
-        'title': 'Marketplace, Paid Resources, Courses & Payouts',
+        'title': 'Paid Resources & Payouts',
         'paragraphs': [
-            'Members, verified teachers, and institutions in good standing may list paid study resources or courses (recorded, live, hybrid, or in-person) through the Creator Marketplace, either via on-platform QR checkout or direct contact inquiry. Sellers warrant that they hold all necessary rights to sell listed materials and will deliver advertised course sessions honestly. Once a buyer has paid for a resource, that resource cannot be deleted from buyer access.',
+            'Members, verified teachers, and institutions in good standing may list paid study resources via on-platform QR checkout. Sellers warrant that they hold all necessary rights to sell listed materials. Once a buyer has paid for a resource, that resource cannot be deleted from buyer access.',
             'For on-platform purchases, buyers must submit genuine payment proof (a valid eSewa, Khalti, Mobile Banking, or ConnectIPS transaction reference ID and payment screenshot). Administrators verify payment proofs before unlocking buyer access and crediting seller earnings (net of applicable platform commission) to the seller\'s balance. Submitting fabricated, altered, or duplicate payment receipts is strictly prohibited and grounds for immediate account suspension. Sellers may request a payout withdrawal once their available balance reaches the minimum threshold of **NPR 1,000**.',
         ],
     },

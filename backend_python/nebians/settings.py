@@ -139,7 +139,6 @@ TEMPLATES = [
                 'nebians.middleware.csp_nonce_context',
                 'web.views_og.og_image_context',
                 'web.site_themes.context',
-                'nebians.features.context',
             ],
         },
     },

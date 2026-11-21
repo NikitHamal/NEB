@@ -232,67 +232,7 @@ def _syllabus_chapter_card(key):
     raise Http404('No such chapter')
 
 
-def _course_card(course_id):
-    from api.models import CreatorCourse
-    try:
-        course = CreatorCourse.objects.select_related('page').only(
-            'id', 'title', 'status', 'is_free', 'price', 'level',
-            'duration_label', 'lesson_count', 'page__display_name',
-            'page__accent_hex',
-        ).get(id=course_id)
-    except CreatorCourse.DoesNotExist:
-        raise Http404('Course not found')
-    if course.status != 'published':
-        raise Http404('Course not found')
 
-    meta = []
-    if course.page and course.page.display_name:
-        meta.append(course.page.display_name)
-    if course.level:
-        meta.append(course.level)
-    if course.lesson_count:
-        meta.append('%d lessons' % course.lesson_count)
-    elif course.duration_label:
-        meta.append(course.duration_label)
-    meta.append('Free' if course.is_free else 'Rs %s' % _money(course.price))
-    return {
-        'kicker': 'Course', 'title': course.title, 'meta': tuple(meta[:3]),
-        'hero': 'cards', 'seed': str(course.pk),
-        'accent': (course.page.accent_hex if course.page else '') or '',
-    }
-
-
-def _money(value):
-    try:
-        value = float(value or 0)
-    except (TypeError, ValueError):
-        return '0'
-    return ('%d' % value) if value == int(value) else ('%.2f' % value)
-
-
-def _creator_card(slug):
-    from api.models import CREATOR_KINDS, CreatorPage
-    try:
-        page = CreatorPage.objects.only(
-            'id', 'slug', 'display_name', 'tagline', 'kind', 'verified',
-            'accent_hex', 'published',
-        ).get(slug=slug)
-    except CreatorPage.DoesNotExist:
-        raise Http404('Creator not found')
-    if not page.published:
-        raise Http404('Creator not found')
-
-    # The tagline is the description here, not the meta line: a storefront is
-    # a person, and a person's one sentence belongs under their name.
-    return {
-        'kicker': 'Creator', 'title': page.display_name or 'NEBians creator',
-        'meta': tuple(m for m in (
-            dict(CREATOR_KINDS).get(page.kind, 'Creator'),
-            'Verified' if page.verified else '',
-        ) if m),
-        'hero': 'cards', 'seed': page.slug,
-        'accent': page.accent_hex or '',
-    }
 
 
 def _interactive_card(key):
@@ -496,8 +436,6 @@ KINDS = {
     'syllabus': _syllabus_subject_card,
     'grade': _syllabus_grade_card,
     'chapter': _syllabus_chapter_card,
-    'course': _course_card,
-    'creator': _creator_card,
     'interactive': _interactive_card,
     'space': _study_space_card,
 }
@@ -617,7 +555,6 @@ _ROUTE_PAGES = {
     'copyright_takedown': 'copyright',
     'search': 'library',
     'syllabus_hub': 'syllabus',
-    'marketplace': 'marketplace',
     'interactive_hub': 'interactive',
     'bookmarks': 'bookmarks',
     'profile_achievements': 'achievements',
@@ -650,8 +587,6 @@ _ROUTE_OBJECTS = {
                                                         kw.get('subject', ''))),
     'syllabus_guide': ('syllabus', lambda kw: '%s/%s' % (kw.get('grade', ''),
                                                          kw.get('subject', ''))),
-    'marketplace_course': ('course', lambda kw: kw.get('course_id')),
-    'marketplace_creator': ('creator', lambda kw: kw.get('slug')),
     'interactive_course': ('interactive', lambda kw: kw.get('course_slug')),
     'interactive_lesson': ('interactive', lambda kw: '%s/%s' % (kw.get('course_slug', ''),
                                                                 kw.get('lesson_slug', ''))),

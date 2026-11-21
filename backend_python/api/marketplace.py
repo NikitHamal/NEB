@@ -175,17 +175,11 @@ def convert_points_to_credits(user, points, cfg=None):
 
 
 @transaction.atomic
-def record_purchase(buyer, seller, *, course=None, resource=None, transaction_id='',
+def record_purchase(buyer, seller, *, resource=None, transaction_id='',
                     proof_file=None, proof_url=''):
-    """Create or refresh the buyer's pending payment for one target.
-
-    One pending row per (buyer, target): re-submitting better proof updates the
-    row an admin is already looking at instead of queueing a duplicate. The
-    seller earns nothing yet — only admin approval calls
-    :func:`grant_purchase_rewards`.
-    """
+    """Create or refresh the buyer's pending payment for one resource."""
     cfg = get_payment_config()
-    price = Decimal((course.price if course is not None else resource.price) or 0)
+    price = Decimal((resource.price if resource is not None else 0) or 0)
     commission = compute_commission(price, cfg)
     earnings = seller_earnings_for(price, cfg)
 
@@ -203,7 +197,7 @@ def record_purchase(buyer, seller, *, course=None, resource=None, transaction_id
 
     def _open_row():
         return PaymentVerification.objects.filter(
-            buyer=buyer, status='pending', course=course, resource=resource,
+            buyer=buyer, status='pending', resource=resource,
         ).first()
 
     pv = _open_row()
@@ -213,7 +207,6 @@ def record_purchase(buyer, seller, *, course=None, resource=None, transaction_id
     fresh = PaymentVerification(
         id=str(uuid.uuid4()),
         buyer=buyer,
-        course=course,
         resource=resource,
         seller=seller,
         payment_method='qr_code',
@@ -221,9 +214,6 @@ def record_purchase(buyer, seller, *, course=None, resource=None, transaction_id
         created_at=now_ms(),
     )
     try:
-        # Racing submissions both reach here having seen no open row; the
-        # uniq_pending_payment_per_* constraints let exactly one insert land, and
-        # the loser refreshes the winner's row rather than queueing a duplicate.
         with transaction.atomic():
             return _apply(fresh)
     except IntegrityError:
@@ -231,32 +221,3 @@ def record_purchase(buyer, seller, *, course=None, resource=None, transaction_id
         if existing is None:
             raise
         return _apply(existing)
-
-
-def seller_sales(user, limit=50):
-    """The seller's sales, newest first, as plain dicts.
-
-    Shared by the REST dashboard and the web studio so a creator sees the same
-    sale described the same way in both places.
-    """
-    if user is None:
-        return []
-    rows = (PaymentVerification.objects
-            .filter(seller=user)
-            .select_related('buyer', 'resource', 'course')
-            .order_by('-created_at')[:limit])
-    return [{
-        'id': pv.id,
-        'target_type': pv.target_kind,
-        'target_id': pv.course_id or pv.resource_id,
-        'target_title': pv.target_title,
-        'buyer_name': (pv.buyer.display_name or pv.buyer.username) if pv.buyer else 'Nebian',
-        'buyer_username': pv.buyer.username if pv.buyer else '',
-        'amount': _money_str(pv.amount),
-        'seller_earnings': _money_str(pv.seller_earnings),
-        'commission': _money_str(pv.platform_commission),
-        'transaction_id': pv.transaction_id or '',
-        'status': pv.status,
-        'created_at': pv.created_at,
-        'verified_at': pv.verified_at,
-    } for pv in rows]

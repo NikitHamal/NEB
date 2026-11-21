@@ -531,31 +531,10 @@ def library(request, seo_title=None, seo_description=None, page_h1=None, canonic
     exam_types = [e.strip() for e in request.GET.getlist('exam_type') if e.strip()]
     sort_by = request.GET.get('sort', 'relevant')
     current_tab = request.GET.get('tab', 'digital')
-    from nebians.features import MARKETPLACE_ENABLED
-    if current_tab not in ['digital', 'community', 'categories', 'interactive', 'marketplace'] or (current_tab == 'marketplace' and not MARKETPLACE_ENABLED):
+    if current_tab not in ['digital', 'community', 'categories', 'interactive']:
         current_tab = 'digital'
 
     pricing = request.GET.get('pricing', '').strip().lower()
-
-    marketplace_creators = []
-    marketplace_courses = []
-    marketplace_kind = ''
-    marketplace_query = ''
-    marketplace_total = 0
-    marketplace_my_page = None
-    marketplace_can_create = False
-    if current_tab == 'marketplace':
-        from .views_marketplace import marketplace_shelf_context
-        shelf = marketplace_shelf_context(request, query=request.GET.get('q', ''),
-                                          kind=request.GET.get('kind', ''))
-        marketplace_creators = shelf['creators']
-        marketplace_courses = shelf['featured_courses']
-        marketplace_kind = shelf['current_kind']
-        marketplace_query = shelf['query']
-        marketplace_total = shelf['total_creators']
-        marketplace_my_page = shelf['my_page']
-        marketplace_can_create = shelf['can_create']
-        current_sort = 'relevant'
 
     interactive_categories = []
     interactive_stats = None
@@ -715,13 +694,6 @@ def library(request, seo_title=None, seo_description=None, page_h1=None, canonic
         **syllabus_ctx,
         interactive_categories=interactive_categories,
         interactive_stats=interactive_stats,
-        marketplace_creators=marketplace_creators,
-        marketplace_featured_courses=marketplace_courses,
-        marketplace_kind=marketplace_kind,
-        marketplace_query=marketplace_query,
-        marketplace_total=marketplace_total,
-        marketplace_my_page=marketplace_my_page,
-        marketplace_can_create=marketplace_can_create,
         seo_title=seo_title,
         seo_description=seo_description,
         page_h1=page_h1,
@@ -1369,6 +1341,11 @@ def resource_requests_page(request):
         current_grade=grade,
     ))
 
+def _commission_percent():
+    from api.marketplace import get_payment_config
+    from api.utils import money_str
+    return money_str(get_payment_config().commission_percent)
+
 def upload_resource(request):
     """Standalone upload page — authenticated users upload with approval_status='pending'.
     Supports both file upload (primary) and URL (secondary)."""
@@ -1377,7 +1354,7 @@ def upload_resource(request):
     if user and not getattr(user, 'email_verified', False):
         user = None
 
-    from .views_marketplace import commission_percent
+    commission_percent = _commission_percent
 
     form_options = upload_form_options()
 
@@ -1468,7 +1445,7 @@ def upload_success(request):
     return render(request, 'web/upload_success.html', _ctx(request))
 
 def _edit_page(request, resource_obj, form_data, errors=(), status=200):
-    from .views_marketplace import commission_percent
+    commission_percent = _commission_percent
 
     resource = _serialize_resource(resource_obj)
     return render(request, 'web/edit_resource.html', _ctx(request,

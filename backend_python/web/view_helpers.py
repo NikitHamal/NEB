@@ -11,7 +11,6 @@ from django.views.decorators.http import require_GET
 
 from api.models import User, Resource, Post, PostLike, PostImage, PostMedia, Reply, ReplyLike, Follow, Bookmark
 from api.models import ResourceLike, PaymentVerification, SellerBalance
-from api.models import CreatorCourseResource
 from api.serializers import UserSerializer
 from api.security import (
     get_user_by_auth_token, hash_auth_token, issue_auth_token,
@@ -301,17 +300,8 @@ def prefetch_resource_purchases(user, resources):
     latest = {}
     for pv in PaymentVerification.objects.filter(buyer_id=user_id, resource_id__in=ids).order_by('-created_at'):
         latest.setdefault(pv.resource_id, pv)
-    courses_of = {}
-    for resource_id, course_id in CreatorCourseResource.objects.filter(resource_id__in=ids).values_list('resource_id', 'course_id'):
-        courses_of.setdefault(resource_id, set()).add(course_id)
-    approved = []
-    course_ids = set().union(*courses_of.values())
-    if course_ids:
-        approved = list(PaymentVerification.objects.filter(buyer_id=user_id, status='approved', course_id__in=course_ids)
-                        .order_by('-created_at'))
     for r in todo:
-        mine = courses_of.get(r.id, ())
-        r._viewer_purchases = (user_id, latest.get(r.id), next((pv for pv in approved if pv.course_id in mine), None))
+        r._viewer_purchases = (user_id, latest.get(r.id))
 
 
 def check_user_resource_access(user, resource_obj):
@@ -336,7 +326,7 @@ def check_user_resource_access(user, resource_obj):
     if _has_admin_resource_access(user):
         return True, 'admin', None
 
-    # prefetch_resource_purchases() may have run both lookups below for a whole page.
+    # prefetch_resource_purchases() may have run the lookup below for a whole page.
     pre = getattr(resource_obj, '_viewer_purchases', None)
     if pre is not None and pre[0] != user_id:
         pre = None
@@ -348,23 +338,6 @@ def check_user_resource_access(user, resource_obj):
         purchase = PaymentVerification.objects.filter(buyer_id=user_id, resource_id=resource_obj.id).order_by('-created_at').first()
     if purchase and purchase.status == 'approved':
         return True, 'purchased', purchase
-
-    # A course sale includes the material its seller attached to it. Both
-    # surfaces list those notes under "Course material", so charging for them
-    # again is not what the buyer was shown -- and only the page owner's own
-    # resources can be attached, so this never unlocks anyone else's note.
-    if pre is not None:
-        course_purchase = pre[2]
-    else:
-        course_purchase = (PaymentVerification.objects
-                           .filter(buyer_id=user_id, status='approved',
-                                   course_id__in=CreatorCourseResource.objects
-                                   .filter(resource_id=resource_obj.id)
-                                   .values_list('course_id', flat=True))
-                           .order_by('-created_at')
-                           .first())
-    if course_purchase:
-        return True, 'purchased', course_purchase
 
     if purchase:
         if purchase.status == 'pending':

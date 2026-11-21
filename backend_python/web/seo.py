@@ -247,40 +247,6 @@ def _subject_entries() -> Iterator[Dict[str, str]]:
         pass
 
 
-def _storefront_entries() -> Iterator[Dict[str, str]]:
-    """Published creator pages and their courses."""
-    try:
-        from api.models import CreatorCourse, CreatorPage
-    except Exception:
-        return
-    try:
-        pages = (CreatorPage.objects.filter(published=True)
-                 .only('slug', 'updated_at')
-                 .order_by('-updated_at')[:5000])
-        for page in pages:
-            if not page.slug:
-                continue
-            yield {
-                'loc': f'{SITE_BASE_URL}/app/marketplace/{quote(page.slug, safe="")}/',
-                'changefreq': 'weekly', 'priority': '0.6',
-                'lastmod': _to_lastmod(page.updated_at),
-            }
-    except Exception:
-        pass
-    try:
-        courses = (CreatorCourse.objects.filter(status='published')
-                   .only('id', 'updated_at')
-                   .order_by('-updated_at')[:5000])
-        for course in courses:
-            yield {
-                'loc': f'{SITE_BASE_URL}/app/marketplace/course/{quote(str(course.id), safe="")}/',
-                'changefreq': 'weekly', 'priority': '0.6',
-                'lastmod': _to_lastmod(course.updated_at),
-            }
-    except Exception:
-        pass
-
-
 def sitemap_groups() -> Dict[str, Iterator[Dict[str, str]]]:
     """The sitemap, grouped into files that can each stay under the limit.
 
@@ -311,7 +277,6 @@ def _static_and_syllabus_entries() -> Iterator[Dict[str, str]]:
     yield from _syllabus_entries()
     yield from _interactive_entries()
     yield from _subject_entries()
-    yield from _storefront_entries()
     yield from _news_entries()
 
 

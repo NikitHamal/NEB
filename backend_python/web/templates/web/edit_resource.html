@@ -20,12 +20,10 @@
 {% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'web/css/pages/marketplace.css' %}">
 <link rel="stylesheet" href="{% static 'web/css/pages/resource-composer.css' %}">
 <link rel="stylesheet" href="{% static 'web/css/pages/resource-attribution.css' %}">
 {% endblock %}
 {% block extra_js %}
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/marketplace_price.js' %}"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/author-mention-picker.js' %}"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/resource-composer.js' %}"></script>
 {% endblock %}

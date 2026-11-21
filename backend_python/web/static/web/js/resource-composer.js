@@ -396,4 +396,48 @@
   paintTray();
   dirty = false;
   if (errorList.children.length) errorsEl.hidden = false;
+
+  document.querySelectorAll('[data-neb-price]').forEach(function (root) {
+    if (root.dataset.nebPriceReady) return;
+    root.dataset.nebPriceReady = '1';
+    var modes = root.querySelectorAll('[data-neb-price-mode]');
+    var flag = root.querySelector('[data-neb-price-flag]');
+    var amountWrap = root.querySelector('[data-neb-price-amount]');
+    var field = root.querySelector('[data-neb-price-field]');
+    var earnings = root.querySelector('[data-neb-price-earnings]');
+    var presets = root.querySelectorAll('[data-neb-price-preset]');
+    var commission = parseFloat(root.dataset.commission || '0') || 0;
+    function isPaid() {
+      var checked = root.querySelector('[data-neb-price-mode]:checked');
+      return !!checked && checked.value === 'paid';
+    }
+    function refresh() {
+      var paid = isPaid();
+      if (flag) flag.value = paid ? '1' : '0';
+      if (amountWrap) amountWrap.hidden = !paid;
+      root.classList.toggle('is-unset', paid && !(parseFloat(field && field.value) > 0));
+      if (field) field.required = paid;
+      var price = parseFloat(field && field.value) || 0;
+      if (earnings) {
+        if (!paid) earnings.textContent = 'Free for every Nebian.';
+        else if (price > 0) {
+          var keeps = Math.round((price - (price * commission) / 100) * 100) / 100;
+          earnings.textContent = 'You receive Rs. ' + String(keeps).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' per sale after the ' + commission + '% platform fee.';
+        } else earnings.textContent = '';
+      }
+      presets.forEach(function (chip) {
+        chip.classList.toggle('is-chosen', paid && parseFloat(chip.dataset.nebPricePreset) === price);
+      });
+    }
+    modes.forEach(function (inp) { inp.addEventListener('change', refresh); });
+    if (field) field.addEventListener('input', refresh);
+    presets.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        if (!field) return;
+        field.value = chip.dataset.nebPricePreset;
+        refresh();
+      });
+    });
+    refresh();
+  });
 })();

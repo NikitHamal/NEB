@@ -20,7 +20,7 @@
     {% for p in pending_payments %}
     <div class="admin-card">
       <div class="admin-card-head">
-        <span class="admin-status info">{% if p.course_id %}Paid course{% else %}Paid resource{% endif %}</span>
+        <span class="admin-status info">Paid resource</span>
         <div style="text-align:right;">
           <div style="font-size:1.25rem;font-weight:700;">Rs. {{ p.amount|floatformat:"0" }}</div>
           <div class="admin-row-sub">Seller gets: Rs. {{ p.seller_earnings|floatformat:"0" }}</div>
@@ -28,10 +28,10 @@
       </div>
       <div class="admin-row-main" style="margin-bottom:12px;">
         <div class="admin-row-title">
-          {% if p.course_id %}
-            <a href="{% url 'web:marketplace_course' course_id=p.course.id %}" target="_blank">{{ p.course.title }}</a>
-          {% else %}
+          {% if p.resource %}
             <a href="{% url 'web:reader' resource_id=p.resource.id %}" target="_blank">{{ p.resource.title }}</a>
+          {% else %}
+            <span>Removed item</span>
           {% endif %}
         </div>
         <div class="admin-row-sub">
@@ -110,10 +110,10 @@
         {% for p in processed_payments %}
         <tr>
           <td>
-            {% if p.course_id %}
-              <a href="{% url 'web:marketplace_course' course_id=p.course.id %}">{{ p.course.title }}</a>
-            {% else %}
+            {% if p.resource %}
               <a href="{% url 'web:reader' resource_id=p.resource.id %}">{{ p.resource.title }}</a>
+            {% else %}
+              <span>Removed item</span>
             {% endif %}
           </td>
           <td>@{{ p.buyer.username }}</td>
