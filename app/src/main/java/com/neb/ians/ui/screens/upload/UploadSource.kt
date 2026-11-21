@@ -333,7 +333,7 @@ private fun PageStrip(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(end = 4.dp)
     ) {
-        itemsIndexed(files, key = { _, file -> file.uri.toString() }) { index, file ->
+        itemsIndexed(files, key = { _, file -> file.uri.toString() }, contentType = { _, _ -> "page_tile" }) { index, file ->
             PageTile(
                 file = file,
                 index = index,
@@ -341,7 +341,7 @@ private fun PageStrip(
                 modifier = Modifier.animateItem()
             )
         }
-        item(key = "add") {
+        item(key = "add", contentType = "add_tile") {
             Column(
                 modifier = Modifier
                     .animateItem()

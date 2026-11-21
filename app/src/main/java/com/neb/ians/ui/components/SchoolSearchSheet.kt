@@ -115,7 +115,7 @@ fun SchoolSearchSheet(
             contentPadding = PaddingValues(bottom = 16.dp),
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            items(state.rows, key = { it.slug }) { row -> SchoolRow(row) { onPick(row) } }
+            items(state.rows, key = { it.slug }, contentType = { "school_row" }) { row -> SchoolRow(row) { onPick(row) } }
         }
     }
 }

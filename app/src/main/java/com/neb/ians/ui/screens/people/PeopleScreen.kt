@@ -117,7 +117,7 @@ fun PeopleScreen(
                         contentPadding = PaddingValues(bottom = 24.dp),
                         verticalArrangement = Arrangement.spacedBy(2.dp)
                     ) {
-                        items(people, key = { it.id }) { person ->
+                        items(people, key = { it.id }, contentType = { "person_row" }) { person ->
                             PersonRow(
                                 person = person,
                                 onClick = { onPersonClick(person.username) },

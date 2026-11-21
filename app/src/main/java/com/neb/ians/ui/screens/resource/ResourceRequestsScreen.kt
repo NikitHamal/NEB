@@ -208,7 +208,7 @@ fun ResourceRequestsScreen(
                         }
                     }
                 } else {
-                    items(uiState.requests, key = { it.id }) { request ->
+                    items(uiState.requests, key = { it.id }, contentType = { "request_card" }) { request ->
                         ResourceRequestCard(
                             request = request,
                             onUpvoteClick = { viewModel.toggleUpvote(request.id) }

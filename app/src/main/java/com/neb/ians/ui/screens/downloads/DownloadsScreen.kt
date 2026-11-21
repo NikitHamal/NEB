@@ -112,7 +112,7 @@ fun DownloadsScreen(
                     .padding(padding),
                 contentPadding = PaddingValues(bottom = 16.dp)
             ) {
-                itemsIndexed(downloads, key = { _, item -> item.resourceId }) { index, item ->
+                itemsIndexed(downloads, key = { _, item -> item.resourceId }, contentType = { _, _ -> "download_row" }) { index, item ->
                     DownloadRow(
                         item = item,
                         onOpen = {
@@ -135,6 +135,10 @@ private fun DownloadRow(
     showDivider: Boolean
 ) {
     val scheme = MaterialTheme.colorScheme
+    val metaText = androidx.compose.runtime.remember(item.sizeBytes, item.downloadedAt) {
+        "${formatBytes(item.sizeBytes)} · " +
+            DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(item.downloadedAt))
+    }
 
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(
@@ -164,8 +168,7 @@ private fun DownloadRow(
                 )
                 Spacer(modifier = Modifier.height(3.dp))
                 Text(
-                    text = "${formatBytes(item.sizeBytes)} · " +
-                        DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(item.downloadedAt)),
+                    text = metaText,
                     style = MaterialTheme.typography.labelMedium,
                     color = scheme.onSurfaceVariant,
                     maxLines = 1

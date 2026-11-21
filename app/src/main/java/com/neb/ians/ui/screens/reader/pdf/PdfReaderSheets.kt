@@ -172,7 +172,7 @@ fun ThumbnailsSheet(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
-            items(count = aspects.size, key = { it }) { index ->
+            items(count = aspects.size, key = { it }, contentType = { "page_thumb" }) { index ->
                 val selected = index == current
                 Column(
                     Modifier.nebPressable(onClick = { onPick(index) }),
@@ -237,7 +237,7 @@ fun BookmarksSheet(
             )
         } else {
             LazyColumn(Modifier.fillMaxWidth().heightIn(max = 520.dp)) {
-                items(pages, key = { it }) { page ->
+                items(pages, key = { it }, contentType = { "bookmark_page" }) { page ->
                     Row(
                         Modifier
                             .fillMaxWidth()
@@ -308,7 +308,7 @@ fun ContentsSheet(
             val active = remember(items, currentPage) { items.indexOfLast { it.page <= currentPage }.coerceAtLeast(0) }
             val state = androidx.compose.foundation.lazy.rememberLazyListState(initialFirstVisibleItemIndex = (active - 2).coerceAtLeast(0))
             LazyColumn(Modifier.fillMaxWidth().heightIn(max = 560.dp), state = state) {
-                items(items.size, key = { it }) { i ->
+                items(items.size, key = { it }, contentType = { "outline_row" }) { i ->
                     val item = items[i]
                     val selected = i == active
                     Row(

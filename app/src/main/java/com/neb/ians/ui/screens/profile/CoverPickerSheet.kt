@@ -61,7 +61,7 @@ fun CoverPickerSheet(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(2) }, key = "default") {
+            item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(2) }, key = "default", contentType = "default_cover") {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -74,7 +74,7 @@ fun CoverPickerSheet(
                     Text("Default cover", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = scheme.primary)
                 }
             }
-            items(covers, key = { it.id }) { cover ->
+            items(covers, key = { it.id }, contentType = { "cover_tile" }) { cover ->
                 val selected = cover.id == currentId
                 val shape = RoundedCornerShape(18.dp)
                 Box(

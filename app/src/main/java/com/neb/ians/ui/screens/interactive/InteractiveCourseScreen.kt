@@ -245,7 +245,7 @@ private fun CourseDetailContent(
             Spacer(modifier = Modifier.height(4.dp))
         }
 
-        items(count = course.lessons.size, key = { course.lessons[it].slug }) { index ->
+        items(count = course.lessons.size, key = { course.lessons[it].slug }, contentType = { "lesson_row" }) { index ->
             val lesson = course.lessons[index]
             LessonRow(
                 lesson = lesson,

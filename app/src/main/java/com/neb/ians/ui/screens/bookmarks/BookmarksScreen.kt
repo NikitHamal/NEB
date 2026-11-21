@@ -222,8 +222,8 @@ private fun BookmarksBody(
                 contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 2.dp, bottom = 28.dp)
             ) {
                 sections.forEach { (label, items) ->
-                    item(key = "header_$label") { BookmarkSectionHeader(label) }
-                    itemsIndexed(items, key = { _, item -> item.bookmark.id }) { index, item ->
+                    item(key = "header_$label", contentType = "bookmark_header") { BookmarkSectionHeader(label) }
+                    itemsIndexed(items, key = { _, item -> item.bookmark.id }, contentType = { _, _ -> "bookmark_row" }) { index, item ->
                         BookmarkRow(
                             item = item,
                             onClick = { onOpen(item) },
@@ -232,7 +232,7 @@ private fun BookmarksBody(
                         )
                     }
                 }
-                item { Spacer(modifier = Modifier.height(8.dp)) }
+                item(key = "bottom_spacer", contentType = "spacer") { Spacer(modifier = Modifier.height(8.dp)) }
             }
         }
     }
@@ -261,15 +261,16 @@ private fun emptySubtitle(type: String): String = when (type) {
 private fun groupByDay(items: List<BookmarkListItem>): List<Pair<String, List<BookmarkListItem>>> {
     val ordered = items.sortedByDescending { it.bookmark.createdAt }
     val buckets = LinkedHashMap<String, MutableList<BookmarkListItem>>()
+    val now = Calendar.getInstance()
+    val then = Calendar.getInstance()
     ordered.forEach { item ->
-        buckets.getOrPut(dayBucket(item.bookmark.createdAt)) { mutableListOf() }.add(item)
+        buckets.getOrPut(dayBucket(item.bookmark.createdAt, now, then)) { mutableListOf() }.add(item)
     }
     return buckets.map { it.key to it.value }
 }
 
-private fun dayBucket(timestamp: Long): String {
-    val now = Calendar.getInstance()
-    val then = Calendar.getInstance().apply { timeInMillis = timestamp }
+private fun dayBucket(timestamp: Long, now: Calendar, then: Calendar): String {
+    then.timeInMillis = timestamp
     val sameYear = now.get(Calendar.YEAR) == then.get(Calendar.YEAR)
     val dayDiff = if (sameYear) {
         now.get(Calendar.DAY_OF_YEAR) - then.get(Calendar.DAY_OF_YEAR)

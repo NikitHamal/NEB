@@ -525,7 +525,7 @@ internal fun HomeSuggestedPeersRail(
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(peers, key = { it.id }) { person ->
+            items(peers, key = { it.id }, contentType = { "peer_card" }) { person ->
                 CompactPeerCard(
                     name = person.name,
                     authorId = person.id,

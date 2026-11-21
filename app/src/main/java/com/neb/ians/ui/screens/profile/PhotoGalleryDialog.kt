@@ -142,7 +142,7 @@ fun PhotoGalleryDialog(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        items(photos, key = { it.id }) { photo ->
+                        items(photos, key = { it.id }, contentType = { "photo_tile" }) { photo ->
                             PhotoGridItem(
                                 photo = photo,
                                 enabled = !isBusy,

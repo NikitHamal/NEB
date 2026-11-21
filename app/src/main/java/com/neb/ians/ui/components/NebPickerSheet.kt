@@ -171,7 +171,7 @@ fun NebPickerSheet(
         }
 
         LazyColumn(modifier = Modifier.fillMaxWidth().heightIn(max = 392.dp)) {
-            items(shown, key = { it }) { option ->
+            items(shown, key = { it }, contentType = { "picker_option" }) { option ->
                 NebPickerRow(
                     label = option,
                     selected = option == selected,

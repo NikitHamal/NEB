@@ -768,7 +768,7 @@ private fun VideoYouTubeLayout(
         }
 
         if (uiState.suggestedVideos.isNotEmpty()) {
-            item(key = "up_next_title") {
+            item(key = "up_next_title", contentType = "up_next_header") {
                 Text(
                     "Up next",
                     style = MaterialTheme.typography.titleMedium,
@@ -776,7 +776,7 @@ private fun VideoYouTubeLayout(
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
                 )
             }
-            items(uiState.suggestedVideos, key = { "up_${it.id}" }) { suggested ->
+            items(uiState.suggestedVideos, key = { "up_${it.id}" }, contentType = { "up_next_video" }) { suggested ->
                 UpNextVideoCard(
                     resource = suggested,
                     onClick = { onRelatedResourceClick(suggested.id) },

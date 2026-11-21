@@ -289,16 +289,16 @@ private fun PdfAiPanel(
                             }
                         }
                     }
-                    items(state.messages, key = { it.id }) { message ->
+                    items(state.messages, key = { it.id }, contentType = { it.role }) { message ->
                         PdfAiMessageRow(message, fresh = message.id !in seenAtOpen, actions = actions)
                     }
                     if (state.isThinking) {
-                        item(key = "thinking") {
+                        item(key = "thinking", contentType = "thinking") {
                             NebyStatus(ChatPhase.Reading, Modifier.padding(start = 4.dp, top = 4.dp), label = "Reading the document")
                         }
                     }
                     if (!state.error.isNullOrBlank()) {
-                        item {
+                        item(key = "error", contentType = "error") {
                             Surface(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -354,11 +354,11 @@ private fun PdfAiHistoryList(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         if (sessions.isEmpty()) {
-            item {
+            item(key = "empty_history", contentType = "empty") {
                 Text("No chat history yet", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(12.dp))
             }
         }
-        items(sessions, key = { it.id }) { session ->
+        items(sessions, key = { it.id }, contentType = { "session_row" }) { session ->
             Surface(
                 modifier = Modifier
                     .fillMaxWidth()

@@ -89,7 +89,7 @@ fun InteractiveContent(
                     contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 108.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    items(visible, key = { it.third.slug }) { (_, color, course) ->
+                    items(visible, key = { it.third.slug }, contentType = { "course_row" }) { (_, color, course) ->
                         CourseRow(course, color) { onCourseClick(course.slug) }
                     }
                 }
