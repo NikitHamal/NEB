@@ -2,9 +2,16 @@ package com.neb.ians.data.repository
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Base64
 import android.util.Log
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.neb.ians.util.AppIntegrity
+import java.security.MessageDigest
+import java.security.SecureRandom
+import javax.crypto.Cipher
+import javax.crypto.spec.GCMParameterSpec
+import javax.crypto.spec.SecretKeySpec
 
 object SecurePrefs {
 
@@ -12,6 +19,7 @@ object SecurePrefs {
     private const val KEY_AUTH_TOKEN = "auth_token"
     private const val FALLBACK_FILE = "nebians_secure_prefs_fallback"
     private const val FALLBACK_AUTH_TOKEN = "auth_token"
+    private const val SEAL_PREFIX = "v2:"
 
     @Volatile
     private var prefs: SharedPreferences? = null
@@ -22,9 +30,6 @@ object SecurePrefs {
     @Volatile
     private var fallbackPrefs: SharedPreferences? = null
 
-    // The token, decrypted once. Every API call asks for it, often from the main thread, and an
-    // encrypted read is a decrypt (the first one also sets up the Keystore key and Tink, the
-    // slowest part of a cold start). Only setAuthToken and clearAuthToken change it.
     @Volatile
     private var token: String? = null
 
@@ -41,7 +46,6 @@ object SecurePrefs {
         return sp
     }
 
-    // synchronized: two first-ever inits at once could each create the Tink keyset
     @Synchronized
     fun init(context: Context): SharedPreferences? {
         prefs?.let { return it }
@@ -53,8 +57,6 @@ object SecurePrefs {
             prefs = sp
             return sp
         } catch (firstErr: Exception) {
-            // If Android Auto Backup restored an encrypted prefs file from a prior install,
-            // its Tink keyset cannot be decrypted by the new Keystore MasterKey. Delete and retry once.
             try {
                 appCtx.deleteSharedPreferences(FILE_NAME)
                 val sp = createEncryptedPrefs(appCtx)
@@ -80,7 +82,40 @@ object SecurePrefs {
         )
     }
 
+    private fun deriveFallbackKey(context: Context): SecretKeySpec {
+        val appCtx = context.applicationContext ?: context
+        val cert = AppIntegrity.signingCertSha256(appCtx)
+        val seed = "${appCtx.packageName}|$cert|neb-fallback-aes-v2"
+        val keyBytes = MessageDigest.getInstance("SHA-256").digest(seed.toByteArray(Charsets.UTF_8))
+        return SecretKeySpec(keyBytes, "AES")
+    }
+
+    private fun sealFallbackToken(context: Context, plain: String): String = runCatching {
+        val iv = ByteArray(12).also { SecureRandom().nextBytes(it) }
+        val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+        cipher.init(Cipher.ENCRYPT_MODE, deriveFallbackKey(context), GCMParameterSpec(128, iv))
+        val ct = cipher.doFinal(plain.toByteArray(Charsets.UTF_8))
+        val combined = ByteArray(iv.size + ct.size)
+        System.arraycopy(iv, 0, combined, 0, iv.size)
+        System.arraycopy(ct, 0, combined, iv.size, ct.size)
+        SEAL_PREFIX + Base64.encodeToString(combined, Base64.NO_WRAP)
+    }.getOrDefault("")
+
+    private fun unsealFallbackToken(context: Context, raw: String): String? {
+        if (!raw.startsWith(SEAL_PREFIX)) return raw
+        return runCatching {
+            val combined = Base64.decode(raw.removePrefix(SEAL_PREFIX), Base64.NO_WRAP)
+            if (combined.size <= 12) return null
+            val iv = combined.copyOfRange(0, 12)
+            val ct = combined.copyOfRange(12, combined.size)
+            val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+            cipher.init(Cipher.DECRYPT_MODE, deriveFallbackKey(context), GCMParameterSpec(128, iv))
+            String(cipher.doFinal(ct), Charsets.UTF_8)
+        }.getOrNull()
+    }
+
     fun getAuthToken(context: Context): String? {
+        if (AppIntegrity.isRepackagedOrDebugPatched(context)) return null
         if (tokenRead) return token
         synchronized(this) {
             if (!tokenRead) {
@@ -93,14 +128,32 @@ object SecurePrefs {
 
     private fun readAuthToken(context: Context): String? {
         val sp = init(context)
+        val fb = getFallback(context)
         if (sp != null) {
             try {
-                sp.getString(KEY_AUTH_TOKEN, null)?.let { return it }
+                val encVal = sp.getString(KEY_AUTH_TOKEN, null)
+                if (!encVal.isNullOrBlank()) {
+                    if (fb.contains(FALLBACK_AUTH_TOKEN)) {
+                        fb.edit().remove(FALLBACK_AUTH_TOKEN).apply()
+                    }
+                    return encVal
+                }
             } catch (e: Exception) {
                 Log.w("SecurePrefs", "Failed to read from EncryptedSharedPreferences", e)
             }
         }
-        return getFallback(context).getString(FALLBACK_AUTH_TOKEN, null)
+        val fbRaw = fb.getString(FALLBACK_AUTH_TOKEN, null) ?: return null
+        val resolved = unsealFallbackToken(context, fbRaw) ?: return null
+        if (sp != null) {
+            runCatching {
+                sp.edit().putString(KEY_AUTH_TOKEN, resolved).apply()
+                fb.edit().remove(FALLBACK_AUTH_TOKEN).apply()
+            }
+        } else if (!fbRaw.startsWith(SEAL_PREFIX)) {
+            val sealed = sealFallbackToken(context, resolved)
+            if (sealed.isNotEmpty()) fb.edit().putString(FALLBACK_AUTH_TOKEN, sealed).apply()
+        }
+        return resolved
     }
 
     fun setAuthToken(context: Context, token: String?) {
@@ -108,18 +161,28 @@ object SecurePrefs {
         tokenRead = true
         synchronized(this) {
             val sp = init(context)
+            val fb = getFallback(context)
+            var wrotePrimary = false
             if (sp != null) {
                 try {
                     sp.edit().apply {
                         if (token != null) putString(KEY_AUTH_TOKEN, token) else remove(KEY_AUTH_TOKEN)
                     }.apply()
+                    wrotePrimary = true
                 } catch (e: Exception) {
                     Log.w("SecurePrefs", "Failed to write to EncryptedSharedPreferences", e)
                 }
             }
-            getFallback(context).edit().apply {
-                if (token != null) putString(FALLBACK_AUTH_TOKEN, token) else remove(FALLBACK_AUTH_TOKEN)
-            }.apply()
+            if (wrotePrimary || token == null) {
+                if (fb.contains(FALLBACK_AUTH_TOKEN)) {
+                    fb.edit().remove(FALLBACK_AUTH_TOKEN).apply()
+                }
+            } else {
+                val sealed = sealFallbackToken(context, token)
+                if (sealed.isNotEmpty()) {
+                    fb.edit().putString(FALLBACK_AUTH_TOKEN, sealed).apply()
+                }
+            }
         }
     }
 

@@ -75,7 +75,7 @@ fun WebPortalScreen(
                 WebView(ctx).apply {
                     webView = this
                     CookieManager.getInstance().setAcceptCookie(true)
-                    CookieManager.getInstance().setAcceptThirdPartyCookies(this, true)
+                    CookieManager.getInstance().setAcceptThirdPartyCookies(this, false)
                     settings.apply {
                         javaScriptEnabled = true
                         domStorageEnabled = true
@@ -83,13 +83,13 @@ fun WebPortalScreen(
                         loadsImagesAutomatically = true
                         blockNetworkImage = false
                         allowFileAccess = false
-                        allowContentAccess = true
+                        allowContentAccess = false
                         cacheMode = WebSettings.LOAD_DEFAULT
                         loadWithOverviewMode = true
                         useWideViewPort = true
                         builtInZoomControls = false
                         displayZoomControls = false
-                        mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
+                        mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
                         userAgentString = "$userAgentString NEBiansAndroid"
                     }
                     webViewClient = object : WebViewClient() {
@@ -118,11 +118,11 @@ fun WebPortalScreen(
                     setDownloadListener { downloadUrl, userAgent, contentDisposition, mimeType, _ ->
                         enqueueDownload(ctx, downloadUrl, userAgent, contentDisposition, mimeType)
                     }
-                    loadUrl(url)
+                    if (url.startsWith("https://nebians.consica.com.np/")) loadUrl(url)
                 }
             },
             update = { view ->
-                if (view.url != url) view.loadUrl(url)
+                if (url.startsWith("https://nebians.consica.com.np/") && view.url != url) view.loadUrl(url)
             }
         )
 

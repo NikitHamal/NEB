@@ -204,6 +204,7 @@ object ApiErrorMapper {
         try { e.response()?.errorBody()?.string() } catch (_: Exception) { null }
 
     private fun logRawWithBody(e: Throwable, op: String, errorBody: String?) {
+        if (!com.neb.ians.BuildConfig.DEBUG) return
         try {
             val body = if (e is HttpException && !errorBody.isNullOrBlank()) " HTTP ${e.code()} body=${errorBody.take(600)}" else ""
             android.util.Log.e("NebUpload", "$op failed: ${e::class.qualifiedName}: ${e.message}$body", e)

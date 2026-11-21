@@ -8,7 +8,7 @@ add_library(neb_speech SHARED speech_jni.cpp tiny_voca.cpp)
 
 # 16 KB page alignment (Google Play, Android 15+) + symbol stripping, ICF & dead-section GC.
 target_link_options(neb_speech PRIVATE -Wl,-z,max-page-size=16384 -Wl,--gc-sections -Wl,--exclude-libs,ALL -Wl,-s)
-target_compile_options(neb_speech PRIVATE -O3 -ffast-math -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden -ffunction-sections -fdata-sections)
+target_compile_options(neb_speech PRIVATE -O3 -DNDEBUG -ffast-math -fno-rtti -fmerge-all-constants -fvisibility=hidden -fvisibility-inlines-hidden -ffunction-sections -fdata-sections)
 
 find_library(log-lib log)
 find_library(z-lib z)

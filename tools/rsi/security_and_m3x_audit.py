@@ -131,8 +131,22 @@ def check_security_invariants() -> list[str]:
     proguard = ROOT / "app" / "proguard-rules.pro"
     if proguard.is_file():
         text = proguard.read_text(encoding="utf-8")
-        if "-renamesourcefileattribute" not in text or "-overloadaggressively" not in text:
-            errors.append("proguard-rules.pro missing irreversible R8 obfuscation directives")
+        if "-renamesourcefileattribute" not in text or "-overloadaggressively" not in text or "-repackageclasses" not in text:
+            errors.append("proguard-rules.pro missing irreversible R8 obfuscation / repackageclasses directives")
+        if "-keep class com.neb.ians.data.api.**" in text:
+            errors.append("proguard-rules.pro must not wildcard-keep com.neb.ians.data.api.** (de-obfuscates security interceptors)")
+
+    manifest = ROOT / "app" / "src" / "main" / "AndroidManifest.xml"
+    if manifest.is_file():
+        mtext = manifest.read_text(encoding="utf-8")
+        if 'android:fullBackupContent="@xml/backup_rules"' not in mtext or 'android:dataExtractionRules="@xml/data_extraction_rules"' not in mtext:
+            errors.append("AndroidManifest.xml missing backup_rules / data_extraction_rules exclusions")
+
+    jni_cpp = ROOT / "app" / "src" / "main" / "cpp" / "speech_jni.cpp"
+    if jni_cpp.is_file():
+        jtext = jni_cpp.read_text(encoding="utf-8")
+        if "Java_com_neb_ians_" in jtext or "RegisterNatives" not in jtext:
+            errors.append("speech_jni.cpp must use JNI_OnLoad RegisterNatives without exported Java_com_neb_ians_ symbols")
     dep = ROOT / ".github" / "scripts" / "deploy_backend.py"
     if dep.is_file() and "deploy_changed.txt" not in dep.read_text(encoding="utf-8"):
         errors.append("deploy_backend.py must touch extracted files (unzip TZ skew makes collectstatic skip fresh static)")

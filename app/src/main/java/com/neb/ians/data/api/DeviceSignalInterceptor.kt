@@ -18,7 +18,8 @@ import java.util.TimeZone
  */
 class DeviceSignalInterceptor(context: Context) : Interceptor {
 
-    private val value: String = build(context.applicationContext)
+    private val appCtx: Context = context.applicationContext
+    private val value: String = build(appCtx)
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val req = chain.request()
@@ -28,26 +29,25 @@ class DeviceSignalInterceptor(context: Context) : Interceptor {
         val ts = (System.currentTimeMillis() / 1000L).toString()
         val nonce = java.lang.Long.toHexString(java.util.concurrent.ThreadLocalRandom.current().nextLong())
         val sig = sign(req.method, req.url.encodedPath, ts, nonce)
+        val flags = com.neb.ians.util.AppIntegrity.flags(appCtx)
+        val proof = if (flags == 0) "t=$ts;n=$nonce;s=$sig" else "t=$ts;n=$nonce;f=${Integer.toHexString(flags)};s=$sig"
         return chain.proceed(
             req.newBuilder()
                 .header(HEADER, value)
-                .header(PROOF_HEADER, "t=$ts;n=$nonce;s=$sig")
+                .header(PROOF_HEADER, proof)
                 .build()
         )
     }
 
     private fun sign(method: String, path: String, ts: String, nonce: String): String {
+        val payload = "$method|$path|$ts|$nonce|${BuildConfig.VERSION_CODE}"
+        com.neb.ians.speech.NativeSpeech.safeSignProof(payload)?.let { return it }
         return try {
             val mac = javax.crypto.Mac.getInstance("HmacSHA256")
-            val k = byteArrayOf(
-                (0x6e xor 0x13).toByte(), (0x65 xor 0x13).toByte(), (0x62 xor 0x13).toByte(),
-                (0x2d xor 0x13).toByte(), (0x6d xor 0x13).toByte(), (0x33 xor 0x13).toByte(),
-                (0x78 xor 0x13).toByte(), (0x2d xor 0x13).toByte(), (0x73 xor 0x13).toByte(),
-                (0x69 xor 0x13).toByte(), (0x67 xor 0x13).toByte(), (0x31 xor 0x13).toByte()
-            )
-            for (i in k.indices) k[i] = (k[i].toInt() xor 0x13).toByte()
+            val enc = intArrayOf(0x4d, 0x4f, 0x53, 0x15, 0x52, 0x75, 0x35, 0x79, 0x28, 0x0b, 0x0e, 0x41)
+            val k = ByteArray(enc.size) { i -> (enc[i] xor ((0x23 + i * 7) and 0xff)).toByte() }
             mac.init(javax.crypto.spec.SecretKeySpec(k, "HmacSHA256"))
-            val raw = mac.doFinal("$method|$path|$ts|$nonce|${BuildConfig.VERSION_CODE}".toByteArray(Charsets.UTF_8))
+            val raw = mac.doFinal(payload.toByteArray(Charsets.UTF_8))
             val sb = StringBuilder(24)
             for (i in 0 until minOf(12, raw.size)) {
                 sb.append(String.format(Locale.US, "%02x", raw[i].toInt() and 0xff))

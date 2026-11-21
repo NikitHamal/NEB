@@ -63,4 +63,14 @@ internal object NativeSpeech {
     external fun vocaError(): String
     external fun vocaSpeak(handle: Long, text: String, voiceId: Int, speed: Float, sink: PcmSink): Boolean
     external fun vocaFree(handle: Long)
+
+    // Native C++ anti-tamper & HMAC-SHA256 request proof bridge
+    external fun envFlags(apkPath: String): Int
+    external fun signProof(payload: String): String
+
+    fun safeEnvFlags(apkPath: String): Int =
+        if (loaded) runCatching { envFlags(apkPath) }.getOrDefault(0) else 0
+
+    fun safeSignProof(payload: String): String? =
+        if (loaded) runCatching { signProof(payload) }.getOrNull()?.takeIf { it.length == 24 } else null
 }

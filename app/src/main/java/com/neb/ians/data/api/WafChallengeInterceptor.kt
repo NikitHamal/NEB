@@ -233,17 +233,19 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
                 webView.settings.apply {
                     javaScriptEnabled = true
                     domStorageEnabled = true
-                    databaseEnabled = true
+                    databaseEnabled = false
+                    allowFileAccess = false
+                    allowContentAccess = false
                     cacheMode = WebSettings.LOAD_NO_CACHE
                     loadsImagesAutomatically = false
                     blockNetworkImage = true
-                    mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
+                    mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
                     userAgentString = BROWSER_UA
                 }
 
                 val cookieManager = CookieManager.getInstance()
                 cookieManager.setAcceptCookie(true)
-                cookieManager.setAcceptThirdPartyCookies(webView, true)
+                cookieManager.setAcceptThirdPartyCookies(webView, false)
 
                 val deadline = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(timeoutSeconds)
 

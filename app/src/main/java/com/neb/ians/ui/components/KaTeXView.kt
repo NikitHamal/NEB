@@ -155,8 +155,9 @@ fun KaTeXMathView(
 
                 settings.apply {
                     javaScriptEnabled = true
-                    domStorageEnabled = true
-                    allowFileAccess = true
+                    domStorageEnabled = false
+                    allowFileAccess = false
+                    allowContentAccess = false
                     loadWithOverviewMode = true
                     useWideViewPort = false
                     cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK

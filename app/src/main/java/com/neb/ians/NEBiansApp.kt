@@ -85,6 +85,7 @@ class NEBiansApp : Application(), ImageLoaderFactory {
     override fun onCreate() {
         super.onCreate()
         com.neb.ians.util.CrashHandler.init(this)
+        com.neb.ians.util.AppIntegrity.enforceReleaseHardening(this)
         createNotificationChannels()
         warmUp()
     }
@@ -121,7 +122,10 @@ class NEBiansApp : Application(), ImageLoaderFactory {
             runCatching { getSharedPreferences(com.neb.ians.data.theme.SiteThemeRepository.PREFS, MODE_PRIVATE) }
             runCatching { dataStore.data.first() }
         }
-        scope.launch { runCatching { SecurePrefs.getAuthToken(this@NEBiansApp) } }
+        scope.launch {
+            runCatching { com.neb.ians.util.AppIntegrity.flags(this@NEBiansApp) }
+            runCatching { SecurePrefs.getAuthToken(this@NEBiansApp) }
+        }
         scope.launch { com.neb.ians.data.api.ApiService.preconnect() }
         scope.launch {
             runCatching {

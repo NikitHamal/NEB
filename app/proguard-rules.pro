@@ -12,16 +12,20 @@
 -keepattributes InnerClasses,EnclosingMethod
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile
+-repackageclasses 'o'
 -optimizationpasses 5
 -overloadaggressively
 -allowaccessmodification
 
-# Strip verbose/debug/info logs from release DEX so internal log strings and tags are not exposed
+# Strip all android.util.Log levels from release DEX so internal log strings, tags & error bodies are eliminated
 -assumenosideeffects class android.util.Log {
     public static boolean isLoggable(java.lang.String, int);
     public static int v(...);
     public static int d(...);
     public static int i(...);
+    public static int w(...);
+    public static int e(...);
+    public static int wtf(...);
 }
 
 # Keep the application class.
@@ -33,11 +37,9 @@
     public <init>();
 }
 
-# Keep all API & serializable data models and Retrofit interfaces in R8 full mode
+# Keep serializable data models and Retrofit interfaces in R8 full mode while obfuscating interceptors & helpers
 -keep class com.neb.ians.data.model.** { *; }
--keep class com.neb.ians.data.api.** { *; }
 -keep interface com.neb.ians.data.api.** { *; }
--keep class com.neb.ians.data.news.** { *; }
 -keep @kotlinx.serialization.Serializable class com.neb.ians.** { *; }
 -keepclassmembers,allowshrinking,allowobfuscation interface * {
     @retrofit2.http.* <methods>;
@@ -176,9 +178,11 @@
 }
 
 # ----------------------------------------------------------------------------
-# On-device speech (JNI): Whistle STT and Phonon TTS bridge in libneb_speech.so
+# On-device speech & integrity (JNI_OnLoad RegisterNatives in libneb_speech.so)
 # ----------------------------------------------------------------------------
--keep class com.neb.ians.speech.NativeSpeech { *; }
+-keep class com.neb.ians.speech.NativeSpeech {
+    native <methods>;
+}
 -keep interface com.neb.ians.speech.PcmSink { *; }
 -keep class com.neb.ians.speech.PcmSink { *; }
 -keepclasseswithmembers class * implements com.neb.ians.speech.PcmSink {

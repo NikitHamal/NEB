@@ -496,6 +496,8 @@ private fun ReaderWeb(
                 setBackgroundColor(c.surface.toArgb())
                 settings.javaScriptEnabled = true
                 settings.domStorageEnabled = true
+                settings.allowFileAccess = false
+                settings.allowContentAccess = false
                 settings.cacheMode = WebSettings.LOAD_DEFAULT
                 settings.textZoom = 100
                 addJavascriptInterface(
