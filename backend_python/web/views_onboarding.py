@@ -21,7 +21,7 @@ from .view_helpers import _clear_page_cache, _ctx, _normalize_user_data
 from api import education_catalog as cat
 from api.models import NEPAL_DISTRICTS
 from api.profile_education import apply_education
-from api.services import record_username_change
+from api.services import avatar_or_photo_url, record_username_change
 from api.view_helpers import _profile_incomplete
 
 PRADESH = [
@@ -81,11 +81,10 @@ def _initial(db_user, complete):
         'school': db_user.school or '',
         'pradesh': db_user.pradesh or '',
         'district': db_user.district or '',
-        'headline': db_user.headline or '',
         'skills': db_user.skills or '',
         'openTo': db_user.open_to or '',
         'bio': db_user.bio or '',
-        'photo': db_user.photo_url or '',
+        'photo': avatar_or_photo_url(db_user),
     }
 
 

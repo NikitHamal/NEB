@@ -20,7 +20,7 @@
     status: I.status, level: I.level, program: I.program, term: I.term, completed: I.completed,
     subjects: csv(I.subjects), teachingSubjects: csv(I.teachingSubjects),
     institutionType: I.institutionType, school: I.school, pradesh: I.pradesh, district: I.district,
-    headline: I.headline, skills: csv(I.skills), openTo: csv(I.openTo), bio: I.bio
+    skills: csv(I.skills), openTo: csv(I.openTo), bio: I.bio
   };
 
   var stage = document.getElementById('ob-stage');
@@ -213,7 +213,7 @@
       status: S.status, level: S.level, program: S.program, term: S.term, completed: S.completed,
       subjects: S.subjects.join(','), teachingSubjects: S.teachingSubjects.join(','),
       institutionType: S.institutionType, school: S.school, pradesh: S.pradesh, district: S.district,
-      headline: S.headline, skills: S.skills.join(','), openTo: S.openTo.join(','), bio: S.bio, next: boot.next
+      skills: S.skills.join(','), openTo: S.openTo.join(','), bio: S.bio, next: boot.next
     };
   }
 

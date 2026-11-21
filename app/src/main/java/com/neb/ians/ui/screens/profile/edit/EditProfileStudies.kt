@@ -31,8 +31,6 @@ import com.neb.ians.ui.theme.nebEffectsSpec
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun EditStudiesSection(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel) {
-    var showClass by remember { mutableStateOf(false) }
-
     val heading = when (state.role) {
         "teacher" -> "What you teach"
         "institution" -> "About the institution"
@@ -63,28 +61,30 @@ internal fun EditStudiesSection(state: CompleteProfileUiState, viewModel: Comple
                         EditInlineHint(text = "Pick a path above whenever you want these details back.")
                     }
                     else -> {
-                        EditPickerRowField(
-                            label = if (role == "student") "Class" else "Class you teach",
-                            value = state.classLevel,
-                            placeholder = "Select a level",
-                            onClick = { showClass = true }
-                        )
+                        val levels = remember(role) { com.neb.ians.ui.screens.onboarding.levelsForRole(role) }
+                        Column(modifier = Modifier.fillMaxWidth()) {
+                            NebFieldGroupLabel(text = if (role == "student") "Level" else "Level you teach")
+                            Spacer(modifier = Modifier.height(10.dp))
+                            FlowRow(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                levels.forEach { level ->
+                                    NebSelectChip(
+                                        label = level,
+                                        selected = state.classLevel == level,
+                                        onClick = { viewModel.onClassChange(level) }
+                                    )
+                                }
+                            }
+                        }
                         if (role == "student" && state.classLevel.isNotBlank()) EduSituation(state, viewModel)
                         EditSubjectPicker(state = state, viewModel = viewModel, teaching = role == "teacher")
                     }
                 }
             }
         }
-    }
-
-    if (showClass) {
-        NebPickerSheet(
-            title = if (state.role == "student") "Your class" else "Class you teach",
-            options = if (state.role == "student") EDIT_STUDENT_CLASSES else EDIT_TEACHER_CLASSES,
-            selected = state.classLevel.takeIf { it.isNotBlank() },
-            onSelect = viewModel::onClassChange,
-            onDismiss = { showClass = false }
-        )
     }
 }
 
@@ -104,7 +104,7 @@ private fun EditSubjectPicker(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            EDIT_SUBJECTS.forEach { subject ->
+            com.neb.ians.ui.screens.onboarding.NEB_SUBJECTS.forEach { subject ->
                 NebSelectChip(
                     label = subject,
                     selected = chosen.contains(subject),
@@ -118,26 +118,39 @@ private fun EditSubjectPicker(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun EditPlaceSection(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel) {
-    var showProvince by remember { mutableStateOf(false) }
     var showDistrict by remember { mutableStateOf(false) }
 
     val schoolLabel = if (state.role == "institution") "Institution name" else "School or college"
 
     EditSection(title = "Where you are") {
         Column(verticalArrangement = Arrangement.spacedBy(NebAuthTokens.StackGap)) {
-            EditPickerRowField(
-                label = "Province",
-                value = state.pradesh,
-                placeholder = "Select a province",
-                onClick = { showProvince = true }
-            )
-            EditPickerRowField(
+            Column(modifier = Modifier.fillMaxWidth()) {
+                NebFieldGroupLabel(text = "Province")
+                Spacer(modifier = Modifier.height(10.dp))
+                FlowRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    com.neb.ians.ui.screens.onboarding.NEB_PRADESH.forEach { pradesh ->
+                        NebSelectChip(
+                            label = pradesh,
+                            selected = state.pradesh == pradesh,
+                            onClick = { viewModel.onPradeshChange(pradesh) }
+                        )
+                    }
+                }
+            }
+            com.neb.ians.ui.components.NebPickerField(
                 label = "District",
                 value = state.district,
-                placeholder = "Select a district",
-                onClick = { showDistrict = true }
+                placeholder = "Select your district",
+                onClick = { showDistrict = true },
+                leadingIcon = androidx.compose.material.icons.Icons.Outlined.Place,
+                trailingIcon = androidx.compose.material.icons.Icons.Outlined.ExpandMore
             )
             com.neb.ians.ui.screens.onboarding.CampusSelector(
                 state = state,
@@ -147,23 +160,17 @@ internal fun EditPlaceSection(state: CompleteProfileUiState, viewModel: Complete
         }
     }
 
-    if (showProvince) {
-        NebPickerSheet(
-            title = "Province",
-            options = EDIT_PROVINCES,
-            selected = state.pradesh.takeIf { it.isNotBlank() },
-            onSelect = viewModel::onPradeshChange,
-            onDismiss = { showProvince = false }
-        )
-    }
     if (showDistrict) {
         NebPickerSheet(
-            title = "District",
-            options = EDIT_DISTRICTS,
+            title = "Select district",
+            options = com.neb.ians.ui.screens.onboarding.NEB_DISTRICTS,
             selected = state.district.takeIf { it.isNotBlank() },
-            onSelect = viewModel::onDistrictChange,
+            onSelect = {
+                viewModel.onDistrictChange(it)
+                showDistrict = false
+            },
             onDismiss = { showDistrict = false },
-            searchPlaceholder = "Search districts"
+            searchPlaceholder = "Search 77 districts"
         )
     }
 }

@@ -263,26 +263,6 @@ internal fun EditPrivacySection(state: CompleteProfileUiState, viewModel: Comple
 }
 
 @Composable
-internal fun EditPickerRowField(
-    label: String,
-    value: String,
-    placeholder: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    error: String? = null
-) {
-    NebPickerField(
-        label = label,
-        value = value,
-        placeholder = placeholder,
-        onClick = onClick,
-        modifier = modifier,
-        trailingIcon = Icons.Outlined.ExpandMore,
-        error = error
-    )
-}
-
-@Composable
 internal fun EditInlineHint(text: String, modifier: Modifier = Modifier) {
     val palette = LocalNebAuthPalette.current
     Text(

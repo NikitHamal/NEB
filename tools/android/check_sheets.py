@@ -12,7 +12,7 @@ import pathlib, re, sys
 
 root = pathlib.Path(__file__).resolve().parents[2] / "app/src/main/java"
 LEGACY_RAW = {"NebSheet.kt", "LiquidGlassProfileSheet.kt", "NebPickerSheet.kt", "ReadingSheet.kt",
-              "AuthLegalSheet.kt", "CreatorStudioSections.kt", "StudyReader.kt"}
+              "AuthLegalSheet.kt"}
 bad = []
 for f in root.rglob("*.kt"):
     lines = f.read_text().splitlines()

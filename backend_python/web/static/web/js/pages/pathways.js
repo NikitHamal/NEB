@@ -360,7 +360,13 @@ function loadPlus2Dist(d){if(!d||PLUS2.byDist[d])return;PLUS2.byDist[d]={total:0
   fetch('/api/pathways/plus2/?district='+encodeURIComponent(d)+'&limit=120',{headers:{Accept:'application/json'}}).then(r=>r.ok?r.json():null).then(o=>{if(!o)return;PLUS2.byDist[d]={total:o.total||0,items:o.items||[]};renderCList()}).catch(()=>{})}
 function plus2HTML(){if(!isPlus2()||!S.dist)return '';loadPlus2Dist(S.dist);const entry=PLUS2.byDist[S.dist];if(!entry||!entry.items||!entry.items.length)return '';
   return `<div class="onb-h">NEB +2 schools in ${esc(S.dist)} (${entry.total})</div>`+entry.items.map(sc=>`<div class="crow"><div><b>${esc(sc.name)}</b><span>${esc([sc.name_ne,sc.address,sc.district].filter(Boolean).join(' · '))}</span></div>${sc.code?`<span class="tag t-tc">NEB ${esc(sc.code)}</span>`:''}</div>`).join('')}
-function renderCList(){const box=$('#clist');if(!box)return;const c=C[S.cc];let l=COL.filter(x=>x.c.includes(S.cc)).map(x=>({...x,fee:x.fees[S.cc]}));const MXF=Math.max(.1,...l.map(x=>x.fee||0));
+function renderCList(){const box=$('#clist');if(!box)return;const c=C[S.cc];let l=COL.filter(x=>x.c.includes(S.cc)).map(x=>({...x,fee:x.fees[S.cc]}));
+  const matchedSlugs=new Set(l.map(x=>ONEB.matches[x.id]).filter(Boolean));
+  const stg=(locate(S.cc)||{st:{}}).st.id||'after12';
+  ONEB.items.forEach(it=>{if(matchedSlugs.has(it.slug)||!(it.completeness>0))return;const lk=it.levelKeys||[];
+    const ok=stg==='after10'?(lk.includes('plus_two')||lk.includes('a_level')||it.kind==='school'||it.kind==='college'):stg==='afterbach'?(lk.includes('master')||lk.includes('phd')||it.kind==='university'):(lk.includes('bachelor')||it.kind==='college'||it.kind==='university');
+    if(ok){ONEB.matches['onb:'+it.slug]=it.slug;l.push({id:'onb:'+it.slug,n:it.name,d:it.district,u:(it.levels||[]).join(' · ')||it.kind,t:'On NEBians',seats:0,fee:it.feeMin!=null?it.feeMin/1e5:null})}});
+  const MXF=Math.max(.1,...l.map(x=>x.fee||0));
   if(S.prov!=null)l=l.filter(x=>x.p===S.prov);
   const ds=[...new Set([...l.map(x=>x.d),...(isPlus2()?Object.keys(PLUS2.counts):[])])].sort();if(!ds.includes(S.dist))S.dist=null;if(S.dist)l=l.filter(x=>x.d===S.dist);
   const bySlug={};ONEB.items.forEach(i=>{bySlug[i.slug]=i});

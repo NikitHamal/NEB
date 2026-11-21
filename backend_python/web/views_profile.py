@@ -845,11 +845,12 @@ def edit_profile(request):
             return render(request, 'web/edit_profile.html', _ctx(request, edu_boot=edu_boot, edu_init=edu_init, **cov, error=edu_error))
         db_user.save()
         _clear_page_cache()
+        from api.services import avatar_or_photo_url
         updated_data = {
             'id': db_user.id,
             'username': db_user.username,
             'email': db_user.email,
-            'photo_url': db_user.photo_url,
+            'photo_url': avatar_or_photo_url(db_user),
             'display_name': db_user.display_name,
             'role': db_user.role,
             'dob': db_user.dob,

@@ -55,10 +55,15 @@ fun PortfolioEntrySheet(
     var current by remember { mutableStateOf(entry.isCurrent) }
     var desc by remember { mutableStateOf(entry.description) }
     var url by remember { mutableStateOf(entry.url) }
+    var showSchoolCatalogue by remember { mutableStateOf(false) }
+    val isSchoolEntry = entry.kind == "past_school" || entry.kind == "education"
     NebModalSheet(onDismiss = onDismiss, title = (if (entry.id == 0) "Add " else "Edit ") + kindLabel.lowercase().trimEnd('s')) {
         Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(14.dp)) {
-            NebDialogTextField(title, { title = it.take(150) }, Modifier.fillMaxWidth(), label = "Title")
-            NebDialogTextField(org, { org = it.take(150) }, Modifier.fillMaxWidth(), label = "Where")
+            NebDialogTextField(title, { title = it.take(150) }, Modifier.fillMaxWidth(), label = if (entry.kind == "past_school") "School or college" else "Title")
+            NebDialogTextField(org, { org = it.take(150) }, Modifier.fillMaxWidth(), label = if (entry.kind == "past_school") "Role or subject" else "Where")
+            if (isSchoolEntry) {
+                NebSelectChip("Search 24,000+ schools and colleges", false, { showSchoolCatalogue = true })
+            }
             NebFieldGroupLabel("From")
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 NebDialogTextField(sm, { sm = it.take(2) }, Modifier.weight(1f), placeholder = "Month")
@@ -85,5 +90,15 @@ fun PortfolioEntrySheet(
                 )
             }
         }
+    }
+    if (showSchoolCatalogue) {
+        com.neb.ians.ui.components.SchoolSearchSheet(
+            title = "Find school or college",
+            onPick = { row ->
+                if (entry.kind == "past_school") title = row.name else org = row.name
+                showSchoolCatalogue = false
+            },
+            onDismiss = { showSchoolCatalogue = false }
+        )
     }
 }

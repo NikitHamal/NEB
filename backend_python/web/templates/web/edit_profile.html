@@ -264,19 +264,6 @@
       <input type="hidden" id="edu_program" name="edu_program" value="{{ edu_init.program }}">
       <input type="hidden" id="edu_term" name="edu_term" value="{{ edu_init.term }}">
       <input type="hidden" id="edu_completed" name="edu_completed" value="{{ edu_init.completed }}">
-
-      <div class="form-group">
-        <label class="md-label" id="school-label">School or college</label>
-        <button type="button" class="neb-field-trigger" id="school_picker_trigger"
-                  aria-haspopup="dialog" aria-expanded="false">
-            <span class="material-symbols-outlined">apartment</span>
-          <span class="neb-field-trigger-value" id="school_selected_text">{{ user.school|default:'Select school/college' }}</span>
-          <span class="material-symbols-outlined">expand_more</span>
-        </button>
-        <input type="hidden" id="school" name="school" value="{{ user.school|default:'' }}">
-        <input type="hidden" id="school_slug" name="school_slug" value="{{ user.school_slug|default:'' }}">
-        <input type="hidden" id="school_username" name="school_username" value="{{ user.school_username|default:'' }}">
-      </div>
     </section>
 
     <section class="epf-section">
@@ -312,6 +299,19 @@
           </button>
           <input type="hidden" id="district" name="district" value="{{ user.district|default:'' }}">
         </div>
+      </div>
+
+      <div class="form-group">
+        <label class="md-label" id="school-label">{% if user.role == 'institution' %}Institution name{% else %}School or college{% endif %}</label>
+        <button type="button" class="neb-field-trigger" id="school_picker_trigger"
+                  aria-haspopup="dialog" aria-expanded="false">
+            <span class="material-symbols-outlined">apartment</span>
+          <span class="neb-field-trigger-value" id="school_selected_text">{{ user.school|default:'Select school or college' }}</span>
+          <span class="material-symbols-outlined">expand_more</span>
+        </button>
+        <input type="hidden" id="school" name="school" value="{{ user.school|default:'' }}">
+        <input type="hidden" id="school_slug" name="school_slug" value="{{ user.school_slug|default:'' }}">
+        <input type="hidden" id="school_username" name="school_username" value="{{ user.school_username|default:'' }}">
       </div>
     </section>
 

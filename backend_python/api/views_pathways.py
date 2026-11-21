@@ -47,7 +47,13 @@ def pathways_on_neb(request):
     keys = {search_key(it['name']): it['slug'] for it in items}
     matches = {}
     for p in pathways.payload()['providers']:
-        slug = keys.get(search_key(p['name']))
+        pk = search_key(p['name'])
+        slug = keys.get(pk)
+        if not slug and pk:
+            for ik, islug in keys.items():
+                if ik and (pk in ik or ik in pk):
+                    slug = islug
+                    break
         if slug:
             matches[p['id']] = slug
     resp = JsonResponse({'items': items, 'matches': matches})

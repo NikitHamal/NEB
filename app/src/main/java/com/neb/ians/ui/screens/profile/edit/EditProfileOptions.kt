@@ -22,35 +22,6 @@ internal val EDIT_ROLES = listOf(
     EditRole("explorer", "Explorer", "Browse first, fill the rest in later", Icons.Outlined.Explore)
 )
 
-internal val EDIT_PROVINCES = listOf(
-    "Koshi", "Madhesh", "Bagmati", "Gandaki", "Lumbini", "Karnali", "Sudurpashchim"
-)
-
-internal val EDIT_DISTRICTS = listOf(
-    "Achham", "Arghakhanchi", "Baglung", "Baitadi", "Bajhang", "Bajura", "Banke", "Bara", "Bardiya", "Bhaktapur",
-    "Bhojpur", "Chitwan", "Dadeldhura", "Dailekh", "Dang", "Darchula", "Dhading", "Dhankuta", "Dhanusha", "Dolakha",
-    "Dolpa", "Doti", "Gorkha", "Gulmi", "Humla", "Ilam", "Jajarkot", "Jhapa", "Jumla", "Kailali", "Kalikot",
-    "Kanchanpur", "Kapilvastu", "Kaski", "Kathmandu", "Kavrepalanchok", "Khotang", "Lalitpur", "Lamjung", "Mahottari",
-    "Makwanpur", "Manang", "Mustang", "Myagdi", "Nawalpur", "Nuwakot", "Okhaldhunga", "Palpa", "Panchthar", "Parasi",
-    "Parbat", "Parsa", "Pyuthan", "Ramechhap", "Rasuwa", "Rautahat", "Rolpa", "Rukum East", "Rukum West", "Rupandehi",
-    "Salyan", "Sankhuwasabha", "Saptari", "Sarlahi", "Sindhuli", "Sindhupalchok", "Siraha", "Solukhumbu", "Sunsari",
-    "Surkhet", "Syangja", "Tanahun", "Taplejung", "Terhathum", "Udayapur"
-)
-
-internal val EDIT_SUBJECTS = listOf(
-    "English", "Nepali", "Mathematics", "Physics", "Chemistry",
-    "Biology", "Computer Science", "Accountancy", "Economics", "Social Studies"
-)
-
-internal val EDIT_STUDENT_CLASSES = listOf(
-    "Class 8", "Class 9", "Class 10 / SEE", "Class 11", "Class 12",
-    "+2 Passout", "Diploma", "Bachelors", "Masters", "PhD", "Other"
-)
-
-internal val EDIT_TEACHER_CLASSES = listOf(
-    "Class 11", "Class 12", "+2 Passout", "Diploma", "Bachelors", "Masters", "Other"
-)
-
 internal val EDIT_INSTITUTION_TYPES = listOf("School", "College", "Academy", "Other")
 
 internal data class SocialPlatform(

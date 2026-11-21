@@ -140,7 +140,6 @@ STATIC_PAGES = (
     ('/app/library/', 'daily', '0.9'),
     ('/app/syllabus/', 'weekly', '0.9'),
     ('/app/news/', 'daily', '0.7'),
-    ('/app/marketplace/', 'weekly', '0.7'),
     ('/app/library/?tab=interactive', 'weekly', '0.7'),
     ('/app/results/', 'monthly', '0.6'),
     ('/app/results/check/', 'monthly', '0.6'),

@@ -59,7 +59,38 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
         val near = remember(r.id, withWhere) { (listOf(r) + withWhere.filter { it.stage == r.stage && it.group == r.group && it.id != r.id }).take(20) }
         PwChipRow(near.map { it.id to it.name }, { it == r.id }, { s.collegeRoute = it }, Modifier.padding(bottom = 14.dp))
     }
-    val all = remember(r.id) { r.where.mapNotNull { d.providers[it] } }
+    val staticProvs = remember(r.id) { r.where.mapNotNull { d.providers[it] } }
+    val allMatches = remember(r.id, matches, ui.onNeb) {
+        val m = HashMap(matches)
+        ui.onNeb?.items?.forEach { m["onb:${it.slug}"] = it.slug }
+        m
+    }
+    val all = remember(r.id, staticProvs, ui.onNeb, matches) {
+        val matchedSlugs = staticProvs.mapNotNull { matches[it.id] }.toSet()
+        val extraOnNeb = ui.onNeb?.items.orEmpty().filter { item ->
+            item.slug !in matchedSlugs && item.completeness > 0 && when {
+                r.kind == "Diploma" || r.kind == "Technical" -> "diploma" in item.levelKeys || item.kind == "institute"
+                r.stage == "after10" -> "plus_two" in item.levelKeys || "a_level" in item.levelKeys || item.kind in listOf("school", "college")
+                r.stage == "afterbach" -> "master" in item.levelKeys || "phd" in item.levelKeys || item.kind in listOf("college", "university")
+                else -> "bachelor" in item.levelKeys || item.kind in listOf("college", "university")
+            }
+        }.map { item ->
+            val feePair = item.feeMin?.let { lo -> lo to (item.feeMax ?: lo) }
+            PwProvider(
+                id = "onb:${item.slug}",
+                name = item.name,
+                kind = item.kind,
+                sector = "",
+                district = item.district,
+                place = item.place,
+                note = item.levels.map(::institutionLevelLabel).joinToString(" · "),
+                website = item.website,
+                fees = if (feePair != null) mapOf(r.id to feePair) else emptyMap(),
+                seats = 0
+            )
+        }
+        staticProvs + extraOnNeb
+    }
     val feesHi = remember(all) { all.mapNotNull { it.fees[r.id]?.second } }
     val lo = if (feesHi.isEmpty()) 0f else floor(feesHi.min() / 100_000f)
     val hi = if (feesHi.isEmpty()) 0f else ceil(feesHi.max() / 100_000f).coerceAtLeast(lo + 1f)
@@ -117,7 +148,7 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
         }
         if (districts.size > 1) PwChipRow(districts.map { it to it }, { it == district }, { district = if (it == district) "" else it; if (district.isNotEmpty()) vm.setDistrict(district, kindFor(r)) else vm.setDistrict("", "") }, inset = 0.dp)
         val needle = filterQ.trim().lowercase()
-        val list = remember(inProv, district, cmax, sort, matches, onNebBySlug, needle) {
+        val list = remember(inProv, district, cmax, sort, allMatches, onNebBySlug, needle) {
             inProv.filter { p ->
                 (district.isEmpty() || p.district == district) &&
                     (p.fees[r.id]?.second?.let { it / 100_000f <= cmax } ?: true) &&
@@ -126,15 +157,15 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
                 .sortedWith(
                     if (sort == "fee") {
                         compareBy<PwProvider>(
-                            { if (it.id in matches) 0 else 1 },
-                            { -(onNebBySlug[matches[it.id]]?.completeness ?: 0) },
+                            { if (it.id in allMatches) 0 else 1 },
+                            { -(onNebBySlug[allMatches[it.id]]?.completeness ?: 0) },
                             { it.fees[r.id]?.second ?: Long.MAX_VALUE },
                             { it.name }
                         )
                     } else {
                         compareBy<PwProvider>(
-                            { if (it.id in matches) 0 else 1 },
-                            { -(onNebBySlug[matches[it.id]]?.completeness ?: 0) },
+                            { if (it.id in allMatches) 0 else 1 },
+                            { -(onNebBySlug[allMatches[it.id]]?.completeness ?: 0) },
                             { -it.seats },
                             { it.name }
                         )
@@ -147,9 +178,9 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
                 PwEmpty(if (isPlus2 && district.isEmpty()) "Tap a district on the map to see all NEB +2 schools" else "No colleges")
             }
             list.take(shown).forEachIndexed { i, p ->
-                val fee = p.fees[r.id]?.second
-                val matchedSlug = matches[p.id]
+                val matchedSlug = allMatches[p.id]
                 val onNebItem = matchedSlug?.let { onNebBySlug[it] }
+                val fee = p.fees[r.id]?.second ?: onNebItem?.feeMax ?: onNebItem?.feeMin
                 PwSurface(
                     Modifier.fillMaxWidth().pwRise(i, r.id),
                     radius = 22.dp,

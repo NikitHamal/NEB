@@ -7,7 +7,8 @@ import org.json.JSONObject
 /** A claimed institution that filled its page. `/api/pathways/on-neb/`, fullest first. */
 data class PwOnNebItem(
     val slug: String, val name: String, val kind: String, val district: String, val place: String,
-    val completeness: Int, val levels: List<String>, val feeMin: Long?, val admissionOpen: Boolean,
+    val completeness: Int, val levels: List<String>, val levelKeys: List<String> = emptyList(),
+    val feeMin: Long?, val feeMax: Long? = null, val admissionOpen: Boolean,
     val phone: String, val website: String,
 )
 
@@ -31,10 +32,15 @@ internal fun parseOnNeb(text: String): PwOnNebData {
     val items = (0 until (arr?.length() ?: 0)).mapNotNull { i ->
         val r = arr!!.optJSONObject(i) ?: return@mapNotNull null
         val lv = r.optJSONArray("levels")
+        val lk = r.optJSONArray("levelKeys")
         PwOnNebItem(
             r.optString("slug"), r.optString("name"), r.optString("kind"), r.optString("district"), r.optString("place"),
-            r.optInt("completeness"), (0 until (lv?.length() ?: 0)).map { lv!!.optString(it) },
-            if (r.isNull("feeMin")) null else r.optLong("feeMin"), r.optBoolean("admissionOpen"),
+            r.optInt("completeness"),
+            (0 until (lv?.length() ?: 0)).map { lv!!.optString(it) },
+            (0 until (lk?.length() ?: 0)).map { lk!!.optString(it) },
+            if (r.isNull("feeMin")) null else r.optLong("feeMin"),
+            if (r.isNull("feeMax")) null else r.optLong("feeMax"),
+            r.optBoolean("admissionOpen"),
             r.optString("phone"), r.optString("website"),
         ).takeIf { it.slug.isNotEmpty() }
     }

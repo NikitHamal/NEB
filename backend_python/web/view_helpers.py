@@ -863,9 +863,10 @@ def _ctx(request, **extra):
                 user['is_admin'] = db_user.is_admin
                 user['verification_level'] = db_user.verification_level
                 user['moderator_level'] = db_user.moderator_level
+                from api.services import avatar_or_photo_url
                 user['enable_inline_images'] = getattr(db_user, 'enable_inline_images', True)
                 user['enableInlineImages'] = getattr(db_user, 'enable_inline_images', True)
-                user['photo_url'] = db_user.photo_url or ''
+                user['photo_url'] = avatar_or_photo_url(db_user)
                 user['avatar_url'] = user['photo_url']
                 badge_info = _user_badge_info(db_user)
     dark_mode = request.session.get('theme') == 'dark'
