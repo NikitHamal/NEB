@@ -84,10 +84,11 @@ class DeviceSignalInterceptor(context: Context) : Interceptor {
 
     /** Header-safe ASCII; `;` and `=` would break the key/value split on the server. */
     private fun clean(raw: String): String =
-        raw.replace(Regex("[^A-Za-z0-9 ._+\\-/:,()]"), "").trim().take(48)
+        raw.replace(HEADER_CLEAN_REGEX, "").trim().take(48)
 
     companion object {
         const val HEADER = "X-Neb-Device"
         const val PROOF_HEADER = "X-Neb-Proof"
+        private val HEADER_CLEAN_REGEX = Regex("[^A-Za-z0-9 ._+\\-/:,()]")
     }
 }

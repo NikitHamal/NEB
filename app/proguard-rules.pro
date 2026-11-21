@@ -168,6 +168,14 @@
 -dontwarn okio.**
 
 # ----------------------------------------------------------------------------
+# WebView @JavascriptInterface bridges (ReadingBook, StudyReader, KaTeXView)
+# ----------------------------------------------------------------------------
+-keepattributes JavascriptInterface
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}
+
+# ----------------------------------------------------------------------------
 # On-device speech (JNI): Whistle STT and Phonon TTS bridge in libneb_speech.so
 # ----------------------------------------------------------------------------
 -keep class com.neb.ians.speech.NativeSpeech { *; }

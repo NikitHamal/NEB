@@ -15,5 +15,22 @@ object NoteFormatting {
         return done to total
     }
 
-    fun wordCount(body: String): Int = body.split(Regex("\\s+")).count { w -> w.any { it.isLetterOrDigit() } }
+    fun wordCount(body: String): Int {
+        var count = 0
+        var inWord = false
+        var hasAlnum = false
+        for (i in 0 until body.length) {
+            val ch = body[i]
+            if (ch.isWhitespace()) {
+                if (inWord && hasAlnum) count++
+                inWord = false
+                hasAlnum = false
+            } else {
+                inWord = true
+                if (!hasAlnum && ch.isLetterOrDigit()) hasAlnum = true
+            }
+        }
+        if (inWord && hasAlnum) count++
+        return count
+    }
 }

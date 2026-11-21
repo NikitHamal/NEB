@@ -233,7 +233,18 @@ internal fun ReadingBookMode(
 
     val speaker = remember(ctrl) { RdSpeaker(context) { if (listeningNow) speakNext(ctrl) { listening = false } } }
     ctrl.speakText = { speaker.speak(it) }
-    DisposableEffect(Unit) { onDispose { speaker.shutdown(); ctrl.web?.destroy(); ctrl.web = null } }
+    DisposableEffect(ctrl) {
+        onDispose {
+            speaker.shutdown()
+            ctrl.web?.let { w ->
+                (w.parent as? android.view.ViewGroup)?.removeView(w)
+                w.stopLoading()
+                w.removeJavascriptInterface("NebAndroid")
+                w.destroy()
+            }
+            ctrl.web = null
+        }
+    }
 
     val bridge = remember(ctrl) {
         object {

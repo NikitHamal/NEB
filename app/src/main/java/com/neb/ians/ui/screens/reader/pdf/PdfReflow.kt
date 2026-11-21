@@ -208,7 +208,11 @@ internal object PdfReflow {
 
     // ----------------------------------------------------------------- stats
 
-    private fun norm(t: String) = t.lowercase().replace(Regex("[0-9]+"), "#").replace(Regex("\\s+"), " ").trim()
+    private val normDigitsRegex = Regex("[0-9]+")
+    private val normSpacesRegex = Regex("\\s+")
+    private val markChipRegex = Regex("^(\\[\\d+(\\.\\d+)?\\]|\\([A-Za-z]{2,6}[^)]{0,24}\\))(\\s+(\\[\\d+(\\.\\d+)?\\]|\\([A-Za-z]{2,6}[^)]{0,24}\\)))*$")
+
+    private fun norm(t: String) = t.lowercase().replace(normDigitsRegex, "#").replace(normSpacesRegex, " ").trim()
 
     private fun inBand(l: Line, h: Float) = l.base < 0.085f * h || l.base > 0.925f * h
 
@@ -656,7 +660,7 @@ internal object PdfReflow {
     }
 
     /** A mark chip or exam tag that wrapped onto a line of its own: [1] or (NEB 2078). */
-    private fun isMarkChip(t: String): Boolean = t.trim().matches(Regex("^(\\[\\d+(\\.\\d+)?\\]|\\([A-Za-z]{2,6}[^)]{0,24}\\))(\\s+(\\[\\d+(\\.\\d+)?\\]|\\([A-Za-z]{2,6}[^)]{0,24}\\)))*$"))
+    private fun isMarkChip(t: String): Boolean = t.trim().matches(markChipRegex)
 
     private fun isHyphen(c: Char?) = c == '-' || c == '\u2010' || c == '\u2011'
 

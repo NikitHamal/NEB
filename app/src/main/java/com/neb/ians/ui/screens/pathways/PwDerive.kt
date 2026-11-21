@@ -20,10 +20,12 @@ internal fun routeMetrics(d: PwData, r: PwRoute): PwMetrics {
     )
 }
 
+private val YearsNumberRegex = Regex("""\d+(\.\d+)?""")
+
 internal fun PwData.m(r: PwRoute): PwMetrics = metrics[r.id] ?: routeMetrics(this, r)
 
 internal fun yearsOf(s: String): Float {
-    val n = Regex("""\d+(\.\d+)?""").find(s)?.value?.toFloatOrNull() ?: return 0f
+    val n = YearsNumberRegex.find(s)?.value?.toFloatOrNull() ?: return 0f
     return if (s.contains("month", ignoreCase = true)) n / 12f else n
 }
 
@@ -83,10 +85,11 @@ internal val DISTRICT_PROVINCE: Map<String, Int> = buildMap {
 }
 
 internal val MONTHS = listOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+private val MONTH_REGEXES = MONTHS.map { m -> Regex("""\b${m.lowercase()}""") }
 internal fun nowMonth(): Int = Calendar.getInstance().get(Calendar.MONTH) + 1
 internal fun monthsIn(text: String): Set<Int> {
     val t = text.lowercase()
-    return MONTHS.mapIndexedNotNull { i, m -> if (Regex("""\b${m.lowercase()}""").containsMatchIn(t)) i + 1 else null }.toSet()
+    return MONTH_REGEXES.mapIndexedNotNull { i, re -> if (re.containsMatchIn(t)) i + 1 else null }.toSet()
 }
 internal fun inWindow(from: Int, to: Int, m: Int): Boolean = if (from <= to) m in from..to else m >= from || m <= to
 internal fun windowLabel(from: Int, to: Int): String = if (inWindow(from, to, nowMonth())) "Closes ${MONTHS[to - 1]}" else "Opens ${MONTHS[from - 1]}"

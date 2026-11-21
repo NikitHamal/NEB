@@ -92,6 +92,8 @@ import com.neb.ians.ui.components.WebPanelShape
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.nebPressable
 import com.neb.ians.ui.theme.nebEffectsSpec
+
+private val LAST_READ_KEY_REGEX = Regex("""^(\w+)/([\w-]+)/(unit|bank|guide)(\d*)$""")
 import com.neb.ians.ui.theme.nebSpatialSpec
 
 @Composable
@@ -138,7 +140,7 @@ private fun SyllabusHub(
                 } else {
                     state.lastRead?.let { (key, title, label) ->
                         // "11/physics/unit3", "11/physics/bank2" or "11/physics/guide"
-                        val m = Regex("""^(\w+)/([\w-]+)/(unit|bank|guide)(\d*)$""").find(key)
+                        val m = LAST_READ_KEY_REGEX.find(key)
                         if (m != null) {
                             val (g, subj, kind, no) = m.destructured
                             item(key = "continue") {

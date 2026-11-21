@@ -39,3 +39,8 @@ HSPLcom/neb/ians/ui/screens/upload/**->**(**)**
 # added after the portfolio and Pathways work made them part of the first-week path.
 HSPLcom/neb/ians/ui/screens/pathways/**->**(**)**
 HSPLcom/neb/ians/ui/screens/institutions/**->**(**)**
+HSPLcom/neb/ians/speech/**->**(**)**
+HSPLcom/neb/ians/ui/screens/results/**->**(**)**
+HSPLcom/neb/ians/ui/screens/tools/**->**(**)**
+HSPLcom/neb/ians/ui/screens/interactive/**->**(**)**
+HSPLcom/neb/ians/ui/sim/**->**(**)**

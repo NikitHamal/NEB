@@ -115,11 +115,13 @@ private val GROUP_FIELDS = mapOf(
     "law" to listOf("law", "social"), "edu" to listOf("education", "social"), "gov" to listOf("public", "social", "economics"),
 )
 
+private val ENTRY_NOTE_REGEX = Regex("\\([^)]*(helps|bridge)[^)]*\\)")
+
 private fun fieldHit(field: String, w: String): Boolean = field == w || field.startsWith("$w ") || (w.length >= 4 && w in field)
 
 /** Subjects the entry text asks for. A note such as "(Maths helps)" or "(or Biology bridge)" is not a requirement; "PCB or PCM" asks for Science only. */
 private fun entryNeeds(entry: String): Set<String> {
-    val e = entry.lowercase().replace(Regex("\\([^)]*(helps|bridge)[^)]*\\)"), "")
+    val e = entry.lowercase().replace(ENTRY_NOTE_REGEX, "")
     val both = "pcb or pcm" in e || "pcm or pcb" in e
     val phys = "(physical)" in e
     return buildSet {

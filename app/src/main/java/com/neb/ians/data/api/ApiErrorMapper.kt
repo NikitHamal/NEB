@@ -172,6 +172,8 @@ object ApiErrorMapper {
      * owner/contributor only, so a technical message here is both safe and
      * exactly what's needed to answer "why did my upload fail?".
      */
+    private val WHITESPACE_REGEX = Regex("\\s+")
+
     fun mapExceptionVerbose(e: Throwable, op: String): String {
         val httpBody = if (e is HttpException) safeErrorBody(e) else null
         logRawWithBody(e, op, httpBody)
@@ -179,7 +181,7 @@ object ApiErrorMapper {
             is HttpException -> {
                 val code = e.code()
                 val serverMsg = httpBody?.let { parseServerMessage(it) }
-                val snippet = httpBody?.replace(Regex("\\s+"), " ")?.trim()?.take(180).orEmpty()
+                val snippet = httpBody?.replace(WHITESPACE_REGEX, " ")?.trim()?.take(180).orEmpty()
                 val detail = serverMsg ?: snippet.ifBlank { "(empty response body)" }
                 "$op failed (HTTP $code): $detail"
             }
@@ -187,7 +189,7 @@ object ApiErrorMapper {
                 "$op failed: the server's reply didn't match this app version - please update the app. (${e.message?.take(80).orEmpty()})"
             else -> {
                 val friendly = mapException(e)
-                val raw = e.message?.replace(Regex("\\s+"), " ")?.trim()?.take(140).orEmpty()
+                val raw = e.message?.replace(WHITESPACE_REGEX, " ")?.trim()?.take(140).orEmpty()
                 val cls = e::class.simpleName ?: "Error"
                 if (friendly.contains("Something went wrong") || friendly.contains("Network error")) {
                     "$op failed ($cls): ${raw.ifBlank { friendly }}"

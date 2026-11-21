@@ -15,6 +15,8 @@ object UploadAutofill {
         RegexOption.IGNORE_CASE
     )
 
+    private val UNDERSCORES_REGEX = Regex("[_]+")
+    private val WHITESPACE_REGEX = Regex("\\s+")
     private val AUDIO_EXTENSIONS = setOf("mp3", "m4a", "wav", "ogg", "opus", "aac", "flac")
     private val SLIDE_EXTENSIONS = setOf("ppt", "pptx", "odp", "key")
 
@@ -23,8 +25,8 @@ object UploadAutofill {
         val stem = fileName.substringBeforeLast('.', fileName).trim()
         if (stem.isBlank() || CAMERA_NAME.matches(stem)) return ""
         val cleaned = stem
-            .replace(Regex("[_]+"), " ")
-            .replace(Regex("\\s+"), " ")
+            .replace(UNDERSCORES_REGEX, " ")
+            .replace(WHITESPACE_REGEX, " ")
             .trim()
         if (cleaned.length < 3) return ""
         return cleaned.replaceFirstChar { it.uppercaseChar() }.take(120)

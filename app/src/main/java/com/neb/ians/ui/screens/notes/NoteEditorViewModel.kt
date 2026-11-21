@@ -739,8 +739,10 @@ class NoteEditorViewModel @Inject constructor(
         scheduleSave()
     }
 
+    private val tagCleanRegex = Regex("[^\\p{L}\\p{N}-]+")
+
     fun addTag(raw: String) {
-        val tag = raw.trim().removePrefix("#").lowercase().replace(Regex("[^\\p{L}\\p{N}-]+"), "-").trim('-').take(24)
+        val tag = raw.trim().removePrefix("#").lowercase().replace(tagCleanRegex, "-").trim('-').take(24)
         if (tag.isNotEmpty() && tag !in _tags.value && _tags.value.size < 8) {
             _tags.value = _tags.value + tag
             scheduleSave()

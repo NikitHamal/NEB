@@ -432,13 +432,14 @@ private fun BankCard(bank: ApiSyllabusBank, mark: StudyMark?, onClick: () -> Uni
     }
 }
 
+private val EXAM_ROW_REGEX = Regex("""^(.*?)\s*(\d+)\s*[x×]\s*(\d+)\s*=\s*(\d+)\s*$""")
+
 /** "3hr, FM 75 written (+25 internal) | Group A MCQ 11x1=11 | ..." as a heading and rows. */
 private fun examRows(exam: String): Pair<String, List<List<String>>> {
     val parts = exam.split("|").map { it.trim() }.filter { it.isNotEmpty() }
     if (parts.isEmpty()) return "" to emptyList()
-    val re = Regex("""^(.*?)\s*(\d+)\s*[x×]\s*(\d+)\s*=\s*(\d+)\s*$""")
     return parts.first() to parts.drop(1).map { p ->
-        re.find(p)?.groupValues?.let { listOf(it[1].trim(' ', ':', '-'), "${it[2]} × ${it[3]}", it[4]) } ?: listOf(p, "", "")
+        EXAM_ROW_REGEX.find(p)?.groupValues?.let { listOf(it[1].trim(' ', ':', '-'), "${it[2]} × ${it[3]}", it[4]) } ?: listOf(p, "", "")
     }
 }
 

@@ -170,6 +170,7 @@ internal fun HomeNewResourcesRail(
  * height keeps the whole rail perfectly aligned — no more mismatched bottoms.
  */
 private val HomeRailCardHeight = 268.dp
+private val LEADING_INDEX_REGEX = Regex("""^\d+[\.\)]\s*""")
 
 @Composable
 internal fun HomeFeedResourceHighlight(
@@ -181,7 +182,7 @@ internal fun HomeFeedResourceHighlight(
         val raw = resource.subject.trim()
         when {
             raw.isBlank() -> "Study Resource"
-            raw.contains(",") -> raw.split(",").first().replace(Regex("""^\d+[\.\)]\s*"""), "").trim()
+            raw.contains(",") -> raw.split(",").first().replace(LEADING_INDEX_REGEX, "").trim()
             raw.length > 24 -> raw.take(24) + "…"
             else -> raw
         }

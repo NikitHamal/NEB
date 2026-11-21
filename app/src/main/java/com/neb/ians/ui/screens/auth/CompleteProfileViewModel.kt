@@ -161,7 +161,7 @@ class CompleteProfileViewModel @Inject constructor(
                         )}
                         return@mapLatest
                     }
-                    if (!query.matches(Regex("^[a-zA-Z0-9_]+$"))) {
+                    if (!query.matches(USERNAME_HANDLE_REGEX)) {
                         _uiState.update { it.copy(
                             usernameAvailable = null,
                             usernameError = "Letters, numbers, underscores only",
@@ -600,5 +600,7 @@ class CompleteProfileViewModel @Inject constructor(
         }
     }
 }
+private val USERNAME_HANDLE_REGEX = Regex("^[a-zA-Z0-9_]+$")
+
 /** The catalogue does not change while the app runs; one fetch serves every screen. */
 private var eduCatalogCache: com.neb.ians.data.api.ApiEduCatalog? = null
