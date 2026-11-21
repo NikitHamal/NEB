@@ -89,14 +89,16 @@ fun MarkdownText(
     val laidOut = remember(blocks) { layoutMarkdownBlocks(blocks) }
     val hasChecks = remember(blocks) { blocks.any { it is MdBlock.Check } }
     val appContext = androidx.compose.ui.platform.LocalContext.current.applicationContext
-    val flipped = remember(markdown, tickKey, hasChecks) {
-        mutableStateMapOf<Int, Boolean>().also { map ->
-            // A reader's ticks on one post are remembered on this phone (never sent anywhere).
-            if (tickKey != null && hasChecks) {
-                appContext.getSharedPreferences("md_ticks", 0).getStringSet(tickKey, null)?.forEach { entry ->
-                    val at = entry.indexOf('=')
-                    if (at > 0) entry.substring(0, at).toIntOrNull()?.let { map[it] = entry.substring(at + 1) == "1" }
-                }
+    val scope = androidx.compose.runtime.rememberCoroutineScope()
+    val flipped = remember(markdown, tickKey) { mutableStateMapOf<Int, Boolean>() }
+    androidx.compose.runtime.LaunchedEffect(markdown, tickKey, hasChecks) {
+        if (tickKey != null && hasChecks) {
+            val saved = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                appContext.getSharedPreferences("md_ticks", 0).getStringSet(tickKey, null)
+            }
+            saved?.forEach { entry ->
+                val at = entry.indexOf('=')
+                if (at > 0) entry.substring(0, at).toIntOrNull()?.let { flipped[it] = entry.substring(at + 1) == "1" }
             }
         }
     }
@@ -124,24 +126,24 @@ fun MarkdownText(
                     )
                 }
                 is MdBlock.Quote -> {
-                    Row(modifier = Modifier.fillMaxWidth()) {
-                        Spacer(
-                            modifier = Modifier
-                                .width(3.dp)
-                                .height(20.dp)
-                                .background(primary.copy(alpha = 0.5f), RoundedCornerShape(2.dp))
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
+                    val quoteShape = RoundedCornerShape(14.dp)
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(quoteShape)
+                            .background(MaterialTheme.colorScheme.surfaceContainerLow)
+                            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, quoteShape)
+                            .padding(horizontal = 14.dp, vertical = 10.dp)
+                    ) {
                         InlineMdText(
                             text = block.text,
-                            style = style.copy(fontStyle = FontStyle.Italic),
+                            style = style,
                             color = onSurfaceVariant,
                             primary = primary,
                             codeBg = codeBg,
                             onMentionClick = onMentionClick,
                             onLinkClick = onLinkClick,
-                            inlineContents = inlineContents,
-                            modifier = Modifier.weight(1f)
+                            inlineContents = inlineContents
                         )
                     }
                 }
@@ -171,9 +173,12 @@ fun MarkdownText(
                     MdCheckRow(done = done, onToggle = {
                         flipped[blockIndex] = !done
                         if (tickKey != null) {
-                            appContext.getSharedPreferences("md_ticks", 0).edit()
-                                .putStringSet(tickKey, flipped.map { (i, v) -> "$i=" + if (v) "1" else "0" }.toSet())
-                                .apply()
+                            val snapshot = flipped.map { (i, v) -> "$i=" + if (v) "1" else "0" }.toSet()
+                            scope.launch(kotlinx.coroutines.Dispatchers.IO) {
+                                appContext.getSharedPreferences("md_ticks", 0).edit()
+                                    .putStringSet(tickKey, snapshot)
+                                    .apply()
+                            }
                         }
                     }) {
                         InlineMdText(

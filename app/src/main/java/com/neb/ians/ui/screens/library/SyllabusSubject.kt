@@ -112,17 +112,19 @@ private fun SubjectBody(state: SyllabusUiState, doc: ApiSyllabusDoc, viewModel: 
     val open: (ApiSyllabusUnit) -> Unit = { u ->
         if (u.hasChapter) onOpenDoc(doc.grade, doc.subject, "unit", u.no) else viewModel.toggleUnit(u.no)
     }
-    val terms = state.filter.trim().lowercase().split(" ").filter { it.isNotBlank() }
-    val units = doc.units.filter { u ->
-        val m = state.mark(doc.grade, doc.subject, u.no)
-        val done = m?.isDone == true
-        (state.area == null || u.area == state.area) &&
-            when (state.show) {
-                SyllabusShow.All -> true
-                SyllabusShow.ToStudy -> !done
-                SyllabusShow.Done -> done
-            } &&
-            terms.all { t -> u.title.lowercase().contains(t) || u.topics.any { it.lowercase().contains(t) } }
+    val units = androidx.compose.runtime.remember(doc, state.filter, state.area, state.show, state.marks) {
+        val terms = state.filter.trim().lowercase().split(" ").filter { it.isNotBlank() }
+        doc.units.filter { u ->
+            val m = state.mark(doc.grade, doc.subject, u.no)
+            val done = m?.isDone == true
+            (state.area == null || u.area == state.area) &&
+                when (state.show) {
+                    SyllabusShow.All -> true
+                    SyllabusShow.ToStudy -> !done
+                    SyllabusShow.Done -> done
+                } &&
+                terms.all { t -> u.title.lowercase().contains(t) || u.topics.any { it.lowercase().contains(t) } }
+        }
     }
     LaunchedEffect(state.focusUnit, doc) {
         val focus = state.focusUnit ?: return@LaunchedEffect
@@ -150,7 +152,9 @@ private fun SubjectBody(state: SyllabusUiState, doc: ApiSyllabusDoc, viewModel: 
         item(key = "next") { NextCards(state, doc, onOpen = open, onBank = { viewModel.setTab(SyllabusTab.Bank) }) }
         stickyHeader(key = "tabs") {
             val c = MaterialTheme.colorScheme
-            val pinned = listState.firstVisibleItemIndex >= 2
+            val pinned by androidx.compose.runtime.remember {
+                androidx.compose.runtime.derivedStateOf { listState.firstVisibleItemIndex >= 2 }
+            }
             Column(
                 Modifier
                     .fillMaxWidth()

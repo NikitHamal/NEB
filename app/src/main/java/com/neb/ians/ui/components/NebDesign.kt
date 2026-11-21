@@ -70,10 +70,6 @@ import com.neb.ians.util.TactileType
 
 
 
-/** Subtle hairline border color matching web --md-border-subtle. */
-@Composable
-fun nebBorderSubtle(): Color = MaterialTheme.colorScheme.outline.copy(alpha = 0.16f)
-
 // ---------------------------------------------------------------------------
 // Cards — mirrors .md-card (surface-container-lowest, 1px outline-variant,
 // radius 16, no shadow).

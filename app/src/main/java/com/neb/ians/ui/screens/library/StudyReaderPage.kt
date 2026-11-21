@@ -70,18 +70,18 @@ figcaption{margin-top:.7em;font-size:.86em;line-height:1.55;color:var(--mute);te
 .photokey{display:grid;grid-template-columns:1fr;gap:.55em;margin:.7em auto 0;text-align:left;font-size:.86em}
 .photokey .pk{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.55em;align-items:start;padding:.5em .75em;border:1px solid var(--pri-line);border-radius:12px;background:var(--pri-tint)}
 .photokey .pk i{display:grid;place-items:center;margin-top:.12em;min-width:1.45em;height:1.45em;padding:0 .2em;border-radius:20px;background:var(--pri);color:var(--on-pri);font-style:normal;font-weight:700;font-size:.8em;font-variant-numeric:tabular-nums}
-.box{--box-c:var(--mute);--box-pad-x:calc(1.1 * var(--rd-fs));margin:1.4em 0;padding:.95em var(--box-pad-x) 1.05em;border-radius:18px;background:var(--card);border:1px solid var(--line)}
+.box{--box-c:var(--mute);--box-pad-x:calc(1.1 * var(--rd-fs));margin:1.4em 0;padding:.95em var(--box-pad-x) 1.05em;border-radius:18px;background:color-mix(in srgb,var(--box-c) 6%,var(--card));border:1px solid color-mix(in srgb,var(--box-c) 22%,var(--line))}
 .box>:last-child{margin-bottom:0}
 .box .bt,details.ans>summary{font-size:.78em;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);margin-bottom:.45em}
-.box .bt{color:var(--box-c);margin:0 calc(var(--box-pad-x) * -1) .65em;padding:0 var(--box-pad-x) .55em;border-bottom:1px solid var(--line)}
+.box .bt{color:var(--box-c);margin:0 calc(var(--box-pad-x) * -1) .65em;padding:0 var(--box-pad-x) .55em;border-bottom:1px solid color-mix(in srgb,var(--box-c) 24%,var(--line))}
 .box.key{--box-c:var(--pri);background:var(--pri-tint);border-color:var(--pri-line)}.box.key .bt{border-bottom-color:var(--pri-line)}
-.box.definition{--box-c:var(--ink)}
-.box.example{--box-c:#64748b}
-.box.derivation{--box-c:#485a80}
+.box.definition{--box-c:var(--pri)}
+.box.example{--box-c:#485a80}
+.box.derivation{--box-c:#2a47a3}
 .box.caution{--box-c:#a8650a}
-.box.tip{--box-c:#0b7a70}
-.box.memory{--box-c:#006782}
-.box.note{--box-c:var(--mute)}
+.box.tip{--box-c:#0a6a62}
+.box.memory{--box-c:#00598a}
+.box.note{--box-c:var(--mute);background:var(--card);border-color:var(--line)}
 body.dark .box.caution{--box-c:#f0b35e}
 body.dark .box.tip{--box-c:#5ed3c6}
 body.dark .box.derivation{--box-c:#c0c6dc}
@@ -140,7 +140,7 @@ window.nebGo=function(id){var h=document.getElementById(id);if(h)window.scrollTo
 var rate=100/(NEB_MIN*60*0.25),credit=NEB_READ,here=0,last=Date.now(),sent=0;
 function pos(){var h=document.documentElement.scrollHeight-innerHeight;return h>0?Math.max(0,Math.min(100,100*scrollY/h)):100}
 function send(){if(Date.now()-sent<2000)return;sent=Date.now();NebStudy.reading(Math.round(credit),Math.round(here))}
-addEventListener('scroll',function(){here=pos();send()},{passive:true});
+addEventListener('scroll',function(){if(Date.now()-sent<2000)return;here=pos();send()},{passive:true});
 setInterval(function(){var n=Date.now(),dt=Math.min(5,(n-last)/1000);last=n;here=pos();if(here>credit){credit=Math.min(here,credit+rate*dt);send()}},1000);
 if(NEB_PLACE>4&&NEB_PLACE<95){var r=document.createElement('button');r.className='resume';r.textContent='Resume where you stopped ('+NEB_PLACE+'%)';
 r.onclick=function(){var h=document.documentElement.scrollHeight-innerHeight;scrollTo({top:h*NEB_PLACE/100,behavior:'smooth'});r.remove()};document.body.appendChild(r);

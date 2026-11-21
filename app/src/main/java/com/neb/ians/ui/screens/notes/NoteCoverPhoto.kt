@@ -17,14 +17,26 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 
-/** A gallery cover. Decoded off the main thread; `light` halves it for list cards. */
+private val noteCoverBitmapCache = android.util.LruCache<String, ImageBitmap>(24)
+
+/** A gallery cover. Decoded off the main thread with bounded dimensions and LRU caching. */
 @Composable
 fun NoteCoverPhoto(file: File, modifier: Modifier = Modifier, light: Boolean = false) {
-    val bmp by produceState<ImageBitmap?>(null, file.path, light) {
+    val cacheKey = "${file.path}:${file.lastModified()}:$light"
+    val cached = androidx.compose.runtime.remember(cacheKey) { noteCoverBitmapCache.get(cacheKey) }
+    val bmp by produceState<ImageBitmap?>(cached, cacheKey) {
+        if (value != null) return@produceState
         value = withContext(Dispatchers.IO) {
             runCatching {
-                val opts = BitmapFactory.Options().apply { inSampleSize = if (light) 2 else 1 }
-                BitmapFactory.decodeFile(file.path, opts)?.asImageBitmap()
+                val maxDim = if (light) 640 else 1280
+                val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+                BitmapFactory.decodeFile(file.path, bounds)
+                var sample = 1
+                while (bounds.outWidth / sample > maxDim || bounds.outHeight / sample > maxDim) sample *= 2
+                val opts = BitmapFactory.Options().apply { inSampleSize = sample }
+                BitmapFactory.decodeFile(file.path, opts)?.asImageBitmap()?.also {
+                    noteCoverBitmapCache.put(cacheKey, it)
+                }
             }.getOrNull()
         }
     }

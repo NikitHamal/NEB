@@ -266,16 +266,3 @@ private fun earningsLine(price: Double, commissionPercent: Double): String {
     }
     return "You receive Rs. $keepsText per sale after the $feeText% platform fee"
 }
-
-
-
-/** A section label with the studio's small grey voice, used by the editors. */
-@Composable
-fun NebFieldHint(text: String, modifier: Modifier = Modifier) {
-    Text(
-        text = text,
-        style = MaterialTheme.typography.bodySmall,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
-        modifier = modifier
-    )
-}

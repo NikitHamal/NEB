@@ -316,8 +316,11 @@ class MediaPlayerViewModel @Inject constructor(
     fun setSpeed(speed: Float) {
         player?.setPlaybackSpeed(speed)
         _uiState.update { it.copy(speed = speed, speedMenuOpen = false) }
-        if (activeResourceId.isNotBlank()) {
-            application.getSharedPreferences(PREFS_NAME, 0).edit().putFloat("speed_$activeResourceId", speed).apply()
+        val resId = activeResourceId
+        if (resId.isNotBlank()) {
+            viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+                application.getSharedPreferences(PREFS_NAME, 0).edit().putFloat("speed_$resId", speed).apply()
+            }
         }
     }
 
@@ -368,12 +371,15 @@ class MediaPlayerViewModel @Inject constructor(
         val p = player ?: return
         val d = p.duration.coerceAtLeast(0)
         val t = p.currentPosition.coerceAtLeast(0)
-        if (d <= 0) return
-        val prefs = application.getSharedPreferences(PREFS_NAME, 0)
-        if (t > RESUME_MIN_MS && t < d - RESUME_END_PAD_MS) {
-            prefs.edit().putLong("pos_$activeResourceId", t).apply()
-        } else if (t >= d - RESUME_END_PAD_MS) {
-            prefs.edit().remove("pos_$activeResourceId").apply()
+        val resId = activeResourceId
+        if (d <= 0 || resId.isBlank()) return
+        viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+            val prefs = application.getSharedPreferences(PREFS_NAME, 0)
+            if (t > RESUME_MIN_MS && t < d - RESUME_END_PAD_MS) {
+                prefs.edit().putLong("pos_$resId", t).apply()
+            } else if (t >= d - RESUME_END_PAD_MS) {
+                prefs.edit().remove("pos_$resId").apply()
+            }
         }
     }
 

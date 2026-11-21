@@ -149,11 +149,16 @@ class StudyReaderViewModel @Inject constructor(
     }
 
     fun reading(read: Int, place: Int) {
-        val key = _state.value.key
+        val current = _state.value
+        val curMark = current.mark
+        if (read <= curMark.read && kotlin.math.abs(place - curMark.place) < 3) return
+        val key = current.key
         viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
             progress.setReading(key, read, place)
             val updated = progress.get(key)
-            _state.update { it.copy(mark = updated) }
+            if (updated != _state.value.mark) {
+                _state.update { it.copy(mark = updated) }
+            }
         }
     }
 

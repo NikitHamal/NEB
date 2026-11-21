@@ -126,6 +126,8 @@ private fun EmptyMediaCard(icon: ImageVector, label: String, onClick: () -> Unit
 /** Crop presets, 0 is the picture as taken. */
 internal val ImageRatios = listOf("Original" to 0f, "Square" to 1f, "Wide" to 16f / 9f, "Tall" to 0.8f)
 
+private val noteImageAspectCache = java.util.concurrent.ConcurrentHashMap<String, Float>()
+
 @Composable
 fun ImageBlockView(
     block: NoteBlock, vm: NoteEditorViewModel, readOnly: Boolean,
@@ -138,11 +140,15 @@ fun ImageBlockView(
         if (!readOnly) EmptyMediaCard(Icons.Outlined.Image, "Add a photo", { picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) })
         return
     }
-    val natural by produceState(1.5f, block.path) {
+    val cachedAspect = remember(block.path) { noteImageAspectCache[block.path] }
+    val natural by produceState(cachedAspect ?: 1.5f, block.path) {
+        if (cachedAspect != null) return@produceState
         value = withContext(Dispatchers.IO) {
             val o = BitmapFactory.Options().apply { inJustDecodeBounds = true }
             BitmapFactory.decodeFile(block.path, o)
-            if (o.outWidth > 0 && o.outHeight > 0) (o.outWidth.toFloat() / o.outHeight).coerceIn(0.4f, 3f) else 1.5f
+            val ratio = if (o.outWidth > 0 && o.outHeight > 0) (o.outWidth.toFloat() / o.outHeight).coerceIn(0.4f, 3f) else 1.5f
+            noteImageAspectCache[block.path] = ratio
+            ratio
         }
     }
     val aspect = ImageRatios.getOrNull(block.ratio)?.second?.takeIf { it > 0f } ?: natural
