@@ -397,6 +397,10 @@ class ResourceDetailViewModel @Inject constructor(
         }
     }
 
+    fun showSnackbar(message: String) {
+        _uiState.update { it.copy(snackbarMessage = message) }
+    }
+
     private fun stageCommentUpload(pending: PendingForumAttachment) {
         viewModelScope.launch {
             val result = mediaUploadHelper.upload(pending.uri, pending.kind, pending.name)

@@ -61,8 +61,6 @@ import com.neb.ians.ui.components.ShimmerCircle
 import com.neb.ians.ui.components.ShimmerLine
 import com.neb.ians.ui.components.NebModalSheet
 import com.neb.ians.ui.components.WebPillShape
-import com.neb.ians.ui.screens.home.NewsCategoryBadge
-import com.neb.ians.ui.screens.home.newsIcon
 import com.neb.ians.ui.components.NebButton
 import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone

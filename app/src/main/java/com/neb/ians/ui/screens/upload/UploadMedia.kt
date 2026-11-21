@@ -111,4 +111,26 @@ object UploadMedia {
             }
         return mime.toMediaTypeOrNull()
     }
+
+    fun getFileInfo(context: Context, uri: Uri): Pair<String, Long>? {
+        return try {
+            context.contentResolver.query(
+                uri,
+                arrayOf(android.provider.OpenableColumns.DISPLAY_NAME, android.provider.OpenableColumns.SIZE),
+                null,
+                null,
+                null
+            )?.use { cursor ->
+                val nameIndex = cursor.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME)
+                val sizeIndex = cursor.getColumnIndex(android.provider.OpenableColumns.SIZE)
+                if (cursor.moveToFirst() && nameIndex >= 0) {
+                    val name = cursor.getString(nameIndex)
+                    val size = if (sizeIndex >= 0 && !cursor.isNull(sizeIndex)) cursor.getLong(sizeIndex) else 0L
+                    Pair(name, size)
+                } else null
+            }
+        } catch (_: Exception) {
+            null
+        }
+    }
 }
