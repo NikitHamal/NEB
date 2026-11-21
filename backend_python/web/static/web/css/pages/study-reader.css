@@ -103,7 +103,8 @@ body.rd-mode .site-main { animation: none; }
 .rd-body li.num { list-style: none; }
 .rd-body a { color: var(--md-primary); }
 .rd-body strong { font-weight: 600; }
-.rd-body blockquote { margin: 1.2em 0; padding: .2em 0 .2em 1.1em; border-left: 3px solid var(--md-outline-variant); color: var(--md-on-surface-variant); }
+.rd-body blockquote { margin: 1.2em 0; padding: .85em 1.1em; border-radius: 16px; background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); color: var(--md-on-surface-variant); }
+.rd-body blockquote > :last-child { margin-bottom: 0; }
 .rd-body code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .88em; padding: .1em .35em; border-radius: 6px; background: var(--md-surface-container-high); }
 .rd-body pre { margin: 1.2em 0; padding: 14px 16px; border-radius: 12px; background: var(--md-surface-container-high); overflow-x: auto; font-size: .86em; line-height: 1.55; }
 .rd-body pre code { padding: 0; background: none; }

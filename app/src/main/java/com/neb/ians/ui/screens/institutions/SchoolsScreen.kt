@@ -100,22 +100,3 @@ val LocalOpenSchools = androidx.compose.runtime.staticCompositionLocalOf<() -> U
 val LocalOpenInstitution = androidx.compose.runtime.staticCompositionLocalOf<(String) -> Unit> { {} }
 val LocalClaimInstitution = androidx.compose.runtime.staticCompositionLocalOf<((String) -> Unit)?> { null }
 val LocalManageInstitution = androidx.compose.runtime.staticCompositionLocalOf<(String) -> Unit> { {} }
-
-/** A row at the top of Find a college: the colleges that filled their page, shown first. */
-@Composable
-fun PwOnNebRow(modifier: Modifier = Modifier) {
-    val open = LocalOpenSchools.current
-    androidx.compose.material3.Surface(
-        onClick = open,
-        color = MaterialTheme.colorScheme.tertiaryContainer,
-        shape = androidx.compose.foundation.shape.RoundedCornerShape(20.dp),
-        modifier = modifier.fillMaxWidth().padding(bottom = 14.dp)
-    ) {
-        Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
-            Column(Modifier.weight(1f)) {
-                Text("Colleges on NEBians", fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
-            }
-            Icon(androidx.compose.material.icons.Icons.Outlined.ChevronRight, null)
-        }
-    }
-}

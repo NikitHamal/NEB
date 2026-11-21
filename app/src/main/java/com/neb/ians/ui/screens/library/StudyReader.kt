@@ -210,6 +210,8 @@ fun StudyReaderScreen(onBack: () -> Unit, viewModel: StudyReaderViewModel = hilt
     var showToc by remember { mutableStateOf(false) }
     var answersOpen by remember(state.key) { mutableStateOf(false) }
     var zoomOpen by remember { mutableStateOf(false) }
+    var textScaleIdx by remember { mutableStateOf(1) }
+    val textScales = remember { floatArrayOf(0.92f, 1.0f, 1.1f, 1.2f) }
     // set by the page (NebStudy.exam); not keyed by remember, the WebView's bridge holds this one state
     var examOn by remember { mutableStateOf(false) }
     LaunchedEffect(state.key) { examOn = false }
@@ -243,15 +245,33 @@ fun StudyReaderScreen(onBack: () -> Unit, viewModel: StudyReaderViewModel = hilt
                             style = MaterialTheme.typography.labelLarge,
                             fontWeight = FontWeight.SemiBold,
                             modifier = Modifier
-                                .padding(end = 2.dp)
+                                .padding(end = 4.dp)
                                 .clip(RoundedCornerShape(28.dp))
-                                .background(if (answersOpen) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.surfaceContainerHigh)
+                                .background(if (answersOpen) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainerHigh)
                                 .nebPressable(onClick = {
                                     answersOpen = !answersOpen
                                     web?.evaluateJavascript("window.nebAnswers && nebAnswers($answersOpen)", null)
                                 })
                                 .padding(horizontal = 12.dp, vertical = 7.dp),
-                            color = if (answersOpen) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.onSurface
+                            color = if (answersOpen) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                    if (doc != null) {
+                        Text(
+                            text = if (textScaleIdx == 1) "Aa" else "Aa ${Math.round(textScales[textScaleIdx] * 100)}%",
+                            style = MaterialTheme.typography.labelLarge,
+                            fontWeight = FontWeight.SemiBold,
+                            color = if (textScaleIdx != 1) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier
+                                .padding(end = 2.dp)
+                                .clip(RoundedCornerShape(20.dp))
+                                .background(if (textScaleIdx != 1) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceContainerLow)
+                                .nebPressable(onClick = {
+                                    textScaleIdx = (textScaleIdx + 1) % textScales.size
+                                    val sc = textScales[textScaleIdx]
+                                    web?.evaluateJavascript("document.documentElement.style.setProperty('--rd-scale','$sc')", null)
+                                })
+                                .padding(horizontal = 10.dp, vertical = 7.dp)
                         )
                     }
                     if (doc != null && doc.toc.isNotEmpty()) {
@@ -292,22 +312,42 @@ fun StudyReaderScreen(onBack: () -> Unit, viewModel: StudyReaderViewModel = hilt
     }
 
     if (showToc && doc != null) {
-        ModalBottomSheet(onDismissRequest = { showToc = false }, containerColor = com.neb.ians.ui.theme.nebFloatColor()) {
-            Text("Contents", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(start = 20.dp, bottom = 8.dp))
-            LazyColumn(Modifier.fillMaxWidth().navigationBarsPadding()) {
-                items(doc.toc) { item ->
-                    Text(
-                        item.title,
-                        style = MaterialTheme.typography.bodyLarge,
-                        fontWeight = if (item.kind.isNotEmpty()) FontWeight.SemiBold else FontWeight.Normal,
+        com.neb.ians.ui.components.NebModalSheet(onDismiss = { showToc = false }, title = "On this page") {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                items(doc.toc, key = { it.id }) { item ->
+                    val isQs = item.kind == "qs"
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .nebPressable(scale = 0.99f, onClick = {
+                            .clip(RoundedCornerShape(16.dp))
+                            .background(if (isQs) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceContainerLow)
+                            .nebPressable(scale = 0.985f, onClick = {
                                 showToc = false
                                 web?.evaluateJavascript("window.nebGo && nebGo('${item.id}')", null)
                             })
-                            .padding(horizontal = 20.dp, vertical = 12.dp)
-                    )
+                            .padding(horizontal = 14.dp, vertical = 12.dp)
+                    ) {
+                        Text(
+                            text = item.title,
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = if (item.kind.isNotEmpty()) FontWeight.SemiBold else FontWeight.Medium,
+                            color = if (isQs) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.weight(1f)
+                        )
+                        if (isQs) {
+                            Text(
+                                text = "Practice",
+                                style = MaterialTheme.typography.labelSmall,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -320,15 +360,16 @@ private fun ReaderBottomBar(state: StudyReaderState, onPrev: () -> Unit, onNext:
     val c = MaterialTheme.colorScheme
     val done = state.mark.markedDone
     // Previous (round), mark done (tonal pill, fills the row), Next chapter (the one filled button).
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(c.surface)
-            .navigationBarsPadding()
-            .padding(horizontal = 14.dp, vertical = 10.dp)
-    ) {
+    Column(Modifier.fillMaxWidth().background(c.surface)) {
+        HorizontalDivider(thickness = 1.dp, color = c.outlineVariant)
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .navigationBarsPadding()
+                .padding(horizontal = 14.dp, vertical = 10.dp)
+        ) {
         if (doc.prev != null) {
             Box(
                 modifier = Modifier
@@ -385,10 +426,15 @@ private fun ReaderBottomBar(state: StudyReaderState, onPrev: () -> Unit, onNext:
                 Icon(Icons.AutoMirrored.Outlined.ArrowForward, contentDescription = "Next chapter", tint = c.onPrimary, modifier = Modifier.size(18.dp))
             }
         }
+        }
     }
 }
 
 private fun Color.hex(): String = String.format("#%06X", 0xFFFFFF and toArgb())
+private fun Color.rgba(alpha: Float): String {
+    val a = toArgb()
+    return "rgba(${android.graphics.Color.red(a)},${android.graphics.Color.green(a)},${android.graphics.Color.blue(a)},$alpha)"
+}
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
@@ -403,7 +449,9 @@ private fun ReaderWeb(
     val c = MaterialTheme.colorScheme
     val dark = c.surface.toArgb().let { (android.graphics.Color.red(it) + android.graphics.Color.green(it) + android.graphics.Color.blue(it)) < 384 }
     val vars = "--bg:${c.surface.hex()};--ink:${c.onSurface.hex()};--mute:${c.onSurfaceVariant.hex()};--line:${c.outlineVariant.hex()};" +
-        "--line2:${c.outline.hex()};--card:${c.surfaceContainerLow.hex()};--card2:${c.surfaceContainerHigh.hex()}"
+        "--line2:${c.outline.hex()};--card:${c.surfaceContainerLow.hex()};--card2:${c.surfaceContainerHigh.hex()};" +
+        "--pri:${c.primary.hex()};--on-pri:${c.onPrimary.hex()};--pri-tint:${c.primary.rgba(if (dark) 0.14f else 0.07f)};" +
+        "--pri-line:${c.primary.rgba(if (dark) 0.36f else 0.26f)};--zebra:${c.onSurface.rgba(0.04f)}"
     val html = remember(doc, state.key, vars) { readerPage(doc, state, vars, dark) }
     val context = androidx.compose.ui.platform.LocalContext.current
     AndroidView(

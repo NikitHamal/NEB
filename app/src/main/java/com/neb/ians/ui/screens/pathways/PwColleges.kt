@@ -54,7 +54,7 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
     val r = rid?.let { d.routeById[it] }
     if (r == null) { PwEmpty("No colleges yet"); return }
     val matches = ui.onNeb?.matches.orEmpty()
-    PwOnNebSection(ui.onNeb, remember(r.id, matches) { r.where.mapNotNull { matches[it] }.toSet() }, ui.district)
+    val onNebBySlug = remember(ui.onNeb) { ui.onNeb?.items?.associateBy { it.slug }.orEmpty() }
     if (fixed.isEmpty() && showRouteChips) {
         val near = remember(r.id, withWhere) { (listOf(r) + withWhere.filter { it.stage == r.stage && it.group == r.group && it.id != r.id }).take(20) }
         PwChipRow(near.map { it.id to it.name }, { it == r.id }, { s.collegeRoute = it }, Modifier.padding(bottom = 14.dp))
@@ -117,13 +117,29 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
         }
         if (districts.size > 1) PwChipRow(districts.map { it to it }, { it == district }, { district = if (it == district) "" else it; if (district.isNotEmpty()) vm.setDistrict(district, kindFor(r)) else vm.setDistrict("", "") }, inset = 0.dp)
         val needle = filterQ.trim().lowercase()
-        val list = remember(inProv, district, cmax, sort, matches, needle) {
+        val list = remember(inProv, district, cmax, sort, matches, onNebBySlug, needle) {
             inProv.filter { p ->
                 (district.isEmpty() || p.district == district) &&
                     (p.fees[r.id]?.second?.let { it / 100_000f <= cmax } ?: true) &&
                     (needle.isEmpty() || "${p.name} ${p.place} ${p.district}".lowercase().contains(needle))
             }
-                .sortedWith(if (sort == "fee") compareBy<PwProvider>({ if (it.id in matches) 0 else 1 }, { it.fees[r.id]?.second ?: Long.MAX_VALUE }, { it.name }) else compareBy<PwProvider>({ if (it.id in matches) 0 else 1 }, { -it.seats }, { it.name }))
+                .sortedWith(
+                    if (sort == "fee") {
+                        compareBy<PwProvider>(
+                            { if (it.id in matches) 0 else 1 },
+                            { -(onNebBySlug[matches[it.id]]?.completeness ?: 0) },
+                            { it.fees[r.id]?.second ?: Long.MAX_VALUE },
+                            { it.name }
+                        )
+                    } else {
+                        compareBy<PwProvider>(
+                            { if (it.id in matches) 0 else 1 },
+                            { -(onNebBySlug[matches[it.id]]?.completeness ?: 0) },
+                            { -it.seats },
+                            { it.name }
+                        )
+                    }
+                )
         }
         Spacer(Modifier.height(6.dp))
         Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -132,7 +148,24 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
             }
             list.take(shown).forEachIndexed { i, p ->
                 val fee = p.fees[r.id]?.second
-                PwSurface(Modifier.fillMaxWidth().pwRise(i, r.id), radius = 22.dp, onClick = if (p.id in matches) { { openInst(matches.getValue(p.id)) } } else if (p.website.isNotBlank()) { { runCatching { uri.openUri(p.website) }; Unit } } else null) {
+                val matchedSlug = matches[p.id]
+                val onNebItem = matchedSlug?.let { onNebBySlug[it] }
+                PwSurface(
+                    Modifier.fillMaxWidth().pwRise(i, r.id),
+                    radius = 22.dp,
+                    onClick = if (matchedSlug != null) {
+                        {
+                            com.neb.ians.ui.screens.institutions.InstitutionPeek.put(
+                                matchedSlug,
+                                p.name,
+                                listOf(p.kind.replaceFirstChar { it.uppercase() }, p.place, p.district).filter { it.isNotBlank() }.distinct().joinToString(" · ")
+                            )
+                            openInst(matchedSlug)
+                        }
+                    } else if (p.website.isNotBlank()) {
+                        { runCatching { uri.openUri(p.website) }; Unit }
+                    } else null
+                ) {
                     Column(Modifier.padding(16.dp, 14.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                             Column(Modifier.weight(1f)) {
@@ -140,8 +173,12 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
                                 Text(listOf(p.place, p.district, if (p.seats > 0) "${p.seats} seats" else "").filter { it.isNotBlank() }.distinct().joinToString(" · "),
                                     fontSize = 12.sp, fontWeight = FontWeight.Medium, color = c.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
                             }
-                            if (p.id in matches) PwTag("On NEBians", pwTone(0))
-                            else if (p.sector.isNotBlank()) PwTag(p.sector, pwTone(if (p.sector == "Public") 4 else 1))
+                            if (matchedSlug != null) {
+                                Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+                                    if (onNebItem?.admissionOpen == true) PwTag("Admissions open", pwTone(4))
+                                    PwTag("On NEBians", pwTone(0))
+                                }
+                            } else if (p.sector.isNotBlank()) PwTag(p.sector, pwTone(if (p.sector == "Public") 4 else 1))
                         }
                         if (p.note.isNotBlank()) {
                             Spacer(Modifier.height(4.dp))

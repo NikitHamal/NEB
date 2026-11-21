@@ -2,28 +2,6 @@
 
 package com.neb.ians.ui.screens.pathways
 
-import android.content.Intent
-import android.net.Uri
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Verified
-import androidx.compose.material.icons.outlined.Call
-import androidx.compose.material.icons.outlined.ChevronRight
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.neb.ians.ui.screens.institutions.LocalOpenInstitution
-import com.neb.ians.ui.screens.institutions.LocalOpenSchools
 import org.json.JSONObject
 
 /** A claimed institution that filled its page. `/api/pathways/on-neb/`, fullest first. */
@@ -63,55 +41,4 @@ internal fun parseOnNeb(text: String): PwOnNebData {
     val m = o.optJSONObject("matches")
     val matches: Map<String, String> = if (m == null) emptyMap() else m.keys().asSequence().associateWith { k -> m.optString(k) }
     return PwOnNebData(items, matches)
-}
-
-/** Top of Find a college: colleges that filled their page come first, matched ones for this course ahead. */
-@Composable
-internal fun PwOnNebSection(data: PwOnNebData?, courseSlugs: Set<String>, district: String) {
-    val open = LocalOpenInstitution.current
-    if (data == null || data.items.isEmpty()) { Box(Modifier.padding(horizontal = 16.dp)) { com.neb.ians.ui.screens.institutions.PwOnNebRow() }; return }
-    val c = MaterialTheme.colorScheme
-    val ctx = LocalContext.current
-    val shown = remember(data, courseSlugs, district) {
-        data.items.sortedWith(compareBy({ if (it.slug in courseSlugs) 0 else 1 }, { if (district.isNotEmpty() && it.district == district) 0 else 1 }, { -it.completeness }))
-            .take(6)
-    }
-    PwH4("On NEBians", Modifier.padding(horizontal = 16.dp))
-    Column(Modifier.padding(horizontal = 16.dp).padding(bottom = 14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        shown.forEachIndexed { i, p ->
-            PwSurface(Modifier.fillMaxWidth().pwRise(i, "onneb"), radius = 22.dp, onClick = {
-                com.neb.ians.ui.screens.institutions.InstitutionPeek.put(p.slug, p.name, listOf(p.kind.replaceFirstChar { it.uppercase() }, p.place, p.district).filter { it.isNotBlank() }.distinct().joinToString(" · "))
-                open(p.slug)
-            }) {
-                Column(Modifier.padding(16.dp, 14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                        Column(Modifier.weight(1f)) {
-                            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                                Text(p.name, Modifier.weight(1f, fill = false), fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, lineHeight = 18.sp, maxLines = 2, overflow = TextOverflow.Ellipsis)
-                                Icon(Icons.Filled.Verified, null, Modifier.size(16.dp), tint = c.primary)
-                            }
-                            Text(listOf(p.kind.replaceFirstChar { it.uppercase() }, p.place, p.district).filter { it.isNotBlank() }.distinct().joinToString(" · "),
-                                fontSize = 12.sp, fontWeight = FontWeight.Medium, color = c.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                        }
-                        Icon(Icons.Outlined.ChevronRight, null, tint = c.onSurfaceVariant)
-                    }
-                    FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                        if (p.admissionOpen) PwTag("Admissions open", pwTone(4))
-                        if (p.slug in courseSlugs) PwTag("Offers this course", pwTone(0))
-                        p.feeMin?.takeIf { it > 0 }?.let { PwTag("From ${lakhText(it / 100_000f)}", pwTone(1)) }
-                        p.levels.take(3).forEach { PwTag(institutionLevelLabel(it), pwTone(2)) }
-                    }
-                    if (p.phone.isNotBlank()) Row(
-                        Modifier.heightIn(min = 36.dp).clickable { runCatching { ctx.startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + p.phone.filter { it.isDigit() || it == '+' }))) } },
-                        verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp),
-                    ) {
-                        Icon(Icons.Outlined.Call, null, Modifier.size(16.dp), tint = c.primary)
-                        Text("Call ${p.phone}", fontSize = 12.5.sp, fontWeight = FontWeight.SemiBold, color = c.primary, maxLines = 1)
-                    }
-                }
-            }
-        }
-        val all = LocalOpenSchools.current
-        PwButton("All colleges on NEBians", null, false, all, Modifier.fillMaxWidth())
-    }
 }
