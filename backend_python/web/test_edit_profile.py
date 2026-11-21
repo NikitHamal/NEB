@@ -37,8 +37,9 @@ class EditProfileTests(TestCase):
     def test_old_class_select_is_gone_and_picker_inputs_exist(self):
         html = self._html()
         self.assertNotIn('class_level_picker_trigger', html)
+        self.assertNotIn('name="headline"', html)
         for name in ('class_level', 'edu_status', 'edu_program', 'edu_term', 'edu_completed',
-                     'headline', 'skills', 'open_to'):
+                     'skills', 'open_to'):
             self.assertRegex(html, r'name="%s"' % name)
         self.assertIn('id="epf-boot"', html)
 
@@ -46,25 +47,25 @@ class EditProfileTests(TestCase):
         post = {'username': self.user.username, 'dob': '2007-02-27', 'display_name': 'Nik H',
                 'gender': 'Male', 'role': 'student', 'class_level': 'Bachelors',
                 'edu_status': 'studying', 'edu_program': 'BSc CSIT', 'edu_term': 'Semester 3',
-                'edu_completed': '', 'headline': 'Building things', 'skills': 'Python,Design',
+                'edu_completed': '', 'bio': 'Building things', 'skills': 'Python,Design',
                 'open_to': 'collab,mentoring', 'email': self.user.email}
         r = self.client.post('/app/profile/edit/', post)
         self.assertIn(r.status_code, (200, 302), r.content[:300])
         self.user.refresh_from_db()
         self.assertEqual((self.user.edu_program, self.user.edu_term, self.user.edu_status),
                          ('BSc CSIT', 'Semester 3', 'studying'))
-        self.assertEqual(self.user.headline, 'Building things')
+        self.assertEqual(self.user.bio, 'Building things')
         self.assertEqual(self.user.skills, 'Python,Design')
         self.assertEqual(self.user.open_to, 'collab,mentoring')
 
     def test_post_without_the_new_fields_leaves_them_alone(self):
-        self.user.headline = 'Keep me'
+        self.user.skills = 'Python,Design'
         self.user.save()
         post = {'username': self.user.username, 'dob': '2007-02-27', 'display_name': 'Nik',
                 'gender': 'Male', 'role': 'student', 'class_level': 'Bachelors'}
         self.client.post('/app/profile/edit/', post)
         self.user.refresh_from_db()
-        self.assertEqual(self.user.headline, 'Keep me')
+        self.assertEqual(self.user.skills, 'Python,Design')
 
     def test_bad_status_is_refused(self):
         post = {'username': self.user.username, 'dob': '2007-02-27', 'display_name': 'Nik',

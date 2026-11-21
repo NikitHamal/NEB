@@ -62,7 +62,7 @@ class OnboardingTests(TestCase):
 
     def test_dropout_story_round_trips(self):
         r = self._save(status='dropped_out', level='Bachelors', program='BSc CSIT', term='Year 1',
-                       completed='+2 Passout', headline='Learning to code my own way',
+                       completed='+2 Passout', bio='Learning to code my own way',
                        skills='Python,Design', openTo='collab,mentoring', district='Kathmandu', pradesh='3')
         self.assertEqual(r.status_code, 200, r.content)
         self.user.refresh_from_db()
@@ -70,7 +70,7 @@ class OnboardingTests(TestCase):
                           self.user.edu_term, self.user.edu_completed),
                          ('dropped_out', 'Bachelors', 'BSc CSIT', 'Year 1', '+2 Passout'))
         self.assertEqual(self.user.open_to, 'collab,mentoring')
-        self.assertEqual(self.user.headline, 'Learning to code my own way')
+        self.assertEqual(self.user.bio, 'Learning to code my own way')
 
     def test_validation(self):
         for over, field in [({'role': 'wizard'}, 'role'), ({'displayName': ' '}, 'displayName'),
