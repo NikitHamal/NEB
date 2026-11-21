@@ -21,6 +21,15 @@ object InlineImageTokens {
 
     fun newPendingKey(): String = "u" + Random.nextInt(0x1000000, 0xFFFFFFF).toString(16)
 
+    /** Ordered unique numeric image ids referenced by the text. */
+    fun extractIds(text: String): List<Int> {
+        val seen = linkedSetOf<Int>()
+        REGEX.findAll(text).forEach { m ->
+            m.groupValues[1].toIntOrNull()?.let { seen.add(it) }
+        }
+        return seen.toList()
+    }
+
     /** Replace tokens with a plain-text placeholder (previews, share sheets). */
     fun plainText(text: String, placeholder: String = "[image]"): String =
         REGEX.replace(text, placeholder)

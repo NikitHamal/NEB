@@ -1074,7 +1074,8 @@ private enum class FsGestureType { BRIGHTNESS, VOLUME, SEEK }
 @Composable
 private fun FullscreenVideoOverlay(
     viewModel: MediaPlayerViewModel,
-    onExit: () -> Unit
+    onExit: () -> Unit,
+    subjectColor: Color = MaterialTheme.colorScheme.onSurface
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val player = viewModel.getPlayer()

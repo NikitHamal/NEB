@@ -10,6 +10,8 @@ import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.repository.SecurePrefs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -46,9 +48,9 @@ class NebyCreditsViewModel @Inject constructor(
                 val (bal, hist) = withContext(Dispatchers.IO) {
                     val token = SecurePrefs.getAuthToken(getApplication()) ?: ""
                     val bearer = "Bearer $token"
-                    kotlinx.coroutines.coroutineScope {
-                        val b = kotlinx.coroutines.async { apiService.getCreditBalance(bearer) }
-                        val h = kotlinx.coroutines.async { apiService.getCreditHistory(bearer) }
+                    coroutineScope {
+                        val b = async { apiService.getCreditBalance(bearer) }
+                        val h = async { apiService.getCreditHistory(bearer) }
                         b.await() to h.await()
                     }
                 }
