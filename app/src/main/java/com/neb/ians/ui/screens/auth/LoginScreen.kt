@@ -67,7 +67,6 @@ private tailrec fun Context.findActivity(): Activity? = when (this) {
     else -> null
 }
 
-private const val OAUTH_PREFS = "nebians_oauth_prefs"
 private const val REQUEST_CODE_OAUTH_CUSTOM_TAB = 9041
 private const val GOOGLE_DIRECT_OAUTH_URL =
     "https://accounts.google.com/o/oauth2/v2/auth" +
@@ -88,9 +87,6 @@ private const val GITHUB_DIRECT_OAUTH_URL =
 @Volatile
 private var nativeCredMgrBrokenInSession = false
 
-@Volatile
-private var nativeGoogleCertVerified: Boolean? = null
-
 private fun isConfigOrReauthFailure(msgRaw: String?): Boolean {
     val msg = (msgRaw ?: "").lowercase()
     return "reauth" in msg || "28444" in msg || "developer" in msg || "10:" in msg || "unregistered" in msg
@@ -103,44 +99,8 @@ private fun isTrueUserCancellation(e: GetCredentialCancellationException): Boole
     return "cancel" in msg || "12501" in msg || "user" in msg
 }
 
-@Suppress("DEPRECATION")
-private fun isNativeGoogleIdConfigured(context: Context): Boolean {
-    if (nativeCredMgrBrokenInSession) return false
-    nativeGoogleCertVerified?.let { return it }
-    val verified = runCatching {
-        val prefs = context.getSharedPreferences(OAUTH_PREFS, Context.MODE_PRIVATE)
-        val disableKey = "cred_mgr_disabled_v${com.neb.ians.BuildConfig.VERSION_CODE}"
-        if (prefs.contains(disableKey)) {
-            prefs.edit().remove(disableKey).apply()
-        }
-        val registered = com.neb.ians.BuildConfig.GOOGLE_ANDROID_CERT_HASHES
-            .split(",")
-            .map { it.trim().replace(":", "").lowercase() }
-            .filter { it.length == 40 || it.length == 64 }
-            .toSet()
-        if (registered.isEmpty()) return@runCatching true
-        val pm = context.packageManager
-        val sigs = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
-            val info = pm.getPackageInfo(context.packageName, android.content.pm.PackageManager.GET_SIGNING_CERTIFICATES).signingInfo
-            if (info == null) emptyArray()
-            else if (info.hasMultipleSigners()) info.apkContentsSigners
-            else info.signingCertificateHistory
-        } else {
-            pm.getPackageInfo(context.packageName, android.content.pm.PackageManager.GET_SIGNATURES).signatures ?: emptyArray()
-        }
-        if (sigs.isEmpty()) return@runCatching true
-        val sha1Digest = java.security.MessageDigest.getInstance("SHA-1")
-        val sha256Digest = java.security.MessageDigest.getInstance("SHA-256")
-        sigs.any { sig ->
-            val bytes = sig.toByteArray()
-            val sha1 = sha1Digest.digest(bytes).joinToString("") { "%02x".format(it) }
-            val sha256 = sha256Digest.digest(bytes).joinToString("") { "%02x".format(it) }
-            sha1 in registered || sha256 in registered
-        }
-    }.getOrDefault(true)
-    nativeGoogleCertVerified = verified
-    return verified
-}
+private fun isNativeGoogleIdConfigured(context: Context): Boolean =
+    !nativeCredMgrBrokenInSession && com.neb.ians.util.AppIntegrity.isSigningCertRegistered(context)
 
 private fun extractGoogleIdToken(credential: androidx.credentials.Credential): String? = when {
     credential is GoogleIdTokenCredential -> credential.idToken

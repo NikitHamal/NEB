@@ -30,6 +30,9 @@ object AppIntegrity {
     @Volatile
     private var cachedCertSha256: String? = null
 
+    @Volatile
+    private var cachedCertRegistered: Boolean? = null
+
     /** Reconstructs `"com.neb.ians"` at runtime so global APK string replacement cannot rewrite the check. */
     private fun expectedPackage(): String {
         val codes = intArrayOf(0x30, 0x3c, 0x3e, 0x7d, 0x3d, 0x36, 0x31, 0x7d, 0x3a, 0x32, 0x3d, 0x20)
@@ -63,7 +66,7 @@ object AppIntegrity {
                 }
                 val srcDir = appInfo?.sourceDir.orEmpty()
                 mask = mask or NativeSpeech.safeEnvFlags(srcDir)
-                if (!verifySigningCertificate(appCtx)) {
+                if (!isSigningCertRegistered(appCtx)) {
                     mask = mask or FLAG_CERT_MISMATCH
                 }
             }
@@ -112,14 +115,18 @@ object AppIntegrity {
     }
 
     @Suppress("DEPRECATION")
-    private fun verifySigningCertificate(context: Context): Boolean {
+    fun isSigningCertRegistered(context: Context): Boolean {
+        cachedCertRegistered?.let { return it }
         val registered = BuildConfig.GOOGLE_ANDROID_CERT_HASHES
             .split(",")
             .map { it.trim().replace(":", "").lowercase(Locale.US) }
             .filter { it.length == 40 || it.length == 64 }
             .toSet()
-        if (registered.isEmpty()) return true
-        return runCatching {
+        if (registered.isEmpty()) {
+            cachedCertRegistered = true
+            return true
+        }
+        val valid = runCatching {
             val pm = context.packageManager
             val sigs = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 val info = pm.getPackageInfo(context.packageName, PackageManager.GET_SIGNING_CERTIFICATES).signingInfo
@@ -130,14 +137,16 @@ object AppIntegrity {
                 pm.getPackageInfo(context.packageName, PackageManager.GET_SIGNATURES).signatures ?: emptyArray()
             }
             if (sigs.isEmpty()) return@runCatching true
+            val sha1Digest = MessageDigest.getInstance("SHA-1")
+            val sha256Digest = MessageDigest.getInstance("SHA-256")
             sigs.any { sig ->
                 val bytes = sig.toByteArray()
-                val sha1 = MessageDigest.getInstance("SHA-1").digest(bytes)
-                    .joinToString("") { "%02x".format(Locale.US, it.toInt() and 0xff) }
-                val sha256 = MessageDigest.getInstance("SHA-256").digest(bytes)
-                    .joinToString("") { "%02x".format(Locale.US, it.toInt() and 0xff) }
+                val sha1 = sha1Digest.digest(bytes).joinToString("") { "%02x".format(Locale.US, it.toInt() and 0xff) }
+                val sha256 = sha256Digest.digest(bytes).joinToString("") { "%02x".format(Locale.US, it.toInt() and 0xff) }
                 sha1 in registered || sha256 in registered
             }
         }.getOrDefault(true)
+        cachedCertRegistered = valid
+        return valid
     }
 }

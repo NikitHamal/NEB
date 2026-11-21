@@ -15,10 +15,26 @@ import javax.crypto.spec.SecretKeySpec
 
 object SecurePrefs {
 
-    private const val FILE_NAME = "nebians_secure_prefs"
-    private const val KEY_AUTH_TOKEN = "auth_token"
-    private const val FALLBACK_FILE = "nebians_secure_prefs_fallback"
-    private const val FALLBACK_AUTH_TOKEN = "auth_token"
+    private fun unxor(enc: IntArray, key: Int): String =
+        String(CharArray(enc.size) { i -> (enc[i] xor ((key + i * 5) and 0xff)).toChar() })
+
+    private val FILE_NAME: String = unxor(
+        intArrayOf(0x54, 0x5a, 0x26, 0x20, 0x2f, 0x3d, 0x2b, 0x02, 0x11, 0x02, 0x0f, 0x04, 0x04, 0x1e, 0xdf, 0xf5, 0xf8, 0xea, 0xf2, 0xea),
+        0x3a
+    )
+    private val KEY_AUTH_TOKEN: String = unxor(
+        intArrayOf(0x2c, 0x27, 0x23, 0x34, 0x3e, 0x12, 0x04, 0x1b, 0x10, 0x14),
+        0x4d
+    )
+    private val FALLBACK_FILE: String = unxor(
+        intArrayOf(0x38, 0x3e, 0x02, 0x0c, 0x0b, 0x01, 0x07, 0x26, 0x0d, 0xe6, 0xeb, 0xf8, 0xe0, 0xf2, 0xc3, 0xd1, 0xd4, 0xce, 0xd6, 0xc6, 0xe5, 0xd9, 0xa5, 0xa5, 0xa2, 0xb1, 0xb9, 0xbe, 0x89),
+        0x56
+    )
+    private val FALLBACK_AUTH_TOKEN: String get() = KEY_AUTH_TOKEN
+    private val FALLBACK_SEED: String = unxor(
+        intArrayOf(0x0d, 0x0d, 0x0f, 0x5f, 0x11, 0x1d, 0xed, 0xea, 0xe9, 0xf1, 0xf6, 0xf1, 0xb2, 0xc5, 0xcc, 0xdd, 0x9e, 0xce, 0x8f),
+        0x63
+    )
     private const val SEAL_PREFIX = "v2:"
 
     @Volatile
@@ -85,7 +101,7 @@ object SecurePrefs {
     private fun deriveFallbackKey(context: Context): SecretKeySpec {
         val appCtx = context.applicationContext ?: context
         val cert = AppIntegrity.signingCertSha256(appCtx)
-        val seed = "${appCtx.packageName}|$cert|neb-fallback-aes-v2"
+        val seed = "${appCtx.packageName}|$cert|$FALLBACK_SEED"
         val keyBytes = MessageDigest.getInstance("SHA-256").digest(seed.toByteArray(Charsets.UTF_8))
         return SecretKeySpec(keyBytes, "AES")
     }

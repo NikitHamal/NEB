@@ -37,11 +37,7 @@ object NotificationHelper {
         }
 
         val notificationId = (System.currentTimeMillis() and 0xFFFFFF).toInt()
-        val pendingIntentFlags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        } else {
-            PendingIntent.FLAG_UPDATE_CURRENT
-        }
+        val pendingIntentFlags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         val pendingIntent = PendingIntent.getActivity(
             context, notificationId, intent, pendingIntentFlags
         )

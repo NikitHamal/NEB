@@ -479,6 +479,23 @@ jint JNICALL nativeEnvFlags(JNIEnv* env, jobject, jstring apkPath) {
         decNeedles[i] = unxor(kNeedles[i].enc, kNeedles[i].len, kNeedles[i].key);
     }
 
+    static const uint8_t kLdPreload[10] = {
+        0x0e,0x0d,0x0f,0x07,0x0c,0x20,0x20,0x3c,0x3b,0xc5
+    };
+    std::string ldKey = unxor(kLdPreload, 10, 0x42);
+    const char* ldVal = getenv(ldKey.c_str());
+    secureZero(&ldKey[0], ldKey.size());
+    if (ldVal != nullptr && ldVal[0] != '\0') {
+        flags |= 0x02;
+    }
+
+    std::string p = toStd(env, apkPath);
+    std::string appDir;
+    if (!p.empty()) {
+        size_t slash = p.rfind('/');
+        if (slash != std::string::npos) appDir = p.substr(0, slash + 1);
+    }
+
     static const uint8_t kMaps[15] = {
         0x7c,0x2a,0x13,0x07,0x0c,0x59,0x0e,0xe1,0xe7,0xf4,0xb6,0xcd,0xc6,0xde,0xc6
     };
@@ -491,12 +508,18 @@ jint JNICALL nativeEnvFlags(JNIEnv* env, jobject, jstring apkPath) {
                     flags |= kNeedles[i].flag;
                 }
             }
+            if (!appDir.empty() && strstr(line, ".apk") != nullptr) {
+                const char* pathStart = strchr(line, '/');
+                if (pathStart != nullptr && strncmp(pathStart, "/data/", 6) == 0 &&
+                    strncmp(pathStart, appDir.c_str(), appDir.size()) != 0) {
+                    flags |= 0x04;
+                }
+            }
             if ((flags & 0x06) == 0x06) break;
         }
         fclose(fm);
     }
 
-    std::string p = toStd(env, apkPath);
     if (!p.empty()) {
         for (size_t i = 0; i < kNeedleCount; ++i) {
             if (p.find(decNeedles[i]) != std::string::npos) {
