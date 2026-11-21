@@ -26,6 +26,7 @@ enum class TactileType {
     LongPress
 }
 
+@androidx.compose.runtime.Stable
 class TactileFeedback(
     private val view: View?,
     private val context: Context?
@@ -142,12 +143,27 @@ class TactileFeedback(
     }
 }
 
+private var cachedTactileView: java.lang.ref.WeakReference<View>? = null
+private var cachedTactileInstance: TactileFeedback? = null
+
 @Composable
 fun rememberTactileFeedback(): TactileFeedback {
     val view = LocalView.current
+    val existing = cachedTactileInstance
+    if (existing != null && cachedTactileView?.get() === view) {
+        return existing
+    }
     val context = LocalContext.current
-    return remember(view, context) {
-        TactileFeedback(view, context.applicationContext)
+    return remember(view) {
+        val check = cachedTactileInstance
+        if (check != null && cachedTactileView?.get() === view) {
+            check
+        } else {
+            TactileFeedback(view, context.applicationContext).also {
+                cachedTactileView = java.lang.ref.WeakReference(view)
+                cachedTactileInstance = it
+            }
+        }
     }
 }
 

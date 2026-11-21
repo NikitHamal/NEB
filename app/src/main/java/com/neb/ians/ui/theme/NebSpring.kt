@@ -27,12 +27,21 @@ import androidx.compose.ui.platform.LocalContext
 // how a user says they do not want to watch anything move.
 // ---------------------------------------------------------------------------
 
-/** True when the user has asked the system not to animate anything. */
+@Volatile
+private var legacyAnimationsReduced: Boolean? = null
+
+/** True when the user has asked the system not to animate anything. Zero Binder IPC on API 26+. */
 @Composable
 fun nebAnimationsReduced(): Boolean {
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        return !android.animation.ValueAnimator.areAnimatorsEnabled()
+    }
+    legacyAnimationsReduced?.let { return it }
     val resolver = LocalContext.current.contentResolver
     return remember(resolver) {
-        Settings.Global.getFloat(resolver, Settings.Global.ANIMATOR_DURATION_SCALE, 1f) == 0f
+        (Settings.Global.getFloat(resolver, Settings.Global.ANIMATOR_DURATION_SCALE, 1f) == 0f).also {
+            legacyAnimationsReduced = it
+        }
     }
 }
 

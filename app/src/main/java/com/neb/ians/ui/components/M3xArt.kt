@@ -93,16 +93,26 @@ object M3xArt {
     }
 
     fun coverKey(c: Cover) = "cover|${c.seed}||${c.layout}|"
+    fun trimMemory() = M3xPieces.trim()
 }
 
 private object M3xPieces {
-    private val lru = LruCache<String, M3xPiece>(40)
+    private val lru = LruCache<String, M3xPiece>(96)
+    private val bySeed = LruCache<String, M3xPiece>(96)
     fun peek(key: String): M3xPiece? = synchronized(this) { lru.get(key) }
+    fun peekBySeed(seedKey: String): M3xPiece? = synchronized(this) { bySeed.get(seedKey) }
     fun get(layout: String, cacheKey: String, seedKey: String, w: Double, h: Double): M3xPiece {
         peek(cacheKey)?.let { return it }
         val built = M3xLayouts.build(layout, seedKey, w, h)
-        synchronized(this) { lru.put(cacheKey, built) }
+        synchronized(this) {
+            lru.put(cacheKey, built)
+            bySeed.put(seedKey, built)
+        }
         return built
+    }
+    fun trim() = synchronized(this) {
+        lru.evictAll()
+        bySeed.evictAll()
     }
 }
 
@@ -143,20 +153,28 @@ private fun M3xArtView(layout: String, palette: String, key: String, h: Double, 
     val tones = remember(palette, dark) { M3xPalette.tones(palette, dark) }
     var box by remember { mutableStateOf(IntSize.Zero) }
     val aspect = if (box.width > 0 && box.height > 0) m3xFit(box.width, box.height) else 0f
-    val piece by produceState<M3xPiece?>(null, key, aspect) {
+    val initialPiece = remember(key, aspect) {
+        if (aspect > 0f) {
+            val w = Math.round(h * aspect).toInt()
+            M3xPieces.peek("$key@$w") ?: M3xPieces.peekBySeed(key)
+        } else {
+            M3xPieces.peekBySeed(key)
+        }
+    }
+    val piece by produceState<M3xPiece?>(initialPiece, key, aspect) {
         if (aspect <= 0f) return@produceState
         val w = Math.round(h * aspect).toDouble()
-        value = withContext(Dispatchers.Default) { M3xPieces.get(layout, "$key@${w.toInt()}", key, w, h) }
+        val cacheKey = "$key@${w.toInt()}"
+        value = M3xPieces.peek(cacheKey) ?: withContext(Dispatchers.Default) { M3xPieces.get(layout, cacheKey, key, w, h) }
     }
-    val context = LocalContext.current
     // [live] = play the settle once for this drawing (a pick, or the first time it shows). Off when animations are off system-wide.
-    val motion = remember(live) { live && Settings.Global.getFloat(context.contentResolver, Settings.Global.ANIMATOR_DURATION_SCALE, 1f) > 0f }
+    val motion = live && !com.neb.ians.ui.theme.nebAnimationsReduced()
     val settle = remember(key, motion) { Animatable(if (motion) 0f else 1f) }
     LaunchedEffect(piece, settle) {
         if (piece != null && settle.value < 1f) settle.animateTo(1f, spring(dampingRatio = 0.62f, stiffness = Spring.StiffnessLow))
     }
     // the page tone shows at once; the drawing lands as soon as it is built for this box
-    Canvas(modifier.onSizeChanged { box = it }.background(tones[0])) {
+    Canvas(modifier.onSizeChanged { if (box != it) box = it }.background(tones[0])) {
         val p = piece ?: return@Canvas
         drawM3x(p, tones, settle.value)
     }

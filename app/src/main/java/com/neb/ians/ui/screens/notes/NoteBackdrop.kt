@@ -18,19 +18,39 @@ import java.io.File
 import kotlin.math.max
 import kotlin.math.roundToInt
 
+private object NoteBackdropCache {
+    private val cache = android.util.LruCache<String, ImageBitmap>(8)
+    fun get(key: String): ImageBitmap? = synchronized(cache) { cache.get(key) }
+    fun put(key: String, bmp: ImageBitmap) { synchronized(cache) { cache.put(key, bmp) } }
+}
+
 /** The page picture, decoded once off the main thread (null while loading or when the note has none). */
 @Composable
-fun rememberBackdrop(file: File?): State<ImageBitmap?> = produceState<ImageBitmap?>(null, file?.path) {
-    value = if (file == null) null else withContext(Dispatchers.IO) {
-        runCatching {
-            val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
-            BitmapFactory.decodeFile(file.path, bounds)
-            var sample = 1
-            val longest = maxOf(bounds.outWidth, bounds.outHeight)
-            while (longest / sample > 2048) sample *= 2
-            val opts = BitmapFactory.Options().apply { inSampleSize = sample }
-            BitmapFactory.decodeFile(file.path, opts)?.asImageBitmap()
-        }.getOrNull()
+fun rememberBackdrop(file: File?): State<ImageBitmap?> {
+    val cacheKey = file?.path
+    val cached = if (cacheKey != null) NoteBackdropCache.get(cacheKey) else null
+    return produceState<ImageBitmap?>(cached, cacheKey) {
+        if (file == null) {
+            value = null
+            return@produceState
+        }
+        NoteBackdropCache.get(file.path)?.let {
+            value = it
+            return@produceState
+        }
+        value = withContext(Dispatchers.IO) {
+            runCatching {
+                val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+                BitmapFactory.decodeFile(file.path, bounds)
+                var sample = 1
+                val longest = maxOf(bounds.outWidth, bounds.outHeight)
+                while (longest / sample > 2048) sample *= 2
+                val opts = BitmapFactory.Options().apply { inSampleSize = sample }
+                BitmapFactory.decodeFile(file.path, opts)?.asImageBitmap()?.also {
+                    NoteBackdropCache.put(file.path, it)
+                }
+            }.getOrNull()
+        }
     }
 }
 
