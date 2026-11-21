@@ -122,7 +122,7 @@ fun LegalScreen(
                     }
                 )
             }
-            items(document.sections, key = { "${document.key}_${it.number}" }) { section ->
+            items(document.sections, key = { "${document.key}_${it.number}" }, contentType = { "legal_section" }) { section ->
                 LegalSectionBlock(
                     section = section,
                     colors = colors,
@@ -133,7 +133,7 @@ fun LegalScreen(
                         .padding(18.dp)
                 )
             }
-            item(key = "contact") {
+            item(key = "contact", contentType = "contact") {
                 LegalContactCard(email = document.contactEmail)
             }
         }

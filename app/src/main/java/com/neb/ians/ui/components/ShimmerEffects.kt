@@ -52,38 +52,48 @@ import com.neb.ians.ui.components.NebButton
 import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone
 
-/** A shimmer: its colours and a sweep that runs 0..1 every second. */
+/** A shimmer: its tonal endpoints and a pulse that runs 0..1 every second. */
 @Stable
-class ShimmerSweep internal constructor(internal val colors: List<Color>, internal val progress: State<Float>)
+class ShimmerSweep internal constructor(
+    internal val baseColor: Color,
+    internal val highlightColor: Color,
+    internal val progress: State<Float>
+)
+
+private val LocalShimmerSweep = androidx.compose.runtime.compositionLocalOf<ShimmerSweep?> { null }
+private val StaticShimmerProgress = androidx.compose.runtime.mutableFloatStateOf(0.5f)
 
 @Composable
 fun rememberShimmerSweep(): ShimmerSweep {
-    val colors = listOf(
-        MaterialTheme.colorScheme.surfaceVariant,
-        MaterialTheme.colorScheme.surfaceContainerHigh,
-        MaterialTheme.colorScheme.surfaceVariant
-    )
-
-    val infiniteTransition = rememberInfiniteTransition(label = "shimmer")
-    val progress = infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 1000, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
-        ),
-        label = "shimmerFloat"
-    )
-    return remember(colors, progress) { ShimmerSweep(colors, progress) }
+    LocalShimmerSweep.current?.let { return it }
+    val baseColor = MaterialTheme.colorScheme.surfaceVariant
+    val highlightColor = MaterialTheme.colorScheme.surfaceContainerHigh
+    val reduced = com.neb.ians.ui.theme.nebAnimationsReduced()
+    val progress: State<Float> = if (reduced) {
+        StaticShimmerProgress
+    } else {
+        val infiniteTransition = rememberInfiniteTransition(label = "shimmer")
+        infiniteTransition.animateFloat(
+            initialValue = 0f,
+            targetValue = 1f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(durationMillis = 900, easing = LinearEasing),
+                repeatMode = RepeatMode.Reverse
+            ),
+            label = "shimmerFloat"
+        )
+    }
+    return remember(baseColor, highlightColor, progress) {
+        ShimmerSweep(baseColor, highlightColor, progress)
+    }
 }
 
 /**
- * Fills the element with the moving shimmer. The sweep is read while drawing, so a skeleton only
- * redraws each frame; reading it in composition recomposed every skeleton piece on every frame.
+ * Fills the element with an M3X flat tonal pulse. The progress is read while drawing, so a skeleton
+ * only redraws each frame without allocating LinearGradient shaders or recomposing.
  */
 fun Modifier.shimmer(sweep: ShimmerSweep): Modifier = drawBehind {
-    val x = sweep.progress.value * 400f
-    drawRect(Brush.linearGradient(sweep.colors, start = Offset(x, 0f), end = Offset(x + 400f, 0f)))
+    drawRect(androidx.compose.ui.graphics.lerp(sweep.baseColor, sweep.highlightColor, sweep.progress.value))
 }
 
 @Composable
@@ -282,92 +292,100 @@ fun ShimmerListItem(
 @Composable
 fun ShimmerHomeScreen() {
     val sweep = rememberShimmerSweep()
-    Column(
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+    androidx.compose.runtime.CompositionLocalProvider(LocalShimmerSweep provides sweep) {
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            repeat(5) {
-                Box(
-                    modifier = Modifier
-                        .width(80.dp)
-                        .height(32.dp)
-                        .clip(RoundedCornerShape(50))
-                        .shimmer(sweep)
-                )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                repeat(5) {
+                    Box(
+                        modifier = Modifier
+                            .width(80.dp)
+                            .height(32.dp)
+                            .clip(RoundedCornerShape(28.dp))
+                            .shimmer(sweep)
+                    )
+                }
             }
-        }
 
-        Spacer(modifier = Modifier.height(16.dp))
-        Box(
-            modifier = Modifier
-                .width(140.dp)
-                .height(18.dp)
-                .clip(RoundedCornerShape(4.dp))
-                .shimmer(sweep)
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        LazyRow(modifier = Modifier.boundedWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            items(3) {
-                ShimmerResourceCard()
+            Spacer(modifier = Modifier.height(16.dp))
+            Box(
+                modifier = Modifier
+                    .width(140.dp)
+                    .height(18.dp)
+                    .clip(RoundedCornerShape(4.dp))
+                    .shimmer(sweep)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            LazyRow(modifier = Modifier.boundedWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                items(3, key = { it }, contentType = { "shimmer_resource" }) {
+                    ShimmerResourceCard()
+                }
             }
-        }
 
-        Spacer(modifier = Modifier.height(24.dp))
-        Box(
-            modifier = Modifier
-                .width(160.dp)
-                .height(18.dp)
-                .clip(RoundedCornerShape(4.dp))
-                .shimmer(sweep)
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        LazyRow(modifier = Modifier.boundedWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            items(3) {
-                ShimmerResourceCard()
+            Spacer(modifier = Modifier.height(24.dp))
+            Box(
+                modifier = Modifier
+                    .width(160.dp)
+                    .height(18.dp)
+                    .clip(RoundedCornerShape(4.dp))
+                    .shimmer(sweep)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            LazyRow(modifier = Modifier.boundedWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                items(3, key = { it }, contentType = { "shimmer_resource" }) {
+                    ShimmerResourceCard()
+                }
             }
-        }
 
-        Spacer(modifier = Modifier.height(24.dp))
-        Box(
-            modifier = Modifier
-                .width(120.dp)
-                .height(18.dp)
-                .clip(RoundedCornerShape(4.dp))
-                .shimmer(sweep)
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        repeat(3) {
-            ShimmerPostItem(modifier = Modifier.padding(vertical = 4.dp))
+            Spacer(modifier = Modifier.height(24.dp))
+            Box(
+                modifier = Modifier
+                    .width(120.dp)
+                    .height(18.dp)
+                    .clip(RoundedCornerShape(4.dp))
+                    .shimmer(sweep)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            repeat(3) {
+                ShimmerPostItem(modifier = Modifier.padding(vertical = 4.dp))
+            }
         }
     }
 }
 
 @Composable
 fun ShimmerLibraryGrid() {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        items(6) {
-            ShimmerCard(height = 180.dp)
+    val sweep = rememberShimmerSweep()
+    androidx.compose.runtime.CompositionLocalProvider(LocalShimmerSweep provides sweep) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(6, key = { it }, contentType = { "shimmer_card" }) {
+                ShimmerCard(height = 180.dp)
+            }
         }
     }
 }
 
 @Composable
 fun ShimmerSearchList() {
-    Column(
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        repeat(5) {
-            ShimmerListItem()
+    val sweep = rememberShimmerSweep()
+    androidx.compose.runtime.CompositionLocalProvider(LocalShimmerSweep provides sweep) {
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            repeat(5) {
+                ShimmerListItem()
+            }
         }
     }
 }

@@ -169,7 +169,6 @@ fun NoteEditorScreen(
     val focusManager = LocalFocusManager.current
 
     val ready by vm.ready.collectAsStateWithLifecycle()
-    val title by vm.title.collectAsStateWithLifecycle()
     val notice by vm.notice.collectAsStateWithLifecycle()
     val registry = remember { BlockFieldRegistry() }
     val toneIndex by vm.tone.collectAsStateWithLifecycle()
@@ -318,19 +317,13 @@ fun NoteEditorScreen(
                 onClearCover = { vm.setCover(0) },
             )
             Column(Modifier.fillMaxWidth().padding(horizontal = 22.dp)) {
-            BasicTextField(
-                value = title, onValueChange = vm::setTitle, readOnly = trashed,
-                textStyle = MaterialTheme.typography.headlineLarge.copy(color = fg, fontWeight = FontWeight.Bold),
-                cursorBrush = SolidColor(c.primary),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                keyboardActions = KeyboardActions(onNext = { vm.focusFirst() }),
-                decorationBox = { inner ->
-                    Box {
-                        if (title.isEmpty()) Text("Untitled", style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.Bold, color = softReadable(fg, bg, 0.5f))
-                        inner()
-                    }
-                },
-                modifier = Modifier.fillMaxWidth().padding(top = 8.dp).focusRequester(titleFocus),
+            NoteEditorTitleSlot(
+                vm = vm,
+                readOnly = trashed,
+                fg = fg,
+                bg = bg,
+                cursorColor = c.primary,
+                titleFocus = titleFocus,
             )
             if (tags.isNotEmpty() || !trashed) {
                 FlowRow(
@@ -552,9 +545,35 @@ private fun HeaderPill(label: String?, icon: ImageVector, onClick: () -> Unit, d
 }
 
 @Composable
+private fun NoteEditorTitleSlot(
+    vm: NoteEditorViewModel,
+    readOnly: Boolean,
+    fg: Color,
+    bg: Color,
+    cursorColor: Color,
+    titleFocus: FocusRequester,
+) {
+    val title by vm.title.collectAsStateWithLifecycle()
+    BasicTextField(
+        value = title, onValueChange = vm::setTitle, readOnly = readOnly,
+        textStyle = MaterialTheme.typography.headlineLarge.copy(color = fg, fontWeight = FontWeight.Bold),
+        cursorBrush = SolidColor(cursorColor),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+        keyboardActions = KeyboardActions(onNext = { vm.focusFirst() }),
+        decorationBox = { inner ->
+            Box {
+                if (title.isEmpty()) Text("Untitled", style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.Bold, color = softReadable(fg, bg, 0.5f))
+                inner()
+            }
+        },
+        modifier = Modifier.fillMaxWidth().padding(top = 8.dp).focusRequester(titleFocus),
+    )
+}
+
+@Composable
 private fun GhostAction(label: String, icon: ImageVector, fg: Color, onClick: () -> Unit) {
     Row(
-        Modifier.clip(RoundedCornerShape(50)).clickable(onClick = onClick).padding(horizontal = 10.dp, vertical = 7.dp),
+        Modifier.clip(RoundedCornerShape(28.dp)).clickable(onClick = onClick).padding(horizontal = 10.dp, vertical = 7.dp),
         verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         Icon(icon, null, tint = fg.copy(alpha = 0.6f), modifier = Modifier.size(18.dp))

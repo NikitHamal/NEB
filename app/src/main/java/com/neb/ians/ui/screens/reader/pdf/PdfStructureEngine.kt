@@ -43,12 +43,14 @@ class PdfStructureEngine(private val file: File, private val renderedPages: Int)
         return pdf
     }
 
+    private val safeNameRegex = Regex("[^A-Za-z0-9._-]")
+
     /**
      * The book's own structure (see `notes/pipeline/reading.py`) unpacked into [cacheRoot], or null when this
      * file carries none (an older build, or someone else's PDF): then reading mode reflows the drawn page.
      */
     suspend fun readingBook(cacheRoot: File): File? = withContext(Dispatchers.IO) {
-        val dir = File(cacheRoot, "reading/" + file.name.replace(Regex("[^A-Za-z0-9._-]"), "_") + "-" + file.length())
+        val dir = File(cacheRoot, "reading/" + file.name.replace(safeNameRegex, "_") + "-" + file.length())
         if (File(dir, "meta.json").exists()) return@withContext dir
         mutex.withLock {
             if (closed) return@withLock null

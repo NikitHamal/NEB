@@ -166,7 +166,7 @@ fun NebyCreditsScreen(
             }
 
             if (uiState.transactions.isEmpty()) {
-                item(key = "activity_empty") {
+                item(key = "activity_empty", contentType = "empty") {
                     Text(
                         text = "Nothing yet. Credits you spend or earn show up here.",
                         style = MaterialTheme.typography.bodyMedium,
@@ -175,7 +175,7 @@ fun NebyCreditsScreen(
                     )
                 }
             } else {
-                items(uiState.transactions, key = { it.id }) { tx -> ActivityRow(tx) }
+                items(uiState.transactions, key = { it.id }, contentType = { "credit_tx" }) { tx -> ActivityRow(tx) }
             }
         }
     }

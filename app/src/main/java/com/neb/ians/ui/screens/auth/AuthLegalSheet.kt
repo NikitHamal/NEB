@@ -150,10 +150,10 @@ fun AuthLegalSheet(
                 modifier = Modifier.weight(1f, fill = false),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                items(document.sections, key = { "${document.key}_${it.number}" }) { section ->
+                items(document.sections, key = { "${document.key}_${it.number}" }, contentType = { "legal_section" }) { section ->
                     LegalSectionBlock(section = section, colors = colors)
                 }
-                item(key = "footer") {
+                item(key = "footer", contentType = "footer") {
                     Text(
                         text = "Read the full document at ${document.webUrl}",
                         style = MaterialTheme.typography.bodySmall,

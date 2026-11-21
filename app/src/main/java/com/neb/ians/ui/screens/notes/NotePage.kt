@@ -313,9 +313,11 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawPattern(kind: I
             while (y < size.height) { drawLine(color, Offset(0f, y), Offset(size.width, y), 1.dp.toPx()); y += step * 1.6f }
         }
         4 -> {
+            val path = androidx.compose.ui.graphics.Path()
+            val stroke = androidx.compose.ui.graphics.drawscope.Stroke(1.6.dp.toPx())
             var y = step
             while (y < size.height + step) {
-                val path = androidx.compose.ui.graphics.Path()
+                path.rewind()
                 path.moveTo(0f, y)
                 var x = 0f
                 while (x < size.width) {
@@ -323,7 +325,7 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawPattern(kind: I
                     path.relativeQuadraticBezierTo(step / 2, step / 2, step, 0f)
                     x += step * 2
                 }
-                drawPath(path, color, style = androidx.compose.ui.graphics.drawscope.Stroke(1.6.dp.toPx()))
+                drawPath(path, color, style = stroke)
                 y += step * 1.3f
             }
         }

@@ -542,7 +542,7 @@ class ResourceDetailViewModel @Inject constructor(
 
     fun toggleCommentLike(commentId: String) {
         if (processingCommentLikes.contains(commentId)) return
-        val comment = _uiState.value.comments.firstOrNull { it.id == commentId } ?: return
+        val comment = _uiState.value.commentsById[commentId] ?: return
         val wasLiked = comment.isLiked == true
         val nextLiked = !wasLiked
         val nextCount = (comment.likeCount + if (nextLiked) 1 else -1).coerceAtLeast(0)

@@ -47,7 +47,6 @@ sealed interface DictationState {
  */
 @Singleton
 class WhistleEngine @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val models: SpeechModelManager,
 ) {
     private val engineThread by lazy {
