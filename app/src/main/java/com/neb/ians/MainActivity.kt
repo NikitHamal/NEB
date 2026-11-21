@@ -151,16 +151,20 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun requestNotificationPermissionIfNeeded() {
+    private suspend fun requestNotificationPermissionIfNeeded() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
         val granted = ContextCompat.checkSelfPermission(
             this,
             Manifest.permission.POST_NOTIFICATIONS
         ) == PackageManager.PERMISSION_GRANTED
         if (!granted) {
-            val prefs = getSharedPreferences("nebians_startup_prefs", MODE_PRIVATE)
-            if (prefs.getBoolean("notif_perm_prompted_once", false)) return
-            prefs.edit().putBoolean("notif_perm_prompted_once", true).apply()
+            val alreadyPrompted = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                val prefs = getSharedPreferences("nebians_startup_prefs", MODE_PRIVATE)
+                val seen = prefs.getBoolean("notif_perm_prompted_once", false)
+                if (!seen) prefs.edit().putBoolean("notif_perm_prompted_once", true).apply()
+                seen
+            }
+            if (alreadyPrompted) return
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.POST_NOTIFICATIONS),

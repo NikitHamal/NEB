@@ -184,7 +184,7 @@ class AuthRepository @Inject constructor(
             contributionScore = preferences[USER_CONTRIBUTION_SCORE] ?: 0,
             achievementBadges = preferences[USER_ACHIEVEMENT_BADGES]
         )
-    }
+    }.flowOn(Dispatchers.IO)
 
     suspend fun getToken(): String? =
         if (SecurePrefs.isTokenLoaded) SecurePrefs.getAuthToken(appContext)

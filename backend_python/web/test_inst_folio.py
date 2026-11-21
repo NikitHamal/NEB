@@ -12,7 +12,7 @@ from web.test_portfolio_profile import _make, _sign_in
 
 class StrengthTests(TestCase):
     def test_person_score_grows_with_what_is_filled(self):
-        empty = _make(headline='', skills='', open_to='', class_level='', edu_program='', school='', bio='')
+        empty = _make(skills='', open_to='', class_level='', edu_program='', school='', bio='')
         self.assertEqual(person_strength(empty)['percent'], 0)
         full = _make()
         self.assertGreater(person_strength(full)['percent'], 0)

@@ -91,7 +91,7 @@ class CompleteProfileViewModel @Inject constructor(
     private var institutionsRequested = false
 
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
             var initializedOnce = false
             authRepository.userProfileFlow.collect { cached ->
                 if (cached == null) return@collect
@@ -148,7 +148,7 @@ class CompleteProfileViewModel @Inject constructor(
             }
         }
 
-        viewModelScope.launch {
+        viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
             _usernameQuery
                 .debounce(500)
                 .distinctUntilChanged()
@@ -228,7 +228,7 @@ class CompleteProfileViewModel @Inject constructor(
     fun loadEduCatalog() {
         if (_uiState.value.eduCatalog != null) return
         eduCatalogCache?.let { c -> _uiState.update { it.copy(eduCatalog = c) }; return }
-        viewModelScope.launch {
+        viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
             val c = runCatching { apiService.educationCatalog() }.getOrNull() ?: return@launch
             eduCatalogCache = c
             _uiState.update { it.copy(eduCatalog = c) }
@@ -472,7 +472,7 @@ class CompleteProfileViewModel @Inject constructor(
     }
 
     fun fetchSocialLinks() {
-        viewModelScope.launch {
+        viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
             runCatching {
                 apiService.getSocialLinks()
             }.onSuccess { response ->
@@ -541,7 +541,7 @@ class CompleteProfileViewModel @Inject constructor(
 
     /** The portfolio header and teacher fields are not in the cached profile; read them once. */
     private fun fetchPortfolioFields(username: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
             val p = runCatching { apiService.getProfile(authRepository.getBearerToken(), username) }.getOrNull() ?: return@launch
             // A verified owner keeps no school of their own, so the slug can come back blank; the institution they own is the answer.
             val ownerToken = authRepository.getBearerToken()
@@ -590,7 +590,7 @@ class CompleteProfileViewModel @Inject constructor(
     fun fetchInstitutions() {
         if (institutionsRequested && _uiState.value.institutions.isNotEmpty()) return
         institutionsRequested = true
-        viewModelScope.launch {
+        viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
             try {
                 val response = apiService.getInstitutions()
                 _uiState.update { it.copy(institutions = response.institutions) }

@@ -108,7 +108,7 @@ def ajax_inst_portfolio_save(request):
 
 @require_POST
 def ajax_teacher_profile_save(request):
-    """POST /ajax/teacher/profile/save/ {school?, teaching_subjects?, teach_levels?, employment?, experience_years?, headline?}.
+    """POST /ajax/teacher/profile/save/ {school?, teaching_subjects?, teach_levels?, employment?, experience_years?}.
     One section at a time, any field optional, for the signed-in teacher."""
     from api.profile_education import apply_education
     from .views_onboarding import _owner

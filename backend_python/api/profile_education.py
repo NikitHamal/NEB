@@ -18,7 +18,6 @@ _FIELD_ALIASES = {
     'program': ('eduProgram', 'edu_program', 'program'),
     'term': ('eduTerm', 'edu_term', 'term'),
     'completed': ('eduCompleted', 'edu_completed', 'completed'),
-    'headline': ('headline',),
     'skills': ('skills',),
     'open_to': ('openTo', 'open_to'),
     'teach_levels': ('teachLevels', 'teach_levels'),
@@ -87,9 +86,6 @@ def apply_education(user, data):
     if user.edu_status not in {s['value'] for s in cat.STATUSES if s['ask_completed']}:
         user.edu_completed = ''
 
-    present, headline = _pick(data, 'headline')
-    if present:
-        user.headline = _text(headline, 120)
     present, skills = _pick(data, 'skills')
     if present:
         user.skills = cat.clean_csv(skills, limit=15, item_len=30)

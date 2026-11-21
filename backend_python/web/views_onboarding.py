@@ -212,7 +212,7 @@ def onboarding_save(request):
     edu_error = apply_education(db_user, {
         'level': level, 'status': s('status', 20), 'program': s('program', 100),
         'term': s('term', 40), 'completed': s('completed', 40),
-        'headline': s('headline', 120), 'skills': data.get('skills'),
+        'skills': data.get('skills'),
         'open_to': data.get('openTo'),
     })
     if edu_error:

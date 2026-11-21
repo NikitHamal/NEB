@@ -268,6 +268,9 @@ def main():
         if py_changed:
             remote.append("echo 'Running database migrations (before collectstatic, so code never runs ahead of schema)...'")
             remote.append(f"python manage.py migrate || {{ echo 'MIGRATE FAILED - stopping before static/restart'; echo 'STATUS: FAILED migrate' > {status_file}; exit 1; }}")
+            # Immediately recycle LSAPI workers right after migrate so no running worker
+            # keeps old ORM model fields in memory while background backfills/collectstatic run.
+            remote.append(f"pkill -f 'lswsgi -m {REMOTE_DIR}/passenger_wsg[i].py' 2>/dev/null || true")
             # Bounded: videos ffmpeg cannot read stay "without cover" and were retried
             # in full on every deploy. A few per deploy, never more than two minutes.
             remote.append("echo 'Backfilling video thumbnails (bounded)...'")

@@ -216,7 +216,6 @@ def profile(request, username):
         'school': profile_user.school,
         'school_username': profile_user.school_username,
         'bio': profile_user.bio,
-        'headline': profile_user.headline,
         'is_locked': 1 if profile_user.is_locked else 0,
         'created_at': profile_user.created_at,
         'verification_level': profile_user.verification_level,
@@ -351,7 +350,7 @@ def profile(request, username):
             portfolio['teacher_boot'] = {
                 'school': profile_user.school or '', 'employment': profile_user.employment or '',
                 'subjects': csv(profile_user.teaching_subjects), 'levels': csv(profile_user.teach_levels),
-                'years': int(profile_user.experience_years or 0), 'headline': profile_user.headline or '',
+                'years': int(profile_user.experience_years or 0),
                 'optLevels': TEACH_LEVELS, 'optEmployment': EMPLOYMENT,
             }
     from .views_inst_folio import profile_extras
@@ -766,7 +765,7 @@ def edit_profile(request):
     edu_init = {
         'status': db_user.edu_status or '', 'level': db_user.class_level or '',
         'program': db_user.edu_program or '', 'term': db_user.edu_term or '',
-        'completed': db_user.edu_completed or '', 'headline': db_user.headline or '',
+        'completed': db_user.edu_completed or '',
         'skills': db_user.skills or '', 'open_to': db_user.open_to or '',
     }
     edu_boot = {'catalog': _cat.catalog(), 'initial': {
