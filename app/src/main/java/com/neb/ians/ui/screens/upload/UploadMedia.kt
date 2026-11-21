@@ -2,7 +2,8 @@ package com.neb.ians.ui.screens.upload
 
 import android.content.Context
 import android.net.Uri
-import android.provider.OpenableColumns
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -17,23 +18,23 @@ import java.io.FileOutputStream
  */
 object UploadMedia {
 
-    fun uriToFile(context: Context, uri: Uri, fileName: String): File? {
-        return try {
+    suspend fun uriToFile(context: Context, uri: Uri, fileName: String): File? = withContext(Dispatchers.IO) {
+        try {
             val tempFile = File(context.cacheDir, fileName)
             context.contentResolver.openInputStream(uri)?.use { input ->
                 FileOutputStream(tempFile).use { output -> input.copyTo(output) }
             }
-            tempFile
-        } catch (e: Exception) {
+            tempFile.takeIf { it.exists() && it.length() > 0L }
+        } catch (_: Exception) {
             null
         }
     }
 
     /** Build the "thumbnail" multipart part from a user-picked cover image. */
-    fun buildThumbnailPart(context: Context, uri: Uri, baseName: String): MultipartBody.Part? {
-        return try {
-            val bytes = context.contentResolver.openInputStream(uri)?.use { it.readBytes() } ?: return null
-            if (bytes.isEmpty() || bytes.size > 10L * 1024 * 1024) return null
+    suspend fun buildThumbnailPart(context: Context, uri: Uri, baseName: String): MultipartBody.Part? = withContext(Dispatchers.IO) {
+        try {
+            val bytes = context.contentResolver.openInputStream(uri)?.use { it.readBytes() } ?: return@withContext null
+            if (bytes.isEmpty() || bytes.size > 10L * 1024 * 1024) return@withContext null
             val mime = context.contentResolver.getType(uri) ?: "image/jpeg"
             val ext = when (mime) {
                 "image/png" -> "png"
@@ -49,8 +50,8 @@ object UploadMedia {
 
     /** Capture a frame (~1s in, fallback first frame) from a picked video as
      * the resource cover. Returns null on any failure — never blocks upload. */
-    fun videoFrameThumbnailPart(context: Context, videoUri: Uri, baseName: String): MultipartBody.Part? {
-        return try {
+    suspend fun videoFrameThumbnailPart(context: Context, videoUri: Uri, baseName: String): MultipartBody.Part? = withContext(Dispatchers.IO) {
+        try {
             val retriever = android.media.MediaMetadataRetriever()
             val rawBitmap = try {
                 retriever.setDataSource(context, videoUri)
@@ -61,7 +62,7 @@ object UploadMedia {
                 null
             } finally {
                 try { retriever.release() } catch (_: Exception) {}
-            } ?: return null
+            } ?: return@withContext null
             var bitmap: android.graphics.Bitmap = rawBitmap
             // Keep covers small — 1280px on the long edge is plenty for cards.
             val maxDim = 1280
@@ -80,7 +81,7 @@ object UploadMedia {
             bitmap.compress(android.graphics.Bitmap.CompressFormat.JPEG, 88, out)
             bitmap.recycle()
             val bytes = out.toByteArray()
-            if (bytes.isEmpty()) return null
+            if (bytes.isEmpty()) return@withContext null
             MultipartBody.Part.createFormData(
                 "thumbnail",
                 "${baseName.substringBeforeLast('.')}_cover.jpg",
@@ -109,20 +110,5 @@ object UploadMedia {
                 else -> "application/octet-stream"
             }
         return mime.toMediaTypeOrNull()
-    }
-    fun getFileInfo(context: Context, uri: Uri): Pair<String, Long>? {
-        return try {
-            context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
-                val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-                val sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE)
-                if (cursor.moveToFirst() && nameIndex >= 0) {
-                    val name = cursor.getString(nameIndex)
-                    val size = if (sizeIndex >= 0) cursor.getLong(sizeIndex) else 0L
-                    Pair(name, size)
-                } else null
-            }
-        } catch (e: Exception) {
-            null
-        }
     }
 }

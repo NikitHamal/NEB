@@ -198,9 +198,12 @@ class PdfViewerViewModel @Inject constructor(
 
     private fun load() {
         viewModelScope.launch {
-            val downloaded = downloadManager.findDownloaded(resourceId)
-            val localFile = downloaded?.let { File(it.localPath) }?.takeIf(File::exists)
-            if (localFile != null) {
+            val (downloaded, localFile) = withContext(Dispatchers.IO) {
+                val d = downloadManager.findDownloaded(resourceId)
+                val f = d?.let { File(it.localPath) }?.takeIf(File::exists)
+                d to f
+            }
+            if (downloaded != null && localFile != null) {
                 _uiState.update { it.copy(title = downloaded.title, isLoading = true, error = null) }
                 openPdf(localFile)
                 return@launch
@@ -212,9 +215,11 @@ class PdfViewerViewModel @Inject constructor(
                     _uiState.update { it.copy(title = loaded.title) }
                     resourceRepository.viewResource(resourceId)
                     resourceRepository.resourceAction(resourceId, "read")
-                    val localFile = downloadManager.getLocalFile(loaded.id, loaded.fileUrl)
-                    if (localFile?.exists() == true) {
-                        openPdf(localFile)
+                    val cachedLocal = withContext(Dispatchers.IO) {
+                        downloadManager.getLocalFile(loaded.id, loaded.fileUrl)
+                    }
+                    if (cachedLocal != null) {
+                        openPdf(cachedLocal)
                     } else if (loaded.fileUrl.isNotBlank()) {
                         startDownload(loaded)
                     } else {
@@ -230,7 +235,7 @@ class PdfViewerViewModel @Inject constructor(
     private fun startDownload(item: ApiResource) {
         if (downloadJob?.isActive == true) return
         downloadJob = viewModelScope.launch {
-            downloadManager.getLocalFile(item.id, item.fileUrl)?.takeIf(File::exists)?.let {
+            withContext(Dispatchers.IO) { downloadManager.getLocalFile(item.id, item.fileUrl) }?.let {
                 openPdf(it)
                 return@launch
             }
@@ -240,7 +245,7 @@ class PdfViewerViewModel @Inject constructor(
             if (!downloadManager.isDownloading(item.id)) {
                 downloadManager.downloadResourceFromApi(item)
             }
-            downloadManager.getLocalFile(item.id, item.fileUrl)?.takeIf(File::exists)?.let {
+            withContext(Dispatchers.IO) { downloadManager.getLocalFile(item.id, item.fileUrl) }?.let {
                 _uiState.update { state -> state.copy(isDownloading = false, isLoading = true, downloadProgress = 100) }
                 openPdf(it)
                 return@launch
@@ -261,8 +266,10 @@ class PdfViewerViewModel @Inject constructor(
                 .first { it >= 100 || it < 0 }
             progressJob.cancelAndJoin()
             if (terminal >= 100) {
-                val localFile = downloadManager.getLocalFile(item.id, item.fileUrl)
-                if (localFile?.exists() == true) {
+                val localFile = withContext(Dispatchers.IO) {
+                    downloadManager.getLocalFile(item.id, item.fileUrl)
+                }
+                if (localFile != null) {
                     _uiState.update { it.copy(isDownloading = false, isLoading = true, downloadProgress = 100) }
                     openPdf(localFile)
                 } else {

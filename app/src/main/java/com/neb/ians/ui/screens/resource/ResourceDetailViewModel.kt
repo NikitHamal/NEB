@@ -367,29 +367,34 @@ class ResourceDetailViewModel @Inject constructor(
 
     fun addCommentAttachment(uri: Uri?) {
         if (uri == null) return
-        val current = _commentAttachments.value
-        if (current.size >= ForumMediaUploadHelper.MAX_ATTACHMENTS) {
+        if (_commentAttachments.value.size >= ForumMediaUploadHelper.MAX_ATTACHMENTS) {
             _uiState.update { it.copy(snackbarMessage = "Maximum ${ForumMediaUploadHelper.MAX_ATTACHMENTS} attachments") }
             return
         }
-        val kind = mediaUploadHelper.guessKind(uri)
-        if (kind == "video" && current.any { it.kind == "video" }) {
-            _uiState.update { it.copy(snackbarMessage = "Maximum 1 video per comment") }
-            return
+        viewModelScope.launch {
+            val meta = mediaUploadHelper.inspect(uri)
+            val current = _commentAttachments.value
+            if (current.size >= ForumMediaUploadHelper.MAX_ATTACHMENTS) {
+                _uiState.update { it.copy(snackbarMessage = "Maximum ${ForumMediaUploadHelper.MAX_ATTACHMENTS} attachments") }
+                return@launch
+            }
+            if (meta.kind == "video" && current.any { it.kind == "video" }) {
+                _uiState.update { it.copy(snackbarMessage = "Maximum 1 video per comment") }
+                return@launch
+            }
+            if (meta.sizeBytes > ForumMediaUploadHelper.limitFor(meta.kind)) {
+                _uiState.update { it.copy(snackbarMessage = ForumMediaUploadHelper.limitLabel(meta.kind)) }
+                return@launch
+            }
+            val pending = PendingForumAttachment(
+                name = meta.name,
+                kind = meta.kind,
+                sizeBytes = meta.sizeBytes,
+                uri = uri
+            )
+            _commentAttachments.update { it + pending }
+            stageCommentUpload(pending)
         }
-        val size = mediaUploadHelper.sizeOf(uri)
-        if (size > ForumMediaUploadHelper.limitFor(kind)) {
-            _uiState.update { it.copy(snackbarMessage = ForumMediaUploadHelper.limitLabel(kind)) }
-            return
-        }
-        val pending = PendingForumAttachment(
-            name = mediaUploadHelper.displayName(uri),
-            kind = kind,
-            sizeBytes = size,
-            uri = uri
-        )
-        _commentAttachments.update { it + pending }
-        stageCommentUpload(pending)
     }
 
     private fun stageCommentUpload(pending: PendingForumAttachment) {

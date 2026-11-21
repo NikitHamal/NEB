@@ -99,8 +99,11 @@ class MediaPlayerViewModel @Inject constructor(
         activeResourceId = resourceId
         _uiState.value = MediaPlayerUiState(isLoading = true)
         loadJob = viewModelScope.launch {
-            val downloaded = downloadManager.findDownloaded(resourceId)
-            val localFile = downloaded?.localPath?.let { java.io.File(it) }?.takeIf { it.exists() }
+            val (downloaded, localFile) = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                val d = downloadManager.findDownloaded(resourceId)
+                val f = d?.localPath?.let { java.io.File(it) }?.takeIf { it.exists() }
+                d to f
+            }
             if (downloaded != null && localFile != null) {
                 if (activeResourceId != resourceId) return@launch
                 val offlineResource = ApiResource(
@@ -143,7 +146,9 @@ class MediaPlayerViewModel @Inject constructor(
                         }
                         return@onSuccess
                     }
-                    val cachedFile = downloadManager.getLocalFile(resource.id, resolvedUrl)?.takeIf { it.exists() }
+                    val cachedFile = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                        downloadManager.getLocalFile(resource.id, resolvedUrl)
+                    }
                     val playableUri = cachedFile?.let { Uri.fromFile(it).toString() } ?: resolvedUrl
                     if (playableUri.isBlank()) {
                         _uiState.update { it.copy(isLoading = false, hasError = true, errorMessage = "No file available") }

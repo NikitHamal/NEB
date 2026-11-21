@@ -44,6 +44,8 @@ class ForumMediaUploadHelper @Inject constructor(
         const val MAX_VIDEO_BYTES = 150L * 1024 * 1024
         const val MAX_AUDIO_BYTES = 40L * 1024 * 1024
         const val MAX_FILE_BYTES = 30L * 1024 * 1024
+        private val VIDEO_EXTENSIONS = setOf("mp4", "m4v", "webm", "mov")
+        private val AUDIO_EXTENSIONS = setOf("mp3", "m4a", "aac", "ogg", "opus", "wav", "flac")
 
         fun limitFor(kind: String): Long = when (kind) {
             "video" -> MAX_VIDEO_BYTES
@@ -58,21 +60,50 @@ class ForumMediaUploadHelper @Inject constructor(
         }
     }
 
-    fun guessKind(uri: Uri): String {
-        val mime = (appContext.contentResolver.getType(uri) ?: "").lowercase()
-        if (mime.startsWith("video/")) return "video"
-        if (mime.startsWith("audio/")) return "audio"
-        val ext = displayName(uri).substringAfterLast('.', "").lowercase()
-        return when (ext) {
-            "mp4", "m4v", "webm", "mov" -> "video"
-            "mp3", "m4a", "aac", "ogg", "opus", "wav", "flac" -> "audio"
+    data class StagedUriMeta(
+        val name: String,
+        val kind: String,
+        val sizeBytes: Long
+    )
+
+    suspend fun inspect(uri: Uri): StagedUriMeta = withContext(Dispatchers.IO) {
+        var resolvedName: String? = null
+        var resolvedSize = 0L
+        try {
+            appContext.contentResolver.query(
+                uri,
+                arrayOf(OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE),
+                null,
+                null,
+                null
+            )?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    val nameIdx = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                    if (nameIdx >= 0) resolvedName = cursor.getString(nameIdx)?.takeIf { it.isNotBlank() }
+                    val sizeIdx = cursor.getColumnIndex(OpenableColumns.SIZE)
+                    if (sizeIdx >= 0 && !cursor.isNull(sizeIdx)) resolvedSize = cursor.getLong(sizeIdx).coerceAtLeast(0L)
+                }
+            }
+        } catch (_: Exception) {}
+        if (resolvedSize <= 0L) {
+            resolvedSize = sizeOf(uri)
+        }
+        val finalName = resolvedName ?: uri.lastPathSegment?.substringAfterLast('/') ?: "attachment"
+        val mime = runCatching { appContext.contentResolver.getType(uri) }.getOrNull().orEmpty().lowercase()
+        val ext = finalName.substringAfterLast('.', "").lowercase()
+        val kind = when {
+            mime.startsWith("video/") -> "video"
+            mime.startsWith("audio/") -> "audio"
+            ext in VIDEO_EXTENSIONS -> "video"
+            ext in AUDIO_EXTENSIONS -> "audio"
             else -> "file"
         }
+        StagedUriMeta(name = finalName, kind = kind, sizeBytes = resolvedSize)
     }
 
     fun displayName(uri: Uri): String {
         try {
-            appContext.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
+            appContext.contentResolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use { cursor ->
                 val idx = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
                 if (idx >= 0 && cursor.moveToFirst()) {
                     val name = cursor.getString(idx)
@@ -117,25 +148,27 @@ class ForumMediaUploadHelper @Inject constructor(
 
     /** Uploads one file; the returned descriptor goes into the create payload. */
     suspend fun upload(uri: Uri, kind: String, name: String): Result<ApiMediaAttachmentInput> {
-        val bytes = withContext(Dispatchers.IO) {
-            try {
+        val (bytes, mime, fileName) = withContext(Dispatchers.IO) {
+            val rawBytes = try {
                 appContext.contentResolver.openInputStream(uri)?.use { it.readBytes() }
             } catch (_: Exception) {
                 null
+            } ?: return@withContext Triple(null, "", "")
+            val resolvedMime = runCatching { appContext.contentResolver.getType(uri) }.getOrNull() ?: when (kind) {
+                "video" -> "video/mp4"
+                "audio" -> "audio/mp4"
+                else -> "application/octet-stream"
             }
-        } ?: return Result.failure(IllegalStateException("Couldn't read $name"))
+            Triple(rawBytes, resolvedMime, uploadFileName(name, uri, kind))
+        }
+        if (bytes == null) return Result.failure(IllegalStateException("Couldn't read $name"))
 
         val limit = limitFor(kind)
         if (bytes.size > limit) return Result.failure(IllegalStateException(limitLabel(kind)))
 
-        val mime = (appContext.contentResolver.getType(uri) ?: when (kind) {
-            "video" -> "video/mp4"
-            "audio" -> "audio/mp4"
-            else -> "application/octet-stream"
-        })
         val part = MultipartBody.Part.createFormData(
             "file",
-            uploadFileName(name, uri, kind),
+            fileName,
             bytes.toRequestBody(mime.toMediaType())
         )
         // Audio note recordings live in mp4/m4a/webm containers — tell the

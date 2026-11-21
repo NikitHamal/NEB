@@ -462,26 +462,32 @@ class UploadViewModel @Inject constructor(
                 if (state.thumbnailDirty) fields["thumbnail_url"] = state.thumbnailUrl.toRequestBody(TEXT_PLAIN)
 
                 val replacement = state.selectedFiles.firstOrNull()
-                val filePart = replacement?.let { selected ->
-                    val file = UploadMedia.uriToFile(context, selected.uri, selected.name)
+                val stagedFile = replacement?.let { selected ->
+                    UploadMedia.uriToFile(context, selected.uri, selected.name)
                         ?: throw IllegalStateException("Couldn't read the selected file")
-                    MultipartBody.Part.createFormData("file", file.name, file.asRequestBody(UploadMedia.contentTypeFromName(file.name)))
                 }
-                val thumbnailPart = state.thumbnailUri?.let { uri ->
-                    UploadMedia.buildThumbnailPart(context, uri, "cover")
-                }
-
-                resourceRepository.updateResource(
-                    resourceId = resourceId,
-                    fields = fields,
-                    filePart = filePart,
-                    thumbnailPart = thumbnailPart
-                ).onSuccess {
-                    _uiState.update { it.copy(isSubmitting = false, uploadProgress = 1f, editSuccess = true) }
-                }.onFailure { e ->
-                    _uiState.update {
-                        it.copy(isSubmitting = false, submitError = ApiErrorMapper.mapExceptionVerbose(e, "Edit resource"))
+                try {
+                    val filePart = stagedFile?.let { file ->
+                        MultipartBody.Part.createFormData("file", file.name, file.asRequestBody(UploadMedia.contentTypeFromName(file.name)))
                     }
+                    val thumbnailPart = state.thumbnailUri?.let { uri ->
+                        UploadMedia.buildThumbnailPart(context, uri, "cover")
+                    }
+
+                    resourceRepository.updateResource(
+                        resourceId = resourceId,
+                        fields = fields,
+                        filePart = filePart,
+                        thumbnailPart = thumbnailPart
+                    ).onSuccess {
+                        _uiState.update { it.copy(isSubmitting = false, uploadProgress = 1f, editSuccess = true) }
+                    }.onFailure { e ->
+                        _uiState.update {
+                            it.copy(isSubmitting = false, submitError = ApiErrorMapper.mapExceptionVerbose(e, "Edit resource"))
+                        }
+                    }
+                } finally {
+                    stagedFile?.delete()
                 }
             } catch (e: Exception) {
                 _uiState.update {
@@ -576,7 +582,7 @@ class UploadViewModel @Inject constructor(
     }
 
     private fun documentFileName(title: String): String {
-        val stem = title.trim().replace(Regex("[^A-Za-z0-9\\u0900-\\u097F ]"), "").replace(' ', '_')
+        val stem = title.trim().replace(DOC_FILE_STEM_REGEX, "").replace(' ', '_')
         return (stem.take(48).ifBlank { "notes" }) + ".pdf"
     }
 
@@ -604,43 +610,47 @@ class UploadViewModel @Inject constructor(
         val totalFiles = files.size
         for ((index, selectedFile) in files.withIndex()) {
             val file = UploadMedia.uriToFile(context, selectedFile.uri, selectedFile.name) ?: continue
-            val requestBody = file.asRequestBody(UploadMedia.contentTypeFromName(file.name))
-            val multipartPart = MultipartBody.Part.createFormData("file", file.name, requestBody)
+            val response = try {
+                val requestBody = file.asRequestBody(UploadMedia.contentTypeFromName(file.name))
+                val multipartPart = MultipartBody.Part.createFormData("file", file.name, requestBody)
 
-            // Cover image: manual pick wins; videos get an auto frame when the
-            // user supplied neither an upload nor a URL.
-            val thumbnailPart = when {
-                state.thumbnailUri != null -> UploadMedia.buildThumbnailPart(context, state.thumbnailUri, "cover")
-                state.thumbnailUrl.isBlank() && UploadOptions.isVideoFileName(selectedFile.name) ->
-                    UploadMedia.videoFrameThumbnailPart(context, selectedFile.uri, selectedFile.name)
-                else -> null
+                // Cover image: manual pick wins; videos get an auto frame when the
+                // user supplied neither an upload nor a URL.
+                val thumbnailPart = when {
+                    state.thumbnailUri != null -> UploadMedia.buildThumbnailPart(context, state.thumbnailUri, "cover")
+                    state.thumbnailUrl.isBlank() && UploadOptions.isVideoFileName(selectedFile.name) ->
+                        UploadMedia.videoFrameThumbnailPart(context, selectedFile.uri, selectedFile.name)
+                    else -> null
+                }
+
+                apiService.uploadResource(
+                    bearerToken = bearerToken,
+                    file = multipartPart,
+                    thumbnail = thumbnailPart,
+                    title = state.title.toRequestBody(TEXT_PLAIN),
+                    subject = state.subject.toRequestBody(TEXT_PLAIN),
+                    description = (state.description.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                    gradeLevel = (state.gradeLevel.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                    type = (state.type.takeIf { it.isNotBlank() } ?: "PDF").toRequestBody(TEXT_PLAIN),
+                    examType = (state.examType.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                    faculty = (state.faculty.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                    program = (state.program.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                    year = (state.year.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                    school = (state.school.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                    pradesh = (state.pradesh.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                    district = (state.district.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                    tags = (state.tags.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                    fileUrl = null,
+                    thumbnailUrl = (state.thumbnailUrl.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                    authorName = (state.authorName.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                    sourceLabel = (state.sourceLabel.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                    sourceUrl = (state.sourceUrl.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
+                    isPaid = (if (state.isPaid) "true" else "false").toRequestBody(TEXT_PLAIN),
+                    price = (state.price.ifBlank { "0" }).toRequestBody(TEXT_PLAIN)
+                )
+            } finally {
+                file.delete()
             }
-
-            val response = apiService.uploadResource(
-                bearerToken = bearerToken,
-                file = multipartPart,
-                thumbnail = thumbnailPart,
-                title = state.title.toRequestBody(TEXT_PLAIN),
-                subject = state.subject.toRequestBody(TEXT_PLAIN),
-                description = (state.description.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
-                gradeLevel = (state.gradeLevel.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
-                type = (state.type.takeIf { it.isNotBlank() } ?: "PDF").toRequestBody(TEXT_PLAIN),
-                examType = (state.examType.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
-                faculty = (state.faculty.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
-                program = (state.program.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
-                year = (state.year.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
-                school = (state.school.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
-                pradesh = (state.pradesh.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
-                district = (state.district.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
-                tags = (state.tags.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
-                fileUrl = null,
-                thumbnailUrl = (state.thumbnailUrl.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
-                authorName = (state.authorName.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
-                sourceLabel = (state.sourceLabel.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
-                sourceUrl = (state.sourceUrl.takeIf { it.isNotBlank() } ?: "").toRequestBody(TEXT_PLAIN),
-                isPaid = (if (state.isPaid) "true" else "false").toRequestBody(TEXT_PLAIN),
-                price = (state.price.ifBlank { "0" }).toRequestBody(TEXT_PLAIN)
-            )
 
             if (response.error != null) {
                 _uiState.update { it.copy(isSubmitting = false, submitError = response.error) }
@@ -711,4 +721,7 @@ class UploadViewModel @Inject constructor(
         _uiState.update { it.copy(submitError = null, fileError = null) }
     }
 
+    private companion object {
+        val DOC_FILE_STEM_REGEX = Regex("[^A-Za-z0-9\\u0900-\\u097F ]")
+    }
 }

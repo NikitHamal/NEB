@@ -628,30 +628,33 @@ class PostDetailViewModel @Inject constructor(
 
     fun addMediaAttachment(uri: Uri?) {
         if (uri == null) return
-        val current = _mediaAttachments.value
-        if (current.size >= ForumMediaUploadHelper.MAX_ATTACHMENTS) {
+        if (_mediaAttachments.value.size >= ForumMediaUploadHelper.MAX_ATTACHMENTS) {
             _state.update { it.copy(snackbarMessage = "Maximum ${ForumMediaUploadHelper.MAX_ATTACHMENTS} attachments") }
             return
         }
-        val kind = mediaUploadHelper.guessKind(uri)
-        if (kind == "video" && current.any { it.kind == "video" }) {
-            _state.update { it.copy(snackbarMessage = "Maximum 1 video per reply") }
-            return
-        }
-        val size = mediaUploadHelper.sizeOf(uri)
-        if (size > ForumMediaUploadHelper.limitFor(kind)) {
-            _state.update { it.copy(snackbarMessage = ForumMediaUploadHelper.limitLabel(kind)) }
-            return
-        }
-        val pending = PendingForumAttachment(
-            name = mediaUploadHelper.displayName(uri),
-            kind = kind,
-            sizeBytes = size,
-            uri = uri
-        )
-        _mediaAttachments.update { it + pending }
         viewModelScope.launch {
-            val result = mediaUploadHelper.upload(uri, kind, pending.name)
+            val meta = mediaUploadHelper.inspect(uri)
+            val current = _mediaAttachments.value
+            if (current.size >= ForumMediaUploadHelper.MAX_ATTACHMENTS) {
+                _state.update { it.copy(snackbarMessage = "Maximum ${ForumMediaUploadHelper.MAX_ATTACHMENTS} attachments") }
+                return@launch
+            }
+            if (meta.kind == "video" && current.any { it.kind == "video" }) {
+                _state.update { it.copy(snackbarMessage = "Maximum 1 video per reply") }
+                return@launch
+            }
+            if (meta.sizeBytes > ForumMediaUploadHelper.limitFor(meta.kind)) {
+                _state.update { it.copy(snackbarMessage = ForumMediaUploadHelper.limitLabel(meta.kind)) }
+                return@launch
+            }
+            val pending = PendingForumAttachment(
+                name = meta.name,
+                kind = meta.kind,
+                sizeBytes = meta.sizeBytes,
+                uri = uri
+            )
+            _mediaAttachments.update { it + pending }
+            val result = mediaUploadHelper.upload(uri, meta.kind, pending.name)
             _mediaAttachments.update { attachments ->
                 attachments.map { att ->
                     if (att.localId != pending.localId) att

@@ -161,14 +161,20 @@ class CreatePostViewModel @Inject constructor(
 
     /** Pictures chosen for the text stay on the phone and go up only when the post is published. */
     fun addInlinePictures(uris: List<android.net.Uri>) {
-        for (uri in uris) {
-            if (editor.doc.keys.size >= com.neb.ians.ui.components.InlineImageTokens.MAX_IMAGES_PER_CONTENT) {
-                reportError("Maximum ${com.neb.ians.ui.components.InlineImageTokens.MAX_IMAGES_PER_CONTENT} pictures in the text")
-                return
+        if (uris.isEmpty()) return
+        viewModelScope.launch {
+            for (uri in uris) {
+                if (editor.doc.keys.size >= com.neb.ians.ui.components.InlineImageTokens.MAX_IMAGES_PER_CONTENT) {
+                    reportError("Maximum ${com.neb.ians.ui.components.InlineImageTokens.MAX_IMAGES_PER_CONTENT} pictures in the text")
+                    return@launch
+                }
+                val size = withContext(Dispatchers.IO) { imageSizeBytes(uri) }
+                if (size != null && size > MAX_IMAGE_BYTES) {
+                    reportError("Picture too large (max 10MB)")
+                    continue
+                }
+                editor.insertImage(com.neb.ians.ui.components.InlineImageTokens.newPendingKey(), uri)
             }
-            val size = imageSizeBytes(uri)
-            if (size != null && size > MAX_IMAGE_BYTES) { reportError("Picture too large (max 10MB)"); continue }
-            editor.insertImage(com.neb.ians.ui.components.InlineImageTokens.newPendingKey(), uri)
         }
     }
 
@@ -298,16 +304,18 @@ class CreatePostViewModel @Inject constructor(
 
     fun addImage(uri: Uri?) {
         if (uri == null) return
-        val size = imageSizeBytes(uri)
-        if (size != null && size > MAX_IMAGE_BYTES) {
-            _uiState.update { it.copy(error = "Image too large (max 10MB)") }
-            return
-        }
-        _uiState.update { current ->
-            if (current.activeImageCount >= MAX_POST_IMAGES) {
-                current.copy(error = "Maximum $MAX_POST_IMAGES images per post")
-            } else {
-                current.copy(images = current.images + uri, error = null)
+        viewModelScope.launch {
+            val size = withContext(Dispatchers.IO) { imageSizeBytes(uri) }
+            if (size != null && size > MAX_IMAGE_BYTES) {
+                _uiState.update { it.copy(error = "Image too large (max 10MB)") }
+                return@launch
+            }
+            _uiState.update { current ->
+                if (current.activeImageCount >= MAX_POST_IMAGES) {
+                    current.copy(error = "Maximum $MAX_POST_IMAGES images per post")
+                } else {
+                    current.copy(images = current.images + uri, error = null)
+                }
             }
         }
     }
@@ -342,30 +350,33 @@ class CreatePostViewModel @Inject constructor(
 
     fun addMediaAttachment(uri: Uri?) {
         if (uri == null) return
-        val state = _uiState.value
-        if (state.mediaAttachments.size >= ForumMediaUploadHelper.MAX_ATTACHMENTS) {
+        if (_uiState.value.mediaAttachments.size >= ForumMediaUploadHelper.MAX_ATTACHMENTS) {
             _uiState.update { it.copy(error = "Maximum ${ForumMediaUploadHelper.MAX_ATTACHMENTS} attachments") }
             return
         }
-        val kind = mediaUploadHelper.guessKind(uri)
-        if (kind == "video" && state.mediaAttachments.any { it.kind == "video" }) {
-            _uiState.update { it.copy(error = "Maximum 1 video per post") }
-            return
-        }
-        val size = mediaUploadHelper.sizeOf(uri)
-        if (size > ForumMediaUploadHelper.limitFor(kind)) {
-            _uiState.update { it.copy(error = ForumMediaUploadHelper.limitLabel(kind)) }
-            return
-        }
-        val pending = PendingForumAttachment(
-            name = mediaUploadHelper.displayName(uri),
-            kind = kind,
-            sizeBytes = size,
-            uri = uri
-        )
-        _uiState.update { it.copy(mediaAttachments = it.mediaAttachments + pending, error = null) }
         viewModelScope.launch {
-            val result = mediaUploadHelper.upload(uri, kind, pending.name)
+            val meta = mediaUploadHelper.inspect(uri)
+            val state = _uiState.value
+            if (state.mediaAttachments.size >= ForumMediaUploadHelper.MAX_ATTACHMENTS) {
+                _uiState.update { it.copy(error = "Maximum ${ForumMediaUploadHelper.MAX_ATTACHMENTS} attachments") }
+                return@launch
+            }
+            if (meta.kind == "video" && state.mediaAttachments.any { it.kind == "video" }) {
+                _uiState.update { it.copy(error = "Maximum 1 video per post") }
+                return@launch
+            }
+            if (meta.sizeBytes > ForumMediaUploadHelper.limitFor(meta.kind)) {
+                _uiState.update { it.copy(error = ForumMediaUploadHelper.limitLabel(meta.kind)) }
+                return@launch
+            }
+            val pending = PendingForumAttachment(
+                name = meta.name,
+                kind = meta.kind,
+                sizeBytes = meta.sizeBytes,
+                uri = uri
+            )
+            _uiState.update { it.copy(mediaAttachments = it.mediaAttachments + pending, error = null) }
+            val result = mediaUploadHelper.upload(uri, meta.kind, pending.name)
             _uiState.update { current ->
                 current.copy(mediaAttachments = current.mediaAttachments.map { att ->
                     if (att.localId != pending.localId) att
@@ -588,18 +599,20 @@ class CreatePostViewModel @Inject constructor(
     }
 
     private suspend fun uploadImage(uri: Uri, index: Int): Result<String> {
-        val bytes = withContext(Dispatchers.IO) {
-            try {
+        val (bytes, mime) = withContext(Dispatchers.IO) {
+            val raw = try {
                 appContext.contentResolver.openInputStream(uri)?.use { it.readBytes() }
             } catch (_: Exception) {
                 null
-            }
-        } ?: return Result.failure(IllegalStateException("Couldn't read image ${index + 1}"))
+            } ?: return@withContext null to ""
+            val resolvedMime = runCatching { appContext.contentResolver.getType(uri) }.getOrNull() ?: "image/*"
+            raw to resolvedMime
+        }
+        if (bytes == null) return Result.failure(IllegalStateException("Couldn't read image ${index + 1}"))
 
         if (bytes.size > MAX_IMAGE_BYTES) {
             return Result.failure(IllegalStateException("Image ${index + 1} is too large (max 10MB)"))
         }
-        val mime = appContext.contentResolver.getType(uri) ?: "image/*"
         val extension = when (mime) {
             "image/png" -> "png"
             "image/webp" -> "webp"
@@ -619,10 +632,13 @@ class CreatePostViewModel @Inject constructor(
     }
 }
 
+private val POST_TITLE_MARKDOWN_REGEX = Regex("[#*`>_~$\\[\\]()!-]+")
+private val POST_TITLE_WHITESPACE_REGEX = Regex("\\s+")
+
 /** First readable line of a post, stripped of markdown, for posts written without a title. */
 internal fun derivePostTitle(content: String): String {
     val line = content.lineSequence()
-        .map { it.replace(Regex("[#*`>_~$\\[\\]()!-]+"), " ").replace(Regex("\\s+"), " ").trim() }
+        .map { it.replace(POST_TITLE_MARKDOWN_REGEX, " ").replace(POST_TITLE_WHITESPACE_REGEX, " ").trim() }
         .firstOrNull { it.isNotBlank() }
         .orEmpty()
     return if (line.length <= 80) line else line.take(79).trimEnd() + "\u2026"

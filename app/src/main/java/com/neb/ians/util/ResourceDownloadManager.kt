@@ -32,6 +32,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 private val OFFLINE_EXTENSIONS = setOf("pdf", "mp4", "mp3", "m4a", "ogg", "wav")
+private val EXT_REGEX = Regex("[a-z0-9]{2,5}")
 
 data class DownloadedResource(
     val resourceId: String,
@@ -52,6 +53,13 @@ class ResourceDownloadManager @Inject constructor(
 ) {
     private val client by lazy {
         OkHttpClient.Builder()
+            .connectionPool(com.neb.ians.data.api.ApiService.sharedPool)
+            .apply {
+                if (!com.neb.ians.BuildConfig.DEBUG) {
+                    proxy(java.net.Proxy.NO_PROXY)
+                    connectionSpecs(listOf(okhttp3.ConnectionSpec.MODERN_TLS))
+                }
+            }
             .addInterceptor(WafChallengeInterceptor(context))
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(90, TimeUnit.SECONDS)
@@ -60,26 +68,30 @@ class ResourceDownloadManager @Inject constructor(
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val activeDownloads = mutableMapOf<String, Job>()
     private val indexLock = Any()
-    private val resourceDir = File(context.filesDir, "offline_resources").apply { mkdirs() }
-    private val indexFile = File(resourceDir, "downloads.json")
+    private val resourceDir by lazy { File(context.filesDir, "offline_resources") }
+    private val indexFile by lazy { File(resourceDir, "downloads.json") }
     private val _downloadProgress = MutableStateFlow<Map<String, Int>>(emptyMap())
-
-    // The index (a JSON file, an exists() per entry and two folder scans) is read on the IO scope
-    // as soon as this is built, which happens on the main thread with the media player at launch.
-    // Anyone who needs it sooner waits for that read instead of starting another.
-    private val _downloads by lazy { MutableStateFlow(loadIndex()) }
+    private val _downloads = MutableStateFlow<List<DownloadedResource>>(emptyList())
 
     init {
-        scope.launch { _downloads.value }
+        scope.launch {
+            val loaded = loadIndex()
+            synchronized(indexLock) {
+                if (_downloads.value.isEmpty()) {
+                    _downloads.value = loaded
+                }
+            }
+        }
     }
 
     val downloadProgress: StateFlow<Map<String, Int>> = _downloadProgress.asStateFlow()
-    val downloads: StateFlow<List<DownloadedResource>> by lazy { _downloads.asStateFlow() }
+    val downloads: StateFlow<List<DownloadedResource>> = _downloads.asStateFlow()
 
     fun downloadResourceFromApi(resource: ApiResource) {
-        if (findDownloaded(resource.id)?.let { File(it.localPath).exists() } == true) return
         val job = scope.launch(start = CoroutineStart.LAZY) {
             try {
+                if (findDownloaded(resource.id)?.let { File(it.localPath).exists() } == true) return@launch
+                resourceDir.mkdirs()
                 setProgress(resource.id, 0)
                 if (resource.fileUrl.isBlank()) throw IOException("No file URL")
                 client.newCall(Request.Builder().url(resource.fileUrl).build()).execute().use { response ->
@@ -154,12 +166,19 @@ class ResourceDownloadManager @Inject constructor(
     }
 
     fun deleteDownload(resourceId: String) {
-        synchronized(indexLock) {
-            findDownloaded(resourceId)?.let { File(it.localPath).delete() }
-            _downloads.value = _downloads.value.filterNot { it.resourceId == resourceId }
-            persistIndex(_downloads.value)
+        val (toDelete, snapshot) = synchronized(indexLock) {
+            val found = findDownloaded(resourceId)
+            val updated = _downloads.value.filterNot { it.resourceId == resourceId }
+            _downloads.value = updated
+            found to updated
         }
         setProgress(resourceId, 0, remove = true)
+        scope.launch {
+            toDelete?.let { runCatching { File(it.localPath).delete() } }
+            synchronized(indexLock) {
+                persistIndex(snapshot)
+            }
+        }
     }
 
     fun isDownloading(resourceId: String): Boolean = synchronized(activeDownloads) { activeDownloads.containsKey(resourceId) }
@@ -186,7 +205,7 @@ class ResourceDownloadManager @Inject constructor(
     private fun inferExtension(url: String, mime: String, type: String): String {
         val fromMime = MimeTypeMap.getSingleton().getExtensionFromMimeType(mime)
         if (!fromMime.isNullOrBlank()) return fromMime.lowercase()
-        val fromUrl = url.substringBefore('?').substringAfterLast('.', "").lowercase().takeIf { it.matches(Regex("[a-z0-9]{2,5}")) }
+        val fromUrl = url.substringBefore('?').substringAfterLast('.', "").lowercase().takeIf { it.matches(EXT_REGEX) }
         if (!fromUrl.isNullOrBlank()) return fromUrl
         return when {
             type.contains("video", true) -> "mp4"
