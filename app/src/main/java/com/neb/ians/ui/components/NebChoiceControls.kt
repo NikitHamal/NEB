@@ -95,22 +95,27 @@ fun NebSelectionMark(
             val a = Offset(center.x - r * 0.38f, center.y + r * 0.02f)
             val b = Offset(center.x - r * 0.09f, center.y + r * 0.30f)
             val c = Offset(center.x + r * 0.40f, center.y - r * 0.28f)
-            val tick = Path().apply {
-                moveTo(a.x, a.y)
-                if (t <= 0.5f) {
-                    val k = t / 0.5f
-                    lineTo(a.x + (b.x - a.x) * k, a.y + (b.y - a.y) * k)
-                } else {
-                    val k = (t - 0.5f) / 0.5f
-                    lineTo(b.x, b.y)
-                    lineTo(b.x + (c.x - b.x) * k, b.y + (c.y - b.y) * k)
-                }
+            val strokeW = r * 0.17f
+            if (t <= 0.5f) {
+                val k = t / 0.5f
+                drawLine(
+                    color = palette.onAccent,
+                    start = a,
+                    end = Offset(a.x + (b.x - a.x) * k, a.y + (b.y - a.y) * k),
+                    strokeWidth = strokeW,
+                    cap = StrokeCap.Round
+                )
+            } else {
+                val k = (t - 0.5f) / 0.5f
+                drawLine(color = palette.onAccent, start = a, end = b, strokeWidth = strokeW, cap = StrokeCap.Round)
+                drawLine(
+                    color = palette.onAccent,
+                    start = b,
+                    end = Offset(b.x + (c.x - b.x) * k, b.y + (c.y - b.y) * k),
+                    strokeWidth = strokeW,
+                    cap = StrokeCap.Round
+                )
             }
-            drawPath(
-                path = tick,
-                color = palette.onAccent,
-                style = Stroke(width = r * 0.17f, cap = StrokeCap.Round)
-            )
         }
     }
 }
@@ -251,14 +256,14 @@ fun NebSelectChip(
 /** A bare tick, for anywhere a chip or a row needs one without a disc behind it. */
 @Composable
 fun NebTick(color: Color, modifier: Modifier = Modifier) {
+    val path = remember { Path() }
     Canvas(modifier = modifier) {
         val w = size.width
         val h = size.height
-        val path = Path().apply {
-            moveTo(w * 0.14f, h * 0.52f)
-            lineTo(w * 0.40f, h * 0.78f)
-            lineTo(w * 0.88f, h * 0.20f)
-        }
+        path.rewind()
+        path.moveTo(w * 0.14f, h * 0.52f)
+        path.lineTo(w * 0.40f, h * 0.78f)
+        path.lineTo(w * 0.88f, h * 0.20f)
         drawPath(path, color, style = Stroke(width = w * 0.15f, cap = StrokeCap.Round))
     }
 }

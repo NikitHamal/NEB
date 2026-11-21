@@ -13,6 +13,8 @@ import kotlin.math.sin
  * a tear, Zs, sparkles, a book...), built once and cached. Loops unless noted. The same states are
  * exported for the web (PixelSkySceneTest -> static/web/img/neby) so both apps share one Neby.
  */
+private val CAMEL_CASE_BOUNDARY_REGEX = Regex("(?<!^)([A-Z])")
+
 enum class NebyState(val frameMs: Int, val loop: Boolean = true) {
     Idle(115), Still(1000), Blink(110), Hop(72), Think(160), Sleep(140), Wink(110), Talk(95), Love(110),
     Surprised(80), Sad(130), Laugh(80), Dizzy(100), Wave(110), Success(80), Oops(100), Read(140),
@@ -24,7 +26,7 @@ enum class NebyState(val frameMs: Int, val loop: Boolean = true) {
     val sprite: PixelSprite get() = PixelNebyStates.sprite(this, NebyDress.current)
     fun sprite(look: NebyLook): PixelSprite = PixelNebyStates.sprite(this, look)
     /** The web and server name: LookAround -> look-around. */
-    val key: String get() = name.replace(Regex("(?<!^)([A-Z])"), "-$1").lowercase()
+    val key: String = name.replace(CAMEL_CASE_BOUNDARY_REGEX, "-$1").lowercase()
 
     companion object {
         /** The 3D avatar's animation names, mapped so existing callers keep their meaning. */

@@ -112,6 +112,8 @@ internal fun PwNepalCanvas(cam: MapCam, counts: Map<String, Int>, selected: Stri
     val prov = remember { TextStyle(fontSize = 8.5.sp, fontWeight = FontWeight.Medium, letterSpacing = 1.2.sp) }
     val byArea = remember(geo) { geo.districts.sortedByDescending { it.width * it.height } }
     val sel = geo.byName[selected]
+    val order = remember(byArea, sel) { if (sel != null) listOf(sel) + byArea else byArea }
+    val taken = remember { ArrayList<Rect>(48) }
     val scope = rememberCoroutineScope()
     val interactive by remember(full) { derivedStateOf { full || cam.k > 1.02f } }
     Canvas(
@@ -142,7 +144,7 @@ internal fun PwNepalCanvas(cam: MapCam, counts: Map<String, Int>, selected: Stri
         fun sx(x: Float) = cam.ox + cam.base * (cam.tx + cam.k * x)
         fun sy(y: Float) = cam.oy + cam.base * (cam.ty + cam.k * y)
         val halo = c.surface.copy(alpha = 0.9f)
-        val taken = ArrayList<Rect>(48)
+        taken.clear()
         fun free(r: Rect): Boolean = taken.none { it.overlaps(r) }
         if (cam.k < 1.6f) geo.provinceCentres.forEachIndexed { i, p ->
             val l = measurer.measure(PROVINCES[i].uppercase(), prov)
@@ -152,7 +154,6 @@ internal fun PwNepalCanvas(cam: MapCam, counts: Map<String, Int>, selected: Stri
         }
         val style = dist[when { cam.k < 1.6f -> 0; cam.k < 2.6f -> 1; cam.k < 4.2f -> 2; cam.k < 7f -> 3; else -> 4 }]
         val gap = 2.dp.toPx()
-        val order = if (sel != null) listOf(sel) + byArea else byArea
         for (d in order) {
             val on = d === sel
             if (!on && d.width * s < 20.dp.toPx()) continue

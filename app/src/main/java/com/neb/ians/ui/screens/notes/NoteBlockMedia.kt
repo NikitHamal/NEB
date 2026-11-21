@@ -100,6 +100,7 @@ import androidx.core.content.ContextCompat
 import coil.compose.AsyncImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import kotlin.math.abs
@@ -316,8 +317,13 @@ private class NoteAudioRecorder(private val context: Context) {
 
     fun cancel() {
         stop()
-        file?.delete()
+        val f = file
         file = null
+        if (f != null) {
+            kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+                runCatching { f.delete() }
+            }
+        }
     }
 
     fun release() {
@@ -332,6 +338,7 @@ private fun clock(seconds: Int) = "%d:%02d".format(seconds / 60, seconds % 60)
 fun AudioBlockView(block: NoteBlock, vm: NoteEditorViewModel, readOnly: Boolean) {
     val c = MaterialTheme.colorScheme
     val context = LocalContext.current
+    val scope = androidx.compose.runtime.rememberCoroutineScope()
     if (block.path.isBlank()) {
         if (readOnly) return
         val recorder = remember { NoteAudioRecorder(context) }
@@ -344,7 +351,10 @@ fun AudioBlockView(block: NoteBlock, vm: NoteEditorViewModel, readOnly: Boolean)
         }
         fun begin() {
             vm.stopDictation()
-            if (recorder.start(vm.newAudioFile())) recording = true else vm.reportNotice("Recording is not available right now")
+            scope.launch {
+                val target = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { vm.newAudioFile() }
+                if (recorder.start(target)) recording = true else vm.reportNotice("Recording is not available right now")
+            }
         }
         val permission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted -> if (granted) begin() }
         val import = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri -> if (uri != null) vm.fillAudioFromUri(block.id, uri) }
@@ -498,8 +508,8 @@ private val InkColors = listOf(0xFF1B1B1F, 0xFF1E5FD0, 0xFFD32F2F, 0xFF2E7D32, 0
 private val InkWidths = listOf(3f, 6f, 12f)
 private val Paper = Color(0xFFFCFCFA)
 
-private fun DrawScopePath(points: List<Float>, w: Float, h: Float): Path {
-    val p = Path()
+private fun fillStrokePath(p: Path, points: List<Float>, w: Float, h: Float): Path {
+    p.rewind()
     if (points.size >= 2) {
         p.moveTo(points[0] * w, points[1] * h)
         if (points.size == 2) p.lineTo(points[0] * w + 0.1f, points[1] * h)
@@ -523,6 +533,7 @@ fun DrawingBlockView(block: NoteBlock, vm: NoteEditorViewModel, readOnly: Boolea
     var width by remember { mutableFloatStateOf(InkWidths[1]) }
     var eraser by remember { mutableStateOf(false) }
     val current = remember { mutableStateListOf<Float>() }
+    val strokePath = remember { Path() }
     var sizePx by remember { mutableStateOf(androidx.compose.ui.unit.IntSize.Zero) }
     val shape = RoundedCornerShape(20.dp)
     Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -567,10 +578,10 @@ fun DrawingBlockView(block: NoteBlock, vm: NoteEditorViewModel, readOnly: Boolea
         ) {
             Canvas(Modifier.matchParentSize()) {
                 block.strokes.forEach { st ->
-                    drawPath(DrawScopePath(st.points, size.width, size.height), Color(st.color), style = DrawStroke(st.width * density / 2.6f, cap = StrokeCap.Round, join = StrokeJoin.Round))
+                    drawPath(fillStrokePath(strokePath, st.points, size.width, size.height), Color(st.color), style = DrawStroke(st.width * density / 2.6f, cap = StrokeCap.Round, join = StrokeJoin.Round))
                 }
                 if (current.size >= 2) {
-                    drawPath(DrawScopePath(current.toList(), size.width, size.height), Color(color), style = DrawStroke(width * density / 2.6f, cap = StrokeCap.Round, join = StrokeJoin.Round))
+                    drawPath(fillStrokePath(strokePath, current, size.width, size.height), Color(color), style = DrawStroke(width * density / 2.6f, cap = StrokeCap.Round, join = StrokeJoin.Round))
                 }
             }
             if (block.strokes.isEmpty() && current.isEmpty()) {

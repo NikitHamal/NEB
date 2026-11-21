@@ -89,6 +89,7 @@ internal fun Sparkline(series: List<Int>, modifier: Modifier = Modifier) {
     val cs = MaterialTheme.colorScheme
     val line = cs.primary
     val flat = cs.outlineVariant
+    val path = remember { Path() }
     Canvas(modifier.width(64.dp).height(28.dp)) {
         if (series.size < 2) return@Canvas
         val peak = series.max()
@@ -101,7 +102,7 @@ internal fun Sparkline(series: List<Int>, modifier: Modifier = Modifier) {
         }
         val pad = 3.dp.toPx()
         val stepX = size.width / (series.size - 1)
-        val path = Path()
+        path.rewind()
         series.forEachIndexed { i, v ->
             val y = pad + (1f - (v - low).toFloat() / (peak - low)) * (size.height - pad * 2)
             if (i == 0) path.moveTo(0f, y) else path.lineTo(i * stepX, y)

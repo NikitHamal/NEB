@@ -56,21 +56,27 @@ fun HomeSeasonAmbienceOverlay(
     val reduced = nebAnimationsReduced()
     val fadeState = animateFloatAsState(if (active) 1f else 0f, tween(240), label = "seasonFade")
     val clockState = festiveClock(running = !reduced && active)
+    val scratchPath = androidx.compose.runtime.remember { Path() }
     androidx.compose.foundation.Canvas(modifier) {
         val a = fadeState.value
         if (a < 0.01f) return@Canvas
         val t = clockState.value
         when (kind) {
-            "tihar" -> { lightsGarland(t, a); sparkles(t, a) }
-            "dashain" -> { marigoldGarland(t, a); petals(t, a, listOf(Color(0xFFFFB020), Color(0xFFF97316), Color(0xFFFFD166)), 9) }
+            "tihar" -> { lightsGarland(t, a, scratchPath); sparkles(t, a, scratchPath) }
+            "dashain" -> { marigoldGarland(t, a, scratchPath); petals(t, a, DashainPetalColors, 9) }
             "holi" -> gulal(t, a)
-            "new-year" -> petals(t, a, listOf(Color(0xFFE11D48), Color(0xFFFB7185), Color(0xFFBE123C)), 10)
+            "new-year" -> petals(t, a, NewYearPetalColors, 10)
             "monsoon" -> rain(t, a)
             "winter" -> snow(t, a)
-            else -> petals(t, a, listOf(Color(0xFFFFD166)), 6)
+            else -> petals(t, a, DefaultPetalColors, 6)
         }
     }
 }
+
+private val DashainPetalColors = listOf(Color(0xFFFFB020), Color(0xFFF97316), Color(0xFFFFD166))
+private val NewYearPetalColors = listOf(Color(0xFFE11D48), Color(0xFFFB7185), Color(0xFFBE123C))
+private val DefaultPetalColors = listOf(Color(0xFFFFD166))
+private val HoliGulalColors = listOf(Color(0xFFFF4FA1), Color(0xFFFFD23F), Color(0xFF28C7A6), Color(0xFFFF8A3D))
 
 /**
  * Seconds since a festival animation started, ticking every frame; a slow phone ticks every other
@@ -102,14 +108,13 @@ private const val TOP_DP = 3f
 private const val SAG_DP = 12f
 
 /** Draws the thread of a garland: a chain of [SWAGS] quadratic swags, same curve the web uses. */
-private fun DrawScope.garlandThread(color: Color) {
+private fun DrawScope.garlandThread(color: Color, path: Path) {
     val top = TOP_DP.dp.toPx()
     val sag = SAG_DP.dp.toPx()
     val w = size.width / SWAGS
-    val path = Path().apply {
-        moveTo(0f, top)
-        for (k in 0 until SWAGS) quadraticTo(w * k + w / 2f, top + 2f * sag, w * (k + 1), top)
-    }
+    path.rewind()
+    path.moveTo(0f, top)
+    for (k in 0 until SWAGS) path.quadraticTo(w * k + w / 2f, top + 2f * sag, w * (k + 1), top)
     drawPath(path, color, style = Stroke(width = 1.4.dp.toPx(), cap = StrokeCap.Round))
 }
 
@@ -127,29 +132,28 @@ private val TiharBulbs = listOf(
 )
 
 /** Tihar: bulbs hanging on a thread, each with a little cap, a glass body and a warm glow. */
-private fun DrawScope.lightsGarland(t: Float, alpha: Float) {
-    garlandThread(Color(0xFF7A4B2A).copy(alpha = 0.6f * alpha))
+private fun DrawScope.lightsGarland(t: Float, alpha: Float, path: Path) {
+    garlandThread(Color(0xFF7A4B2A).copy(alpha = 0.6f * alpha), path)
     val n = 20
+    val capH = 4.dp.toPx()
+    val capW = 5.dp.toPx()
+    val capCorner = androidx.compose.ui.geometry.CornerRadius(1.5.dp.toPx())
+    val gr = 12.dp.toPx()
     for (i in 0 until n) {
         val p = garlandPoint(i, n)
         val tw = 0.7f + 0.3f * sin(t * 2.4f + i * 1.3f)
         val c = TiharBulbs[i % TiharBulbs.size]
-        val capH = 4.dp.toPx()
         val cx = p.x
         val by = p.y + capH + 5.dp.toPx()
         // cap
         drawRoundRect(
             Color(0xFF5A3A22).copy(alpha = alpha),
             topLeft = Offset(cx - 2.5.dp.toPx(), p.y),
-            size = Size(5.dp.toPx(), capH),
-            cornerRadius = androidx.compose.ui.geometry.CornerRadius(1.5.dp.toPx())
+            size = Size(capW, capH),
+            cornerRadius = capCorner
         )
-        // glow
-        val gr = 15.dp.toPx()
-        drawCircle(
-            Brush.radialGradient(listOf(c.copy(alpha = 0.42f * tw * alpha), Color.Transparent), Offset(cx, by), gr),
-            gr, Offset(cx, by)
-        )
+        // flat warm halo disc (zero gradient shader allocation)
+        drawCircle(c.copy(alpha = 0.18f * tw * alpha), gr, Offset(cx, by))
         // glass body, slightly taller than wide
         drawOval(
             c.copy(alpha = (0.75f + 0.25f * tw) * alpha),
@@ -162,28 +166,27 @@ private fun DrawScope.lightsGarland(t: Float, alpha: Float) {
 }
 
 /** A crisp four-point star. */
-private fun DrawScope.star(center: Offset, r: Float, color: Color) {
+private fun DrawScope.star(center: Offset, r: Float, color: Color, path: Path) {
     val k = r * 0.28f
-    val path = Path().apply {
-        moveTo(center.x, center.y - r)
-        quadraticTo(center.x + k, center.y - k, center.x + r, center.y)
-        quadraticTo(center.x + k, center.y + k, center.x, center.y + r)
-        quadraticTo(center.x - k, center.y + k, center.x - r, center.y)
-        quadraticTo(center.x - k, center.y - k, center.x, center.y - r)
-        close()
-    }
+    path.rewind()
+    path.moveTo(center.x, center.y - r)
+    path.quadraticTo(center.x + k, center.y - k, center.x + r, center.y)
+    path.quadraticTo(center.x + k, center.y + k, center.x, center.y + r)
+    path.quadraticTo(center.x - k, center.y + k, center.x - r, center.y)
+    path.quadraticTo(center.x - k, center.y - k, center.x, center.y - r)
+    path.close()
     drawPath(path, color)
 }
 
 /** Tihar: a handful of small stars that twinkle in place below the lights, not blurred dots. */
-private fun DrawScope.sparkles(t: Float, alpha: Float) {
+private fun DrawScope.sparkles(t: Float, alpha: Float, path: Path) {
     val band = band()
     for (i in 0 until 7) {
         val x = size.width * (0.08f + 0.84f * frac(i * 0.381f + 0.11f))
         val y = 52.dp.toPx() + (band - 70.dp.toPx()) * 0.55f * frac(i * 0.619f + 0.2f)
         val tw = (sin(t * 1.6f + i * 2.1f) * 0.5f + 0.5f)
         val r = (2.6f + tw * 2.4f).dp.toPx()
-        star(Offset(x, y), r, Color(0xFFFFB020).copy(alpha = (0.25f + 0.6f * tw) * fadeDown(y, band) * alpha))
+        star(Offset(x, y), r, Color(0xFFFFB020).copy(alpha = (0.25f + 0.6f * tw) * fadeDown(y, band) * alpha), path)
     }
 }
 
@@ -202,8 +205,8 @@ private fun DrawScope.marigold(center: Offset, r: Float, petal: Color, eye: Colo
 }
 
 /** Dashain: a mala of marigolds strung on the thread, each swaying a little on its own beat. */
-private fun DrawScope.marigoldGarland(t: Float, alpha: Float) {
-    garlandThread(Color(0xFF6B8E23).copy(alpha = 0.7f * alpha))
+private fun DrawScope.marigoldGarland(t: Float, alpha: Float, path: Path) {
+    garlandThread(Color(0xFF6B8E23).copy(alpha = 0.7f * alpha), path)
     val n = 24
     for (i in 0 until n) {
         val p = garlandPoint(i, n)
@@ -235,16 +238,15 @@ private fun DrawScope.petals(t: Float, alpha: Float, colors: List<Color>, n: Int
     }
 }
 
-/** Holi: three soft clouds of gulal drifting in from the top corners. */
+/** Holi: soft flat discs of gulal drifting in from the top corners. */
 private fun DrawScope.gulal(t: Float, alpha: Float) {
     val band = band()
-    val cs = listOf(Color(0xFFFF4FA1), Color(0xFFFFD23F), Color(0xFF28C7A6), Color(0xFFFF8A3D))
     for (i in 0 until 4) {
         val p = frac(t / 14f + i / 4f)
         val x = size.width * (0.1f + 0.8f * frac(i * 0.37f + 0.1f)) + sin(t * 0.4f + i) * 18.dp.toPx()
         val y = band * (0.1f + 0.35f * frac(i * 0.53f))
-        val r = (60 + 50 * sin(p * 6.2831f).let { abs(it) }).dp.toPx()
-        drawCircle(Brush.radialGradient(listOf(cs[i].copy(alpha = 0.26f * alpha), Color.Transparent), Offset(x, y), r), r, Offset(x, y))
+        val r = (48 + 38 * abs(sin(p * 6.2831f))).dp.toPx()
+        drawCircle(HoliGulalColors[i].copy(alpha = 0.14f * alpha), r, Offset(x, y))
     }
 }
 

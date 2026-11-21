@@ -121,16 +121,24 @@ internal fun careerAxes(d: PwData, x: PwCareer, avgTrait: Map<String, Float>): L
     (x.traits["growth"] ?: avgTrait["growth"]?.roundToInt() ?: 50).toFloat(),
 )
 
+private val RADAR_RINGS = floatArrayOf(33f, 66f, 100f)
+
 @Composable
 internal fun PwRadar(d: PwData, k: PwCareer) {
     val c = MaterialTheme.colorScheme
     val tm = rememberTextMeasurer()
     val label = MaterialTheme.typography.labelSmall.copy(color = c.onSurfaceVariant, fontWeight = FontWeight.SemiBold, fontSize = 10.sp)
-    val (mine, avg) = remember(d, k.id) {
-        val tr = listOf("stability", "flexibility", "growth").associateWith { t -> d.careers.values.mapNotNull { it.traits[t] }.let { if (it.isEmpty()) 50f else it.average().toFloat() } }
-        val rows = d.careers.values.map { careerAxes(d, it, tr) }
-        careerAxes(d, k, tr) to RADAR_AXES.indices.map { i -> rows.map { it[i] }.average().toFloat() }
+    val (tr, avg) = remember(d) {
+        val traits = listOf("stability", "flexibility", "growth").associateWith { t ->
+            d.careers.values.mapNotNull { it.traits[t] }.let { if (it.isEmpty()) 50f else it.average().toFloat() }
+        }
+        val rows = d.careers.values.map { careerAxes(d, it, traits) }
+        traits to RADAR_AXES.indices.map { i -> rows.map { it[i] }.average().toFloat() }
     }
+    val mine = remember(d, k.id, tr) { careerAxes(d, k, tr) }
+    val axisLayouts = remember(tm, label) { RADAR_AXES.map { tm.measure(it, label) } }
+    val avgLayout = remember(tm, label) { tm.measure("Average", label) }
+    val polyPath = remember { Path() }
     val grow = remember(k.id) { Animatable(0f) }
     LaunchedEffect(k.id) { grow.animateTo(1f, tween(650, easing = FastOutSlowInEasing)) }
     Canvas(
@@ -143,21 +151,30 @@ internal fun PwRadar(d: PwData, k: PwCareer) {
             val rr = r * v / 100f
             return Offset((160f + rr * cos(a)) * sc, (118f + rr * sin(a)) * sc)
         }
-        fun poly(vs: List<Float>, f: Float = 1f) = Path().apply { vs.forEachIndexed { i, v -> val p = pt(v * f, i); if (i == 0) moveTo(p.x, p.y) else lineTo(p.x, p.y) }; close() }
-        listOf(33f, 66f, 100f).forEach { drawPath(poly(List(6) { _ -> it }), c.outlineVariant, style = Stroke(1.dp.toPx(), join = StrokeJoin.Round)) }
-        drawPath(poly(avg, grow.value), c.surfaceContainerHighest)
-        val me = poly(mine, grow.value)
+        fun buildPoly(vs: List<Float>, f: Float = 1f): Path {
+            polyPath.rewind()
+            vs.forEachIndexed { i, v -> val p = pt(v * f, i); if (i == 0) polyPath.moveTo(p.x, p.y) else polyPath.lineTo(p.x, p.y) }
+            polyPath.close()
+            return polyPath
+        }
+        val ringStroke = Stroke(1.dp.toPx(), join = StrokeJoin.Round)
+        for (ring in RADAR_RINGS) {
+            polyPath.rewind()
+            for (i in 0 until 6) { val p = pt(ring, i); if (i == 0) polyPath.moveTo(p.x, p.y) else polyPath.lineTo(p.x, p.y) }
+            polyPath.close()
+            drawPath(polyPath, c.outlineVariant, style = ringStroke)
+        }
+        drawPath(buildPoly(avg, grow.value), c.surfaceContainerHighest)
+        val me = buildPoly(mine, grow.value)
         drawPath(me, c.primary.copy(alpha = 0.22f))
         drawPath(me, c.primary, style = Stroke(2.5.dp.toPx(), join = StrokeJoin.Round))
-        RADAR_AXES.forEachIndexed { i, t ->
+        axisLayouts.forEachIndexed { i, m ->
             val p = pt(100f, i, 102f)
-            val m = tm.measure(t, label)
             val x = when { i % 3 == 0 -> p.x - m.size.width / 2f; i < 3 -> p.x; else -> p.x - m.size.width }
             drawText(m, topLeft = Offset(x, p.y + 4 * sc - m.size.height * 0.78f))
         }
         drawCircle(c.surfaceContainerHighest, 5.dp.toPx(), Offset(14f * sc, 12f * sc))
-        val lg = tm.measure("Average", label)
-        drawText(lg, topLeft = Offset(24f * sc, 16f * sc - lg.size.height * 0.78f))
+        drawText(avgLayout, topLeft = Offset(24f * sc, 16f * sc - avgLayout.size.height * 0.78f))
     }
 }
 
@@ -170,24 +187,32 @@ internal fun PwSpark(vals: List<Float>, lastYear: Int) {
     val reveal = remember(vals) { Animatable(0f) }
     LaunchedEffect(vals) { reveal.animateTo(1f, tween(700, easing = FastOutSlowInEasing)) }
     val n = vals.size
+    val (lo, hi) = remember(vals) { (vals.min() - 8f) to (vals.max() + 8f) }
+    val startLabel = remember(tm, label, lastYear, n) { tm.measure("${lastYear - n + 1}", label) }
+    val endLabel = remember(tm, label, lastYear) { tm.measure("$lastYear", label) }
+    val linePath = remember { Path() }
+    val areaPath = remember { Path() }
     Canvas(
         Modifier.fillMaxWidth().aspectRatio(320f / 104f).clip(RoundedCornerShape(24.dp)).background(c.surfaceContainerLow)
             .semantics { contentDescription = "Demand from ${lastYear - n + 1} to $lastYear, now ${vals.last().roundToInt()}" },
     ) {
         val sc = size.width / 320f
-        val lo = vals.min() - 8f; val hi = vals.max() + 8f
         fun px(i: Int) = (16f + i * 288f / (n - 1)) * sc
         fun py(v: Float) = (78f - (v - lo) / (hi - lo) * 60f) * sc
-        val line = Path().apply { vals.forEachIndexed { i, v -> if (i == 0) moveTo(px(i), py(v)) else lineTo(px(i), py(v)) } }
-        val area = Path().apply { addPath(line); lineTo(304f * sc, 92f * sc); lineTo(16f * sc, 92f * sc); close() }
+        linePath.rewind()
+        vals.forEachIndexed { i, v -> if (i == 0) linePath.moveTo(px(i), py(v)) else linePath.lineTo(px(i), py(v)) }
+        areaPath.rewind()
+        areaPath.addPath(linePath)
+        areaPath.lineTo(304f * sc, 92f * sc)
+        areaPath.lineTo(16f * sc, 92f * sc)
+        areaPath.close()
         clipRect(0f, 0f, size.width * reveal.value, size.height) {
-            drawPath(area, c.primaryContainer)
-            drawPath(line, c.primary, style = Stroke(3.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round))
+            drawPath(areaPath, c.primaryContainer)
+            drawPath(linePath, c.primary, style = Stroke(3.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round))
         }
         if (reveal.value > 0.95f) drawCircle(c.primary, 6.dp.toPx(), Offset(304f * sc, py(vals.last())))
-        val a = tm.measure("${lastYear - n + 1}", label); val b = tm.measure("$lastYear", label)
-        drawText(a, topLeft = Offset(16f * sc, 102f * sc - a.size.height * 0.85f))
-        drawText(b, topLeft = Offset(304f * sc - b.size.width, 102f * sc - b.size.height * 0.85f))
+        drawText(startLabel, topLeft = Offset(16f * sc, 102f * sc - startLabel.size.height * 0.85f))
+        drawText(endLabel, topLeft = Offset(304f * sc - endLabel.size.width, 102f * sc - endLabel.size.height * 0.85f))
     }
 }
 

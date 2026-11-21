@@ -49,6 +49,7 @@ fun NativeConcaveMirror(modifier: Modifier = Modifier) {
         v > 0 -> "Real, inverted, same size (at C)"
         else -> "Virtual, upright, magnified"
     }
+    val mirrorPath = remember { Path() }
     Column(modifier) {
         Canvas(Modifier.fillMaxWidth().aspectRatio(16f / 10f).pointerInput(Unit) {
             detectDragGestures { change, _ ->
@@ -61,9 +62,9 @@ fun NativeConcaveMirror(modifier: Modifier = Modifier) {
             drawLine(Color(0xFF94A3B8), Offset(0f, axis), Offset(w, axis), 1.5f)
             // the mirror: a shallow arc of radius 2f, silvered on the back
             val R = 2 * f * s; val half = h * 0.42f
-            val mp = Path(); val n = 40
-            for (i in 0..n) { val y = -half + 2 * half * i / n; val sag = if (R > abs(y)) R - sqrt(R * R - y * y) else 0f; val x = mirrorX - sag; if (i == 0) mp.moveTo(x, axis + y) else mp.lineTo(x, axis + y) }
-            drawPath(mp, Color(0xFF1E2A4A), style = Stroke(4f, cap = StrokeCap.Round))
+            mirrorPath.rewind(); val n = 40
+            for (i in 0..n) { val y = -half + 2 * half * i / n; val sag = if (R > abs(y)) R - sqrt(R * R - y * y) else 0f; val x = mirrorX - sag; if (i == 0) mirrorPath.moveTo(x, axis + y) else mirrorPath.lineTo(x, axis + y) }
+            drawPath(mirrorPath, Color(0xFF1E2A4A), style = Stroke(4f, cap = StrokeCap.Round))
             for (i in 0..14) { val y = -half + 2 * half * i / 14; val sag = if (R > abs(y)) R - sqrt(R * R - y * y) else 0f; drawLine(Color(0xFF64748B), Offset(mirrorX - sag + 2f, axis + y), Offset(mirrorX - sag + 9f, axis + y - 6f), 1.5f) }
             fun mark(x: Float, label: String) { drawCircle(Color(0xFF1E2A4A), 4f, Offset(x, axis)); drawText(measurer, label, Offset(x - 4f, axis + 6f), TextStyle(fontSize = 12.sp, color = Color(0xFF1E2A4A))) }
             mark(mirrorX - f * s, "F"); mark(mirrorX - 2 * f * s, "C"); mark(mirrorX, "P")

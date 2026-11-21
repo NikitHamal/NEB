@@ -244,6 +244,7 @@ private fun WhatsNewHeroCluster(kind: String) {
         ClusterDisc(rightOuter, scheme.surfaceContainerHigh, scheme.onSurfaceVariant, 42.dp, 84.dp)
         ClusterDisc(leftMid, scheme.secondaryContainer, scheme.onSecondaryContainer, 50.dp, (-46).dp, floatBg)
         ClusterDisc(rightMid, scheme.tertiaryContainer, scheme.onTertiaryContainer, 50.dp, 46.dp, floatBg)
+        val burstPath = remember { Path() }
         Box(
             modifier = Modifier
                 .size(66.dp)
@@ -253,7 +254,7 @@ private fun WhatsNewHeroCluster(kind: String) {
             contentAlignment = Alignment.Center,
         ) {
             Canvas(Modifier.size(44.dp)) {
-                val p = Path()
+                burstPath.rewind()
                 val cx = size.width / 2f
                 val cy = size.height / 2f
                 val r0 = min(cx, cy) * 0.90f
@@ -262,10 +263,10 @@ private fun WhatsNewHeroCluster(kind: String) {
                     val r = r0 * (0.85f + 0.15f * cos(8.0 * t).toFloat())
                     val x = cx + r * cos(t).toFloat()
                     val y = cy + r * sin(t).toFloat()
-                    if (i == 0) p.moveTo(x, y) else p.lineTo(x, y)
+                    if (i == 0) burstPath.moveTo(x, y) else burstPath.lineTo(x, y)
                 }
-                p.close()
-                drawPath(p, color = scheme.surface, style = Stroke(width = 5.5.dp.toPx()))
+                burstPath.close()
+                drawPath(burstPath, color = scheme.surface, style = Stroke(width = 5.5.dp.toPx()))
             }
             if (kind != "pathways") {
                 Icon(centerIcon, null, tint = scheme.surface, modifier = Modifier.size(18.dp))

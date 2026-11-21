@@ -114,6 +114,7 @@ fun NebUnderlineTabs(
         ) {
             // Drawn behind the row; width is infinite inside a scroller, so it is
             // sized by matchParentSize and never by fillMaxWidth.
+            val indicatorPath = remember { Path() }
             Spacer(
                 modifier = Modifier
                     .matchParentSize()
@@ -123,21 +124,20 @@ fun NebUnderlineTabs(
                         if (width <= 0f) return@drawBehind
                         val h = IndicatorHeight.toPx()
                         val r = CornerRadius(h)
-                        val path = Path().apply {
-                            addRoundRect(
-                                RoundRect(
-                                    left = travel.value + inset,
-                                    top = size.height - h,
-                                    right = travel.value + inset + width,
-                                    bottom = size.height,
-                                    topLeftCornerRadius = r,
-                                    topRightCornerRadius = r,
-                                    bottomLeftCornerRadius = CornerRadius.Zero,
-                                    bottomRightCornerRadius = CornerRadius.Zero
-                                )
+                        indicatorPath.rewind()
+                        indicatorPath.addRoundRect(
+                            RoundRect(
+                                left = travel.value + inset,
+                                top = size.height - h,
+                                right = travel.value + inset + width,
+                                bottom = size.height,
+                                topLeftCornerRadius = r,
+                                topRightCornerRadius = r,
+                                bottomLeftCornerRadius = CornerRadius.Zero,
+                                bottomRightCornerRadius = CornerRadius.Zero
                             )
-                        }
-                        drawPath(path, lineColor)
+                        )
+                        drawPath(indicatorPath, lineColor)
                     }
             )
             Row(

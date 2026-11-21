@@ -71,12 +71,14 @@ internal fun QuizProgress(step: Int, modifier: Modifier = Modifier) {
 @Composable
 private fun Tick(on: Boolean, ink: androidx.compose.ui.graphics.Color, modifier: Modifier) {
     val p by animateFloatAsState(if (on) 1f else 0f, spring(0.5f, Spring.StiffnessMediumLow), label = "tick")
+    val path = remember { Path() }
     Canvas(modifier.size(16.dp)) {
         if (p <= 0.01f) return@Canvas
         scale(p) {
-            val path = Path().apply {
-                moveTo(size.width * 0.16f, size.height * 0.54f); lineTo(size.width * 0.42f, size.height * 0.78f); lineTo(size.width * 0.86f, size.height * 0.24f)
-            }
+            path.rewind()
+            path.moveTo(size.width * 0.16f, size.height * 0.54f)
+            path.lineTo(size.width * 0.42f, size.height * 0.78f)
+            path.lineTo(size.width * 0.86f, size.height * 0.24f)
             drawPath(path, ink, style = Stroke(2.5.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round))
         }
     }

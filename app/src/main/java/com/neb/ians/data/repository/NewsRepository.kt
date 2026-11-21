@@ -178,13 +178,18 @@ class NewsRepository @Inject constructor(
             }
         }
 
+    private val newsCardListRegex = Regex(
+        pattern = "<a\\s+href=\"(?<href>[^\"]+)\"\\s+class=\"(?:news-card|bcard|bhero)(?<classes>[^\"]*)\"[^>]*>(?<body>.*?)</a>",
+        option = RegexOption.DOT_MATCHES_ALL
+    )
+    private val newsCategoryBadgeRegex = Regex(
+        "<span[^>]*class=\"news-category-badge\"[^>]*style=\"(?:background|--cat-color):([^\";]+)[^\"]*\"[^>]*>\\s*<span[^>]*>(.*?)</span>\\s*([^<]+)",
+        setOf(RegexOption.DOT_MATCHES_ALL, RegexOption.IGNORE_CASE)
+    )
+
     private fun parseNewsList(html: String): List<NewsAnnouncement> {
         // Both card generations: the old `.news-card` and the web's current `.bcard` / `.bhero`.
-        val cardRegex = Regex(
-            pattern = "<a\\s+href=\"(?<href>[^\"]+)\"\\s+class=\"(?:news-card|bcard|bhero)(?<classes>[^\"]*)\"[^>]*>(?<body>.*?)</a>",
-            option = RegexOption.DOT_MATCHES_ALL
-        )
-        return cardRegex.findAll(html)
+        return newsCardListRegex.findAll(html)
             .mapIndexedNotNull { index, match -> parseCard(index, match) }
             .take(60)
             .toList()
@@ -196,7 +201,7 @@ class NewsRepository @Inject constructor(
         val title = header.firstGroup("<h1[^>]*class=\"[^\"]*news-detail-title[^\"]*\"[^>]*>(.*?)</h1>").cleanHtml()
             .ifBlank { html.firstGroup("<title>(.*?)</title>").cleanHtml().substringBefore(" — ") }
         val summary = header.firstGroup("<p[^>]*class=\"[^\"]*news-detail-summary[^\"]*\"[^>]*>(.*?)</p>").cleanHtml()
-        val badge = Regex("<span[^>]*class=\"news-category-badge\"[^>]*style=\"(?:background|--cat-color):([^\";]+)[^\"]*\"[^>]*>\\s*<span[^>]*>(.*?)</span>\\s*([^<]+)", setOf(RegexOption.DOT_MATCHES_ALL, RegexOption.IGNORE_CASE)).find(html)
+        val badge = newsCategoryBadgeRegex.find(html)
         val icon = badge?.groups?.get(2)?.value?.cleanHtml().orEmpty().ifBlank { "info" }
         val label = badge?.groups?.get(3)?.value?.cleanHtml().orEmpty().ifBlank { "General" }
         val color = badge?.groups?.get(1)?.value.orEmpty().ifBlank { label.toCategoryColor() }

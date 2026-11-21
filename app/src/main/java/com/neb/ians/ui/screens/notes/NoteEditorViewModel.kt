@@ -577,8 +577,11 @@ class NoteEditorViewModel @Inject constructor(
     fun newAudioFile(): File = File(mediaDir(), "audio_${System.currentTimeMillis()}.m4a")
 
     fun fillAudio(id: String, file: File, seconds: Int) {
-        if (!file.exists() || file.length() == 0L) { _notice.value = "Nothing was recorded"; return }
-        update(id) { it.copy(path = file.absolutePath, seconds = seconds) }
+        viewModelScope.launch {
+            val valid = withContext(Dispatchers.IO) { file.exists() && file.length() > 0L }
+            if (!valid) { _notice.value = "Nothing was recorded"; return@launch }
+            update(id) { it.copy(path = file.absolutePath, seconds = seconds) }
+        }
     }
 
     fun fillAudioFromUri(id: String, uri: Uri) {

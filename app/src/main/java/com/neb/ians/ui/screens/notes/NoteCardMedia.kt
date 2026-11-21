@@ -124,6 +124,8 @@ private fun AudioPreview(audio: List<Int>, ink: Color, tile: Color) {
 
 @Composable
 private fun DrawingPreview(media: NoteMedia, compact: Boolean, ink: Color, container: Color, tile: Color) {
+    val strokePath = remember { Path() }
+    val containerLum = container.luminance()
     Canvas(Modifier.fillMaxWidth().height(if (compact) 66.dp else 88.dp).clip(RoundedCornerShape(14.dp)).background(tile)) {
         val pad = 8.dp.toPx()
         val aw = size.width - pad * 2
@@ -133,15 +135,16 @@ private fun DrawingPreview(media: NoteMedia, compact: Boolean, ink: Color, conta
         val dh = dw / a
         val ox = (size.width - dw) / 2f
         val oy = (size.height - dh) / 2f
+        val strokeStyle = DrawStroke(1.6.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
         media.drawing.forEach { st ->
             val pts = st.points
             if (pts.size < 2) return@forEach
-            val p = Path()
-            p.moveTo(ox + pts[0] * dw, oy + pts[1] * dh)
-            if (pts.size == 2) p.lineTo(ox + pts[0] * dw + 0.1f, oy + pts[1] * dh)
+            strokePath.rewind()
+            strokePath.moveTo(ox + pts[0] * dw, oy + pts[1] * dh)
+            if (pts.size == 2) strokePath.lineTo(ox + pts[0] * dw + 0.1f, oy + pts[1] * dh)
             var i = 2
             while (i + 1 < pts.size) {
-                p.quadraticBezierTo(
+                strokePath.quadraticBezierTo(
                     ox + pts[i - 2] * dw, oy + pts[i - 1] * dh,
                     ox + (pts[i - 2] + pts[i]) / 2f * dw, oy + (pts[i - 1] + pts[i + 1]) / 2f * dh,
                 )
@@ -149,8 +152,8 @@ private fun DrawingPreview(media: NoteMedia, compact: Boolean, ink: Color, conta
             }
             val raw = Color(st.color)
             // a pen that would vanish on this note colour is drawn in the note's ink
-            val col = if (abs(raw.luminance() - container.luminance()) < 0.28f) ink else raw
-            drawPath(p, col, style = DrawStroke(1.6.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round))
+            val col = if (abs(raw.luminance() - containerLum) < 0.28f) ink else raw
+            drawPath(strokePath, col, style = strokeStyle)
         }
     }
 }

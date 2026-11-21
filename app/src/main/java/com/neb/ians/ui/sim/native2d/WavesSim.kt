@@ -47,6 +47,7 @@ fun NativeWavesLab(modifier: Modifier = Modifier) {
     val reduced = nebAnimationsReduced()
     val clock by produceState(0f, reduced) { if (!reduced) { val s = withFrameNanos { it }; while (true) withFrameNanos { value = (it - s) / 1e9f } } }
     val lambda = v / f
+    val wavePath = remember { Path() }
     Column(modifier) {
         Canvas(Modifier.fillMaxWidth().aspectRatio(16f / 9f)) {
             val t = clock
@@ -56,9 +57,9 @@ fun NativeWavesLab(modifier: Modifier = Modifier) {
             drawLine(Color(0x44FFFFFF), Offset(0f, mid), Offset(w, mid), 1f)
             val k = (2 * PI / lambda).toFloat(); val om = (2 * PI * f).toFloat()
             fun curve(fn: (Float) -> Float, color: Color, width: Float, dash: Boolean = false) {
-                val p = Path(); val n = 240
-                for (i in 0..n) { val x = L * i / n; val y = fn(x); val px = x * s; val py = mid - y * ay; if (i == 0) p.moveTo(px, py) else p.lineTo(px, py) }
-                drawPath(p, color, style = Stroke(width, cap = StrokeCap.Round, pathEffect = if (dash) PathEffect.dashPathEffect(floatArrayOf(8f, 8f)) else null))
+                wavePath.rewind(); val n = 240
+                for (i in 0..n) { val x = L * i / n; val y = fn(x); val px = x * s; val py = mid - y * ay; if (i == 0) wavePath.moveTo(px, py) else wavePath.lineTo(px, py) }
+                drawPath(wavePath, color, style = Stroke(width, cap = StrokeCap.Round, pathEffect = if (dash) PathEffect.dashPathEffect(floatArrayOf(8f, 8f)) else null))
             }
             when (mode) {
                 0 -> {

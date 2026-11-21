@@ -100,6 +100,7 @@ fun NativeProjectileMotion(modifier: Modifier = Modifier) {
     }
 
     val latest = flying ?: flights.firstOrNull()
+    val trajectoryPath = remember { Path() }
     Column(modifier) {
         Canvas(
             Modifier.fillMaxWidth().aspectRatio(16f / 10f).pointerInput(Unit) {
@@ -130,14 +131,14 @@ fun NativeProjectileMotion(modifier: Modifier = Modifier) {
             drawLine(Color(0xFF5E8A6B), Offset(0f, groundY), Offset(w, groundY), 2f)
             fun toPx(p: Offset) = Offset(ox + p.x * s, groundY - p.y * s)
             flights.forEachIndexed { i, f ->
-                val path = Path(); f.pts.forEachIndexed { k, p -> val q = toPx(p); if (k == 0) path.moveTo(q.x, q.y) else path.lineTo(q.x, q.y) }
-                drawPath(path, f.hue.copy(alpha = 0.35f + 0.5f / (i + 1)), style = Stroke(2.5f, cap = StrokeCap.Round, pathEffect = if (i > 0) PathEffect.dashPathEffect(floatArrayOf(10f, 8f)) else null))
+                trajectoryPath.rewind(); f.pts.forEachIndexed { k, p -> val q = toPx(p); if (k == 0) trajectoryPath.moveTo(q.x, q.y) else trajectoryPath.lineTo(q.x, q.y) }
+                drawPath(trajectoryPath, f.hue.copy(alpha = 0.35f + 0.5f / (i + 1)), style = Stroke(2.5f, cap = StrokeCap.Round, pathEffect = if (i > 0) PathEffect.dashPathEffect(floatArrayOf(10f, 8f)) else null))
                 drawCircle(f.hue, 5f, toPx(f.pts.last()))
             }
             flying?.let { f ->
                 val frac = (tNow / f.time).coerceIn(0f, 1f); val n = max(1, (f.pts.size * frac).toInt())
-                val path = Path(); for (k in 0 until n) { val q = toPx(f.pts[k]); if (k == 0) path.moveTo(q.x, q.y) else path.lineTo(q.x, q.y) }
-                drawPath(path, f.hue, style = Stroke(3f, cap = StrokeCap.Round))
+                trajectoryPath.rewind(); for (k in 0 until n) { val q = toPx(f.pts[k]); if (k == 0) trajectoryPath.moveTo(q.x, q.y) else trajectoryPath.lineTo(q.x, q.y) }
+                drawPath(trajectoryPath, f.hue, style = Stroke(3f, cap = StrokeCap.Round))
                 val ball = toPx(f.pts[n - 1])
                 drawCircle(Color(0x33000000), 9f, Offset(ball.x, groundY))
                 drawCircle(Color(0xFF1E2A4A), 9f, ball); drawCircle(Color.White.copy(alpha = 0.6f), 3f, Offset(ball.x - 3f, ball.y - 3f))
