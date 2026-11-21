@@ -56,8 +56,8 @@ object NebyLooks {
     // flowers and lights
     private val marigold = c(0xFF9F1C); private val marigoldHi = c(0xFFD23F); private val makhamali = c(0xB0306A)
     private val gold = c(0xF2C230); private val goldLo = c(0xC98E16); private val goldHi = c(0xFFE58A)
-    private val white = c(0xFFFFFF); private val ink = c(0x1E2A4A)
-    private val crimson = c(0xDC143C); private val crimsonLo = c(0xA30E2C); private val nepalBlue = c(0x003893)
+    private val white = c(0xFFFFFF)
+    private val crimson = c(0xDC143C); private val nepalBlue = c(0x003893)
     private val gulal = intArrayOf(c(0xFF4FA3), c(0x2DCB73), c(0xFFD23F), c(0x9B5DE5), c(0xFF8C42), c(0x3FA7FF))
     private val rainbow = intArrayOf(c(0xE53935), c(0xFB8C00), c(0xFDD835), c(0x43A047), c(0x1E88E5), c(0x3949AB), c(0x8E24AA))
 

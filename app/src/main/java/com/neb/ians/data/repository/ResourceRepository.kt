@@ -47,10 +47,6 @@ class ResourceRepository @Inject constructor(
     private val _cachedResources = MutableStateFlow<List<ApiResource>>(emptyList())
     val cachedResources: Flow<List<ApiResource>> = _cachedResources.asStateFlow()
     private val bgScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
-
-    private val listTtlMs = 2 * 60 * 1000L
-    private val detailTtlMs = 5 * 60 * 1000L
-    private val commentTtlMs = 2 * 60 * 1000L
     private val maxCacheAgeMs = 14L * 24L * 60L * 60L * 1000L
 
     private suspend fun getBearerToken(): String? = authRepository.getBearerToken()

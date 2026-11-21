@@ -118,14 +118,18 @@ import com.neb.ians.ui.components.NebLoader
 
 enum class ResourceMediaType { Pdf, Image, Video, Audio, Other }
 
+private val IMAGE_EXTS = setOf("png", "jpg", "jpeg", "gif", "webp", "bmp")
+private val VIDEO_EXTS = setOf("mp4", "mkv", "avi", "mov", "webm", "3gp", "wmv", "flv")
+private val AUDIO_EXTS = setOf("mp3", "wav", "ogg", "flac", "aac", "m4a", "wma")
+
 fun detectResourceMedia(fileUrl: String, type: String): ResourceMediaType {
-    val lowerUrl = fileUrl.lowercase()
+    val ext = fileUrl.substringBefore('?').substringAfterLast('.', "").lowercase()
     val lowerType = type.lowercase()
     return when {
-        lowerType.contains("pdf") || lowerUrl.endsWith(".pdf") -> ResourceMediaType.Pdf
-        lowerType.contains("image") || Regex("\\.(png|jpe?g|gif|webp|bmp)$", RegexOption.IGNORE_CASE).containsMatchIn(fileUrl) -> ResourceMediaType.Image
-        lowerType.contains("video") || Regex("\\.(mp4|mkv|avi|mov|webm|3gp|wmv|flv)$", RegexOption.IGNORE_CASE).containsMatchIn(fileUrl) -> ResourceMediaType.Video
-        lowerType.contains("audio") || Regex("\\.(mp3|wav|ogg|flac|aac|m4a|wma)$", RegexOption.IGNORE_CASE).containsMatchIn(fileUrl) -> ResourceMediaType.Audio
+        lowerType.contains("pdf") || ext == "pdf" -> ResourceMediaType.Pdf
+        lowerType.contains("image") || ext in IMAGE_EXTS -> ResourceMediaType.Image
+        lowerType.contains("video") || ext in VIDEO_EXTS -> ResourceMediaType.Video
+        lowerType.contains("audio") || ext in AUDIO_EXTS -> ResourceMediaType.Audio
         else -> ResourceMediaType.Other
     }
 }

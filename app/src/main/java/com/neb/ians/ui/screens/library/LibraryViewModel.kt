@@ -64,7 +64,6 @@ data class LibraryUiState(
 @HiltViewModel
 class LibraryViewModel @Inject constructor(
     private val resourceRepository: ResourceRepository,
-    private val apiService: ApiService,
     private val appCache: AppCache,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {

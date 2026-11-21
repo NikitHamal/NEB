@@ -14,7 +14,6 @@ import com.neb.ians.data.repository.FollowStateRepository
 import com.neb.ians.data.repository.PeopleSuggestionRepository
 import com.neb.ians.data.repository.PersonSuggestion
 import com.neb.ians.data.repository.ForumRepository
-import com.neb.ians.data.repository.SettingsRepository
 import com.neb.ians.data.repository.AppCache
 import com.neb.ians.data.repository.NewsRepository
 import com.neb.ians.data.repository.ResourceRepository
@@ -81,7 +80,6 @@ private data class HomeStatusState(
 class HomeViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val apiService: ApiService,
-    private val settingsRepository: SettingsRepository,
     private val forumRepository: ForumRepository,
     private val resourceRepository: ResourceRepository,
     private val newsRepository: NewsRepository,

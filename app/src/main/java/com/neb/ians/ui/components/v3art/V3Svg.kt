@@ -31,6 +31,7 @@ internal object V3Svg {
     private val TAG = Regex("<(/?)([a-z]+)([^>]*)>")
     private val ATTR = Regex("([a-z-]+)=\"([^\"]*)\"")
     private val FN = Regex("(translate|rotate|scale)\\(([^)]*)\\)")
+    private val ARG_SPLIT = Regex("[\\s,]+")
     private val IDENT = doubleArrayOf(1.0, 0.0, 0.0, 1.0, 0.0, 0.0)
 
     /** m * n for [a, b, c, d, e, f] (SVG matrix order). */
@@ -43,7 +44,7 @@ internal object V3Svg {
     private fun transformOf(s: String): DoubleArray {
         var m = IDENT
         for (fn in FN.findAll(s)) {
-            val a = fn.groupValues[2].trim().split(Regex("[\\s,]+")).filter { it.isNotEmpty() }.map { it.toDouble() }
+            val a = fn.groupValues[2].trim().split(ARG_SPLIT).filter { it.isNotEmpty() }.map { it.toDouble() }
             m = when (fn.groupValues[1]) {
                 "translate" -> mul(m, doubleArrayOf(1.0, 0.0, 0.0, 1.0, a[0], a.getOrElse(1) { 0.0 }))
                 "scale" -> mul(m, doubleArrayOf(a[0], 0.0, 0.0, a.getOrElse(1) { a[0] }, 0.0, 0.0))

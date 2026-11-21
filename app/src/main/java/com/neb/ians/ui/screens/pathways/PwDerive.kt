@@ -92,6 +92,9 @@ internal fun inWindow(from: Int, to: Int, m: Int): Boolean = if (from <= to) m i
 internal fun windowLabel(from: Int, to: Int): String = if (inWindow(from, to, nowMonth())) "Closes ${MONTHS[to - 1]}" else "Opens ${MONTHS[from - 1]}"
 internal fun monthsUntil(from: Int, to: Int): Int = if (inWindow(from, to, nowMonth())) -1 else (from - nowMonth() + 12) % 12
 
+private val SeeEduRegex = Regex("""\bsee\b|\bslc\b|class 10""")
+private val DigitsRegex = Regex("""\d+""")
+
 internal val EDU_LABELS = listOf("Class 8", "SEE", "+2", "Bachelor", "Master")
 internal fun eduOf(need: String): Int {
     val t = need.lowercase()
@@ -99,14 +102,14 @@ internal fun eduOf(need: String): Int {
         "master" in t -> 4
         "bachelor" in t || "graduate" in t || "degree" in t -> 3
         "+2" in t || "plus two" in t || "class 12" in t || "higher secondary" in t -> 2
-        Regex("""\bsee\b|\bslc\b|class 10""").containsMatchIn(t) -> 1
+        SeeEduRegex.containsMatchIn(t) -> 1
         else -> 0
     }
 }
 
 /** "18 to 35 years, up to 40 for women" gives min 18, max 35, max for women 40. */
 internal fun ageOf(age: String): Triple<Int, Int, Int>? {
-    val n = Regex("""\d+""").findAll(age).map { it.value.toInt() }.toList()
+    val n = DigitsRegex.findAll(age).map { it.value.toInt() }.toList()
     return if (n.size >= 2) Triple(n[0], n[1], n.getOrElse(2) { n[1] }) else null
 }
 internal fun ageText(age: String): String = ageOf(age)?.let { (lo, hi, w) -> if (w > hi) "$lo–$hi, women $w" else "$lo–$hi" } ?: age

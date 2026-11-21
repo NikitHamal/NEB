@@ -357,7 +357,7 @@ internal object PdfReflow {
                 val cellLines = row.indices.map { ci -> groupLines(cellRuns[gi][ri][ci]) }
                 if (ri == 0) head = cellLines.filter { it.isNotEmpty() }.let { ls -> ls.isNotEmpty() && ls.all { l -> l.all { it.bold } } } ||
                     (g.rows.size > 2 && g.rows[0][0].rgb != g.rows[1][0].rgb && g.rows[1][0].rgb == g.rows[2][0].rgb.takeIf { g.rows.size > 3 } ?: g.rows[1][0].rgb)
-                out.add(TableRow(cellLines.map { ls -> ls.joinToString(" ") { it.text.trim() }.replace(Regex("\\s+"), " ").trim() }, -1))
+                out.add(TableRow(cellLines.map { ls -> ls.joinToString(" ") { it.text.trim() }.replace(multiSpaceRe, " ").trim() }, -1))
             }
             if (out.any { r -> r.cells.any { it.isNotEmpty() } }) items.add(g.rows[0][0].t to TableBlock(out, head))
         }
@@ -671,9 +671,14 @@ internal object PdfReflow {
         return -1
     }
 
+    private val multiSpaceRe = Regex("\\s+")
+    private val pageNumRe1 = Regex("(page\\s*)?[0-9]{1,4}(\\s*(/|of)\\s*[0-9]{1,4})?")
+    private val pageNumRe2 = Regex("[ivxlc]{1,6}")
+    private val pageNumRe3 = Regex("-\\s*[0-9]{1,4}\\s*-")
+
     private fun isPageNumber(t: String): Boolean {
         val s = t.trim().lowercase()
-        return s.matches(Regex("(page\\s*)?[0-9]{1,4}(\\s*(/|of)\\s*[0-9]{1,4})?")) || s.matches(Regex("[ivxlc]{1,6}")) || s.matches(Regex("-\\s*[0-9]{1,4}\\s*-"))
+        return pageNumRe1.matches(s) || pageNumRe2.matches(s) || pageNumRe3.matches(s)
     }
 
     private fun isCaps(t: String): Boolean {

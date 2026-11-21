@@ -619,5 +619,3 @@ internal fun PwSignal(value: Int, color: Color, size: Dp = 14.dp) {
         }
     }
 }
-
-internal val PwPad = PaddingValues(horizontal = 16.dp)

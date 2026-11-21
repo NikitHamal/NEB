@@ -11,6 +11,8 @@ object NoteSpeechText {
     private val link = Regex("\\[([^\\]]+)]\\([^)]*\\)")
     private val underscored = Regex("(?<!\\w)_([^_\\n]+)_(?!\\w)")
     private val tag = Regex("(?<![\\w&])#(\\w+)")
+    private val quotePrefix = Regex("^\\s*>+\\s?")
+    private val multiSpace = Regex("\\s+")
     private val sentenceEnd = Regex("(?<=[.!?;:\\u0964\\u0965])\\s+")
     private const val MAX = 280
 
@@ -24,7 +26,7 @@ object NoteSpeechText {
             var line = raw
             val isHeading = heading.containsMatchIn(line)
             line = heading.replaceFirst(line, "")
-            line = line.replaceFirst(Regex("^\\s*>+\\s?"), "")
+            line = line.replaceFirst(quotePrefix, "")
             line = bullet.replaceFirst(line, "")
             var done = false
             check.find(line)?.let { m -> done = m.groupValues[1].lowercase() == "x"; line = line.substring(m.range.last + 1) }
@@ -46,7 +48,7 @@ object NoteSpeechText {
         t = underscored.replace(t, "$1")
         t = tag.replace(t, "$1")
         t = t.replace("**", "").replace("__", "").replace("~~", "").replace("`", "").replace("*", "")
-        return t.replace(Regex("\\s+"), " ").trim()
+        return t.replace(multiSpace, " ").trim()
     }
 
     private fun finish(s: String) = if (s.isEmpty() || s.last() in ".!?\u0964\u0965") s else "$s."

@@ -207,7 +207,7 @@ class NewsRepository @Inject constructor(
         val headerClean = header.replace(verifiedMark, "")
         val authorBlock = headerClean.firstGroup("<span[^>]*class=\"news-card-author\"[^>]*>(.*?)</span>")
         val authorPhoto = authorBlock.firstGroup("<img[^>]*\\ssrc=\"([^\"]+)\"").absoluteMediaUrl()
-        val authorName = authorBlock.replace(Regex("<img[^>]*>", RegexOption.DOT_MATCHES_ALL), "").cleanHtml().ifBlank { "NEBians Team" }
+        val authorName = authorBlock.replace(imgTagDotAllRegex, "").cleanHtml().ifBlank { "NEBians Team" }
         val publishedAgo = header.findTimeAgo().ifBlank { html.findTimeAgo() }
         val views = header.findViews().ifBlank { html.findViews() }
         val announcement = NewsAnnouncement(
@@ -272,7 +272,7 @@ class NewsRepository @Inject constructor(
         val authorBlock = bodyClean.firstGroup("<span[^>]*class=\"news-card-author\"[^>]*>(.*?)</span>")
             .ifBlank { bodyClean.firstGroup("<(?:b|strong)>(.*?)</(?:b|strong)>") }
         val authorPhoto = authorBlock.firstGroup("<img[^>]*\\ssrc=\"([^\"]+)\"").absoluteMediaUrl()
-        val authorName = authorBlock.replace(Regex("<img[^>]*>", RegexOption.DOT_MATCHES_ALL), "")
+        val authorName = authorBlock.replace(imgTagDotAllRegex, "")
             .cleanHtml().ifBlank { "NEBians Team" }
         val publishedAgo = body.findTimeAgo()
         val views = body.findViews()
@@ -296,18 +296,48 @@ class NewsRepository @Inject constructor(
         )
     }
 
+    private val firstGroupPatternCache = java.util.concurrent.ConcurrentHashMap<String, Regex>(24)
+    private val imgTagDotAllRegex = Regex("<img[^>]*>", RegexOption.DOT_MATCHES_ALL)
+    private val brTagRegex = Regex("<br\\s*/?>", RegexOption.IGNORE_CASE)
+    private val closePTagRegex = Regex("</p>", RegexOption.IGNORE_CASE)
+    private val anyHtmlTagRegex = Regex("<[^>]+>")
+    private val inlineTabSpaceRegex = Regex("[ \\t]+")
+    private val newlineIndentRegex = Regex("\\n\\s+")
+    private val multiNewlineRegex = Regex("\\n{3,}")
+    private val scriptBlockRegex = Regex("<script[\\s\\S]*?</script>", RegexOption.IGNORE_CASE)
+    private val styleBlockRegex = Regex("<style[\\s\\S]*?</style>", RegexOption.IGNORE_CASE)
+    private val boldTagRegex = Regex("<(b|strong)[^>]*>([\\s\\S]*?)</\\1>", RegexOption.IGNORE_CASE)
+    private val italicTagRegex = Regex("<(i|em)[^>]*>([\\s\\S]*?)</\\1>", RegexOption.IGNORE_CASE)
+    private val strikeTagRegex = Regex("<(s|del|strike)[^>]*>([\\s\\S]*?)</\\1>", RegexOption.IGNORE_CASE)
+    private val codeTagRegex = Regex("<code[^>]*>([\\s\\S]*?)</code>", RegexOption.IGNORE_CASE)
+    private val anchorTagRegex = Regex("<a[^>]*href=[\"']([^\"']+)[\"'][^>]*>([\\s\\S]*?)</a>", RegexOption.IGNORE_CASE)
+    private val imgAltTagRegex = Regex("<img[^>]*alt=[\"']([^\"']*)[\"'][^>]*>", RegexOption.IGNORE_CASE)
+    private val imgTagRegex = Regex("<img[^>]*>", RegexOption.IGNORE_CASE)
+    private val blockCloseTagRegex = Regex("</(p|div|h1|h2|h3|h4|li|ul|ol|blockquote|pre)>", RegexOption.IGNORE_CASE)
+    private val h1TagRegex = Regex("<h1[^>]*>", RegexOption.IGNORE_CASE)
+    private val h2TagRegex = Regex("<h2[^>]*>", RegexOption.IGNORE_CASE)
+    private val h3TagRegex = Regex("<h3[^>]*>", RegexOption.IGNORE_CASE)
+    private val h4TagRegex = Regex("<h4[^>]*>", RegexOption.IGNORE_CASE)
+    private val liTagRegex = Regex("<li[^>]*>", RegexOption.IGNORE_CASE)
+    private val blockquoteTagRegex = Regex("<blockquote[^>]*>", RegexOption.IGNORE_CASE)
+    private val trailingLineSpaceRegex = Regex("[ \\t]+\\n")
+    private val timeAgoSpanRegex = Regex("<span[^>]*>([^<]*(?:ago|just now|Yesterday)[^<]*)</span>", RegexOption.IGNORE_CASE)
+    private val viewsCountRegex = Regex("([0-9][0-9.,KkMm]*)\\s*views", RegexOption.IGNORE_CASE)
+    private val numberCountRegex = Regex("([0-9][0-9.,KkMm]*)")
+
     private fun String.firstGroup(pattern: String): String {
-        return Regex(pattern, RegexOption.DOT_MATCHES_ALL).find(this)?.groups?.get(1)?.value.orEmpty()
+        val regex = firstGroupPatternCache.getOrPut(pattern) { Regex(pattern, RegexOption.DOT_MATCHES_ALL) }
+        return regex.find(this)?.groups?.get(1)?.value.orEmpty()
     }
 
     private fun String.cleanHtml(): String {
         if (isBlank()) return ""
-        val stripped = replace(Regex("<br\\s*/?>", RegexOption.IGNORE_CASE), "\n")
-            .replace(Regex("</p>", RegexOption.IGNORE_CASE), "\n\n")
-            .replace(Regex("<[^>]+>"), " ")
-            .replace(Regex("[ \\t]+"), " ")
-            .replace(Regex("\\n\\s+"), "\n")
-            .replace(Regex("\\n{3,}"), "\n\n")
+        val stripped = replace(brTagRegex, "\n")
+            .replace(closePTagRegex, "\n\n")
+            .replace(anyHtmlTagRegex, " ")
+            .replace(inlineTabSpaceRegex, " ")
+            .replace(newlineIndentRegex, "\n")
+            .replace(multiNewlineRegex, "\n\n")
             .trim()
         return Html.fromHtml(stripped, Html.FROM_HTML_MODE_LEGACY).toString().trim()
     }
@@ -320,35 +350,35 @@ class NewsRepository @Inject constructor(
      */
     private fun String.cleanArticleContent(): String {
         if (isBlank()) return ""
-        return replace(Regex("<script[\\s\\S]*?</script>", RegexOption.IGNORE_CASE), "")
-            .replace(Regex("<style[\\s\\S]*?</style>", RegexOption.IGNORE_CASE), "")
+        return replace(scriptBlockRegex, "")
+            .replace(styleBlockRegex, "")
             // Inline formatting first (before generic tag stripping).
-            .replace(Regex("<(b|strong)[^>]*>([\\s\\S]*?)</\\1>", RegexOption.IGNORE_CASE), "**$2**")
-            .replace(Regex("<(i|em)[^>]*>([\\s\\S]*?)</\\1>", RegexOption.IGNORE_CASE), "*$2*")
-            .replace(Regex("<(s|del|strike)[^>]*>([\\s\\S]*?)</\\1>", RegexOption.IGNORE_CASE), "~~$2~~")
-            .replace(Regex("<code[^>]*>([\\s\\S]*?)</code>", RegexOption.IGNORE_CASE), "`$1`")
-            .replace(Regex("<a[^>]*href=[\"']([^\"']+)[\"'][^>]*>([\\s\\S]*?)</a>", RegexOption.IGNORE_CASE)) { m ->
+            .replace(boldTagRegex, "**$2**")
+            .replace(italicTagRegex, "*$2*")
+            .replace(strikeTagRegex, "~~$2~~")
+            .replace(codeTagRegex, "`$1`")
+            .replace(anchorTagRegex) { m ->
                 val href = absolutizeUrl(m.groups[1]?.value.orEmpty())
                 val label = m.groups[2]?.value.orEmpty()
-                    .replace(Regex("<[^>]+>"), "").trim()
+                    .replace(anyHtmlTagRegex, "").trim()
                     .ifBlank { href }
                 "[$label]($href)"
             }
-            .replace(Regex("<img[^>]*alt=[\"']([^\"']*)[\"'][^>]*>", RegexOption.IGNORE_CASE), " $1 ")
-            .replace(Regex("<img[^>]*>", RegexOption.IGNORE_CASE), " ")
+            .replace(imgAltTagRegex, " $1 ")
+            .replace(imgTagRegex, " ")
             // Block structure → markdown blocks.
-            .replace(Regex("<br\\s*/?>", RegexOption.IGNORE_CASE), "\n")
-            .replace(Regex("</(p|div|h1|h2|h3|h4|li|ul|ol|blockquote|pre)>", RegexOption.IGNORE_CASE), "\n")
-            .replace(Regex("<h1[^>]*>", RegexOption.IGNORE_CASE), "\n# ")
-            .replace(Regex("<h2[^>]*>", RegexOption.IGNORE_CASE), "\n## ")
-            .replace(Regex("<h3[^>]*>", RegexOption.IGNORE_CASE), "\n### ")
-            .replace(Regex("<h4[^>]*>", RegexOption.IGNORE_CASE), "\n### ")
-            .replace(Regex("<li[^>]*>", RegexOption.IGNORE_CASE), "- ")
-            .replace(Regex("<blockquote[^>]*>", RegexOption.IGNORE_CASE), "\n> ")
-            .replace(Regex("<[^>]+>"), "")
+            .replace(brTagRegex, "\n")
+            .replace(blockCloseTagRegex, "\n")
+            .replace(h1TagRegex, "\n# ")
+            .replace(h2TagRegex, "\n## ")
+            .replace(h3TagRegex, "\n### ")
+            .replace(h4TagRegex, "\n### ")
+            .replace(liTagRegex, "- ")
+            .replace(blockquoteTagRegex, "\n> ")
+            .replace(anyHtmlTagRegex, "")
             .decodeEntitiesPerLine()
-            .replace(Regex("[ \\t]+\\n"), "\n")
-            .replace(Regex("\\n{3,}"), "\n\n")
+            .replace(trailingLineSpaceRegex, "\n")
+            .replace(multiNewlineRegex, "\n\n")
             .trim()
     }
 
@@ -387,7 +417,7 @@ class NewsRepository @Inject constructor(
     }
 
     private fun String.findTimeAgo(): String {
-        val matches = Regex("<span[^>]*>([^<]*(?:ago|just now|Yesterday)[^<]*)</span>", RegexOption.IGNORE_CASE)
+        val matches = timeAgoSpanRegex
             .findAll(this)
             .map { it.groups[1]?.value.orEmpty().cleanHtml() }
             .filter { it.isNotBlank() }
@@ -396,9 +426,9 @@ class NewsRepository @Inject constructor(
     }
 
     private fun String.findViews(): String {
-        Regex("([0-9][0-9.,KkMm]*)\\s*views", RegexOption.IGNORE_CASE).find(this)?.groups?.get(1)?.value?.let { return it }
+        viewsCountRegex.find(this)?.groups?.get(1)?.value?.let { return it }
         val afterVisibility = substringAfter("visibility", missingDelimiterValue = "")
-        return Regex("([0-9][0-9.,KkMm]*)").find(afterVisibility)?.value.orEmpty()
+        return numberCountRegex.find(afterVisibility)?.value.orEmpty()
     }
 
     private fun String.toCategoryColor(): String = when (lowercase()) {

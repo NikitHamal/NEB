@@ -41,15 +41,7 @@ import androidx.compose.runtime.Immutable
 // neutral.
 // ---------------------------------------------------------------------------
 
-/**
- * The brand blue, for the rare caller that has no composition to read a scheme
- * from. Prefer `MaterialTheme.colorScheme.primary` everywhere else -- it flips
- * with the theme and this does not.
- */
-val NebBrandBlue: Color = NebBrandRamp.B40
 
-/** The brand blue as it must appear on a dark surface. */
-val NebBrandBlueOnDark: Color = NebBrandRamp.B80
 
 /**
  * How a subject, category or level is dressed.
@@ -264,14 +256,6 @@ fun getSubjectTheme(subject: String): SubjectTheme {
 @Composable
 @ReadOnlyComposable
 fun getSubjectColor(subject: String): Color = getSubjectTheme(subject).color
-
-/**
- * The brand where there is no composition to read it from — a media
- * notification, a service, a value cached in a view model. The brand blue rather
- * than a subject's own hue, because whatever reads this cannot know which
- * surface it will be drawn on and the blue is the one that holds up on both.
- */
-val SubjectAccentStatic: Color = NebBrandRamp.B40
 
 // ---------------------------------------------------------------------------
 // Accents.
