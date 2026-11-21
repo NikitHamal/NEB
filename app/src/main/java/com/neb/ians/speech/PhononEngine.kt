@@ -50,9 +50,9 @@ class PhononEngine @Inject constructor(
         @Volatile var jump = -1
     }
 
-    private val engineThread = Executors.newSingleThreadExecutor { r -> Thread(r, "neb-phonon") }.asCoroutineDispatcher()
+    private val engineThread by lazy { Executors.newSingleThreadExecutor { r -> Thread(r, "neb-phonon") }.asCoroutineDispatcher() }
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
-    private val audio = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    private val audio by lazy { context.getSystemService(Context.AUDIO_SERVICE) as AudioManager }
 
     private val _state = MutableStateFlow<ReadState>(ReadState.Idle)
     val state: StateFlow<ReadState> = _state.asStateFlow()

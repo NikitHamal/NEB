@@ -192,83 +192,28 @@ fun LoginScreen(
     var loadingProvider by remember { mutableStateOf<String?>(null) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var activeLegalSheet by remember { mutableStateOf<LegalSheetType?>(null) }
-    var customTabsSession by remember { mutableStateOf<androidx.browser.customtabs.CustomTabsSession?>(null) }
-
-    androidx.compose.runtime.LaunchedEffect(authRepository) {
-        authRepository?.authState?.collect { state ->
-            if (state is com.neb.ians.data.repository.AuthState.Authenticated) {
-                isLoading = false
-                loadingProvider = null
-                if (state.isProfileComplete) onNavigateToHome?.invoke()
-                else onNavigateToOnboarding?.invoke()
-            }
-        }
-    }
-
-    val customTabsPkg = remember(context) {
-        runCatching {
-            val preferred = listOf(
-                "com.android.chrome",
-                "com.brave.browser",
-                "com.microsoft.emmx",
-                "com.sec.android.app.sbrowser",
-                "org.mozilla.firefox"
-            )
-            androidx.browser.customtabs.CustomTabsClient.getPackageName(context, preferred, true)
-                ?: androidx.browser.customtabs.CustomTabsClient.getPackageName(context, null)
-        }.getOrNull()
-    }
-
-    androidx.compose.runtime.DisposableEffect(customTabsPkg) {
-        val pkg = customTabsPkg
-        val appCtx = context.applicationContext
-        var boundConn: androidx.browser.customtabs.CustomTabsServiceConnection? = null
-        if (!pkg.isNullOrBlank()) {
-            val conn = object : androidx.browser.customtabs.CustomTabsServiceConnection() {
-                override fun onCustomTabsServiceConnected(
-                    name: android.content.ComponentName,
-                    client: androidx.browser.customtabs.CustomTabsClient
-                ) {
-                    runCatching {
-                        client.warmup(0L)
-                        val session = client.newSession(null)
-                        val githubBundle = android.os.Bundle().apply {
-                            putParcelable(
-                                androidx.browser.customtabs.CustomTabsService.KEY_URL,
-                                Uri.parse(GITHUB_DIRECT_OAUTH_URL)
-                            )
-                        }
-                        session?.mayLaunchUrl(
-                            Uri.parse(GOOGLE_DIRECT_OAUTH_URL),
-                            null,
-                            listOf(githubBundle)
-                        )
-                        customTabsSession = session
-                    }
-                }
-                override fun onServiceDisconnected(name: android.content.ComponentName?) {
-                    customTabsSession = null
-                }
-            }
-            if (runCatching { androidx.browser.customtabs.CustomTabsClient.bindCustomTabsService(appCtx, pkg, conn) }.getOrDefault(false)) {
-                boundConn = conn
-            }
-        }
-        onDispose {
-            boundConn?.let { runCatching { appCtx.unbindService(it) } }
-        }
-    }
 
     @Suppress("DEPRECATION")
-    fun launchBrowserOAuth(provider: String) {
+    suspend fun launchBrowserOAuth(provider: String) {
         val url = if (provider == "google") GOOGLE_DIRECT_OAUTH_URL else GITHUB_DIRECT_OAUTH_URL
         val uri = Uri.parse(url)
+        val customTabsPkg = withContext(Dispatchers.IO) {
+            runCatching {
+                val preferred = listOf(
+                    "com.android.chrome",
+                    "com.brave.browser",
+                    "com.microsoft.emmx",
+                    "com.sec.android.app.sbrowser",
+                    "org.mozilla.firefox"
+                )
+                androidx.browser.customtabs.CustomTabsClient.getPackageName(context, preferred, true)
+                    ?: androidx.browser.customtabs.CustomTabsClient.getPackageName(context, null)
+            }.getOrNull()
+        }
         try {
             val dm = context.resources.displayMetrics
             val sheetHeightPx = (dm.heightPixels * 0.88f).toInt().coerceAtLeast(480)
-            val session = customTabsSession
-            val builder = if (session != null) CustomTabsIntent.Builder(session) else CustomTabsIntent.Builder()
-            val customTabsIntent = builder
+            val customTabsIntent = CustomTabsIntent.Builder()
                 .setShareState(CustomTabsIntent.SHARE_STATE_OFF)
                 .setShowTitle(true)
                 .setUrlBarHidingEnabled(true)
@@ -340,11 +285,13 @@ fun LoginScreen(
 
         isLoading = true
         loadingProvider = provider
-        try {
-            launchBrowserOAuth(provider)
-        } finally {
-            isLoading = false
-            loadingProvider = null
+        scope.launch {
+            try {
+                launchBrowserOAuth(provider)
+            } finally {
+                isLoading = false
+                loadingProvider = null
+            }
         }
     }
 

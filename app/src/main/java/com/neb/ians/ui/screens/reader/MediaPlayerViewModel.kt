@@ -68,9 +68,12 @@ class MediaPlayerViewModel @Inject constructor(
     private var tickJob: Job? = null
     private var loadJob: Job? = null
     private var playWhenReady: Boolean = false
-    private val audioManager: AudioManager =
+    private val audioManager: AudioManager by lazy(LazyThreadSafetyMode.NONE) {
         application.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-    private val maxVolume: Int = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+    }
+    private val maxVolume: Int by lazy(LazyThreadSafetyMode.NONE) {
+        audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+    }
 
     companion object {
         private const val SAVE_INTERVAL_MS = 2500L

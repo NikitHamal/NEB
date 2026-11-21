@@ -150,34 +150,49 @@ class StudyReaderViewModel @Inject constructor(
 
     fun reading(read: Int, place: Int) {
         val key = _state.value.key
-        progress.setReading(key, read, place)
-        _state.update { it.copy(mark = progress.get(key)) }
+        viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+            progress.setReading(key, read, place)
+            val updated = progress.get(key)
+            _state.update { it.copy(mark = updated) }
+        }
     }
 
     fun answer(index: Int, right: Boolean) {
         val key = _state.value.key
-        progress.setAnswer(key, index, right)
-        _state.update { it.copy(mark = progress.get(key)) }
+        viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+            progress.setAnswer(key, index, right)
+            val updated = progress.get(key)
+            _state.update { it.copy(mark = updated) }
+        }
     }
 
     fun clearAnswers() {
         val key = _state.value.key
-        progress.clearAnswers(key)
-        _state.update { it.copy(mark = progress.get(key), answers = emptyMap()) }
+        viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+            progress.clearAnswers(key)
+            val updated = progress.get(key)
+            _state.update { it.copy(mark = updated, answers = emptyMap()) }
+        }
     }
 
     /** The page's timed-test state; "" when the student went back to practice. Any thread. */
     fun saveExam(json: String) {
         val key = _state.value.key
         val value = json.takeIf { it.isNotBlank() }
-        progress.setExam(key, value)
         _state.update { it.copy(examState = value) }
+        viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+            progress.setExam(key, value)
+        }
     }
 
     fun toggleDone() {
         val key = _state.value.key
-        progress.setDone(key, !_state.value.mark.markedDone)
-        _state.update { it.copy(mark = progress.get(key)) }
+        val nextDone = !_state.value.mark.markedDone
+        viewModelScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+            progress.setDone(key, nextDone)
+            val updated = progress.get(key)
+            _state.update { it.copy(mark = updated) }
+        }
     }
 }
 

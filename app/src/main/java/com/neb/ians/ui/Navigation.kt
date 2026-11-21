@@ -278,19 +278,29 @@ fun NEBiansNavHost(
     }
     // Leaves the sign-in screens for the screen the guest came from (never Home by default).
     val leaveAuth: () -> Unit = {
-        val poppedLogin = navController.popBackStack(Screen.Login.route, true)
-        val poppedEmail = if (!poppedLogin) navController.popBackStack(Screen.EmailAuth.route, true) else false
-        if (!poppedLogin && !poppedEmail) navController.popBackStack(Screen.CompleteProfile.route, true)
-        val afterRoute = navController.currentBackStackEntry?.destination?.route?.substringBefore("?")
-        if (afterRoute in PRE_APP_ROUTES || afterRoute == null) {
-            navController.navigate(Screen.Home.route) {
-                popUpTo(0) { inclusive = true }
-                launchSingleTop = true
+        val cur = navController.currentBackStackEntry?.destination?.route?.substringBefore("?")
+        if (cur in PRE_APP_ROUTES || cur == null) {
+            val poppedLogin = navController.popBackStack(Screen.Login.route, true)
+            val poppedEmail = if (!poppedLogin) navController.popBackStack(Screen.EmailAuth.route, true) else false
+            if (!poppedLogin && !poppedEmail) navController.popBackStack(Screen.CompleteProfile.route, true)
+            val afterRoute = navController.currentBackStackEntry?.destination?.route?.substringBefore("?")
+            if (afterRoute in PRE_APP_ROUTES || afterRoute == null) {
+                navController.navigate(Screen.Home.route) {
+                    popUpTo(0) { inclusive = true }
+                    launchSingleTop = true
+                }
             }
         }
         pendingRoute?.let { target ->
             pendingRoute = null
             navController.navigate(target) { launchSingleTop = true }
+        }
+    }
+    val enterOnboardingFromAuth: () -> Unit = {
+        val cur = navController.currentBackStackEntry?.destination?.route?.substringBefore("?")
+        if (cur != Screen.CompleteProfile.route) {
+            navController.popBackStack(Screen.Login.route, true)
+            navController.navigate(Screen.CompleteProfile.route) { launchSingleTop = true }
         }
     }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -327,10 +337,7 @@ fun NEBiansNavHost(
                     currentRoute == Screen.ForgotPassword.route
                 ) {
                     if (state.isProfileComplete) leaveAuth()
-                    else {
-                        navController.popBackStack(Screen.Login.route, true)
-                        navController.navigate(Screen.CompleteProfile.route) { launchSingleTop = true }
-                    }
+                    else enterOnboardingFromAuth()
                 }
             }
             else -> {}
@@ -542,10 +549,7 @@ fun NEBiansNavHost(
                     onNavigateToEmailAuth = { navController.navigate(Screen.EmailAuth.route) },
                     onClose = { pendingRoute = null; navController.popBackStack() },
                     onNavigateToHome = leaveAuth,
-                    onNavigateToOnboarding = {
-                        navController.popBackStack(Screen.Login.route, true)
-                        navController.navigate(Screen.CompleteProfile.route) { launchSingleTop = true }
-                    },
+                    onNavigateToOnboarding = enterOnboardingFromAuth,
                     authRepository = authRepository
                 )
             }
@@ -553,7 +557,7 @@ fun NEBiansNavHost(
                 EmailAuthScreen(
                     onClose = { navController.popBackStack() },
                     onNavigateToHome = leaveAuth,
-                    onNavigateToOnboarding = { navController.navigate(Screen.CompleteProfile.route) { launchSingleTop = true } },
+                    onNavigateToOnboarding = enterOnboardingFromAuth,
                     onNavigateToVerification = { email ->
                         navController.navigate(Screen.EmailVerification.createRoute(email))
                     },
@@ -572,7 +576,7 @@ fun NEBiansNavHost(
                     email = email,
                     authRepository = authRepository,
                     onNavigateToHome = leaveAuth,
-                    onNavigateToOnboarding = { navController.navigate(Screen.CompleteProfile.route) { launchSingleTop = true } },
+                    onNavigateToOnboarding = enterOnboardingFromAuth,
                     onNavigateBack = { navController.popBackStack() }
                 )
             }

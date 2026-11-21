@@ -53,7 +53,7 @@ class MainActivity : ComponentActivity() {
         handleIntent(intent)
         scheduleStartupSideEffects()
 
-        lifecycleScope.launch {
+        lifecycleScope.launch(kotlinx.coroutines.Dispatchers.IO) {
             try {
                 val token = authRepository.getToken()
                 if (token != null && token.isNotBlank()) {

@@ -50,9 +50,11 @@ class WhistleEngine @Inject constructor(
     @ApplicationContext private val context: Context,
     private val models: SpeechModelManager,
 ) {
-    private val engineThread = Executors.newSingleThreadExecutor { r ->
-        Thread(r, "neb-whistle").apply { priority = Thread.NORM_PRIORITY + 1 }
-    }.asCoroutineDispatcher()
+    private val engineThread by lazy {
+        Executors.newSingleThreadExecutor { r ->
+            Thread(r, "neb-whistle").apply { priority = Thread.NORM_PRIORITY + 1 }
+        }.asCoroutineDispatcher()
+    }
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     private val _state = MutableStateFlow<DictationState>(DictationState.Idle)

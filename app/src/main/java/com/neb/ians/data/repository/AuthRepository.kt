@@ -139,9 +139,12 @@ class AuthRepository @Inject constructor(
 
     val currentUserNameFlow: StateFlow<String> = dataStore.data.map { firstName(it) }
         .stateIn(ioScope, SharingStarted.Eagerly, "Student")
+    private fun cleanPhotoUrl(raw: String?): String =
+        raw?.trim()?.takeIf { it.isNotEmpty() && !it.startsWith("/avatar/") && !it.contains("/avatar/") }.orEmpty()
+
     val currentUsernameHandleFlow: Flow<String> = dataStore.data.map { it[USER_NAME] ?: "" }
     val currentUserIdFlow: Flow<String?> = dataStore.data.map { it[USER_ID] }
-    val currentUserPhotoUrlFlow: Flow<String?> = dataStore.data.map { it[USER_PHOTO_URL] }
+    val currentUserPhotoUrlFlow: Flow<String?> = dataStore.data.map { cleanPhotoUrl(it[USER_PHOTO_URL]).ifEmpty { null } }
     val currentUserVerificationLevelFlow: Flow<Int> = dataStore.data.map { it[USER_VERIFICATION_LEVEL] ?: 0 }
 
     val userProfileFlow: Flow<UserProfileCache?> = dataStore.data.map { preferences ->
@@ -154,7 +157,7 @@ class AuthRepository @Inject constructor(
             id = userId ?: "",
             username = handle,
             email = preferences[USER_EMAIL],
-            photoUrl = preferences[USER_PHOTO_URL],
+            photoUrl = cleanPhotoUrl(preferences[USER_PHOTO_URL]).ifEmpty { null },
             bannerUrl = preferences[USER_BANNER_URL],
             displayName = preferences[USER_DISPLAY_NAME],
             role = preferences[USER_ROLE],
@@ -251,8 +254,10 @@ class AuthRepository @Inject constructor(
     }
 
     suspend fun markProfileCompleted() {
-        dataStore.edit { prefs ->
-            prefs[PROFILE_COMPLETED] = true
+        withContext(Dispatchers.IO) {
+            dataStore.edit { prefs ->
+                prefs[PROFILE_COMPLETED] = true
+            }
         }
         sessionVersion.value++
     }
@@ -267,7 +272,7 @@ class AuthRepository @Inject constructor(
             prefs[AUTH_STATUS] = "authenticated"
             prefs[USER_ID] = user.id
             prefs[USER_EMAIL] = user.email ?: ""
-            prefs[USER_PHOTO_URL] = user.photoUrl ?: ""
+            prefs[USER_PHOTO_URL] = cleanPhotoUrl(user.photoUrl)
             prefs[USER_DISPLAY_NAME] = user.displayName ?: ""
             prefs[USER_BANNER_URL] = user.bannerUrl ?: ""
             prefs[USER_BIO] = user.bio ?: ""
@@ -601,18 +606,18 @@ class AuthRepository @Inject constructor(
     private var ensuringProfile = false
 
     /** Refreshes the cached profile, retrying a few times so a slow network never leaves a signed-in user looking like a guest. */
-    suspend fun ensureProfile(attempts: Int = 3) {
-        if (ensuringProfile) return
+    suspend fun ensureProfile(attempts: Int = 3) = withContext(Dispatchers.IO) {
+        if (ensuringProfile) return@withContext
         ensuringProfile = true
         try {
             repeat(attempts) { i ->
-                if (getBearerToken() == null) return
+                if (getBearerToken() == null) return@withContext
                 val prefs = dataStore.data.first()
                 val hasCachedId = !prefs[USER_ID].isNullOrBlank() && prefs[USER_ID] != "guest_user"
-                if (hasCachedId && (i > 0 || System.currentTimeMillis() - lastProfileRefreshAt < 30_000L)) return
+                if (hasCachedId && (i > 0 || System.currentTimeMillis() - lastProfileRefreshAt < 30_000L)) return@withContext
                 refreshProfile()
                 val after = dataStore.data.first()[USER_ID]
-                if (!after.isNullOrBlank() && after != "guest_user") return
+                if (!after.isNullOrBlank() && after != "guest_user") return@withContext
                 kotlinx.coroutines.delay(1200L * (i + 1))
             }
         } finally {
@@ -620,16 +625,15 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    suspend fun refreshProfile() {
+    suspend fun refreshProfile() = withContext(Dispatchers.IO) {
         try {
-            val bearer = getBearerToken() ?: return
-            val username = dataStore.data.first()[USER_NAME]?.takeIf { it.isNotBlank() && it != "Guest" && it != "Student" } ?: return
-            val response = withContext(Dispatchers.IO) { apiService.getProfile(bearer, username) }
-            withContext(Dispatchers.IO) {
-                dataStore.edit { prefs ->
-                    prefs[USER_ID] = response.id
-                    prefs[USER_EMAIL] = response.email ?: ""
-                    prefs[USER_PHOTO_URL] = response.photoUrl ?: ""
+            val bearer = getBearerToken() ?: return@withContext
+            val username = dataStore.data.first()[USER_NAME]?.takeIf { it.isNotBlank() && it != "Guest" && it != "Student" } ?: return@withContext
+            val response = apiService.getProfile(bearer, username)
+            dataStore.edit { prefs ->
+                prefs[USER_ID] = response.id
+                prefs[USER_EMAIL] = response.email ?: ""
+                prefs[USER_PHOTO_URL] = cleanPhotoUrl(response.photoUrl)
                     prefs[USER_DISPLAY_NAME] = response.displayName ?: ""
                     prefs[USER_BANNER_URL] = response.bannerUrl ?: ""
                     prefs[USER_ROLE] = response.role ?: ""
@@ -656,7 +660,6 @@ class AuthRepository @Inject constructor(
                     prefs[USER_IS_ADMIN] = response.isAdmin
                     prefs[USER_ACHIEVEMENT_BADGES] = response.achievementBadges ?: ""
                 }
-            }
             lastProfileRefreshAt = System.currentTimeMillis()
         } catch (e: Exception) {
             // The launch-time probe is the app's only session check, and it used to

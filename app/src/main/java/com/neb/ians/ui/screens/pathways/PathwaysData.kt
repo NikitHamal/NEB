@@ -390,8 +390,8 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
 
     fun toggleSaved(key: String) {
         val next = _state.value.saved.let { if (key in it) it - key else it + key }
-        prefs.edit().putStringSet("saved", next).apply()
         _state.update { it.copy(saved = next) }
+        viewModelScope.launch(Dispatchers.IO) { prefs.edit().putStringSet("saved", next).apply() }
     }
 
     fun set(name: String): Set<String> = sets[name] ?: emptySet()
@@ -399,29 +399,34 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
     fun toggle(name: String, value: String) {
         val next = set(name).let { if (value in it) it - value else it + value }
         sets[name] = next
-        prefs.edit().putStringSet("set_$name", next).apply()
+        viewModelScope.launch(Dispatchers.IO) { prefs.edit().putStringSet("set_$name", next).apply() }
     }
 
     fun num(name: String): Int = nums[name] ?: NUM_DEFAULTS[name] ?: 0
     fun setNum(name: String, value: Int) {
         if (nums[name] == value) return
         nums[name] = value
-        prefs.edit().putInt("num_$name", value).apply()
+        viewModelScope.launch(Dispatchers.IO) { prefs.edit().putInt("num_$name", value).apply() }
     }
 
     fun setMatchStage(id: String) {
         sel.matchStage = id
-        prefs.edit().putString("matchStage", id).apply()
+        viewModelScope.launch(Dispatchers.IO) { prefs.edit().putString("matchStage", id).apply() }
     }
 
     fun clearMatch() {
-        listOf("interests", "strengths", "priorities").forEach { sets[it] = emptySet(); prefs.edit().remove("set_$it").apply() }
+        listOf("interests", "strengths", "priorities").forEach { sets[it] = emptySet() }
+        viewModelScope.launch(Dispatchers.IO) {
+            val ed = prefs.edit()
+            listOf("interests", "strengths", "priorities").forEach { ed.remove("set_$it") }
+            ed.apply()
+        }
         setNum("myears", 0); setNum("mrisk", 1); setNum("mstep", 0); setNum("mdone", 0); setNum("budget", 15)
         sel.matchOpen = null; sel.matchWeak = false
     }
 
     fun setDistrict(district: String, kind: String) {
-        prefs.edit().putString("district", district).apply()
+        viewModelScope.launch(Dispatchers.IO) { prefs.edit().putString("district", district).apply() }
         _state.update { it.copy(district = district, live = emptyList(), plus2Schools = emptyList(), plus2Total = 0) }
         if (district.isBlank()) return
         val encoded = URLEncoder.encode(district, "UTF-8")

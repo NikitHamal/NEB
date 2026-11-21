@@ -31,8 +31,8 @@ data class StudyMark(
  * [version] ticks on every write; screens collect it to repaint.
  */
 @Singleton
-class StudyProgress @Inject constructor(@ApplicationContext context: Context) {
-    private val prefs = context.getSharedPreferences("neb_study", Context.MODE_PRIVATE)
+class StudyProgress @Inject constructor(@ApplicationContext private val context: Context) {
+    private val prefs by lazy { context.getSharedPreferences("neb_study", Context.MODE_PRIVATE) }
     private val _version = MutableStateFlow(0)
     val version: StateFlow<Int> = _version.asStateFlow()
 

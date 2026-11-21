@@ -110,9 +110,11 @@ class NEBiansApp : Application(), ImageLoaderFactory {
      * start). A later reader finds each cached, or waits for the read already under way.
      */
     private fun warmUp() {
-        getSharedPreferences(com.neb.ians.data.theme.SiteThemeRepository.PREFS, MODE_PRIVATE)
         val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-        scope.launch { runCatching { dataStore.data.first() } }
+        scope.launch {
+            runCatching { getSharedPreferences(com.neb.ians.data.theme.SiteThemeRepository.PREFS, MODE_PRIVATE) }
+            runCatching { dataStore.data.first() }
+        }
         scope.launch { runCatching { SecurePrefs.getAuthToken(this@NEBiansApp) } }
         scope.launch { com.neb.ians.data.api.ApiService.preconnect() }
         scope.launch {
