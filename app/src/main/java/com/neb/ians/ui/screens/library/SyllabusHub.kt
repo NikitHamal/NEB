@@ -92,8 +92,6 @@ import com.neb.ians.ui.components.WebPanelShape
 import com.neb.ians.ui.components.WebPillShape
 import com.neb.ians.ui.components.nebPressable
 import com.neb.ians.ui.theme.nebEffectsSpec
-
-private val LAST_READ_KEY_REGEX = Regex("""^(\w+)/([\w-]+)/(unit|bank|guide)(\d*)$""")
 import com.neb.ians.ui.theme.nebSpatialSpec
 
 @Composable
