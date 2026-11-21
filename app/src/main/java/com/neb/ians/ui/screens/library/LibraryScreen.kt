@@ -103,11 +103,7 @@ import androidx.compose.material.icons.outlined.PlayLesson
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.material.icons.outlined.Storefront
 import com.neb.ians.ui.components.NebLoaderSize
-import com.neb.ians.AppFeatures
-import com.neb.ians.ui.screens.marketplace.MarketplaceTabContent
-import com.neb.ians.ui.screens.marketplace.MarketplaceViewModel
 import com.neb.ians.ui.components.NebLoader
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -122,13 +118,8 @@ fun LibraryScreen(
     onSyllabusDetailChromeChanged: (Boolean) -> Unit = {},
     onRequestResourceClick: () -> Unit = {},
     onStudyDocClick: (grade: String, subject: String, kind: String, no: Int) -> Unit = { _, _, _, _ -> },
-    onCreatorClick: (String) -> Unit = {},
-    onMarketplaceCourseClick: (String) -> Unit = {},
-    onStudioClick: () -> Unit = {},
     viewModel: LibraryViewModel = hiltViewModel(),
     interactiveViewModel: InteractiveViewModel = hiltViewModel(),
-    // not created at all while the marketplace is off: its init would fetch from a gated API
-    marketplaceViewModel: MarketplaceViewModel? = if (AppFeatures.MARKETPLACE) hiltViewModel() else null,
     syllabusViewModel: SyllabusViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -193,9 +184,7 @@ fun LibraryScreen(
             onRefresh = {
                 scope.launch {
                     isRefreshing = true
-                    if (currentTab == "marketplace" && marketplaceViewModel != null) {
-                        marketplaceViewModel.refresh()
-                    } else if (currentTab == "syllabus") {
+                    if (currentTab == "syllabus") {
                         syllabusViewModel.refresh().join()
                     } else {
                         viewModel.refresh().join()
@@ -232,20 +221,6 @@ fun LibraryScreen(
                         onRequestResourceClick = onRequestResourceClick
                     )
                 }
-                "marketplace" -> if (marketplaceViewModel != null) {
-                    val marketplaceState by marketplaceViewModel.uiState.collectAsStateWithLifecycle()
-                    MarketplaceTabContent(
-                        state = marketplaceState,
-                        onRetry = marketplaceViewModel::retry,
-                        onCreatorClick = onCreatorClick,
-                        onCourseClick = onMarketplaceCourseClick,
-                        onOpenStudio = onStudioClick,
-                        onKindSelected = marketplaceViewModel::selectKind,
-                        onQueryChange = marketplaceViewModel::updateQuery,
-                        onSubmitQuery = marketplaceViewModel::submitQuery,
-                        onLoadMore = marketplaceViewModel::loadNextPage
-                    )
-                }
                 "syllabus" -> {
                     LaunchedEffect(Unit) { syllabusViewModel.ensureLoaded() }
                     SyllabusContent(
@@ -277,12 +252,11 @@ private fun LibraryTabs(
     onFilterClick: () -> Unit = {}
 ) {
     val keys = remember {
-        listOfNotNull("library", "marketplace".takeIf { AppFeatures.MARKETPLACE }, "syllabus", "interactive")
+        listOf("library", "syllabus", "interactive")
     }
     val tabs = remember {
-        listOfNotNull(
+        listOf(
             NebRailTab("Library", Icons.Outlined.Inventory2),
-            NebRailTab("Marketplace", Icons.Outlined.Storefront).takeIf { AppFeatures.MARKETPLACE },
             NebRailTab("Syllabus", Icons.AutoMirrored.Outlined.MenuBook),
             NebRailTab("Interactive", Icons.Outlined.PlayLesson)
         )

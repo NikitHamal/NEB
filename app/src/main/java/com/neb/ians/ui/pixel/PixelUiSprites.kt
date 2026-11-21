@@ -240,22 +240,6 @@ object PixelUiSprites {
         }
     }
 
-    /** A little shop, its awning lifting in the wind. For the marketplace. */
-    val storefront: PixelSprite by lazy {
-        PixelSprite.build(32, 32, 8, 130) { f ->
-            rect(5, 13, 22, 16, paper)
-            rect(8, 18, 7, 11, blueLo); rect(9, 19, 5, 10, blue); set(13, 24, gold)
-            rect(17, 17, 8, 7, sky); hline(17, 24, 20, white); set(18, 18, white)
-            for (s in 0 until 6) {
-                val x = 3 + s * 4
-                val drop = if ((s + f) % 4 == 0) 1 else 0
-                rect(x, 7, 4, 6 + drop, if (s % 2 == 0) blue else white)
-            }
-            hline(3, 26, 6, blueLo)
-            outline(line)
-        }
-    }
-
     /** A trophy, a shine running across it and a star above. For leaderboards and achievements. */
     val trophy: PixelSprite by lazy {
         PixelSprite.build(32, 32, 12, 110) { f ->
@@ -276,7 +260,7 @@ object PixelUiSprites {
             "sleepyBell" to sleepyBell, "magnifier" to magnifier, "rainCloud" to rainCloud, "ribbon" to ribbon,
             "downloadTray" to downloadTray, "typing" to typing, "bookLoader" to bookLoader,
             "padlock" to padlock, "newspaper" to newspaper, "coin" to coin, "pushPin" to pushPin,
-            "storefront" to storefront, "trophy" to trophy,
+            "trophy" to trophy,
         ) + NebyState.entries.map { "neby" + it.name to it.sprite }
     }
 }

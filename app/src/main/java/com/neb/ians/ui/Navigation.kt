@@ -71,9 +71,6 @@ import com.neb.ians.ui.screens.lab.DynamicPostsLabScreen
 import com.neb.ians.ui.components.NebNavItem
 import com.neb.ians.ui.screens.home.HomeScreen
 import com.neb.ians.ui.screens.library.LibraryScreen
-import com.neb.ians.ui.screens.marketplace.CreatorPageScreen
-import com.neb.ians.ui.screens.marketplace.CreatorStudioScreen
-import com.neb.ians.ui.screens.marketplace.MarketplaceCourseScreen
 import com.neb.ians.ui.screens.notes.NoteEditorScreen
 import com.neb.ians.ui.screens.notes.NotesScreen
 import com.neb.ians.ui.screens.notes.VoiceModelsScreen
@@ -183,13 +180,6 @@ sealed class Screen(val route: String) {
         fun createRoute(resourceId: String) = "resource/$resourceId/edit"
     }
     data object ResourceRequests : Screen("resource/requests")
-    data object CreatorStudio : Screen("marketplace/studio")
-    data object CreatorPage : Screen("marketplace/creator/{slug}") {
-        fun createRoute(slug: String) = "marketplace/creator/$slug"
-    }
-    data object MarketplaceCourse : Screen("marketplace/course/{courseId}") {
-        fun createRoute(courseId: String) = "marketplace/course/$courseId"
-    }
     data object ForumPostDetail : Screen("forum/post/{postId}") {
         fun createRoute(postId: String) = "forum/post/$postId"
     }
@@ -230,7 +220,7 @@ private val PRE_APP_ROUTES = setOf(
 
 /** Screens that need an account; a guest is stopped at the door with the sign-in sheet and sent on after. */
 private fun gateReasonFor(route: String?): GateReason? = when (route) {
-    Screen.Upload.route, Screen.CreatorStudio.route, Screen.ResourceRequests.route -> GateReason.Upload
+    Screen.Upload.route, Screen.ResourceRequests.route -> GateReason.Upload
     Screen.CreatePost.route, Screen.EditPost.route -> GateReason.Post
     Screen.Bookmarks.route -> GateReason.Save
     Screen.Notifications.route -> GateReason.Notifications
@@ -648,46 +638,7 @@ fun NEBiansNavHost(
                         navController.navigate(Screen.StudyReader.createRoute(grade, subject, kind, no))
                     },
                     onSyllabusDetailChromeChanged = { hideLibraryDetailChrome = it },
-                    onRequestResourceClick = { navController.navigate(Screen.ResourceRequests.route) },
-                    onCreatorClick = { slug -> navController.navigate(Screen.CreatorPage.createRoute(slug)) },
-                    onMarketplaceCourseClick = { courseId ->
-                        navController.navigate(Screen.MarketplaceCourse.createRoute(courseId))
-                    },
-                    onStudioClick = { navController.navigate(Screen.CreatorStudio.route) }
-                )
-            }
-            composable(Screen.CreatorStudio.route) {
-                CreatorStudioScreen(
-                    onNavigateBack = { navController.popBackStack() },
-                    onViewPage = { slug -> navController.navigate(Screen.CreatorPage.createRoute(slug)) }
-                )
-            }
-            composable(
-                route = Screen.CreatorPage.route,
-                arguments = listOf(navArgument("slug") { type = NavType.StringType })
-            ) {
-                CreatorPageScreen(
-                    onNavigateBack = { navController.popBackStack() },
-                    onCourseClick = { courseId ->
-                        navController.navigate(Screen.MarketplaceCourse.createRoute(courseId))
-                    },
-                    onResourceClick = { resourceId ->
-                        navController.navigate(Screen.ResourceDetail.createRoute(resourceId))
-                    },
-                    onOpenStudio = { navController.navigate(Screen.CreatorStudio.route) }
-                )
-            }
-            composable(
-                route = Screen.MarketplaceCourse.route,
-                arguments = listOf(navArgument("courseId") { type = NavType.StringType })
-            ) {
-                MarketplaceCourseScreen(
-                    onNavigateBack = { navController.popBackStack() },
-                    onCreatorClick = { slug -> navController.navigate(Screen.CreatorPage.createRoute(slug)) },
-                    onResourceClick = { resourceId ->
-                        navController.navigate(Screen.ResourceDetail.createRoute(resourceId))
-                    },
-                    onSignInRequired = { gate.ask(GateReason.Generic) }
+                    onRequestResourceClick = { navController.navigate(Screen.ResourceRequests.route) }
                 )
             }
             composable(Screen.News.route) {

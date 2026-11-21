@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiResourceUploadResponse
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.repository.AuthRepository
-import com.neb.ians.data.repository.MarketplaceRepository
 import com.neb.ians.data.repository.ResourceRepository
 import com.neb.ians.data.api.ApiErrorMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -140,7 +139,6 @@ class UploadViewModel @Inject constructor(
     private val apiService: ApiService,
     private val authRepository: AuthRepository,
     private val resourceRepository: ResourceRepository,
-    private val marketplaceRepository: MarketplaceRepository,
     private val draftStore: UploadDraftStore
 ) : ViewModel() {
 
@@ -157,9 +155,10 @@ class UploadViewModel @Inject constructor(
 
     private fun loadCommission() {
         viewModelScope.launch {
-            marketplaceRepository.commissionPercent().onSuccess { percent ->
-                _uiState.update { it.copy(commissionPercent = percent) }
-            }
+            runCatching { apiService.getPaymentsConfig().commissionPercent.toDoubleOrNull() ?: 2.5 }
+                .onSuccess { percent ->
+                    _uiState.update { it.copy(commissionPercent = percent) }
+                }
         }
     }
 
