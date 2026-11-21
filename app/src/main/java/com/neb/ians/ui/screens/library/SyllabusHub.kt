@@ -94,6 +94,8 @@ import com.neb.ians.ui.components.nebPressable
 import com.neb.ians.ui.theme.nebEffectsSpec
 import com.neb.ians.ui.theme.nebSpatialSpec
 
+private val LAST_READ_KEY_REGEX = Regex("""^(\w+)/([\w-]+)/(unit|bank|guide)(\d*)$""")
+
 @Composable
 fun SyllabusContent(
     state: SyllabusUiState,
