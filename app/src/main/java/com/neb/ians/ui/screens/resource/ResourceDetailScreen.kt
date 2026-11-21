@@ -941,7 +941,7 @@ private fun ResourceMainCommentBarSlot(
     viewModel: ResourceDetailViewModel,
     isAuthenticated: Boolean,
     isPostingComment: Boolean,
-    voiceNote: com.neb.ians.ui.components.VoiceNoteRecorderController,
+    voiceNote: com.neb.ians.ui.components.VoiceNoteRecorder,
     onPickMedia: (Array<String>) -> Unit
 ) {
     val commentDraft by viewModel.commentDraft.collectAsStateWithLifecycle()
@@ -979,7 +979,7 @@ private fun ResourceThreadCommentBarSlot(
     activeThreadTargetId: String?,
     replyTarget: ApiResourceComment?,
     isPostingComment: Boolean,
-    voiceNote: com.neb.ians.ui.components.VoiceNoteRecorderController,
+    voiceNote: com.neb.ians.ui.components.VoiceNoteRecorder,
     onPickMedia: (Array<String>) -> Unit,
     onClearTarget: () -> Unit
 ) {
