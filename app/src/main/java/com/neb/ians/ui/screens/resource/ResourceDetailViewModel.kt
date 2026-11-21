@@ -49,38 +49,41 @@ data class ResourceDetailUiState(
     val isDownloaded: Boolean = false,
     val snackbarMessage: String? = null
 ) {
+    val commentsById: Map<String, ApiResourceComment> by lazy(LazyThreadSafetyMode.PUBLICATION) {
+        comments.associateBy { it.id }
+    }
+
+    private val directChildrenByParent: Map<String, List<ApiResourceComment>> by lazy(LazyThreadSafetyMode.PUBLICATION) {
+        comments.filter { !it.parentCommentId.isNullOrBlank() }.groupBy { it.parentCommentId!! }
+    }
+
     /** Top-level comments in the selected sort order. */
-    val topLevelComments: List<ApiResourceComment>
-        get() {
-            val topLevel = comments.filter { it.parentCommentId.isNullOrBlank() }
-            return when (commentSort) {
-                "newest" -> topLevel.sortedByDescending { it.createdAt }
-                "top" -> topLevel.sortedWith(
-                    compareByDescending<ApiResourceComment> { it.likeCount }.thenBy { it.createdAt }
-                )
-                else -> topLevel.sortedBy { it.createdAt }
-            }
+    val topLevelComments: List<ApiResourceComment> by lazy(LazyThreadSafetyMode.PUBLICATION) {
+        val topLevel = comments.filter { it.parentCommentId.isNullOrBlank() }
+        when (commentSort) {
+            "newest" -> topLevel.sortedByDescending { it.createdAt }
+            "top" -> topLevel.sortedWith(
+                compareByDescending<ApiResourceComment> { it.likeCount }.thenBy { it.createdAt }
+            )
+            else -> topLevel.sortedBy { it.createdAt }
         }
+    }
 
     /** Children and descendants of a given comment, oldest first. */
     fun childrenOf(commentId: String): List<ApiResourceComment> {
-        val result = mutableListOf<ApiResourceComment>()
-        val descendants = mutableSetOf<String>()
-        var addedAny: Boolean
-        do {
-            addedAny = false
-            for (c in comments) {
-                val parentId = c.parentCommentId
-                if (!parentId.isNullOrBlank() && !descendants.contains(c.id)) {
-                    if (parentId == commentId || descendants.contains(parentId)) {
-                        descendants.add(c.id)
-                        result.add(c)
-                        addedAny = true
-                    }
-                }
+        val direct = directChildrenByParent[commentId] ?: return emptyList()
+        val result = ArrayList<ApiResourceComment>(direct.size)
+        val queue = ArrayDeque<ApiResourceComment>(direct)
+        val visited = HashSet<String>(direct.size * 2)
+        while (queue.isNotEmpty()) {
+            val cur = queue.removeFirst()
+            if (visited.add(cur.id)) {
+                result.add(cur)
+                directChildrenByParent[cur.id]?.let { queue.addAll(it) }
             }
-        } while (addedAny)
-        return result.sortedBy { it.createdAt }
+        }
+        if (result.size > 1) result.sortBy { it.createdAt }
+        return result
     }
 }
 
@@ -229,14 +232,14 @@ class ResourceDetailViewModel @Inject constructor(
             val subject = resource.subject.split(",").firstOrNull()?.trim().orEmpty().takeIf { it.isNotBlank() }
             resourceRepository.getResources(subject = subject, type = "Video", sort = "popular")
                 .onSuccess { result ->
-                    _uiState.update {
-                        it.copy(
-                            suggestedVideos = result.resources
-                                .filterNot { candidate -> candidate.id == resource.id }
-                                .filter { candidate -> candidate.type.contains("video", true) || candidate.fileUrl.contains(".mp4", true) }
-                                .take(8)
-                        )
+                    val suggested = result.resources
+                        .filterNot { candidate -> candidate.id == resource.id }
+                        .filter { candidate -> candidate.type.contains("video", true) || candidate.fileUrl.contains(".mp4", true) }
+                        .take(8)
+                    kotlinx.coroutines.withContext(Dispatchers.Default) {
+                        com.neb.ians.ui.components.v3art.V3Cache.prewarm(suggested)
                     }
+                    _uiState.update { it.copy(suggestedVideos = suggested) }
                 }
         }
     }
@@ -440,6 +443,14 @@ class ResourceDetailViewModel @Inject constructor(
 
     fun onThreadDraftChange(text: String) {
         _threadDraft.value = text
+    }
+
+    fun prefixThreadDraft(username: String) {
+        val tag = "@$username "
+        val cur = _threadDraft.value
+        if (!cur.startsWith(tag)) {
+            _threadDraft.value = tag + cur.removePrefix(tag)
+        }
     }
 
     fun setCommentSort(sort: String) {

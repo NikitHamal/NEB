@@ -308,13 +308,6 @@ Java_com_neb_ians_speech_NativeSpeech_ttsSetVoice(JNIEnv* env, jobject, jlong ha
     return gTts.ptts_set_voice(reinterpret_cast<PttsHandle*>(handle), n.c_str()) ? JNI_TRUE : JNI_FALSE;
 }
 
-JNIEXPORT jboolean JNICALL
-Java_com_neb_ians_speech_NativeSpeech_ttsSetLanguage(JNIEnv* env, jobject, jlong handle, jstring lang) {
-    if (!gTts.ok || handle == 0) return JNI_FALSE;
-    std::string n = toStd(env, lang);
-    return gTts.ptts_set_language(reinterpret_cast<PttsHandle*>(handle), n.c_str()) ? JNI_TRUE : JNI_FALSE;
-}
-
 // sink.onPcm(FloatArray): Boolean, 24 kHz mono floats; return false to stop early.
 JNIEXPORT jboolean JNICALL
 Java_com_neb_ians_speech_NativeSpeech_ttsSpeak(JNIEnv* env, jobject, jlong handle, jstring text, jobject sink) {

@@ -111,11 +111,6 @@ fun ResourceDetailScreen(
     var activeThreadTargetId by remember { mutableStateOf<String?>(null) }
     var showResourceReportDialog by remember { mutableStateOf(false) }
 
-    // Composer attachments (files + voice notes) shared by the main bar and the thread sheet.
-    val commentAttachments by viewModel.commentAttachments.collectAsStateWithLifecycle()
-    // read only where the composers draw, so typing redraws the composer and not the screen
-    val commentDraft by viewModel.commentDraft.collectAsStateWithLifecycle()
-    val threadDraft by viewModel.threadDraft.collectAsStateWithLifecycle()
     val commentMediaPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments()
     ) { uris -> if (!uris.isNullOrEmpty()) viewModel.addCommentAttachments(uris) }
@@ -274,30 +269,13 @@ fun ResourceDetailScreen(
                             }
                         )
                     } else {
-                    NebCommentComposerBar(
-                        value = commentDraft,
-                        onValueChange = viewModel::onCommentDraftChange,
-                        placeholder = if (uiState.isAuthenticated) "Write a comment..." else "Sign in to comment",
-                        enabled = uiState.isAuthenticated && !uiState.isPostingComment,
-                        canSend = uiState.isAuthenticated && (commentDraft.isNotBlank() || commentAttachments.isNotEmpty()) && !uiState.isPostingComment,
-                        posting = uiState.isPostingComment,
-                        sendContentDescription = "Post comment",
-                        voiceNote = if (uiState.isAuthenticated) voiceNote else null,
-                        trailingContent = if (uiState.isAuthenticated) {
-                            {
-                                ComposerAttachMenu(
-                                    enabled = !uiState.isPostingComment,
-                                    onPick = { commentMediaPicker.launch(it) }
-                                )
-                            }
-                        } else null,
-                        onSend = viewModel::postComment
-                    ) {
-                        ComposerAttachmentChips(
-                            attachments = commentAttachments,
-                            onRemoveAttachment = viewModel::removeCommentAttachment
+                        ResourceMainCommentBarSlot(
+                            viewModel = viewModel,
+                            isAuthenticated = uiState.isAuthenticated,
+                            isPostingComment = uiState.isPostingComment,
+                            voiceNote = voiceNote,
+                            onPickMedia = { commentMediaPicker.launch(it) }
                         )
-                    }
                     }
                 }
             },
@@ -337,10 +315,7 @@ fun ResourceDetailScreen(
                         val onCommentReplyClick: (ApiResourceComment) -> Unit = { comment ->
                             activeThreadParentId = comment.id
                             activeThreadTargetId = comment.id
-                            val tag = "@${comment.userName} "
-                            if (!threadDraft.startsWith(tag)) {
-                                viewModel.onThreadDraftChange(tag + threadDraft.removePrefix(tag))
-                            }
+                            viewModel.prefixThreadDraft(comment.userName)
                         }
                         val onOpenCommentThread: (ApiResourceComment) -> Unit = { comment ->
                             activeThreadParentId = comment.id
@@ -451,12 +426,12 @@ fun ResourceDetailScreen(
 
         // ----- Comment thread bottom sheet (same system as the forum post viewer) -----
         activeThreadParentId?.let { parentId ->
-            val parent = uiState.comments.firstOrNull { it.id == parentId }
+            val parent = uiState.commentsById[parentId]
             if (parent != null) {
                 val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-                val threadReplies = uiState.childrenOf(parentId)
+                val threadReplies = remember(uiState.comments, parentId) { uiState.childrenOf(parentId) }
                 val replyTarget = activeThreadTargetId?.let { targetId ->
-                    uiState.comments.firstOrNull { it.id == targetId }
+                    uiState.commentsById[targetId]
                 }
 
                 NebModalSheet(
@@ -524,17 +499,15 @@ fun ResourceDetailScreen(
                                 .fillMaxWidth(),
                             contentPadding = PaddingValues(16.dp)
                         ) {
-                            item(key = "parent_${parent.id}") {
+                            item(key = "parent_${parent.id}", contentType = "parent_comment") {
+                                val parentReply = remember(parent) { parent.toApiReply() }
                                 CommentCard(
-                                    reply = parent.toApiReply(),
+                                    reply = parentReply,
                                     isOwn = parent.userId == uiState.currentUserId,
                                     onThumbsUpClick = { viewModel.toggleCommentLike(parent.id) },
                                     onReplyClick = {
                                         activeThreadTargetId = parent.id
-                                        val tag = "@${parent.userName} "
-                                        if (!threadDraft.startsWith(tag)) {
-                                            viewModel.onThreadDraftChange(tag + threadDraft.removePrefix(tag))
-                                        }
+                                        viewModel.prefixThreadDraft(parent.userName)
                                     },
                                     onDeleteClick = if (parent.userId == uiState.currentUserId) ({ deletingCommentId = parent.id }) else null,
                                     onProfileClick = { userName -> onUserProfileClick(userName) },
@@ -562,23 +535,21 @@ fun ResourceDetailScreen(
                                     }
                                 }
                             } else {
-                                items(threadReplies, key = { it.id }) { child ->
+                                items(threadReplies, key = { it.id }, contentType = { "thread_comment" }) { child ->
                                     Column(modifier = Modifier.padding(bottom = 12.dp)) {
-                                        val parentOfChild = uiState.comments.firstOrNull { it.id == child.parentCommentId }
+                                        val parentOfChild = child.parentCommentId?.let { uiState.commentsById[it] }
                                         val replyingTo = if (child.parentCommentId != parentId) {
                                             parentOfChild?.userName
                                         } else null
+                                        val childReply = remember(child) { child.toApiReply() }
 
                                         CommentCard(
-                                            reply = child.toApiReply(),
+                                            reply = childReply,
                                             isOwn = child.userId == uiState.currentUserId,
                                             onThumbsUpClick = { viewModel.toggleCommentLike(child.id) },
                                             onReplyClick = {
                                                 activeThreadTargetId = child.id
-                                                val tag = "@${child.userName} "
-                                                if (!threadDraft.startsWith(tag)) {
-                                                    viewModel.onThreadDraftChange(tag + threadDraft.removePrefix(tag))
-                                                }
+                                                viewModel.prefixThreadDraft(child.userName)
                                             },
                                             onDeleteClick = if (child.userId == uiState.currentUserId) ({ deletingCommentId = child.id }) else null,
                                             onProfileClick = { userName -> onUserProfileClick(userName) },
@@ -594,65 +565,16 @@ fun ResourceDetailScreen(
 
                         if (uiState.isAuthenticated) {
                             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-                            NebCommentComposerBar(
-                                value = threadDraft,
-                                onValueChange = viewModel::onThreadDraftChange,
-                                placeholder = if (replyTarget != null) "Reply to @${replyTarget.userName}..." else "Write a reply...",
-                                enabled = !uiState.isPostingComment,
-                                canSend = (threadDraft.isNotBlank() || commentAttachments.isNotEmpty()) && !uiState.isPostingComment,
-                                posting = uiState.isPostingComment,
-                                sendContentDescription = "Post reply",
+                            ResourceThreadCommentBarSlot(
+                                viewModel = viewModel,
+                                parentId = parentId,
+                                activeThreadTargetId = activeThreadTargetId,
+                                replyTarget = replyTarget,
+                                isPostingComment = uiState.isPostingComment,
                                 voiceNote = voiceNote,
-                                trailingContent = {
-                                    ComposerAttachMenu(
-                                        enabled = !uiState.isPostingComment,
-                                        onPick = { commentMediaPicker.launch(it) }
-                                    )
-                                },
-                                onSend = {
-                                    val targetId = activeThreadTargetId ?: parentId
-                                    viewModel.postThreadReply(targetId) {
-                                        activeThreadTargetId = null
-                                    }
-                                }
-                            ) {
-                                ComposerAttachmentChips(
-                                    attachments = commentAttachments,
-                                    onRemoveAttachment = viewModel::removeCommentAttachment
-                                )
-                                replyTarget?.let { target ->
-                                    if (target.id != parentId) {
-                                        Row(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(bottom = 8.dp)
-                                                .background(
-                                                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
-                                                    shape = RoundedCornerShape(8.dp)
-                                                )
-                                                .padding(horizontal = 12.dp, vertical = 6.dp),
-                                            verticalAlignment = Alignment.CenterVertically
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Default.Close,
-                                                contentDescription = "Clear reply target",
-                                                modifier = Modifier
-                                                    .size(16.dp)
-                                                    .clickable { activeThreadTargetId = null },
-                                                tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                            )
-                                            Spacer(modifier = Modifier.width(8.dp))
-                                            Text(
-                                                text = "Replying to @${target.userName}",
-                                                style = MaterialTheme.typography.labelSmall,
-                                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                                maxLines = 1,
-                                                overflow = TextOverflow.Ellipsis
-                                            )
-                                        }
-                                    }
-                                }
-                            }
+                                onPickMedia = { commentMediaPicker.launch(it) },
+                                onClearTarget = { activeThreadTargetId = null }
+                            )
                         }
                     }
                 }
@@ -1014,6 +936,116 @@ private fun NonVideoLayout(
  * system to the forum post viewer: top-level comments only, CommentCard with
  * like / reply / replies-bar that opens the thread bottom sheet.
  */
+@Composable
+private fun ResourceMainCommentBarSlot(
+    viewModel: ResourceDetailViewModel,
+    isAuthenticated: Boolean,
+    isPostingComment: Boolean,
+    voiceNote: com.neb.ians.ui.components.VoiceNoteRecorderController,
+    onPickMedia: (Array<String>) -> Unit
+) {
+    val commentDraft by viewModel.commentDraft.collectAsStateWithLifecycle()
+    val commentAttachments by viewModel.commentAttachments.collectAsStateWithLifecycle()
+    NebCommentComposerBar(
+        value = commentDraft,
+        onValueChange = viewModel::onCommentDraftChange,
+        placeholder = if (isAuthenticated) "Write a comment..." else "Sign in to comment",
+        enabled = isAuthenticated && !isPostingComment,
+        canSend = isAuthenticated && (commentDraft.isNotBlank() || commentAttachments.isNotEmpty()) && !isPostingComment,
+        posting = isPostingComment,
+        sendContentDescription = "Post comment",
+        voiceNote = if (isAuthenticated) voiceNote else null,
+        trailingContent = if (isAuthenticated) {
+            {
+                ComposerAttachMenu(
+                    enabled = !isPostingComment,
+                    onPick = onPickMedia
+                )
+            }
+        } else null,
+        onSend = viewModel::postComment
+    ) {
+        ComposerAttachmentChips(
+            attachments = commentAttachments,
+            onRemoveAttachment = viewModel::removeCommentAttachment
+        )
+    }
+}
+
+@Composable
+private fun ResourceThreadCommentBarSlot(
+    viewModel: ResourceDetailViewModel,
+    parentId: String,
+    activeThreadTargetId: String?,
+    replyTarget: ApiResourceComment?,
+    isPostingComment: Boolean,
+    voiceNote: com.neb.ians.ui.components.VoiceNoteRecorderController,
+    onPickMedia: (Array<String>) -> Unit,
+    onClearTarget: () -> Unit
+) {
+    val threadDraft by viewModel.threadDraft.collectAsStateWithLifecycle()
+    val commentAttachments by viewModel.commentAttachments.collectAsStateWithLifecycle()
+    NebCommentComposerBar(
+        value = threadDraft,
+        onValueChange = viewModel::onThreadDraftChange,
+        placeholder = if (replyTarget != null) "Reply to @${replyTarget.userName}..." else "Write a reply...",
+        enabled = !isPostingComment,
+        canSend = (threadDraft.isNotBlank() || commentAttachments.isNotEmpty()) && !isPostingComment,
+        posting = isPostingComment,
+        sendContentDescription = "Post reply",
+        voiceNote = voiceNote,
+        trailingContent = {
+            ComposerAttachMenu(
+                enabled = !isPostingComment,
+                onPick = onPickMedia
+            )
+        },
+        onSend = {
+            val targetId = activeThreadTargetId ?: parentId
+            viewModel.postThreadReply(targetId) {
+                onClearTarget()
+            }
+        }
+    ) {
+        ComposerAttachmentChips(
+            attachments = commentAttachments,
+            onRemoveAttachment = viewModel::removeCommentAttachment
+        )
+        replyTarget?.let { target ->
+            if (target.id != parentId) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                            shape = RoundedCornerShape(8.dp)
+                        )
+                        .padding(horizontal = 12.dp, vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = "Clear reply target",
+                        modifier = Modifier
+                            .size(16.dp)
+                            .clickable(onClick = onClearTarget),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Replying to @${target.userName}",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
+        }
+    }
+}
+
 private fun LazyListScope.resourceCommentListItems(
     uiState: ResourceDetailUiState,
     viewModel: ResourceDetailViewModel,
@@ -1028,10 +1060,12 @@ private fun LazyListScope.resourceCommentListItems(
             item(key = "comments_loading") { ResourceCommentsLoading() }
         uiState.comments.isEmpty() ->
             item(key = "comments_empty") { ResourceEmptyComments() }
-        else -> items(uiState.topLevelComments, key = { it.id }) { comment ->
-            val children = uiState.childrenOf(comment.id)
+        else -> items(uiState.topLevelComments, key = { it.id }, contentType = { "comment" }) { comment ->
+            val children = remember(uiState.comments, comment.id) { uiState.childrenOf(comment.id) }
+            val reply = remember(comment) { comment.toApiReply() }
+            val childReplies = remember(children) { children.map { it.toApiReply() } }
             CommentCard(
-                reply = comment.toApiReply(),
+                reply = reply,
                 isOwn = comment.userId == uiState.currentUserId,
                 onThumbsUpClick = { viewModel.toggleCommentLike(comment.id) },
                 onReplyClick = { onReplyClick(comment) },
@@ -1039,7 +1073,7 @@ private fun LazyListScope.resourceCommentListItems(
                 onProfileClick = { userName -> onUserProfileClick(userName) },
                 onAuthorLongPress = {},
                 onLinkClick = {},
-                children = children.map { it.toApiReply() },
+                children = childReplies,
                 onRepliesBarClick = if (children.isNotEmpty()) ({ onOpenThread(comment) }) else null,
                 modifier = itemModifier.padding(bottom = 10.dp)
             )
