@@ -197,7 +197,6 @@ fun PlaceStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel
 @Composable
 fun CampusStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel) {
     val isInstitution = state.role == "institution"
-    androidx.compose.runtime.LaunchedEffect(Unit) { viewModel.fetchInstitutions() }
 
     Column(modifier = Modifier.fillMaxWidth()) {
         NebArtSlot { com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.School, flag = state.school.isNotBlank(), height = 160.dp) }
@@ -249,6 +248,9 @@ fun CampusSelector(
     viewModel: CompleteProfileViewModel,
     label: String = if (state.role == "institution") "Institution name" else "School or college"
 ) {
+    androidx.compose.runtime.LaunchedEffect(Unit) {
+        if (state.institutions.isEmpty()) viewModel.fetchInstitutions()
+    }
     var showRegistered by remember { mutableStateOf(false) }
     var showCatalogue by remember { mutableStateOf(false) }
     val isInstitution = state.role == "institution"

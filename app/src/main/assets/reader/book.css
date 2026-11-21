@@ -55,8 +55,8 @@ img.im{ vertical-align:baseline}
 .dm{ display:block; text-align:center; margin:0.901rem 0}
 .dm img{ max-width:96%}
 p.hm, li.hm{ text-align:left; -weasy-hyphens:manual}
-.dv{ display:block; margin:0.424rem 0 0.477rem 1.060rem; padding:0.371rem 0 0.371rem 0.901rem;
-      border-left:0.132rem solid var(--container); text-align:left}
+.dv{ display:block; margin:0.424rem 0 0.477rem 0; padding:0.530rem 0.901rem;
+      background:var(--surface); border-radius:0.689rem; text-align:left}
 .dv img{ vertical-align:top !important; max-width:100%}
 .dv{ text-indent:0}
 .dvt{ display:block; margin:0 0 0.530rem 1.960rem; text-indent:0; text-align:left}
@@ -214,7 +214,7 @@ p.sub{ margin-top:0.795rem}
 .sl{ font-family:Poppins,sans-serif; font-size:0.692rem; font-weight:600; letter-spacing:.02em;
       color:var(--accent); text-transform:uppercase; margin-right:0.318rem}
 .stps{ display:block}
-.stps > .stp{ display:block; margin:0 0 0.291rem 0; padding-left:0.901rem; border-left:0.132rem solid var(--container-hi)}
+.stps > .stp{ display:block; margin:0 0 0.371rem 0; padding:0.424rem 0.795rem; background:var(--surface); border-radius:0.689rem}
 .stps > .stp:last-child{ margin-bottom:0}
 .box .part{ margin:0.291rem 0}
 .box .parts{ margin-top:0}

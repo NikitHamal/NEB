@@ -15,7 +15,6 @@ HSPLcom/neb/ians/ui/NavigationKt**->**(**)**
 HSPLcom/neb/ians/ui/components/**->**(**)**
 HSPLcom/neb/ians/ui/theme/**->**(**)**
 HSPLcom/neb/ians/ui/pixel/**->**(**)**
-HSPLcom/neb/ians/ui/avatar/**->**(**)**
 HSPLcom/neb/ians/ui/screens/auth/**->**(**)**
 HSPLcom/neb/ians/ui/screens/home/**->**(**)**
 HSPLcom/neb/ians/ui/screens/forum/**->**(**)**
@@ -33,7 +32,6 @@ HSPLcom/neb/ians/ui/crash/**->**(**)**
 HSPLcom/neb/ians/ui/screens/settings/**->**(**)**
 HSPLcom/neb/ians/ui/screens/bookmarks/**->**(**)**
 HSPLcom/neb/ians/ui/screens/downloads/**->**(**)**
-HSPLcom/neb/ians/ui/screens/marketplace/**->**(**)**
 HSPLcom/neb/ians/ui/screens/reader/**->**(**)**
 HSPLcom/neb/ians/ui/screens/onboarding/**->**(**)**
 HSPLcom/neb/ians/ui/screens/upload/**->**(**)**

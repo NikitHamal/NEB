@@ -228,9 +228,9 @@ private fun SubjectHeader(doc: ApiSyllabusDoc, done: Int) {
     Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth().padding(top = 4.dp)) {
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier.size(52.dp).clip(RoundedCornerShape(16.dp)).background(MaterialTheme.colorScheme.onSurface)
+            modifier = Modifier.size(52.dp).clip(RoundedCornerShape(16.dp)).background(MaterialTheme.colorScheme.primaryContainer)
         ) {
-            Icon(syllabusIcon(doc.icon), contentDescription = null, tint = MaterialTheme.colorScheme.surface, modifier = Modifier.size(26.dp))
+            Icon(syllabusIcon(doc.icon), contentDescription = null, tint = MaterialTheme.colorScheme.onPrimaryContainer, modifier = Modifier.size(26.dp))
         }
         Spacer(Modifier.width(14.dp))
         Column(Modifier.weight(1f)) {
@@ -300,18 +300,20 @@ private fun NextCards(state: SyllabusUiState, doc: ApiSyllabusDoc, onOpen: (ApiS
 
 @Composable
 private fun NextCard(kicker: String, title: String, meta: String, strong: Boolean, icon: androidx.compose.ui.graphics.vector.ImageVector, onClick: () -> Unit) {
+    val c = MaterialTheme.colorScheme
     Surface(
         shape = WebPanelShape,
-        color = if (strong) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.surfaceContainerLow,
-        border = if (strong) null else BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+        color = if (strong) c.primaryContainer else c.surfaceContainerLowest,
+        border = if (strong) null else BorderStroke(1.dp, c.outlineVariant),
         modifier = Modifier.fillMaxWidth().nebPressable(scale = 0.99f, onClick = onClick)
     ) {
-        val ink = if (strong) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.onSurface
+        val ink = if (strong) c.onPrimaryContainer else c.onSurface
+        val subInk = if (strong) c.onPrimaryContainer else c.onSurfaceVariant
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp)) {
             Column(Modifier.weight(1f)) {
-                Text(kicker.uppercase(), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold, color = ink.copy(alpha = 0.7f))
+                Text(kicker.uppercase(), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.SemiBold, color = subInk)
                 Text(title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold, color = ink, maxLines = 2, overflow = TextOverflow.Ellipsis)
-                Text(meta, style = MaterialTheme.typography.bodySmall, color = ink.copy(alpha = 0.7f))
+                Text(meta, style = MaterialTheme.typography.bodySmall, color = subInk)
             }
             Spacer(Modifier.width(10.dp))
             Icon(icon, contentDescription = null, tint = ink)
@@ -333,11 +335,11 @@ private fun ChapterRow(unit: ApiSyllabusUnit, mark: StudyMark?, expanded: Boolea
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth().nebPressable(scale = 0.99f, onClick = onOpen).padding(start = 14.dp, top = 12.dp, bottom = 12.dp, end = 4.dp)) {
                 Box(
                     contentAlignment = Alignment.Center,
-                    modifier = Modifier.size(36.dp).clip(RoundedCornerShape(11.dp))
-                        .background(if (done) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.surfaceContainerHigh)
+                    modifier = Modifier.size(36.dp).clip(RoundedCornerShape(12.dp))
+                        .background(if (done) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primaryContainer)
                 ) {
-                    if (done) Icon(Icons.Outlined.Check, contentDescription = "Done", tint = MaterialTheme.colorScheme.surface, modifier = Modifier.size(18.dp))
-                    else Text(unit.no.toString(), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold)
+                    if (done) Icon(Icons.Outlined.Check, contentDescription = "Done", tint = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.size(18.dp))
+                    else Text(unit.no.toString(), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onPrimaryContainer)
                 }
                 Spacer(Modifier.width(12.dp))
                 Column(Modifier.weight(1f)) {
@@ -367,25 +369,33 @@ private fun ChapterRow(unit: ApiSyllabusUnit, mark: StudyMark?, expanded: Boolea
                 enter = expandVertically(animationSpec = nebSpatialSpec()) + fadeIn(animationSpec = nebEffectsSpec()),
                 exit = shrinkVertically(animationSpec = nebSpatialSpec()) + fadeOut(animationSpec = nebEffectsSpec())
             ) {
-                Column(Modifier.padding(start = 62.dp, end = 16.dp, bottom = 14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Column(Modifier.padding(start = 14.dp, end = 14.dp, bottom = 14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     if (unit.topics.isNotEmpty()) {
-                        Text("The syllabus asks for", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        unit.topics.forEach { Text("–  $it", style = MaterialTheme.typography.bodyMedium) }
+                        Column(
+                            Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(MaterialTheme.colorScheme.surfaceContainerLow).padding(12.dp),
+                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Text("What the syllabus asks for", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.primary)
+                            unit.topics.forEach { Text("•  $it", style = MaterialTheme.typography.bodyMedium) }
+                        }
                     }
                     if (unit.summary.isNotEmpty()) {
-                        Spacer(Modifier.height(4.dp))
-                        Text("Key points", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        unit.summary.take(4).forEach { Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+                        Column(
+                            Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(MaterialTheme.colorScheme.surfaceContainerLow).padding(12.dp),
+                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Text("Key points", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            unit.summary.take(4).forEach { Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+                        }
                     }
                     if (unit.hasChapter) {
-                        Spacer(Modifier.height(4.dp))
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.clip(RoundedCornerShape(28.dp)).background(MaterialTheme.colorScheme.onSurface).nebPressable(onClick = onOpen).padding(horizontal = 16.dp, vertical = 9.dp)
+                            modifier = Modifier.clip(RoundedCornerShape(28.dp)).background(MaterialTheme.colorScheme.primary).nebPressable(onClick = onOpen).padding(horizontal = 16.dp, vertical = 10.dp)
                         ) {
-                            Icon(Icons.AutoMirrored.Outlined.MenuBook, contentDescription = null, tint = MaterialTheme.colorScheme.surface, modifier = Modifier.size(18.dp))
+                            Icon(Icons.AutoMirrored.Outlined.MenuBook, contentDescription = null, tint = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.size(18.dp))
                             Spacer(Modifier.width(8.dp))
-                            Text("Read the chapter", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.surface)
+                            Text("Read the chapter", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onPrimary)
                         }
                     }
                 }
@@ -473,7 +483,7 @@ private fun ExamPanel(doc: ApiSyllabusDoc) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(area, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
                             Box(Modifier.weight(1f).height(8.dp).clip(RoundedCornerShape(4.dp)).background(MaterialTheme.colorScheme.surfaceContainerHighest)) {
-                                Box(Modifier.fillMaxWidth(hours.toFloat() / total).fillMaxHeight().clip(RoundedCornerShape(4.dp)).background(MaterialTheme.colorScheme.onSurface))
+                                Box(Modifier.fillMaxWidth(hours.toFloat() / total).fillMaxHeight().clip(RoundedCornerShape(4.dp)).background(MaterialTheme.colorScheme.primary))
                             }
                             Text(if (track) "$hours" else "$hours h", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.width(44.dp).padding(start = 8.dp))
                         }

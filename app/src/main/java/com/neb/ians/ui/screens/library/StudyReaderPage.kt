@@ -15,7 +15,12 @@ internal fun readerPage(doc: ApiStudyDoc, state: StudyReaderState, vars: String,
     // a model paper can be taken as a timed test (EXAM_JS); its state comes back from StudyProgress
     val exam = doc.exam?.takeIf { it.minutes > 0 }
         ?.let { JSONObject().put("minutes", it.minutes).put("negative", it.negative).toString() } ?: "null"
-    val eyebrow = listOfNotNull(state.label, doc.area?.takeIf { it.isNotBlank() }, "${doc.readMin} min read").joinToString(" · ")
+    val eyebrow = listOfNotNull(
+        state.label,
+        doc.area?.takeIf { it.isNotBlank() },
+        doc.hours?.takeIf { it.isNotBlank() && it != "0" }?.let { "$it hrs" },
+        "${doc.readMin} min read"
+    ).joinToString(" · ")
     return """<!doctype html><html lang="${doc.lang}"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="katex/katex.min.css"><style>:root{$vars}$READER_CSS$EXAM_CSS</style></head>
@@ -55,6 +60,10 @@ article{padding:20px 18px 56px;max-width:760px;margin:0 auto}
 .body tbody td:first-child{font-weight:600}
 .body tbody tr:last-child>th,.body tbody tr:last-child>td{border-bottom:0}
 .m{white-space:normal}.dm{margin:1em 0;overflow-x:auto;overflow-y:hidden;text-align:center;padding:.2em 0}.dm .m{display:block}.katex{font-size:1.06em}.katex-display{margin:0}
+.dv{display:block;margin:.55em 0;padding:.55em .85em;border-radius:12px;background:var(--card);border:1px solid var(--line);overflow-x:auto}
+.stps{display:grid;gap:.4em;margin:.55em 0}.stps>.stp{display:block;padding:.5em .8em;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.fxs{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.55em;margin:.9em 0;text-align:center}
+.fxs>span{display:flex;align-items:center;justify-content:center;padding:.7em .55em;border-radius:14px;background:var(--card);border:1px solid var(--line);overflow-x:auto}
 .eqx .fr{display:inline-block;vertical-align:-.62em;text-align:center}.eqx .fr .fn{display:block;padding:0 .34em 1px;border-bottom:1px solid currentColor}.eqx .fr .fd{display:block;padding:1px .34em 0}
 figure{margin:1.6em 0;text-align:center}figure img{display:block;max-width:100%;height:auto;margin:0 auto;border-radius:14px;background:#fff;padding:10px;border:1px solid var(--line)}figure.photo img{padding:0}
 figcaption{margin-top:.7em;font-size:.86em;line-height:1.55;color:var(--mute);text-align:left}figcaption .src{display:block;margin-top:.3em;font-size:.85em;opacity:.8}

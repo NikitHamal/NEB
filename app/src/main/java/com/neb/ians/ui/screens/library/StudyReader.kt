@@ -35,9 +35,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -219,10 +217,6 @@ fun StudyReaderScreen(onBack: () -> Unit, viewModel: StudyReaderViewModel = hilt
     val closeZoom = { web?.evaluateJavascript("window.nebZoomClose && nebZoomClose()", null); zoomOpen = false }
     BackHandler(enabled = zoomOpen) { closeZoom() }
 
-    val readFraction by androidx.compose.animation.core.animateFloatAsState(
-        targetValue = (state.mark.read / 100f).coerceIn(0f, 1f),
-        label = "reader_progress"
-    )
     Scaffold(
         topBar = {
             Column {
@@ -280,21 +274,7 @@ fun StudyReaderScreen(onBack: () -> Unit, viewModel: StudyReaderViewModel = hilt
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface)
             )
-            // reading progress: a 3dp line under the bar, drawn from the animated fraction
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .height(3.dp)
-                    .background(MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.45f))
-            ) {
-                Box(
-                    Modifier
-                        .fillMaxWidth(readFraction)
-                        .height(3.dp)
-                        .clip(RoundedCornerShape(topEnd = 3.dp, bottomEnd = 3.dp))
-                        .background(MaterialTheme.colorScheme.primary)
-                )
-            }
+            ReaderProgressBar(readPercent = state.mark.read)
             }
         },
         bottomBar = {
@@ -351,6 +331,28 @@ fun StudyReaderScreen(onBack: () -> Unit, viewModel: StudyReaderViewModel = hilt
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun ReaderProgressBar(readPercent: Int) {
+    val readFraction by androidx.compose.animation.core.animateFloatAsState(
+        targetValue = (readPercent / 100f).coerceIn(0f, 1f),
+        label = "reader_progress"
+    )
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .height(3.dp)
+            .background(MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.45f))
+    ) {
+        Box(
+            Modifier
+                .fillMaxWidth(readFraction)
+                .height(3.dp)
+                .clip(RoundedCornerShape(topEnd = 3.dp, bottomEnd = 3.dp))
+                .background(MaterialTheme.colorScheme.primary)
+        )
     }
 }
 

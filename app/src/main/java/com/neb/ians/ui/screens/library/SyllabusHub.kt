@@ -366,12 +366,12 @@ private fun GradeSwitch(grades: List<ApiSyllabusGrade>, tracks: List<ApiSyllabus
 @Composable
 private fun GradeButton(g: ApiSyllabusGrade, isSelected: Boolean, minWidth: Dp, onSelect: (String) -> Unit) {
     val container by animateColorAsState(
-        targetValue = if (isSelected) MaterialTheme.colorScheme.onSurface else Color.Transparent,
+        targetValue = if (isSelected) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
         animationSpec = nebEffectsSpec(),
         label = "grade_bg"
     )
     val content by animateColorAsState(
-        targetValue = if (isSelected) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.onSurfaceVariant,
+        targetValue = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
         animationSpec = nebEffectsSpec(),
         label = "grade_fg"
     )
@@ -409,9 +409,9 @@ private fun SubjectCard(card: ApiSyllabusSubjectCard, progress: Float, meta: Str
                 modifier = Modifier
                     .size(44.dp)
                     .clip(RoundedCornerShape(14.dp))
-                    .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                    .background(MaterialTheme.colorScheme.primaryContainer)
             ) {
-                Icon(syllabusIcon(card.icon), contentDescription = null, tint = MaterialTheme.colorScheme.onSurface, modifier = Modifier.size(22.dp))
+                Icon(syllabusIcon(card.icon), contentDescription = null, tint = MaterialTheme.colorScheme.onPrimaryContainer, modifier = Modifier.size(22.dp))
             }
             Spacer(Modifier.width(14.dp))
             Column(Modifier.weight(1f)) {
@@ -453,10 +453,10 @@ private fun HitRow(hit: ApiSyllabusHit, onClick: () -> Unit) {
                 text = syllabusShort(hit.grade, hit.short),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.surface,
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
-                    .background(MaterialTheme.colorScheme.onSurface)
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
                     .padding(horizontal = 8.dp, vertical = 3.dp)
             )
             Spacer(Modifier.width(10.dp))
@@ -482,7 +482,7 @@ private fun HitRow(hit: ApiSyllabusHit, onClick: () -> Unit) {
 internal fun SyllabusRing(progress: Float, diameter: Int, label: Boolean = true) {
     val animated by animateFloatAsState(targetValue = progress, animationSpec = nebSpatialSpec(), label = "ring")
     val track = MaterialTheme.colorScheme.surfaceContainerHighest
-    val fill = MaterialTheme.colorScheme.onSurface
+    val fill = MaterialTheme.colorScheme.primary
     Box(contentAlignment = Alignment.Center, modifier = Modifier.size(diameter.dp)) {
         Canvas(Modifier.size(diameter.dp)) {
             val stroke = 3.5.dp.toPx()
@@ -514,7 +514,7 @@ internal fun SyllabusBar(progress: Float, modifier: Modifier = Modifier) {
                 .fillMaxWidth(animated.coerceIn(0f, 1f))
                 .height(6.dp)
                 .clip(WebPillShape)
-                .background(MaterialTheme.colorScheme.onSurface)
+                .background(MaterialTheme.colorScheme.primary)
         )
     }
 }
