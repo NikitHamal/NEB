@@ -242,14 +242,11 @@ class SearchViewModel @Inject constructor(
                 try { apiService.searchUsers(token, query) } catch (c: CancellationException) { throw c } catch (_: Exception) { emptyList() }
             }
             kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
-                com.neb.ians.ui.components.prewarmCardPreviewsNow(response.posts)
+                com.neb.ians.ui.components.prewarmCardPreviewsNow(response.posts.map { it.content })
                 for (i in 0 until minOf(12, response.posts.size)) {
-                    com.neb.ians.ui.components.extractPostAttachments(response.posts[i].content)
+                    com.neb.ians.ui.components.extractPostAttachments(response.posts[i])
                 }
-                for (i in 0 until minOf(16, response.resources.size)) {
-                    val r = response.resources[i]
-                    com.neb.ians.ui.components.v3art.V3Cache.prewarm("${r.id}|${r.type}", r.subject.orEmpty())
-                }
+                com.neb.ians.ui.components.v3art.V3Cache.prewarm(response.resources)
             }
             if (lastRequest != key) return
             _uiState.update {
