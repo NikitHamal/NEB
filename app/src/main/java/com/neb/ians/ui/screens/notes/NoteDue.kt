@@ -53,7 +53,8 @@ object NoteDue {
 @Composable
 fun DueChip(day: Long, done: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val c = MaterialTheme.colorScheme
-    val late = !done && NoteDue.overdue(day)
+    val late = androidx.compose.runtime.remember(day, done) { !done && NoteDue.overdue(day) }
+    val label = androidx.compose.runtime.remember(day) { NoteDue.label(day) }
     val fill = if (late) c.errorContainer else c.secondaryContainer
     val ink = if (late) c.onErrorContainer else c.onSecondaryContainer
     Row(
@@ -61,7 +62,7 @@ fun DueChip(day: Long, done: Boolean, onClick: () -> Unit, modifier: Modifier = 
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(Icons.Outlined.Event, null, tint = ink, modifier = Modifier.size(14.dp))
-        Text(NoteDue.label(day), style = MaterialTheme.typography.labelMedium, color = ink, modifier = Modifier.padding(start = 5.dp))
+        Text(label, style = MaterialTheme.typography.labelMedium, color = ink, modifier = Modifier.padding(start = 5.dp))
     }
 }
 

@@ -254,13 +254,4 @@ object PixelUiSprites {
             if (f % 12 in 4..8) { set(16, 1, gold); hline(15, 17, 2, goldHi); set(16, 3, gold) }
         }
     }
-
-    val all: List<Pair<String, PixelSprite>> by lazy {
-        listOf(
-            "sleepyBell" to sleepyBell, "magnifier" to magnifier, "rainCloud" to rainCloud, "ribbon" to ribbon,
-            "downloadTray" to downloadTray, "typing" to typing, "bookLoader" to bookLoader,
-            "padlock" to padlock, "newspaper" to newspaper, "coin" to coin, "pushPin" to pushPin,
-            "trophy" to trophy,
-        ) + NebyState.entries.map { "neby" + it.name to it.sprite }
-    }
 }

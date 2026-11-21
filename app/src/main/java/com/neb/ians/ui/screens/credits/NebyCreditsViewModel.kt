@@ -23,8 +23,7 @@ data class CreditUiState(
     val balance: ApiCreditBalanceResponse = ApiCreditBalanceResponse(),
     val transactions: List<ApiCreditTransaction> = emptyList(),
     val isConverting: Boolean = false,
-    val error: String? = null,
-    val successMessage: String? = null
+    val error: String? = null
 )
 
 @HiltViewModel
@@ -44,10 +43,15 @@ class NebyCreditsViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
             try {
-                val token = withContext(Dispatchers.IO) { SecurePrefs.getAuthToken(getApplication()) } ?: ""
-                val bearer = "Bearer $token"
-                val bal = apiService.getCreditBalance(bearer)
-                val hist = apiService.getCreditHistory(bearer)
+                val (bal, hist) = withContext(Dispatchers.IO) {
+                    val token = SecurePrefs.getAuthToken(getApplication()) ?: ""
+                    val bearer = "Bearer $token"
+                    kotlinx.coroutines.coroutineScope {
+                        val b = kotlinx.coroutines.async { apiService.getCreditBalance(bearer) }
+                        val h = kotlinx.coroutines.async { apiService.getCreditHistory(bearer) }
+                        b.await() to h.await()
+                    }
+                }
                 _uiState.update { it.copy(isLoading = false, balance = bal, transactions = hist.transactions) }
             } catch (e: Exception) {
                 _uiState.update { it.copy(isLoading = false, error = "Failed to load Neby Credits info") }

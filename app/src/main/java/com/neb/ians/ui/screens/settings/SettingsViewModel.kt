@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.repository.SettingsRepository
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.UserProfileCache
-import com.neb.ians.data.repository.PasswordResult
 import com.neb.ians.data.api.UserProfileRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,17 +18,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    val settingsRepository: SettingsRepository,
+    private val settingsRepository: SettingsRepository,
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
     val isDarkMode: StateFlow<Boolean> = settingsRepository.isDarkMode
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
-
-    val isOnboardingCompleted: StateFlow<Boolean> = settingsRepository.isOnboardingCompleted
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
-
-    val userName: StateFlow<String> = authRepository.currentUserNameFlow
 
     val notificationsEnabled: StateFlow<Boolean> = settingsRepository.notificationsEnabled
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
@@ -72,20 +66,12 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch { settingsRepository.setDarkMode(enabled) }
     }
 
-    fun setUserName(name: String) {
-        viewModelScope.launch { settingsRepository.setUserName(name) }
-    }
-
     fun setNotificationsEnabled(enabled: Boolean) {
         viewModelScope.launch { settingsRepository.setNotificationsEnabled(enabled) }
     }
 
     fun setDownloadWifiOnly(enabled: Boolean) {
         viewModelScope.launch { settingsRepository.setDownloadWifiOnly(enabled) }
-    }
-
-    fun setOnboardingCompleted(completed: Boolean) {
-        viewModelScope.launch { settingsRepository.setOnboardingCompleted(completed) }
     }
 
     fun toggleProfileLock(isLocked: Boolean) {
@@ -114,31 +100,6 @@ class SettingsViewModel @Inject constructor(
     fun logout() {
         viewModelScope.launch {
             authRepository.logout()
-        }
-    }
-
-    private val _passwordState = MutableStateFlow<PasswordUiState>(PasswordUiState.Idle)
-    val passwordState: StateFlow<PasswordUiState> = _passwordState.asStateFlow()
-
-    fun setPassword(password: String) {
-        viewModelScope.launch {
-            _passwordState.value = PasswordUiState.Loading
-            val result = authRepository.setPassword(password)
-            _passwordState.value = when (result) {
-                is PasswordResult.Success -> PasswordUiState.Success
-                is PasswordResult.Failure -> PasswordUiState.Error(result.message)
-            }
-        }
-    }
-
-    fun changePassword(currentPassword: String, newPassword: String) {
-        viewModelScope.launch {
-            _passwordState.value = PasswordUiState.Loading
-            val result = authRepository.changePassword(currentPassword, newPassword)
-            _passwordState.value = when (result) {
-                is PasswordResult.Success -> PasswordUiState.Success
-                is PasswordResult.Failure -> PasswordUiState.Error(result.message)
-            }
         }
     }
 
@@ -190,13 +151,6 @@ class SettingsViewModel @Inject constructor(
             }
         }
     }
-}
-
-sealed class PasswordUiState {
-    object Idle : PasswordUiState()
-    object Loading : PasswordUiState()
-    object Success : PasswordUiState()
-    data class Error(val message: String) : PasswordUiState()
 }
 
 sealed class DeletionRequestUiState {

@@ -103,8 +103,6 @@ object SpeechCatalog {
         "es" to "Spanish", "it" to "Italian", "nl" to "Dutch", "pl" to "Polish",
     )
 
-    val sttLanguages = whistleLanguages
-
     val tinyVocaVoices = listOf(
         "F2" to "Female \u00B7 English & Nepali",
         "M2" to "Male \u00B7 English & Nepali",

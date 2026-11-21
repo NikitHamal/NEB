@@ -28,8 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neb.ians.R
 import com.neb.ians.data.repository.AuthRepository
-import com.neb.ians.data.repository.AuthState
-import com.neb.ians.data.repository.SettingsRepository
 import com.neb.ians.ui.theme.Poppins
 import com.neb.ians.ui.theme.nebAnimationsReduced
 import com.neb.ians.ui.theme.nebSpatialSpec
@@ -49,17 +47,12 @@ import kotlinx.coroutines.launch
  * line, and the whole stack lifts away. No tinted wash, no big shape, no orbit: a colour field
  * behind a logo reads as a stain, so there is none, here or anywhere.
  *
- * Springs only. Every value is read in the draw phase, so no frame recomposes. The destination
- * (home, profile, intro or sign-in) is resolved in parallel, so a cold start pays nothing.
+ * Springs only. Every value is read in the draw phase, so no frame recomposes.
  */
 @Composable
 fun SplashScreen(
     authRepository: AuthRepository,
-    settingsRepository: SettingsRepository,
-    onNavigateToHome: () -> Unit,
-    onNavigateToLogin: () -> Unit,
-    onNavigateToCompleteProfile: () -> Unit,
-    onNavigateToIntro: () -> Unit = onNavigateToLogin
+    onNavigateToHome: () -> Unit
 ) {
     val scheme = MaterialTheme.colorScheme
     val dark = scheme.surface.luminance() < 0.5f

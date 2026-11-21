@@ -275,14 +275,9 @@ data class NebAccent(val light: Color, val dark: Color)
 object NebAccents {
     /** The brand itself, for the accent slot that should read as "the app". */
     val Brand = NebAccent(Color(0xFF004AC6), Color(0xFFB4C5FF))
-    val Indigo = NebAccent(Color(0xFF4F46E5), Color(0xFFB4B0FF))
-    val Violet = NebAccent(Color(0xFF7C3AED), Color(0xFFC9B6FE))
     val Amber = NebAccent(Color(0xFF9A6206), Color(0xFFE8B457))
     val Teal = NebAccent(Color(0xFF0F766E), Color(0xFF5FD3C4))
-    val Green = NebAccent(Color(0xFF15803D), Color(0xFF7CD9A0))
-    val Cyan = NebAccent(Color(0xFF0E7490), Color(0xFF5CC8E0))
     val Rose = NebAccent(Color(0xFFB3261E), Color(0xFFFF9186))
-    val Pink = NebAccent(Color(0xFF9D174D), Color(0xFFF79CC0))
 }
 
 @Composable

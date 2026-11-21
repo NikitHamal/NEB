@@ -105,9 +105,6 @@ class AuthRepository @Inject constructor(
             com.neb.ians.BuildConfig.GOOGLE_WEB_CLIENT_ID.ifBlank {
                 GOOGLE_WEB_REDIRECT_CLIENT_ID
             }
-        val GOOGLE_SERVER_CLIENT_IDS: List<String> =
-            (com.neb.ians.BuildConfig.GOOGLE_WEB_CLIENT_IDS.split(",").map { it.trim() }.filter { it.isNotBlank() } +
-                listOf(GOOGLE_SERVER_CLIENT_ID, GOOGLE_WEB_REDIRECT_CLIENT_ID)).distinct()
         const val GITHUB_CLIENT_ID = "Ov23lii7dRW1FhLQ09w7"
         const val GITHUB_REDIRECT_URI = "https://nebians.consica.com.np/auth/github/callback/"
     }

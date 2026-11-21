@@ -85,11 +85,17 @@ private fun previewLines(body: String, max: Int, colors: LiveColors): List<Previ
     return out
 }
 
+private val noteDateCal = object : ThreadLocal< Pair<Calendar, Calendar> >() {
+    override fun initialValue(): Pair<Calendar, Calendar> = Calendar.getInstance() to Calendar.getInstance()
+}
+
 private fun dateLabel(ms: Long): String {
-    val now = Calendar.getInstance()
-    val then = Calendar.getInstance().apply { timeInMillis = ms }
+    val (now, then) = noteDateCal.get()!!
+    val nowMs = System.currentTimeMillis()
+    now.timeInMillis = nowMs
+    then.timeInMillis = ms
     val sameDay = now.get(Calendar.YEAR) == then.get(Calendar.YEAR) && now.get(Calendar.DAY_OF_YEAR) == then.get(Calendar.DAY_OF_YEAR)
-    val days = (now.timeInMillis - ms) / 86_400_000L
+    val days = (nowMs - ms) / 86_400_000L
     val pattern = when {
         sameDay -> "h:mm a"
         days < 7 -> "EEE"
@@ -183,8 +189,11 @@ internal fun NoteCard(
             if (hasMedia) NoteMediaPreview(m, compact, ink, tone.container)
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text(date, style = MaterialTheme.typography.labelSmall, color = ink.copy(alpha = 0.6f), maxLines = 1, modifier = Modifier.weight(1f))
-                if (nextDue > 0L) NoteChipLabel(NoteDue.label(nextDue), if (NoteDue.overdue(nextDue)) c.error else ink, ink)
-                else if (note.tagList.isNotEmpty()) NoteChipLabel("#" + note.tagList.first(), ink, ink)
+                if (nextDue > 0L) {
+                    val dueText = remember(nextDue) { NoteDue.label(nextDue) }
+                    val isOverdue = remember(nextDue) { NoteDue.overdue(nextDue) }
+                    NoteChipLabel(dueText, if (isOverdue) c.error else ink, ink)
+                } else if (note.tagList.isNotEmpty()) NoteChipLabel("#" + note.tagList.first(), ink, ink)
                 if (total > 0) Text("$done/$total", style = MaterialTheme.typography.labelSmall, color = ink.copy(alpha = 0.6f))
             }
         }

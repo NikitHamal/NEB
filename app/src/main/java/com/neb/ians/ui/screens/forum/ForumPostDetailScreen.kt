@@ -850,7 +850,6 @@ private fun PostContentSection(
     onImageClick: (imageUrls: List<String>, index: Int) -> Unit
 ) {
     val category = post.category.ifBlank { "General" }
-    val categoryTheme = getSubjectTheme(category)
     val bookmarked = post.isBookmarked == true
 
     Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)) {

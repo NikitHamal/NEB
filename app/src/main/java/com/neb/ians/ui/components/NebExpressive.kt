@@ -162,11 +162,8 @@ fun nebShape(polygon: RoundedPolygon, startAngle: Int = 0): Shape = polygon.toSh
 /** The shapes the app reaches for by name, so a screen never indexes into [MaterialShapes]. */
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 object NebShapes {
-    val Avatar: RoundedPolygon get() = MaterialShapes.Cookie9Sided
     val Tile: RoundedPolygon get() = MaterialShapes.Square
-    val Badge: RoundedPolygon get() = MaterialShapes.Pill
     val Accent: RoundedPolygon get() = MaterialShapes.Clover4Leaf
-    val Marker: RoundedPolygon get() = MaterialShapes.Diamond
 
     /**
      * The bottom bar's create button.

@@ -1,7 +1,5 @@
 package com.neb.ians.ui.theme
 
-import androidx.compose.animation.core.CubicBezierEasing
-import androidx.compose.animation.core.Easing
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -160,31 +158,11 @@ private fun Color.luminance(): Float = 0.299f * red + 0.587f * green + 0.114f * 
 // ---------------------------------------------------------------------------
 
 object NebMotion {
-    const val Instant = 120
-    const val Quick = 180
-    const val Short = 240
-    const val Standard = 320
-    const val Emphasized = 400
-    const val Slow = 560
-
-    /** Entering: fast out of the gate, long settle. */
-    val Decelerate: Easing = CubicBezierEasing(0.05f, 0.7f, 0.1f, 1f)
-
-    /** Leaving: reluctant start, quick exit. */
-    val Accelerate: Easing = CubicBezierEasing(0.3f, 0f, 0.8f, 0.15f)
-
-    /** Both directions, for anything that moves without appearing. */
-    val Standard_: Easing = CubicBezierEasing(0.2f, 0f, 0f, 1f)
-
     /** How far a step slides in from. Short enough to read as a shift, not a page. */
     const val StepSlideFraction = 0.22f
 
     /** A pressed control shrinks by this much. */
     const val PressScale = 0.97f
-
-    /** Per-item delay when a list of fields arrives together. */
-    const val StaggerStepMs = 45
-    const val StaggerMaxItems = 7
 }
 
 // ---------------------------------------------------------------------------

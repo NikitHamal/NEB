@@ -520,25 +520,12 @@ fun NEBiansNavHost(
             composable(Screen.Splash.route) {
                 SplashScreen(
                     authRepository = authRepository,
-                    settingsRepository = settingsViewModel.settingsRepository,
                     onNavigateToHome = {
                         navController.navigate(Screen.Home.route) {
                             popUpTo(Screen.Splash.route) { inclusive = true }
                         }
                         // Opened from a notification: go straight to its screen, Home stays underneath.
                         openDeepLink()
-                    },
-                    onNavigateToLogin = {
-                        // guests browse first; sign-in is asked for when something needs it
-                        navController.navigate(Screen.Home.route) {
-                            popUpTo(Screen.Splash.route) { inclusive = true }
-                        }
-                        openDeepLink()
-                    },
-                    onNavigateToCompleteProfile = {
-                        navController.navigate(Screen.CompleteProfile.route) {
-                            popUpTo(Screen.Splash.route) { inclusive = true }
-                        }
                     }
                 )
             }

@@ -1,12 +1,5 @@
 package com.neb.ians.ui.components
 
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.input.OffsetMapping
-import androidx.compose.ui.text.input.TransformedText
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.graphics.Color
 import kotlin.random.Random
 
 /**
@@ -25,21 +18,8 @@ object InlineImageTokens {
     /** Private Use Area char each token collapses to inside the editor. */
     const val PLACEHOLDER_CHAR = '\uE107'
     const val PLACEHOLDER_LEN = 4
-    val PLACEHOLDER: String = PLACEHOLDER_CHAR.toString().repeat(PLACEHOLDER_LEN)
 
     fun newPendingKey(): String = "u" + Random.nextInt(0x1000000, 0xFFFFFFF).toString(16)
-
-    /** Ordered unique numeric image ids referenced by the text. */
-    fun extractIds(text: String): List<Int> {
-        val seen = linkedSetOf<Int>()
-        REGEX.findAll(text).forEach { m ->
-            m.groupValues[1].toIntOrNull()?.let { seen.add(it) }
-        }
-        return seen.toList()
-    }
-
-    fun hasPending(text: String): Boolean =
-        REGEX.findAll(text).any { it.groupValues[1].startsWith("u") }
 
     /** Replace tokens with a plain-text placeholder (previews, share sheets). */
     fun plainText(text: String, placeholder: String = "[image]"): String =
