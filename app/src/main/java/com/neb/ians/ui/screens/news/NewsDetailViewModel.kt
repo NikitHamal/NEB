@@ -31,37 +31,39 @@ data class NewsDetailUiState(
     val isPostingComment: Boolean = false,
     val snackbarMessage: String? = null
 ) {
+    val commentsById: Map<String, NewsComment> by lazy(LazyThreadSafetyMode.PUBLICATION) {
+        comments.associateBy { it.id }
+    }
+
+    private val directChildrenByParent: Map<String, List<NewsComment>> by lazy(LazyThreadSafetyMode.PUBLICATION) {
+        comments.filter { it.parentCommentId.isNotBlank() }.groupBy { it.parentCommentId }
+    }
+
     /** Top-level comments in the selected sort order (same rule as forum replies). */
-    val topLevelComments: List<NewsComment>
-        get() {
-            val topLevel = comments.filter { it.parentCommentId.isBlank() }
-            return when (commentSort) {
-                "newest" -> topLevel.sortedByDescending { it.createdAt }
-                "top" -> topLevel.sortedWith(
-                    compareByDescending<NewsComment> { it.thumbsUpCount }.thenBy { it.createdAt }
-                )
-                else -> topLevel.sortedBy { it.createdAt }
-            }
+    val topLevelComments: List<NewsComment> by lazy(LazyThreadSafetyMode.PUBLICATION) {
+        val topLevel = comments.filter { it.parentCommentId.isBlank() }
+        when (commentSort) {
+            "newest" -> topLevel.sortedByDescending { it.createdAt }
+            "top" -> topLevel.sortedWith(
+                compareByDescending<NewsComment> { it.thumbsUpCount }.thenBy { it.createdAt }
+            )
+            else -> topLevel.sortedBy { it.createdAt }
         }
+    }
 
     /** Children and deeper descendants of a comment, oldest first (same rule as the forum thread sheet). */
     fun childrenOf(commentId: String): List<NewsComment> {
-        val result = mutableListOf<NewsComment>()
-        val descendants = mutableSetOf<String>()
-        var addedAny: Boolean
-        do {
-            addedAny = false
-            for (c in comments) {
-                val parentId = c.parentCommentId
-                if (parentId.isNotBlank() && !descendants.contains(c.id)) {
-                    if (parentId == commentId || descendants.contains(parentId)) {
-                        descendants.add(c.id)
-                        result.add(c)
-                        addedAny = true
-                    }
-                }
+        val firstLevel = directChildrenByParent[commentId] ?: return emptyList()
+        val result = ArrayList<NewsComment>(firstLevel.size)
+        val queue = ArrayDeque<NewsComment>(firstLevel)
+        val visited = HashSet<String>(firstLevel.size * 2)
+        while (queue.isNotEmpty()) {
+            val current = queue.removeFirst()
+            if (visited.add(current.id)) {
+                result.add(current)
+                directChildrenByParent[current.id]?.let { queue.addAll(it) }
             }
-        } while (addedAny)
+        }
         return result.sortedBy { it.createdAt }
     }
 }
@@ -139,6 +141,14 @@ class NewsDetailViewModel @Inject constructor(
 
     fun onThreadDraftChange(value: String) {
         _threadDraft.value = value.take(4000)
+    }
+
+    fun prefixThreadDraft(authorName: String) {
+        val tag = "@$authorName "
+        val current = _threadDraft.value
+        if (!current.startsWith(tag)) {
+            _threadDraft.value = (tag + current.removePrefix(tag)).take(4000)
+        }
     }
 
     fun setCommentSort(sort: String) {

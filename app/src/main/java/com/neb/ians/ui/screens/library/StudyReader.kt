@@ -233,6 +233,17 @@ fun StudyReaderScreen(onBack: () -> Unit, viewModel: StudyReaderViewModel = hilt
     // set by the page (NebStudy.exam); not keyed by remember, the WebView's bridge holds this one state
     var examOn by remember { mutableStateOf(false) }
     LaunchedEffect(state.key) { examOn = false }
+    androidx.compose.runtime.DisposableEffect(Unit) {
+        onDispose {
+            web?.let { w ->
+                (w.parent as? android.view.ViewGroup)?.removeView(w)
+                w.stopLoading()
+                w.removeJavascriptInterface("NebStudy")
+                w.destroy()
+            }
+            web = null
+        }
+    }
     val doc = state.doc
     val closeZoom = { web?.evaluateJavascript("window.nebZoomClose && nebZoomClose()", null); zoomOpen = false }
     BackHandler(enabled = zoomOpen) { closeZoom() }
@@ -306,7 +317,10 @@ fun StudyReaderScreen(onBack: () -> Unit, viewModel: StudyReaderViewModel = hilt
             when {
                 doc == null && state.isLoading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { NebLoader(size = NebLoaderSize.Standard) }
                 doc == null -> ErrorCard(message = state.error ?: "This chapter could not be loaded.", onRetry = { viewModel.load() }, modifier = Modifier.padding(16.dp))
-                else -> ReaderWeb(state, doc, viewModel, onWeb = { web = it }, onZoom = { zoomOpen = it }, onExam = { examOn = it })
+                else -> {
+                    val initialState = remember(doc, state.key) { state }
+                    ReaderWeb(initialState, doc, viewModel, onWeb = { web = it }, onZoom = { zoomOpen = it }, onExam = { examOn = it })
+                }
             }
         }
     }
@@ -317,7 +331,7 @@ fun StudyReaderScreen(onBack: () -> Unit, viewModel: StudyReaderViewModel = hilt
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
-                items(doc.toc, key = { it.id }) { item ->
+                items(doc.toc, key = { it.id }, contentType = { "toc" }) { item ->
                     val isQs = item.kind == "qs"
                     Row(
                         verticalAlignment = Alignment.CenterVertically,

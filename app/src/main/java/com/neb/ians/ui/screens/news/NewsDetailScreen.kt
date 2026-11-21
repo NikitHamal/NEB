@@ -76,14 +76,6 @@ fun NewsDetailScreen(
     viewModel: NewsDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    // read only where the composers draw, so typing redraws the composer and not the article
-    val commentDraft by viewModel.commentDraft.collectAsStateWithLifecycle()
-    val threadDraft by viewModel.threadDraft.collectAsStateWithLifecycle()
-    val composerAnonymous by viewModel.composerAnonymous.collectAsStateWithLifecycle()
-    val identityName by viewModel.identityName.collectAsStateWithLifecycle()
-    val identityPhoto by viewModel.identityPhoto.collectAsStateWithLifecycle()
-    val identityHandle by viewModel.identityHandle.collectAsStateWithLifecycle()
-    val identityAnonTag by viewModel.identityAnonTag.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val uriHandler = LocalUriHandler.current
     var activeThreadParentId by remember { mutableStateOf<String?>(null) }
@@ -126,27 +118,10 @@ fun NewsDetailScreen(
         },
         bottomBar = {
             if (uiState.detail != null && !uiState.isLoading) {
-                NebCommentComposerBar(
-                    value = commentDraft,
-                    onValueChange = viewModel::onCommentDraftChange,
-                    placeholder = if (uiState.isAuthenticated) "Join the discussion" else "Sign in to comment",
-                    enabled = uiState.isAuthenticated && !uiState.isPostingComment,
-                    canSend = uiState.isAuthenticated && commentDraft.isNotBlank() && !uiState.isPostingComment,
-                    posting = uiState.isPostingComment,
-                    sendContentDescription = "Post comment",
-                    leadingContent = {
-                        com.neb.ians.ui.components.NebIdentityAvatarMenu(
-                            isAnonymous = composerAnonymous,
-                            userName = identityName,
-                            handle = identityHandle,
-                            photoUrl = identityPhoto,
-                            anonTag = identityAnonTag,
-                            onSelect = viewModel::setComposerAnonymous,
-                            enabled = uiState.isAuthenticated && !uiState.isPostingComment,
-                            modifier = Modifier.padding(start = 4.dp)
-                        )
-                    },
-                    onSend = viewModel::postComment
+                NewsMainCommentBarSlot(
+                    viewModel = viewModel,
+                    isAuthenticated = uiState.isAuthenticated,
+                    isPostingComment = uiState.isPostingComment
                 )
             }
         },
@@ -229,10 +204,7 @@ fun NewsDetailScreen(
                         onReplyClick = { comment ->
                             activeThreadParentId = comment.id
                             activeThreadTargetId = comment.id
-                            val tag = "@${comment.authorName} "
-                            if (!threadDraft.startsWith(tag)) {
-                                viewModel.onThreadDraftChange(tag + threadDraft.removePrefix(tag))
-                            }
+                            viewModel.prefixThreadDraft(comment.authorName)
                         },
                         onOpenThread = { comment -> activeThreadParentId = comment.id },
                         onDeleteClick = { comment -> deletingCommentId = comment.id },
@@ -266,12 +238,12 @@ fun NewsDetailScreen(
 
     // ----- Comment thread bottom sheet (same system as the forum post viewer) -----
     activeThreadParentId?.let { parentId ->
-        val parent = uiState.comments.firstOrNull { it.id == parentId }
+        val parent = uiState.commentsById[parentId]
         if (parent != null) {
             val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-            val threadReplies = uiState.childrenOf(parentId)
+            val threadReplies = remember(uiState.comments, parentId) { uiState.childrenOf(parentId) }
             val replyTarget = activeThreadTargetId?.let { targetId ->
-                uiState.comments.firstOrNull { it.id == targetId }
+                uiState.commentsById[targetId]
             }
 
             NebModalSheet(
@@ -332,17 +304,15 @@ fun NewsDetailScreen(
                             .fillMaxWidth(),
                         contentPadding = androidx.compose.foundation.layout.PaddingValues(16.dp)
                     ) {
-                        item(key = "parent_${parent.id}") {
+                        item(key = "parent_${parent.id}", contentType = "parent") {
+                            val parentReply = remember(parent) { parent.toApiReply() }
                             CommentCard(
-                                reply = parent.toApiReply(),
+                                reply = parentReply,
                                 isOwn = parent.isOwner,
                                 onThumbsUpClick = { viewModel.toggleCommentLike(parent.id) },
                                 onReplyClick = {
                                     activeThreadTargetId = parent.id
-                                    val tag = "@${parent.authorName} "
-                                    if (!threadDraft.startsWith(tag)) {
-                                        viewModel.onThreadDraftChange(tag + threadDraft.removePrefix(tag))
-                                    }
+                                    viewModel.prefixThreadDraft(parent.authorName)
                                 },
                                 onDeleteClick = if (parent.isOwner) ({ deletingCommentId = parent.id }) else null,
                                 onProfileClick = {},
@@ -355,7 +325,7 @@ fun NewsDetailScreen(
                         }
 
                         if (threadReplies.isEmpty()) {
-                            item(key = "empty_thread") {
+                            item(key = "empty_thread", contentType = "empty") {
                                 Box(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -370,23 +340,21 @@ fun NewsDetailScreen(
                                 }
                             }
                         } else {
-                            items(threadReplies, key = { it.id }) { child ->
+                            items(threadReplies, key = { it.id }, contentType = { "reply" }) { child ->
                                 Column(modifier = Modifier.padding(bottom = 12.dp)) {
-                                    val parentOfChild = uiState.comments.firstOrNull { it.id == child.parentCommentId }
+                                    val parentOfChild = uiState.commentsById[child.parentCommentId]
                                     val replyingTo = if (child.parentCommentId != parentId) {
                                         parentOfChild?.authorName
                                     } else null
+                                    val childReply = remember(child) { child.toApiReply() }
 
                                     CommentCard(
-                                        reply = child.toApiReply(),
+                                        reply = childReply,
                                         isOwn = child.isOwner,
                                         onThumbsUpClick = { viewModel.toggleCommentLike(child.id) },
                                         onReplyClick = {
                                             activeThreadTargetId = child.id
-                                            val tag = "@${child.authorName} "
-                                            if (!threadDraft.startsWith(tag)) {
-                                                viewModel.onThreadDraftChange(tag + threadDraft.removePrefix(tag))
-                                            }
+                                            viewModel.prefixThreadDraft(child.authorName)
                                         },
                                         onDeleteClick = if (child.isOwner) ({ deletingCommentId = child.id }) else null,
                                         onProfileClick = {},
@@ -401,53 +369,14 @@ fun NewsDetailScreen(
                     }
 
                     HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-                    NebCommentComposerBar(
-                        value = threadDraft,
-                        onValueChange = viewModel::onThreadDraftChange,
-                        placeholder = if (replyTarget != null) "Reply to @${replyTarget.authorName}..." else "Write a reply...",
-                        enabled = !uiState.isPostingComment,
-                        canSend = threadDraft.isNotBlank() && !uiState.isPostingComment,
-                        posting = uiState.isPostingComment,
-                        onSend = {
-                            val targetId = activeThreadTargetId ?: parentId
-                            viewModel.postThreadReply(targetId) {
-                                activeThreadTargetId = null
-                            }
-                        }
-                    ) {
-                        replyTarget?.let { target ->
-                            if (target.id != parentId) {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(bottom = 8.dp)
-                                        .background(
-                                            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
-                                            shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
-                                        )
-                                        .padding(horizontal = 12.dp, vertical = 6.dp),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Close,
-                                        contentDescription = "Clear reply target",
-                                        modifier = Modifier
-                                            .size(16.dp)
-                                            .clickable { activeThreadTargetId = null },
-                                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    Text(
-                                        text = "Replying to @${target.authorName}",
-                                        style = MaterialTheme.typography.labelSmall,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis
-                                    )
-                                }
-                            }
-                        }
-                    }
+                    NewsThreadCommentBarSlot(
+                        viewModel = viewModel,
+                        parentId = parentId,
+                        activeThreadTargetId = activeThreadTargetId,
+                        replyTarget = replyTarget,
+                        isPostingComment = uiState.isPostingComment,
+                        onClearTarget = { activeThreadTargetId = null }
+                    )
                 }
             }
         } else {
@@ -532,20 +461,121 @@ private fun NewsCommentsSection(
                 }
             }
             else -> uiState.topLevelComments.forEach { comment ->
-                val children = uiState.childrenOf(comment.id)
-                CommentCard(
-                    reply = comment.toApiReply(),
-                    isOwn = comment.isOwner,
-                    onThumbsUpClick = { onLikeClick(comment.id) },
-                    onReplyClick = { onReplyClick(comment) },
-                    onDeleteClick = if (comment.isOwner) ({ onDeleteClick(comment) }) else null,
-                    onProfileClick = {},
-                    onAuthorLongPress = {},
-                    onLinkClick = onLinkClick,
-                    children = children.map { it.toApiReply() },
-                    onRepliesBarClick = if (children.isNotEmpty()) ({ onOpenThread(comment) }) else null
-                )
-                Spacer(Modifier.height(10.dp))
+                key(comment.id) {
+                    val children = remember(uiState.comments, comment.id) { uiState.childrenOf(comment.id) }
+                    val replyObj = remember(comment) { comment.toApiReply() }
+                    val childReplyObjs = remember(children) { children.map { it.toApiReply() } }
+                    CommentCard(
+                        reply = replyObj,
+                        isOwn = comment.isOwner,
+                        onThumbsUpClick = { onLikeClick(comment.id) },
+                        onReplyClick = { onReplyClick(comment) },
+                        onDeleteClick = if (comment.isOwner) ({ onDeleteClick(comment) }) else null,
+                        onProfileClick = {},
+                        onAuthorLongPress = {},
+                        onLinkClick = onLinkClick,
+                        children = childReplyObjs,
+                        onRepliesBarClick = if (children.isNotEmpty()) ({ onOpenThread(comment) }) else null
+                    )
+                    Spacer(Modifier.height(10.dp))
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun NewsMainCommentBarSlot(
+    viewModel: NewsDetailViewModel,
+    isAuthenticated: Boolean,
+    isPostingComment: Boolean
+) {
+    val commentDraft by viewModel.commentDraft.collectAsStateWithLifecycle()
+    val composerAnonymous by viewModel.composerAnonymous.collectAsStateWithLifecycle()
+    val identityName by viewModel.identityName.collectAsStateWithLifecycle()
+    val identityPhoto by viewModel.identityPhoto.collectAsStateWithLifecycle()
+    val identityHandle by viewModel.identityHandle.collectAsStateWithLifecycle()
+    val identityAnonTag by viewModel.identityAnonTag.collectAsStateWithLifecycle()
+
+    NebCommentComposerBar(
+        value = commentDraft,
+        onValueChange = viewModel::onCommentDraftChange,
+        placeholder = if (isAuthenticated) "Join the discussion" else "Sign in to comment",
+        enabled = isAuthenticated && !isPostingComment,
+        canSend = isAuthenticated && commentDraft.isNotBlank() && !isPostingComment,
+        posting = isPostingComment,
+        sendContentDescription = "Post comment",
+        leadingContent = {
+            com.neb.ians.ui.components.NebIdentityAvatarMenu(
+                isAnonymous = composerAnonymous,
+                userName = identityName,
+                handle = identityHandle,
+                photoUrl = identityPhoto,
+                anonTag = identityAnonTag,
+                onSelect = viewModel::setComposerAnonymous,
+                enabled = isAuthenticated && !isPostingComment,
+                modifier = Modifier.padding(start = 4.dp)
+            )
+        },
+        onSend = viewModel::postComment
+    )
+}
+
+@Composable
+private fun NewsThreadCommentBarSlot(
+    viewModel: NewsDetailViewModel,
+    parentId: String,
+    activeThreadTargetId: String?,
+    replyTarget: NewsComment?,
+    isPostingComment: Boolean,
+    onClearTarget: () -> Unit
+) {
+    val threadDraft by viewModel.threadDraft.collectAsStateWithLifecycle()
+
+    NebCommentComposerBar(
+        value = threadDraft,
+        onValueChange = viewModel::onThreadDraftChange,
+        placeholder = if (replyTarget != null) "Reply to @${replyTarget.authorName}..." else "Write a reply...",
+        enabled = !isPostingComment,
+        canSend = threadDraft.isNotBlank() && !isPostingComment,
+        posting = isPostingComment,
+        onSend = {
+            val targetId = activeThreadTargetId ?: parentId
+            viewModel.postThreadReply(targetId) {
+                onClearTarget()
+            }
+        }
+    ) {
+        replyTarget?.let { target ->
+            if (target.id != parentId) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                            shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
+                        )
+                        .padding(horizontal = 12.dp, vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = "Clear reply target",
+                        modifier = Modifier
+                            .size(16.dp)
+                            .clickable { onClearTarget() },
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Replying to @${target.authorName}",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
         }
     }

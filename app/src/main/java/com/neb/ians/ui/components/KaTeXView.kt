@@ -207,6 +207,11 @@ fun KaTeXMathView(
                 )
             }
         },
+        onRelease = { webView ->
+            webView.stopLoading()
+            webView.removeJavascriptInterface("KaTeXBridge")
+            webView.destroy()
+        },
         modifier = modifier
             .fillMaxWidth()
             .then(heightModifier)

@@ -47,6 +47,17 @@ fun WebPortalScreen(
     var progress by remember { mutableStateOf(0) }
     var webView: WebView? by remember(url) { mutableStateOf(null) }
 
+    androidx.compose.runtime.DisposableEffect(url) {
+        onDispose {
+            webView?.let { w ->
+                (w.parent as? android.view.ViewGroup)?.removeView(w)
+                w.stopLoading()
+                w.destroy()
+            }
+            webView = null
+        }
+    }
+
     BackHandler(enabled = true) {
         val view = webView
         if (view?.canGoBack() == true) view.goBack() else onNavigateBack()
