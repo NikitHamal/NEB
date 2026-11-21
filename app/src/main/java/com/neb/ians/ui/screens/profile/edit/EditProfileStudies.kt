@@ -11,6 +11,9 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ExpandMore
+import androidx.compose.material.icons.outlined.Place
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.neb.ians.ui.components.NebChoiceTiles
 import com.neb.ians.ui.components.NebFieldGroupLabel
+import com.neb.ians.ui.components.NebPickerField
 import com.neb.ians.ui.components.NebPickerSheet
 import com.neb.ians.ui.components.NebSelectChip
 import com.neb.ians.ui.components.rememberNebChoiceTiles
@@ -144,13 +148,13 @@ internal fun EditPlaceSection(state: CompleteProfileUiState, viewModel: Complete
                     }
                 }
             }
-            com.neb.ians.ui.components.NebPickerField(
+            NebPickerField(
                 label = "District",
                 value = state.district,
                 placeholder = "Select your district",
                 onClick = { showDistrict = true },
-                leadingIcon = androidx.compose.material.icons.Icons.Outlined.Place,
-                trailingIcon = androidx.compose.material.icons.Icons.Outlined.ExpandMore
+                leadingIcon = Icons.Outlined.Place,
+                trailingIcon = Icons.Outlined.ExpandMore
             )
             com.neb.ians.ui.screens.onboarding.CampusSelector(
                 state = state,

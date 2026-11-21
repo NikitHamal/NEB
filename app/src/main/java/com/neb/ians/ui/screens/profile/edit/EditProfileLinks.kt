@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -38,6 +39,7 @@ import com.neb.ians.ui.components.NebAuthField
 import com.neb.ians.ui.components.NebAuthType
 import com.neb.ians.ui.components.NebIconAction
 import com.neb.ians.ui.components.NebOutlinePillButton
+import com.neb.ians.ui.components.NebPickerField
 import com.neb.ians.ui.components.NebPickerSheet
 import com.neb.ians.ui.components.NebPillButton
 import com.neb.ians.ui.components.NebSheetSurface
@@ -162,11 +164,12 @@ private fun EditAddLinkSheet(
     var showPlatforms by remember { mutableStateOf(false) }
 
     NebSheetSurface(title = "Add a link", onDismiss = onDismiss) {
-        EditPickerRowField(
+        NebPickerField(
             label = "Platform",
             value = platform.label,
             placeholder = "Choose one",
-            onClick = { showPlatforms = true }
+            onClick = { showPlatforms = true },
+            trailingIcon = Icons.Outlined.ExpandMore
         )
 
         Spacer(modifier = Modifier.height(NebAuthTokens.StackGap))

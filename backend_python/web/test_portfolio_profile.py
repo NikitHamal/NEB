@@ -15,7 +15,7 @@ def _make(**kw):
          'created_at': int(time.time() * 1000), 'email_verified': True, 'display_name': 'Pat', 'gender': 'Other',
          'dob': '2002-02-02', 'role': 'student', 'class_level': 'Bachelors', 'edu_status': 'dropped_out',
          'edu_program': 'BSc CSIT', 'edu_term': 'Year 1', 'edu_completed': '+2 Passout',
-         'headline': 'Building things my own way', 'skills': 'Python,Design', 'open_to': 'collab,mentoring'}
+         'bio': 'Building things my own way', 'skills': 'Python,Design', 'open_to': 'collab,mentoring'}
     d.update(kw)
     return User.objects.create(**d)
 
