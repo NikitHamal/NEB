@@ -17,7 +17,7 @@
 -overloadaggressively
 -allowaccessmodification
 
-# Strip all android.util.Log levels from release DEX so internal log strings, tags & error bodies are eliminated
+# Strip all android.util.Log levels and Throwable.printStackTrace() from release DEX
 -assumenosideeffects class android.util.Log {
     public static boolean isLoggable(java.lang.String, int);
     public static int v(...);
@@ -26,6 +26,9 @@
     public static int w(...);
     public static int e(...);
     public static int wtf(...);
+}
+-assumenosideeffects class java.lang.Throwable {
+    public void printStackTrace();
 }
 
 # Keep the application class.
@@ -37,10 +40,10 @@
     public <init>();
 }
 
-# Keep serializable data models and Retrofit interfaces in R8 full mode while obfuscating interceptors & helpers
--keep class com.neb.ians.data.model.** { *; }
+# Keep serializable data models and Retrofit interfaces in R8 full mode while obfuscating model class names, interceptors & helpers
+-keep,allowshrinking,allowobfuscation class com.neb.ians.data.model.** { *; }
 -keep interface com.neb.ians.data.api.** { *; }
--keep @kotlinx.serialization.Serializable class com.neb.ians.** { *; }
+-keep,allowshrinking,allowobfuscation @kotlinx.serialization.Serializable class com.neb.ians.** { *; }
 -keepclassmembers,allowshrinking,allowobfuscation interface * {
     @retrofit2.http.* <methods>;
 }

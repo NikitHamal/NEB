@@ -40,7 +40,6 @@ class GlNode(var mesh: GlMesh? = null, var material: GlMaterial? = null) {
     var blobShadow = 0f
     val children = ArrayList<GlNode>()
     internal val world = FloatArray(16)
-    var pickRadius = 0f
     var tag: Any? = null
 
     fun add(child: GlNode): GlNode { children.add(child); return child }

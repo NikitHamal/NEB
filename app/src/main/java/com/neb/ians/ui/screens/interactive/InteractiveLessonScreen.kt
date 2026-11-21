@@ -130,13 +130,16 @@ fun InteractiveLessonScreen(
                 factory = { ctx ->
                     WebView(ctx).apply {
                         webView = this
+                        android.webkit.CookieManager.getInstance().setAcceptThirdPartyCookies(this, false)
                         settings.apply {
                             javaScriptEnabled = true
                             domStorageEnabled = true
                             allowFileAccess = false
                             allowContentAccess = false
+                            @Suppress("DEPRECATION")
+                            saveFormData = false
                             cacheMode = WebSettings.LOAD_DEFAULT
-                            mixedContentMode = 0
+                            mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
                             userAgentString = userAgentString + " NEBiansAndroid"
                             mediaPlaybackRequiresUserGesture = false
                             useWideViewPort = true
@@ -144,6 +147,14 @@ fun InteractiveLessonScreen(
                         }
                         setLayerType(android.view.View.LAYER_TYPE_HARDWARE, null)
                         webViewClient = object : WebViewClient() {
+                            override fun shouldOverrideUrlLoading(
+                                view: WebView?,
+                                request: android.webkit.WebResourceRequest?
+                            ): Boolean {
+                                val target = request?.url?.toString().orEmpty()
+                                return !target.startsWith("https://nebians.consica.com.np/")
+                            }
+
                             override fun onPageStarted(view: WebView?, url: String?, favicon: android.graphics.Bitmap?) {
                                 super.onPageStarted(view, url, favicon)
                                 loadFailed = false

@@ -39,7 +39,13 @@ object AppIntegrity {
 
     fun flags(context: Context): Int {
         val existing = cachedFlags
-        if (existing >= 0) return existing
+        if (existing >= 0) {
+            return if (!BuildConfig.DEBUG && (Debug.isDebuggerConnected() || Debug.waitingForDebugger())) {
+                existing or FLAG_DEBUGGER
+            } else {
+                existing
+            }
+        }
         val appCtx = context.applicationContext ?: context
         var mask = 0
         runCatching {
@@ -51,7 +57,8 @@ object AppIntegrity {
                 if (appInfo != null && (appInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
                     mask = mask or FLAG_DEBUGGABLE_PATCH
                 }
-                if (appCtx.packageName != expectedPackage()) {
+                val expPkg = expectedPackage()
+                if (appCtx.packageName != expPkg || !appCtx.filesDir.absolutePath.contains(expPkg)) {
                     mask = mask or FLAG_PKG_TAMPER
                 }
                 val srcDir = appInfo?.sourceDir.orEmpty()

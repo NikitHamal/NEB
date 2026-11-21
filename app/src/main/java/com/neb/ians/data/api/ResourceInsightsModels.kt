@@ -99,7 +99,7 @@ data class ResRow(
 
 @Serializable
 data class ResPosts(
-    val count: Int = 0, val views: Int = 0, val viewsPrev: Int = 0, val change: Double? = null,
+    val count: Int = 0, val views: Int = 0, val change: Double? = null,
     val likes: Int = 0, val replies: Int = 0, val top: List<ResPostRow> = emptyList()
 )
 

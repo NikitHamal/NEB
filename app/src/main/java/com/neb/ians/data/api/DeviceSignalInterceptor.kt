@@ -23,7 +23,7 @@ class DeviceSignalInterceptor(context: Context) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val req = chain.request()
-        if (req.header(HEADER) != null || !req.url.host.endsWith("consica.com.np")) {
+        if (req.header(HEADER) != null || !req.url.host.endsWith(HOST_SUFFIX)) {
             return chain.proceed(req)
         }
         val ts = (System.currentTimeMillis() / 1000L).toString()
@@ -41,21 +41,7 @@ class DeviceSignalInterceptor(context: Context) : Interceptor {
 
     private fun sign(method: String, path: String, ts: String, nonce: String): String {
         val payload = "$method|$path|$ts|$nonce|${BuildConfig.VERSION_CODE}"
-        com.neb.ians.speech.NativeSpeech.safeSignProof(payload)?.let { return it }
-        return try {
-            val mac = javax.crypto.Mac.getInstance("HmacSHA256")
-            val enc = intArrayOf(0x4d, 0x4f, 0x53, 0x15, 0x52, 0x75, 0x35, 0x79, 0x28, 0x0b, 0x0e, 0x41)
-            val k = ByteArray(enc.size) { i -> (enc[i] xor ((0x23 + i * 7) and 0xff)).toByte() }
-            mac.init(javax.crypto.spec.SecretKeySpec(k, "HmacSHA256"))
-            val raw = mac.doFinal(payload.toByteArray(Charsets.UTF_8))
-            val sb = StringBuilder(24)
-            for (i in 0 until minOf(12, raw.size)) {
-                sb.append(String.format(Locale.US, "%02x", raw[i].toInt() and 0xff))
-            }
-            sb.toString()
-        } catch (_: Exception) {
-            "0"
-        }
+        return com.neb.ians.speech.NativeSpeech.safeSignProof(payload) ?: "0"
     }
 
     private fun build(ctx: Context): String {
@@ -87,8 +73,21 @@ class DeviceSignalInterceptor(context: Context) : Interceptor {
         raw.replace(HEADER_CLEAN_REGEX, "").trim().take(48)
 
     companion object {
-        const val HEADER = "X-Neb-Device"
-        const val PROOF_HEADER = "X-Neb-Proof"
+        private fun unxor(enc: IntArray, key: Int): String =
+            String(CharArray(enc.size) { i -> (enc[i] xor ((key + i * 5) and 0xff)).toChar() })
+
+        val HEADER: String = unxor(
+            intArrayOf(0x1f, 0x61, 0x1f, 0x33, 0x39, 0x4d, 0x21, 0x0f, 0x19, 0x1d, 0x1a, 0x1b),
+            0x47
+        )
+        val PROOF_HEADER: String = unxor(
+            intArrayOf(0x01, 0x73, 0x2d, 0x0d, 0x0f, 0x5f, 0x27, 0x0e, 0xee, 0xe9, 0xed),
+            0x59
+        )
+        private val HOST_SUFFIX: String = unxor(
+            intArrayOf(0x50, 0x57, 0x53, 0x31, 0x2e, 0x2f, 0x30, 0x78, 0x38, 0x0f, 0x08, 0x44, 0x01, 0x04),
+            0x33
+        )
         private val HEADER_CLEAN_REGEX = Regex("[^A-Za-z0-9 ._+\\-/:,()]")
     }
 }

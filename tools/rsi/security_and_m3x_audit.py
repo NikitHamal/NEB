@@ -125,8 +125,8 @@ def check_security_invariants() -> list[str]:
     net_cfg = ROOT / "app" / "src" / "main" / "res" / "xml" / "network_security_config.xml"
     if net_cfg.is_file():
         text = net_cfg.read_text(encoding="utf-8")
-        if 'cleartextTrafficPermitted="false"' not in text:
-            errors.append("network_security_config.xml missing base cleartextTrafficPermitted=false")
+        if 'cleartextTrafficPermitted="false"' not in text or 'cleartextTrafficPermitted="true"' in text:
+            errors.append("network_security_config.xml must strictly enforce cleartextTrafficPermitted=false")
 
     proguard = ROOT / "app" / "proguard-rules.pro"
     if proguard.is_file():
@@ -147,6 +147,14 @@ def check_security_invariants() -> list[str]:
         jtext = jni_cpp.read_text(encoding="utf-8")
         if "Java_com_neb_ians_" in jtext or "RegisterNatives" not in jtext:
             errors.append("speech_jni.cpp must use JNI_OnLoad RegisterNatives without exported Java_com_neb_ians_ symbols")
+        if '"frida"' in jtext or '"apkkiller"' in jtext or '"signProof"' in jtext or '"envFlags"' in jtext:
+            errors.append("speech_jni.cpp must not expose plaintext anti-tamper needles or JNI method names in .rodata")
+
+    dsi = ROOT / "app" / "src" / "main" / "java" / "com" / "neb" / "ians" / "data" / "api" / "DeviceSignalInterceptor.kt"
+    if dsi.is_file():
+        dtext = dsi.read_text(encoding="utf-8")
+        if "HmacSHA256" in dtext or '"X-Neb-Proof"' in dtext:
+            errors.append("DeviceSignalInterceptor.kt must delegate HMAC signing to native C++ and obfuscate header strings")
     dep = ROOT / ".github" / "scripts" / "deploy_backend.py"
     if dep.is_file() and "deploy_changed.txt" not in dep.read_text(encoding="utf-8"):
         errors.append("deploy_backend.py must touch extracted files (unzip TZ skew makes collectstatic skip fresh static)")

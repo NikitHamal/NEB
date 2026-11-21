@@ -64,8 +64,7 @@ data class InsDay(
 @Serializable
 data class InsAudience(
     val members: Int = 0, val guests: Int = 0, val followers: Int = 0,
-    val returning: Int = 0, val newViewers: Int = 0,
-    val followerPct: Double = 0.0
+    val returning: Int = 0, val newViewers: Int = 0
 )
 
 @Serializable

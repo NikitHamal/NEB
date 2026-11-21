@@ -103,9 +103,11 @@ fun WebPortalScreen(
                             return if (target.startsWith("https://nebians.consica.com.np/")) {
                                 false
                             } else {
-                                try {
-                                    context.startActivity(android.content.Intent(android.content.Intent.ACTION_VIEW, Uri.parse(target)))
-                                } catch (_: Exception) {}
+                                if (target.startsWith("https://") || target.startsWith("http://")) {
+                                    try {
+                                        context.startActivity(android.content.Intent(android.content.Intent.ACTION_VIEW, Uri.parse(target)))
+                                    } catch (_: Exception) {}
+                                }
                                 true
                             }
                         }

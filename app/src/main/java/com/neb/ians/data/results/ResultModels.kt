@@ -17,9 +17,9 @@ data class ResultLookup(
     val cached: Boolean
 )
 
-enum class ResultExam(val label: String, val iconLabel: String) {
-    Class12("12", "school"),
-    Class10("10", "auto_stories")
+enum class ResultExam(val label: String) {
+    Class12("12"),
+    Class10("10")
 }
 
 enum class ResultMode { Single, Bulk }

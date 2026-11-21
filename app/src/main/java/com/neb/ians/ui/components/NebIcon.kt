@@ -29,10 +29,6 @@ object NebIcons {
     @DrawableRes val Pen = R.drawable.ic_neb_pen
     @DrawableRes val Check = R.drawable.ic_neb_check
     @DrawableRes val ChevronDown = R.drawable.ic_neb_chevron_down
-    @DrawableRes val Plus = R.drawable.ic_neb_plus
-    @DrawableRes val Upload = R.drawable.ic_neb_upload
-    @DrawableRes val Help = R.drawable.ic_neb_help
-    @DrawableRes val Info = R.drawable.ic_neb_info
     @DrawableRes val Bold = R.drawable.ic_neb_bold
     @DrawableRes val Italic = R.drawable.ic_neb_italic
     @DrawableRes val Strike = R.drawable.ic_neb_strike
@@ -45,11 +41,9 @@ object NebIcons {
     @DrawableRes val ListBullet = R.drawable.ic_neb_list_bullet
     @DrawableRes val ListNumber = R.drawable.ic_neb_list_number
     @DrawableRes val Link = R.drawable.ic_neb_link
-    @DrawableRes val Table = R.drawable.ic_neb_table
     @DrawableRes val Divider = R.drawable.ic_neb_divider
     @DrawableRes val Comment = R.drawable.ic_neb_comment
     @DrawableRes val Share = R.drawable.ic_neb_share
-    @DrawableRes val Attach = R.drawable.ic_neb_attach
 }
 
 /** One web-set glyph, tinted by the surrounding content colour unless told otherwise. */
