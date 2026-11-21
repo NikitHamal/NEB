@@ -77,9 +77,11 @@ class NotesViewModel @Inject constructor(
             NoteSort.Title -> filtered.sortedBy { it.title.lowercase().ifBlank { "\uFFFF" } }
         }
         val ordered = if (c.filter == NoteFilter.All) sorted.sortedByDescending { it.pinned } else sorted
+        ordered.take(24).forEach { NoteMediaCache.of(it) }
+        val orderedIds = if (c.selection.isEmpty()) emptySet() else ordered.mapTo(HashSet(ordered.size)) { it.id }
         NotesUi(
             loaded = true, notes = ordered, tags = tags, query = c.query, filter = c.filter, tag = c.tag,
-            sort = c.sort, grid = c.grid, selection = c.selection.intersect(ordered.map { it.id }.toSet()),
+            sort = c.sort, grid = c.grid, selection = if (c.selection.isEmpty()) emptySet() else c.selection.intersect(orderedIds),
             searching = c.searching, binCount = all.count { it.isTrashed }, totalLive = live.size,
         )
     }.flowOn(Dispatchers.Default).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), NotesUi())
@@ -99,14 +101,14 @@ class NotesViewModel @Inject constructor(
     fun setTag(t: String?) = controls.update { it.copy(tag = if (it.tag == t) null else t) }
 
     fun setSort(s: NoteSort) {
-        prefs.edit().putInt("sort", s.ordinal).apply()
         controls.update { it.copy(sort = s) }
+        viewModelScope.launch(Dispatchers.IO) { prefs.edit().putInt("sort", s.ordinal).apply() }
     }
 
     fun toggleGrid() {
         val next = !controls.value.grid
-        prefs.edit().putBoolean("grid", next).apply()
         controls.update { it.copy(grid = next) }
+        viewModelScope.launch(Dispatchers.IO) { prefs.edit().putBoolean("grid", next).apply() }
     }
 
     fun toggleSelect(id: String) = controls.update {

@@ -215,7 +215,7 @@ object NoteDoc {
                         checked = o.optBoolean("c", false),
                         path = o.optString("p", ""),
                         size = o.optDouble("s", 1.0).toFloat(),
-                        seconds = o.optInt("d", 0),
+                        seconds = if (type == BlockType.Audio) o.optInt("d", 0) else 0,
                         rows = rows,
                         strokes = strokes,
                         height = o.optDouble("h", 260.0).toFloat(),
@@ -225,7 +225,7 @@ object NoteDoc {
                         wrap = o.optBoolean("w", false),
                         caption = o.optString("q", ""),
                         ratio = o.optInt("ra", 0).coerceIn(0, 3),
-                        due = o.optLong("d", 0L).coerceAtLeast(0L),
+                        due = if (type == BlockType.Todo) o.optLong("d", 0L).coerceAtLeast(0L) else 0L,
                         tint = o.optInt("tc", 0).coerceIn(0, NoteInk.count),
                         mark = o.optInt("tf", 0).coerceIn(0, NoteInk.count),
                     )

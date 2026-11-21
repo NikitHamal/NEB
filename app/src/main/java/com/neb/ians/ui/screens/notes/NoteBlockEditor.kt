@@ -258,24 +258,29 @@ private fun BlockReorder.shiftFor(id: String, slot: Int): Float {
 }
 
 @Composable
-private fun ReorderSlot(id: String, reorder: BlockReorder, slot: Int, content: @Composable () -> Unit) {
-    val dragging = reorder.dragId == id
-    val shift by animateShift(
-        targetValue = reorder.shiftFor(id, slot),
-        label = "block_shift",
-    )
-    Box(
-        Modifier
-            .onSizeChanged { reorder.measured(id, it.height) }
-            .zIndex(if (dragging) 1f else 0f)
-            .graphicsLayer {
-                translationY = if (dragging) reorder.offset else shift
-                val lift = if (dragging) 1.02f else 1f
-                scaleX = lift
-                scaleY = lift
-                alpha = if (dragging) 0.94f else 1f
-            },
-    ) { content() }
+private inline fun ReorderSlot(id: String, reorder: BlockReorder, slot: Int, content: @Composable () -> Unit) {
+    val activeDragId = reorder.dragId
+    if (activeDragId == null) {
+        Box(Modifier.onSizeChanged { reorder.measured(id, it.height) }) { content() }
+    } else {
+        val dragging = activeDragId == id
+        val shift by animateShift(
+            targetValue = reorder.shiftFor(id, slot),
+            label = "block_shift",
+        )
+        Box(
+            Modifier
+                .onSizeChanged { reorder.measured(id, it.height) }
+                .zIndex(if (dragging) 1f else 0f)
+                .graphicsLayer {
+                    translationY = if (dragging) reorder.offset else shift
+                    val lift = if (dragging) 1.02f else 1f
+                    scaleX = lift
+                    scaleY = lift
+                    alpha = if (dragging) 0.94f else 1f
+                },
+        ) { content() }
+    }
 }
 
 @Composable
@@ -313,7 +318,7 @@ fun NoteBlockEditor(
         }.toSet()
     }
     val skip = remember(hidden, partners) { hidden + partners.map { it + 1 } }
-    reorder.order = blocks.filterIndexed { i, _ -> i !in skip }.map { it.id }
+    reorder.order = remember(blocks, skip) { blocks.filterIndexed { i, _ -> i !in skip }.map { it.id } }
     reorder.gap = with(LocalDensity.current) { 6.dp.toPx() }
     reorder.commit = { id, over -> vm.moveBlock(id, over) }
     val slot by remember { derivedStateOf { reorder.target() } }

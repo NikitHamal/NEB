@@ -35,8 +35,10 @@ data class NoteEntity(
     /** File name of a full-page background picture inside `notes/<id>/`; empty for none. */
     @ColumnInfo(defaultValue = "") val bgPhoto: String = "",
 ) {
-    val tagList: List<String>
-        get() = tags.split(' ').filter { it.isNotBlank() }
+    @delegate:androidx.room.Ignore
+    val tagList: List<String> by lazy(LazyThreadSafetyMode.PUBLICATION) {
+        if (tags.isBlank()) emptyList() else tags.split(' ').filter { it.isNotBlank() }
+    }
 
     val isTrashed: Boolean
         get() = trashedAt > 0L

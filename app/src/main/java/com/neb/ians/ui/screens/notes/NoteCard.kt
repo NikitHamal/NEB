@@ -53,6 +53,16 @@ private sealed interface PreviewLine {
 private val previewCheck = Regex("^\\s*[-*+]\\s\\[([ xX])]\\s?(.*)$")
 private val previewSkip = setOf("[image]", "[audio recording]", "[drawing]")
 private val previewRule = Regex("^\\s*(-{3,}|\\*{3,}|_{3,})\\s*$")
+private val previewLinesCache = android.util.LruCache<String, List<PreviewLine>>(128)
+
+private fun cachedPreviewLines(noteId: String, updatedAt: Long, body: String, max: Int, inkKey: ULong, colors: LiveColors): List<PreviewLine> {
+    if (body.isBlank()) return emptyList()
+    val cacheKey = "$noteId|$updatedAt|$max|$inkKey"
+    synchronized(previewLinesCache) { previewLinesCache.get(cacheKey) }?.let { return it }
+    return previewLines(body, max, colors).also {
+        synchronized(previewLinesCache) { previewLinesCache.put(cacheKey, it) }
+    }
+}
 
 /** The first lines of a note as they will look: markers are hidden and their effect drawn, never shown as characters. */
 private fun previewLines(body: String, max: Int, colors: LiveColors): List<PreviewLine> {
@@ -114,7 +124,9 @@ internal fun NoteCard(
     val m = media ?: NoteMedia.None
     val hasMedia = m.hasAny
     val maxEntries = if (hasMedia) 2 else if (compact) 4 else 3
-    val lines = remember(note.body, maxEntries, live) { previewLines(note.body, maxEntries, live) }
+    val lines = remember(note.id, note.updatedAt, maxEntries, ink) {
+        cachedPreviewLines(note.id, note.updatedAt, note.body, maxEntries, ink.value, live)
+    }
     val done = m.todoDone
     val total = m.todoTotal
     val nextDue = m.nextDue

@@ -203,7 +203,9 @@ object NoteIcons {
         "verified" to Icons.Outlined.Verified,
     )
 
-    fun find(key: String): ImageVector? = all.firstOrNull { it.first == key }?.second
+    private val byKey: Map<String, ImageVector> = all.toMap()
+
+    fun find(key: String): ImageVector? = if (key.isEmpty()) null else byKey[key]
 }
 
 /** The icon tile that sits on a note's page, in the page's tone. */
@@ -428,51 +430,57 @@ fun NoteCoverSheet(current: Int, onPick: (Int) -> Unit, onPhoto: (android.net.Ur
         androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia(),
     ) { uri -> if (uri != null) onPhoto(uri) }
     NoteSheet(onDismiss = onDismiss, title = "Cover") {
-        Column(Modifier.heightIn(max = 480.dp).verticalScroll(rememberScrollState()).padding(vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Row(
-                Modifier.fillMaxWidth().height(54.dp).clip(RoundedCornerShape(18.dp))
-                    .background(if (current == 0) c.primaryContainer else c.surfaceContainerHigh)
-                    .clickable { onPick(0) }.padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp),
-            ) {
-                Icon(Icons.Outlined.Close, null, tint = if (current == 0) c.onPrimaryContainer else c.onSurfaceVariant, modifier = Modifier.size(20.dp))
-                Text(
-                    "No cover", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold,
-                    color = if (current == 0) c.onPrimaryContainer else c.onSurface,
-                )
-            }
-            Row(
-                Modifier.fillMaxWidth().height(54.dp).clip(RoundedCornerShape(18.dp))
-                    .background(if (current < 0) c.primaryContainer else c.surfaceContainerHigh)
-                    .clickable {
-                        gallery.launch(
-                            androidx.activity.result.PickVisualMediaRequest(
-                                androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly,
-                            ),
-                        )
-                    }.padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp),
-            ) {
-                Icon(Icons.Outlined.Image, null, tint = if (current < 0) c.onPrimaryContainer else c.onSurfaceVariant, modifier = Modifier.size(20.dp))
-                Text(
-                    "From gallery", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold,
-                    color = if (current < 0) c.onPrimaryContainer else c.onSurface,
-                )
-            }
-            for (row in 1..NoteCovers.count step 2) {
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    for (i in row..minOf(row + 1, NoteCovers.count)) {
-                        NoteCoverBanner(
-                            i, animate = false,
-                            modifier = Modifier.weight(1f).height(76.dp)
-                                .clip(RoundedCornerShape(if (i == current) 32.dp else 20.dp))
-                                .clickable { onPick(i) },
-                        )
-                    }
+        androidx.compose.foundation.lazy.grid.LazyVerticalGrid(
+            columns = androidx.compose.foundation.lazy.grid.GridCells.Fixed(2),
+            modifier = Modifier.fillMaxWidth().heightIn(max = 480.dp),
+            contentPadding = androidx.compose.foundation.layout.PaddingValues(top = 8.dp, bottom = 24.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(2) }, key = "no_cover") {
+                Row(
+                    Modifier.fillMaxWidth().height(54.dp).clip(RoundedCornerShape(18.dp))
+                        .background(if (current == 0) c.primaryContainer else c.surfaceContainerHigh)
+                        .clickable { onPick(0) }.padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp),
+                ) {
+                    Icon(Icons.Outlined.Close, null, tint = if (current == 0) c.onPrimaryContainer else c.onSurfaceVariant, modifier = Modifier.size(20.dp))
+                    Text(
+                        "No cover", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold,
+                        color = if (current == 0) c.onPrimaryContainer else c.onSurface,
+                    )
                 }
             }
+            item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(2) }, key = "from_gallery") {
+                Row(
+                    Modifier.fillMaxWidth().height(54.dp).clip(RoundedCornerShape(18.dp))
+                        .background(if (current < 0) c.primaryContainer else c.surfaceContainerHigh)
+                        .clickable {
+                            gallery.launch(
+                                androidx.activity.result.PickVisualMediaRequest(
+                                    androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly,
+                                ),
+                            )
+                        }.padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp),
+                ) {
+                    Icon(Icons.Outlined.Image, null, tint = if (current < 0) c.onPrimaryContainer else c.onSurfaceVariant, modifier = Modifier.size(20.dp))
+                    Text(
+                        "From gallery", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold,
+                        color = if (current < 0) c.onPrimaryContainer else c.onSurface,
+                    )
+                }
+            }
+            items(count = NoteCovers.count, key = { it + 1 }, contentType = { "cover_tile" }) { idx ->
+                val i = idx + 1
+                NoteCoverBanner(
+                    i, animate = false,
+                    modifier = Modifier.fillMaxWidth().height(76.dp)
+                        .clip(RoundedCornerShape(if (i == current) 32.dp else 20.dp))
+                        .clickable { onPick(i) },
+                )
+            }
         }
-        Box(Modifier.height(16.dp))
     }
 }
 

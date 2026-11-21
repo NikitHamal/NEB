@@ -170,7 +170,6 @@ fun NoteEditorScreen(
 
     val ready by vm.ready.collectAsStateWithLifecycle()
     val title by vm.title.collectAsStateWithLifecycle()
-    val blocks by vm.blocks.collectAsStateWithLifecycle()
     val notice by vm.notice.collectAsStateWithLifecycle()
     val registry = remember { BlockFieldRegistry() }
     val toneIndex by vm.tone.collectAsStateWithLifecycle()
@@ -274,11 +273,7 @@ fun NoteEditorScreen(
                 NebDropdownMenu(
                     expanded = menu, onDismissRequest = { menu = false },
                 ) {
-                    val words = remember(blocks) { NoteDoc.wordCount(blocks) }
-                    DropdownMenuItem(
-                        text = { Text("$words words \u00B7 ${max(1, words / 200)} min", color = c.onSurfaceVariant, style = MaterialTheme.typography.labelLarge) },
-                        onClick = {}, enabled = false,
-                    )
+                    NoteWordCountMenuItem(vm = vm, color = c.onSurfaceVariant)
                     if (trashed) {
                         MenuItem("Restore", Icons.Outlined.RestoreFromTrash) { menu = false; vm.restoreFromBin() }
                         MenuItem("Delete forever", Icons.Outlined.DeleteForever, danger = true) { menu = false; confirmDelete = true }
@@ -363,14 +358,13 @@ fun NoteEditorScreen(
                     }
                 }
             }
-            val (todoTotal, todoDone) = remember(blocks) {
-                blocks.count { it.type == BlockType.Todo } to blocks.count { it.type == BlockType.Todo && it.checked }
-            }
-            if (todoTotal > 0) {
-                TodoProgress(todoDone, todoTotal, fg, trashed) { vm.clearDone() }
-            }
-            Spacer(Modifier.height(6.dp))
-            NoteBlockEditor(blocks, vm, registry, readOnly = trashed, fg = fg, modifier = Modifier.padding(top = 4.dp), reorder = reorder)
+            NoteEditorBlocksSlot(
+                vm = vm,
+                registry = registry,
+                readOnly = trashed,
+                fg = fg,
+                reorder = reorder,
+            )
             Spacer(Modifier.height(40.dp))
             }
         }
@@ -391,17 +385,17 @@ fun NoteEditorScreen(
             notice?.let { ErrorBar(it, vm::clearNotice) }
             if (!trashed) {
                 AnimatedVisibility(barOpen, enter = expandVertically(spring(stiffness = 500f)) + fadeIn(), exit = shrinkVertically() + fadeOut()) {
-                    BlockFormatBar(
-                        blocks = blocks, vm = vm, registry = registry, fg = fg,
-                        modifier = Modifier.padding(start = 12.dp, end = 16.dp, top = 4.dp, bottom = 10.dp),
+                    NoteEditorFormatBarSlot(
+                        vm = vm,
+                        registry = registry,
+                        fg = fg,
                         onCollapse = { barOpen = false },
-                    ) {
-                        Spacer(Modifier.width(8.dp))
-                        MicButton(listening = listening, level = vm.level) {
+                        listening = listening,
+                        onMicClick = {
                             tactile.perform(TactileType.LightTap)
                             if (listening) vm.stopDictation() else beginDictation()
-                        }
-                    }
+                        },
+                    )
                 }
                 AnimatedVisibility(!barOpen, enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
                     Row(Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -731,6 +725,55 @@ private fun TagDialog(onAdd: (String) -> Unit, onDismiss: () -> Unit) {
         confirmButton = { TextButton(onClick = { onAdd(text.text) }, enabled = text.text.isNotBlank()) { Text("Add") } },
         dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
     )
+}
+
+@Composable
+private fun NoteWordCountMenuItem(vm: NoteEditorViewModel, color: Color) {
+    val blocks by vm.blocks.collectAsStateWithLifecycle()
+    val words = remember(blocks) { NoteDoc.wordCount(blocks) }
+    DropdownMenuItem(
+        text = { Text("$words words \u00B7 ${max(1, words / 200)} min", color = color, style = MaterialTheme.typography.labelLarge) },
+        onClick = {}, enabled = false,
+    )
+}
+
+@Composable
+private fun NoteEditorBlocksSlot(
+    vm: NoteEditorViewModel,
+    registry: BlockFieldRegistry,
+    readOnly: Boolean,
+    fg: Color,
+    reorder: BlockReorder,
+) {
+    val blocks by vm.blocks.collectAsStateWithLifecycle()
+    val (todoTotal, todoDone) = remember(blocks) {
+        blocks.count { it.type == BlockType.Todo } to blocks.count { it.type == BlockType.Todo && it.checked }
+    }
+    if (todoTotal > 0) {
+        TodoProgress(todoDone, todoTotal, fg, readOnly) { vm.clearDone() }
+    }
+    Spacer(Modifier.height(6.dp))
+    NoteBlockEditor(blocks, vm, registry, readOnly = readOnly, fg = fg, modifier = Modifier.padding(top = 4.dp), reorder = reorder)
+}
+
+@Composable
+private fun NoteEditorFormatBarSlot(
+    vm: NoteEditorViewModel,
+    registry: BlockFieldRegistry,
+    fg: Color,
+    onCollapse: () -> Unit,
+    listening: Boolean,
+    onMicClick: () -> Unit,
+) {
+    val blocks by vm.blocks.collectAsStateWithLifecycle()
+    BlockFormatBar(
+        blocks = blocks, vm = vm, registry = registry, fg = fg,
+        modifier = Modifier.padding(start = 12.dp, end = 16.dp, top = 4.dp, bottom = 10.dp),
+        onCollapse = onCollapse,
+    ) {
+        Spacer(Modifier.width(8.dp))
+        MicButton(listening = listening, level = vm.level, onClick = onMicClick)
+    }
 }
 
 @Composable
