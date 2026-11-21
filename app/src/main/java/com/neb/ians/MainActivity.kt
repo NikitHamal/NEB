@@ -235,16 +235,20 @@ class MainActivity : ComponentActivity() {
 
     private fun handleIntent(intent: Intent) {
         val data = intent.data
-        if (data != null && data.toString().startsWith("nebians://auth-callback")) {
-            val error = data.getQueryParameter("error")
-            val authToken = data.getQueryParameter("authToken")
-            val githubCode = data.getQueryParameter("code")
+        if (data != null && data.scheme == "nebians" && data.host == "auth-callback") {
+            val error = data.getQueryParameter("error")?.take(120)
+            val authToken = data.getQueryParameter("authToken")?.trim()?.takeIf { SAFE_TOKEN_REGEX.matches(it) }
+            val githubCode = data.getQueryParameter("code")?.trim()?.takeIf { SAFE_CODE_REGEX.matches(it) }
             val isNewUser = data.getQueryParameter("isNewUser")?.toBoolean() ?: false
-            val username = data.getQueryParameter("username")
-            val userId = data.getQueryParameter("userId")
-            val email = data.getQueryParameter("email")
-            val displayName = data.getQueryParameter("displayName")
-            val photoUrl = data.getQueryParameter("photoUrl")
+            val username = data.getQueryParameter("username")?.take(64)
+            val userId = data.getQueryParameter("userId")?.take(64)
+            val email = data.getQueryParameter("email")?.take(160)
+            val displayName = data.getQueryParameter("displayName")?.take(120)
+            val photoUrl = data.getQueryParameter("photoUrl")?.take(512)
+
+            intent.data = null
+            intent.replaceExtras(Bundle())
+            setIntent(Intent())
 
             if (authToken != null) {
                 lifecycleScope.launch {
@@ -275,8 +279,6 @@ class MainActivity : ComponentActivity() {
                     this.nebToast("Sign-in error: $error", long = true)
                 }
             }
-
-            setIntent(Intent())
             return
         }
 
@@ -284,21 +286,19 @@ class MainActivity : ComponentActivity() {
         if (notificationDeepLink != null) {
             val tappedCampaign = intent.getStringExtra("campaign_id")
             val tappedNotification = notificationDeepLink.notificationId
-            kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
+            lifecycleScope.launch(kotlinx.coroutines.Dispatchers.IO) {
                 authRepository.reportPushOpened(tappedNotification, tappedCampaign)
             }
             DeepLinkBus.emit(notificationDeepLink)
+            intent.replaceExtras(Bundle())
             setIntent(Intent())
         }
     }
 
     private companion object {
-        /**
-         * Long enough to clear the splash, which runs about 1.5 seconds,
-         * with a margin. If the timeline in SplashScreen changes, change this
-         * with it.
-         */
         const val STARTUP_DEFERRAL_MS = 2_200L
         const val REQUEST_CODE_NOTIFICATIONS = 101
+        val SAFE_TOKEN_REGEX = Regex("^[A-Za-z0-9._\\-:]{10,512}$")
+        val SAFE_CODE_REGEX = Regex("^[A-Za-z0-9._\\-]{6,160}$")
     }
 }

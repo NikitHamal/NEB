@@ -69,7 +69,7 @@ object AppIntegrity {
     fun isRepackagedOrDebugPatched(context: Context): Boolean {
         if (BuildConfig.DEBUG) return false
         val f = flags(context)
-        return (f and (FLAG_PKG_TAMPER or FLAG_DEBUGGABLE_PATCH or FLAG_CERT_MISMATCH)) != 0
+        return (f and (FLAG_PKG_TAMPER or FLAG_DEBUGGABLE_PATCH or FLAG_CERT_MISMATCH or FLAG_PATCH_PATH)) != 0
     }
 
     /** Enforces release WebView lockdown even if `android:debuggable="true"` was patched into AndroidManifest.xml. */

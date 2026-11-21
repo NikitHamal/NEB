@@ -33,11 +33,14 @@ Our production environment runs on a shared cPanel LiteSpeed (`lswsgi`) server w
    - `<base-config cleartextTrafficPermitted="false">` trusts only `<certificates src="system" />`. User-installed MITM proxy root certificates (Charles, Burp, Fiddler, Reqable, HTTP Toolkit, mitmproxy) are rejected by the OS across all production connections.
 2. **Direct Socket Bypass (`Proxy.NO_PROXY` + `MODERN_TLS`)**:
    - In release builds (`!BuildConfig.DEBUG`), `ApiService`, `NEBiansApp` (Coil image loader), and `RealtimeClient` configure `OkHttpClient` with `.proxy(Proxy.NO_PROXY)` and `ConnectionSpec.MODERN_TLS`, bypassing any Wi-Fi or system HTTP proxy configured on the phone.
-3. **Cryptographic Per-Request Proof (`X-Neb-Proof`)**:
-   - `DeviceSignalInterceptor` attaches `X-Neb-Proof: t=<epoch>;n=<nonce>;s=<hmac>` signed with an obfuscated key over `method|path|ts|nonce|versionCode`.
-4. **Irreversible R8 + Native C++ Symbol Stripping**:
-   - `proguard-rules.pro` enables `-renamesourcefileattribute SourceFile`, `-optimizationpasses 5`, `-overloadaggressively`, `-allowaccessmodification`, and strips verbose/debug/info `android.util.Log` calls via `-assumenosideeffects`.
-   - `CMakeLists.txt` compiles `libneb_speech.so` with `-fvisibility=hidden -fvisibility-inlines-hidden -ffunction-sections -fdata-sections` and links with `-Wl,--gc-sections -Wl,--exclude-libs,ALL -Wl,-s`.
+3. **Native C++ Cryptographic Request Proof (`X-Neb-Proof`) & `AppIntegrity` Anti-Tamper Shield**:
+   - `DeviceSignalInterceptor` delegates `X-Neb-Proof: t=<epoch>;n=<nonce>[;f=<flags>];s=<hmac>` signing to native C++ `NativeSpeech.signProof` (`libneb_speech.so`) over `method|path|ts|nonce|versionCode` using a stack-reconstructed key.
+   - `AppIntegrity` + native `envFlags` detect `TracerPid > 0` (`/proc/self/status`), injected hooking libraries in `/proc/self/maps` (`frida`, `gum-js-loop`, `xposed`, `lspd`, `apkkiller`, `libmthook`), APK editor paths (`bin.mt.`, `npmanager`, `chelpus`, `luckypatch`), manifest `FLAG_DEBUGGABLE` tampering in release builds, package cloning, and signing certificate mismatches, locking down WebViews and refusing to expose cached tokens when repackaged.
+4. **Irreversible R8 (`-repackageclasses 'o'`) + `JNI_OnLoad` (`RegisterNatives`) Dynamic Symbol Hiding**:
+   - `proguard-rules.pro` enables `-renamesourcefileattribute SourceFile`, `-repackageclasses 'o'`, `-optimizationpasses 5`, `-overloadaggressively`, `-allowaccessmodification`, strips all `android.util.Log` (`v/d/i/w/e/wtf`) calls via `-assumenosideeffects`, and obfuscates all interceptors (`DeviceSignalInterceptor`, `WafChallengeInterceptor`, `RetryInterceptor`, `ApiErrorMapper`) and repositories.
+   - `speech_jni.cpp` registers all 20 JNI methods dynamically in `JNI_OnLoad` (`RegisterNatives`) with stack-XOR-decoded class/library names and `-DNDEBUG -fmerge-all-constants -fvisibility=hidden -Wl,-s`, leaving zero `Java_com_neb_ians_*` symbols in `.dynsym`.
+5. **Encrypted Token Storage & Cloud/D2D Backup Exclusion (`SecurePrefs`, `backup_rules.xml`, `data_extraction_rules.xml`)**:
+   - `SecurePrefs` never writes cleartext tokens to `nebians_secure_prefs_fallback.xml` when `EncryptedSharedPreferences` succeeds (and seals fallback tokens on broken OEM Keystores with `AES/GCM/NoPadding` keyed by signing-cert SHA-256 + package name). `backup_rules.xml` and `data_extraction_rules.xml` exclude auth, OAuth, crash, and DataStore files from cloud backup and device transfer.
 
 ---
 

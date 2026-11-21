@@ -44,13 +44,10 @@ data class ApiAnalyticsStanding(
     val score: Int = 0,
     val level: Int = 1,
     val levelName: String = "",
-    val levelFloor: Int = 0,
     val nextLevelAt: Int? = null,
     val nextLevelName: String = "",
-    val pointsToNextLevel: Int = 0,
     val progress: Int = 0,
-    val topPercent: Int? = null,
-    val memberSince: Long = 0
+    val topPercent: Int? = null
 )
 
 @Serializable
@@ -58,19 +55,12 @@ data class ApiAnalyticsStats(
     val posts: Int = 0,
     val replies: Int = 0,
     val postViews: Int = 0,
-    val postLikesReceived: Int = 0,
-    val postRepliesReceived: Int = 0,
     val resources: Int = 0,
     val resourceViews: Int = 0,
-    val resourceLikesReceived: Int = 0,
-    val resourceCommentsReceived: Int = 0,
-    val resourceCommentsMade: Int = 0,
     val followers: Int = 0,
     val following: Int = 0,
     val bookmarks: Int = 0,
-    val notificationsUnread: Int = 0,
     val recentPosts: Int = 0,
-    val recentReplies: Int = 0,
     val contributionScore: Int = 0,
     val likesGiven: Int = 0
 )
@@ -106,7 +96,6 @@ data class ApiAnalyticsTrendDay(
 data class ApiAnalyticsStreak(
     val current: Int = 0,
     val longest: Int = 0,
-    val activeToday: Boolean = false,
     val atRisk: Boolean = false,
     val activeDays30: Int = 0
 )
@@ -185,8 +174,7 @@ data class ApiAnalyticsSaved(
 @Serializable
 data class ApiAnalyticsLibrary(
     val saved: ApiAnalyticsSaved = ApiAnalyticsSaved(),
-    val likesGiven: Int = 0,
-    val resourceLikesGiven: Int = 0
+    val likesGiven: Int = 0
 )
 
 @Serializable

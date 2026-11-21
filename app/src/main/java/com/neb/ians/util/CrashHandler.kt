@@ -14,9 +14,9 @@ class CrashHandler private constructor(private val context: Context) : Thread.Un
 
     override fun uncaughtException(thread: Thread, throwable: Throwable) {
         val launched = runCatching {
-            val stackTrace = getStackTraceString(throwable).take(32_000)
+            val stackTrace = redactSensitive(getStackTraceString(throwable)).take(32_000)
             val crashType = throwable.javaClass.simpleName.ifBlank { "Crash" }
-            val crashMessage = (throwable.localizedMessage ?: "Unknown error").take(2_000)
+            val crashMessage = redactSensitive(throwable.localizedMessage ?: "Unknown error").take(2_000)
             val prefs = context.getSharedPreferences("nebians_crash_logs", Context.MODE_PRIVATE)
             prefs.edit()
                 .putString("last_crash_log", stackTrace)
@@ -49,7 +49,14 @@ class CrashHandler private constructor(private val context: Context) : Thread.Un
         return sw.toString()
     }
 
+    private fun redactSensitive(input: String): String =
+        SENSITIVE_CRASH_REGEX.replace(input, "$1[REDACTED]")
+
     companion object {
+        private val SENSITIVE_CRASH_REGEX = Regex(
+            "(?i)(bearer\\s+|authtoken=|auth_token=|sessionid=|csrftoken=)[A-Za-z0-9._\\-:%]+"
+        )
+
         fun init(context: Context) {
             val handler = CrashHandler(context.applicationContext)
             Thread.setDefaultUncaughtExceptionHandler(handler)

@@ -21,9 +21,6 @@ import kotlinx.coroutines.delay
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 
-/** Pixel art plays at a pixel-art frame rate: smooth enough, and a third of the work of 60 fps. */
-private const val PIXEL_FRAME_MS = 1000L / 24
-
 /**
  * The loops below sleep between frames instead of waking on every vsync (60 to 120 times a
  * second, mostly to find nothing to draw), and wake this much early so the next vsync shows it.

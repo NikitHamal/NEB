@@ -27,7 +27,6 @@ data class PostLook(
     fun orNull(): PostLook? = if (isPlain) null else this
 
     companion object {
-        const val FONT_DEFAULT = 0
         const val FONT_SERIF = 1
         const val FONT_MONO = 2
         val fontLabels = listOf("Default", "Serif", "Mono")

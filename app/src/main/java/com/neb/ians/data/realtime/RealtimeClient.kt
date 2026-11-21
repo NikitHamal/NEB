@@ -66,28 +66,22 @@ class RealtimeClient @Inject constructor(
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val json = Json { ignoreUnknownKeys = true }
 
-    private val wsClient = OkHttpClient.Builder()
-        .connectionPool(ApiService.sharedPool)
-        .apply {
-            if (!com.neb.ians.BuildConfig.DEBUG) {
-                proxy(java.net.Proxy.NO_PROXY)
+    private val streamClient: OkHttpClient by lazy(LazyThreadSafetyMode.PUBLICATION) {
+        OkHttpClient.Builder()
+            .connectionPool(ApiService.sharedPool)
+            .apply {
+                if (!com.neb.ians.BuildConfig.DEBUG) {
+                    proxy(java.net.Proxy.NO_PROXY)
+                    connectionSpecs(listOf(okhttp3.ConnectionSpec.MODERN_TLS, okhttp3.ConnectionSpec.COMPATIBLE_TLS))
+                }
             }
-        }
-        .connectTimeout(10, TimeUnit.SECONDS)
-        .readTimeout(0, TimeUnit.MILLISECONDS) // streaming
-        .pingInterval(25, TimeUnit.SECONDS)
-        .build()
-
-    private val sseClient = OkHttpClient.Builder()
-        .connectionPool(ApiService.sharedPool)
-        .apply {
-            if (!com.neb.ians.BuildConfig.DEBUG) {
-                proxy(java.net.Proxy.NO_PROXY)
-            }
-        }
-        .connectTimeout(10, TimeUnit.SECONDS)
-        .readTimeout(0, TimeUnit.MILLISECONDS) // streaming
-        .build()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(0, TimeUnit.MILLISECONDS) // streaming
+            .pingInterval(25, TimeUnit.SECONDS)
+            .build()
+    }
+    private val wsClient: OkHttpClient get() = streamClient
+    private val sseClient: OkHttpClient get() = streamClient
 
     private var webSocket: WebSocket? = null
     @Volatile private var sseCall: Call? = null

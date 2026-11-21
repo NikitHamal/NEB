@@ -8,6 +8,8 @@ import com.neb.ians.data.repository.AuthRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,9 +23,16 @@ class NEBiansFCMService : FirebaseMessagingService() {
     @Inject
     lateinit var authRepository: AuthRepository
 
+    private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+    override fun onDestroy() {
+        serviceScope.cancel()
+        super.onDestroy()
+    }
+
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        CoroutineScope(Dispatchers.IO).launch {
+        serviceScope.launch {
             try {
                 val userToken = authRepository.tokenFlow.first()
                 val bearer = userToken?.let { "Bearer $it" }

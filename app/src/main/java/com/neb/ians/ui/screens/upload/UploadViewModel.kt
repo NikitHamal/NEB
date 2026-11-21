@@ -149,13 +149,17 @@ class UploadViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(UploadFormState())
     val uiState: StateFlow<UploadFormState> = _uiState.asStateFlow()
 
+    @Volatile
+    private var commissionLoaded = false
+
     init {
         if (editResourceId != null) loadEditResource(editResourceId) else restoreDefaults()
-        loadCommission()
     }
 
-    private fun loadCommission() {
-        viewModelScope.launch {
+    private fun ensureCommissionLoaded() {
+        if (commissionLoaded) return
+        commissionLoaded = true
+        viewModelScope.launch(Dispatchers.IO) {
             runCatching { apiService.getPaymentsConfig().commissionPercent.toDoubleOrNull() ?: 2.5 }
                 .onSuccess { percent ->
                     _uiState.update { it.copy(commissionPercent = percent) }
@@ -243,6 +247,7 @@ class UploadViewModel @Inject constructor(
                             thumbnailDirty = false
                         )
                     }
+                    if (resource.isPaid) ensureCommissionLoaded()
                 }
                 .onFailure { e ->
                     _uiState.update {
@@ -338,6 +343,7 @@ class UploadViewModel @Inject constructor(
 
     fun updateIsPaid(isPaid: Boolean) {
         _uiState.update { it.copy(isPaid = isPaid) }
+        if (isPaid) ensureCommissionLoaded()
     }
 
     fun updatePrice(price: String) {

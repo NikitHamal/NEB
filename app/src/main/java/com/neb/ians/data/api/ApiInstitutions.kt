@@ -27,7 +27,6 @@ data class ApiInstRow(
     val feeMin: Long? = null,
     val feeMax: Long? = null,
     val teachers: Int? = null,
-    val studentsTotal: Int? = null,
     val admissionOpen: Boolean = false,
     val facilities: List<String> = emptyList()
 )

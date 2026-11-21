@@ -62,13 +62,9 @@ class CacheBus @Inject constructor() {
         const val PREFIX_POST = "post|"
         const val PREFIX_POST_REPLIES = "post-replies|"
         const val PREFIX_RESOURCES = "resources|"
-        const val PREFIX_RESOURCE = "resource|"
-        const val PREFIX_RESOURCE_COMMENTS = "resource-comments|"
         const val PREFIX_NEWS_LIST = "news|"
         const val PREFIX_NEWS_DETAIL = "news-detail|"
         const val PREFIX_NEWS_COMMENTS = "news-comments|"
         const val PREFIX_PROFILE = "profile|"
-        const val PREFIX_HOME = "home|"
-        const val PREFIX_SUGGESTED = "suggested-feed|"
     }
 }

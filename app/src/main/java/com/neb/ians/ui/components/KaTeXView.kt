@@ -111,7 +111,6 @@ fun KaTeXMathView(
         return
     }
 
-    val context = LocalContext.current
     val density = LocalDensity.current
     var contentHeightPx by remember(content, fontSizeSp) { mutableStateOf<Int?>(null) }
 

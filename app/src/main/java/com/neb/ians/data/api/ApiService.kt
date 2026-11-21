@@ -230,8 +230,6 @@ data class InlineImageUploadResponse(
     val height: Int = 0,
     val error: String? = null
 ) {
-    /** Deterministic media path for the full-size image (mirrors web image_url()). */
-    val fullUrl: String get() = if (url.isNotBlank()) url else "/media/content_images/$id.webp"
     val thumbnailUrl: String get() = if (thumbUrl.isNotBlank()) thumbUrl else "/media/content_images/${id}t.webp"
 }
 
@@ -286,8 +284,7 @@ data class NotificationPrefsRequest(@SerialName("new_resources") val newResource
 @Serializable
 data class NotificationPrefsResponse(
     val newResources: Boolean = true,
-    val devices: Int = 0,
-    val hasSubjects: Boolean = false
+    val devices: Int = 0
 )
 
 @Serializable
@@ -1087,8 +1084,6 @@ data class ApiResourceRequest(
     val upvoteCount: Int = 0,
     val isUpvoted: Boolean = false,
     val requestedByName: String? = null,
-    val requestedByPhoto: String? = null,
-    val requestedByUsername: String? = null,
     @SerialName("created_at") val createdAt: Long = 0L
 )
 
@@ -2195,22 +2190,7 @@ data class ApiInteractiveLessonSummary(
 
 @Serializable
 data class ApiInteractiveLessonDetailResponse(
-    val course: ApiInteractiveLessonCourseInfo = ApiInteractiveLessonCourseInfo(),
-    val lesson: ApiInteractiveLessonFull = ApiInteractiveLessonFull(),
-    val prevLesson: ApiInteractiveLessonNavInfo? = null,
-    val nextLesson: ApiInteractiveLessonNavInfo? = null,
-    val lessonIndex: Int = 0,
-    val totalLessons: Int = 0
-)
-
-@Serializable
-data class ApiInteractiveLessonCourseInfo(
-    val slug: String = "",
-    val title: String = "",
-    val category: String = "",
-    val icon: String = "",
-    val color: String = "",
-    val lessonCount: Int = 0
+    val lesson: ApiInteractiveLessonFull = ApiInteractiveLessonFull()
 )
 
 @Serializable
@@ -2240,15 +2220,6 @@ data class ApiInteractiveQuizQuestion(
     val options: List<String> = emptyList(),
     val answer: Int = 0,
     val explain: String = ""
-)
-
-@Serializable
-data class ApiInteractiveLessonNavInfo(
-    val slug: String = "",
-    val title: String = "",
-    val icon: String = "",
-    val minutes: Int = 0,
-    val simType: String = ""
 )
 
 @Serializable
