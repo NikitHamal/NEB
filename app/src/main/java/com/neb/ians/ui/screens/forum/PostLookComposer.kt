@@ -48,18 +48,18 @@ internal enum class LookSheet { Style, Icon, Cover }
  */
 @Composable
 internal fun ComposerLookHeader(
-    state: CreatePostUiState,
+    look: PostLook,
+    coverUri: android.net.Uri?,
     onSheet: (LookSheet) -> Unit,
     viewModel: CreatePostViewModel,
 ) {
-    val look = state.look
-    val hasPhoto = state.coverUri != null || look.photo > 0
+    val hasPhoto = coverUri != null || look.photo > 0
     val hasCover = hasPhoto || look.cover > 0
     val hasIcon = look.icon.isNotEmpty()
     Column(Modifier.fillMaxWidth()) {
         if (hasCover || hasIcon) {
             Box(Modifier.fillMaxWidth()) {
-                PostLookCover(look, coverHeight = 132.dp, iconSize = 60.dp, animate = true, pendingPhoto = state.coverUri)
+                PostLookCover(look, coverHeight = 132.dp, iconSize = 60.dp, animate = true, pendingPhoto = coverUri)
             }
         }
         Row(

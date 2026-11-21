@@ -133,7 +133,8 @@ fun CreatePostScreen(
             } else {
                 Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                     ComposerFormatRow(
-                        state = uiState,
+                        showPreview = uiState.showPreview,
+                        isSubmitting = uiState.isSubmitting,
                         viewModel = viewModel,
                         insertImageEnabled = !uiState.showPreview,
                         onInlineImage = {
@@ -149,7 +150,7 @@ fun CreatePostScreen(
                         .notePaper(uiState.look.paper, scheme.onSurface)
                         .verticalScroll(rememberScrollState())
                 ) {
-                ComposerLookHeader(state = uiState, onSheet = { lookSheet = it }, viewModel = viewModel)
+                ComposerLookHeader(look = uiState.look, coverUri = uiState.coverUri, onSheet = { lookSheet = it }, viewModel = viewModel)
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -162,16 +163,23 @@ fun CreatePostScreen(
                         enabled = !uiState.isSubmitting
                     )
                     ComposerEditor(
-                        state = uiState,
+                        showPreview = uiState.showPreview,
+                        isSubmitting = uiState.isSubmitting,
+                        previewMarkdown = if (uiState.showPreview) uiState.content.text else "",
+                        mentionSuggestions = uiState.mentionSuggestions,
                         viewModel = viewModel,
                         onImageClick = { urls, at -> zoomGallery = urls to at }
                     )
                     if (!isEditing && uiState.pollEnabled) {
                         PostPollPanel(state = uiState, viewModel = viewModel)
                     }
-                    ComposerImageStrip(state = uiState, viewModel = viewModel)
+                    ComposerImageStrip(
+                        visibleExistingImages = uiState.visibleExistingImages,
+                        images = uiState.images,
+                        viewModel = viewModel
+                    )
                     if (!isEditing) {
-                        ComposerAttachmentList(state = uiState, viewModel = viewModel)
+                        ComposerAttachmentList(mediaAttachments = uiState.mediaAttachments, viewModel = viewModel)
                     }
                     val message = uiState.error
                         ?: blocker?.takeIf { uiState.content.text.isNotBlank() }

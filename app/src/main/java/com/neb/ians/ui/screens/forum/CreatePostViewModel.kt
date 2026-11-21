@@ -88,8 +88,10 @@ data class CreatePostUiState(
     val effectiveCategory: String
         get() = if (isCustomCategory) customCategory.trim() else selectedCategory
 
-    val visibleExistingImages: List<ExistingPostImageDraft>
-        get() = existingImages.filterNot { it.id in removedExistingImageIds }.sortedBy { it.order }
+    val visibleExistingImages: List<ExistingPostImageDraft> by lazy(LazyThreadSafetyMode.PUBLICATION) {
+        if (existingImages.isEmpty()) emptyList()
+        else existingImages.filterNot { it.id in removedExistingImageIds }.sortedBy { it.order }
+    }
 
     val activeImageCount: Int
         get() = visibleExistingImages.size + images.size

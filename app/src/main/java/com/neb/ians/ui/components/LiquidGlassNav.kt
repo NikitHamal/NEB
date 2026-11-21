@@ -26,10 +26,8 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.toPath
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -41,8 +39,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -55,8 +51,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neb.ians.R
-import com.neb.ians.ui.theme.nebFastSpatialSpec
-import androidx.compose.material.icons.rounded.Close
 import android.os.Build
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.Stable
@@ -442,22 +436,22 @@ fun Modifier.glassSource(backdrop: GlassBackdrop, active: Boolean = true): Modif
 @Composable
 fun Modifier.liquidGlass(backdrop: GlassBackdrop?, shape: Shape, blur: Dp = 20.dp): Modifier {
     val scheme = MaterialTheme.colorScheme
+    val canBlur = backdrop != null && backdrop.enabled
+    if (!canBlur) {
+        return this
+            .clip(shape)
+            .background(scheme.surface.copy(alpha = 0.95f), shape)
+            .border(1.dp, scheme.outlineVariant.copy(alpha = 0.85f), shape)
+    }
     val dark = scheme.surface.luminanceIsDark()
     val blurLayer = rememberGraphicsLayer()
     val blurPx = with(LocalDensity.current) { blur.toPx() }
-    val canBlur = backdrop != null && backdrop.enabled
     val blurEffect = remember(blurPx) { BlurEffect(blurPx, blurPx, TileMode.Clamp) }
     SideEffect {
-        if (canBlur) blurLayer.renderEffect = blurEffect
+        blurLayer.renderEffect = blurEffect
     }
     var origin by remember { mutableStateOf(Offset.Zero) }
-    val tint = if (canBlur) scheme.surface.copy(alpha = if (dark) 0.42f else 0.46f) else scheme.surface.copy(alpha = 0.95f)
-    val sheen = remember(dark) {
-        Brush.verticalGradient(
-            0f to Color.White.copy(alpha = if (dark) 0.10f else 0.60f),
-            0.55f to Color.Transparent
-        )
-    }
+    val tint = scheme.surface.copy(alpha = if (dark) 0.50f else 0.56f)
     return this
         .onGloballyPositioned {
             val pos = it.positionInRoot()
@@ -465,7 +459,7 @@ fun Modifier.liquidGlass(backdrop: GlassBackdrop?, shape: Shape, blur: Dp = 20.d
         }
         .clip(shape)
         .drawBehind {
-            if (canBlur && backdrop != null && backdrop.isBarVisible()) {
+            if (backdrop != null && backdrop.isBarVisible()) {
                 blurLayer.record(this, layoutDirection, IntSize(size.width.toInt(), size.height.toInt())) {
                     val d = origin - backdrop.origin
                     translate(-d.x, -d.y) { drawLayer(backdrop.layer) }
@@ -473,7 +467,6 @@ fun Modifier.liquidGlass(backdrop: GlassBackdrop?, shape: Shape, blur: Dp = 20.d
                 drawLayer(blurLayer)
             }
             drawRect(tint)
-            drawRect(sheen)
         }
         .border(1.dp, scheme.outlineVariant.copy(alpha = 0.85f), shape)
 }

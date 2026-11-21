@@ -369,12 +369,9 @@ fun ResourceDetailScreen(
         }
 
         if (isFullscreen) {
-            val mediaState by mediaViewModel.uiState.collectAsStateWithLifecycle()
             FullscreenVideoOverlay(
                 viewModel = mediaViewModel,
-                uiState = mediaState,
-                onExit = ::exitFullscreen,
-                subjectColor = MaterialTheme.colorScheme.onSurface
+                onExit = ::exitFullscreen
             )
         }
 
@@ -1077,10 +1074,9 @@ private enum class FsGestureType { BRIGHTNESS, VOLUME, SEEK }
 @Composable
 private fun FullscreenVideoOverlay(
     viewModel: MediaPlayerViewModel,
-    uiState: MediaPlayerUiState,
-    onExit: () -> Unit,
-    subjectColor: Color
+    onExit: () -> Unit
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val player = viewModel.getPlayer()
     var showControls by remember { mutableStateOf(true) }
     var gestureType by remember { mutableStateOf<FsGestureType?>(null) }
@@ -1094,12 +1090,6 @@ private fun FullscreenVideoOverlay(
     var screenWidth by remember { mutableFloatStateOf(1f) }
     var speedExpanded by remember { mutableStateOf(false) }
     val activity = LocalContext.current as? android.app.Activity
-
-    val aspectRatio = if (uiState.videoWidth > 0 && uiState.videoHeight > 0) {
-        uiState.videoWidth.toFloat() / uiState.videoHeight.toFloat()
-    } else {
-        16f / 9f
-    }
 
     val progress by remember(uiState.currentTimeMs, uiState.durationMs) {
         derivedStateOf {

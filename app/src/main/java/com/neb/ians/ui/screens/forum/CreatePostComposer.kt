@@ -220,16 +220,19 @@ fun ComposerTitleField(
 /** The writing area, or what it will look like once posted. No frame of its own. */
 @Composable
 fun ComposerEditor(
-    state: CreatePostUiState,
+    showPreview: Boolean,
+    isSubmitting: Boolean,
+    previewMarkdown: String,
+    mentionSuggestions: List<com.neb.ians.data.api.ApiUserSearchResult>,
     viewModel: CreatePostViewModel,
     onImageClick: (urls: List<String>, index: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val editor = viewModel.editor
     Column(modifier = modifier.fillMaxWidth()) {
-        if (state.showPreview) {
+        if (showPreview) {
             Box(modifier = Modifier.heightIn(min = 200.dp)) {
-                if (state.content.text.isBlank()) {
+                if (previewMarkdown.isBlank()) {
                     Text(
                         text = "Nothing to preview yet.",
                         style = MaterialTheme.typography.bodyMedium,
@@ -238,7 +241,7 @@ fun ComposerEditor(
                 } else {
                     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                         MarkdownText(
-                            markdown = remember(state.content.text) { InlineImageTokens.REGEX.replace(state.content.text) { if (it.groupValues[1].startsWith("u")) "" else it.value } },
+                            markdown = remember(previewMarkdown) { InlineImageTokens.REGEX.replace(previewMarkdown) { if (it.groupValues[1].startsWith("u")) "" else it.value } },
                             onInlineImageClick = { url -> onImageClick(listOf(url), 0) }
                         )
                         val pending = editor.pendingKeys().mapNotNull { editor.uris[it] }
@@ -267,12 +270,12 @@ fun ComposerEditor(
                 textStyle = MaterialTheme.typography.bodyLarge,
                 minLines = 8,
                 maxLines = 60,
-                enabled = !state.isSubmitting,
+                enabled = !isSubmitting,
                 onImageClick = { index -> onImageClick(editor.imageUrls(), index) },
                 modifier = Modifier.fillMaxWidth()
             )
             MentionSuggestions(
-                users = state.mentionSuggestions,
+                users = mentionSuggestions,
                 onSelect = viewModel::selectMention
             )
         }
@@ -282,24 +285,25 @@ fun ComposerEditor(
 /** The pictures that ride along with the post, as the pictures themselves. */
 @Composable
 fun ComposerImageStrip(
-    state: CreatePostUiState,
+    visibleExistingImages: List<ExistingPostImageDraft>,
+    images: List<android.net.Uri>,
     viewModel: CreatePostViewModel,
     modifier: Modifier = Modifier
 ) {
-    if (state.activeImageCount == 0) return
+    if (visibleExistingImages.isEmpty() && images.isEmpty()) return
     Row(
         modifier = modifier
             .fillMaxWidth()
             .nebHorizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        state.visibleExistingImages.forEach { image ->
+        visibleExistingImages.forEach { image ->
             ImageTile(
                 model = resolveMediaUrl(image.imageUrl),
                 onRemove = { viewModel.removeExistingImage(image.id) }
             )
         }
-        state.images.forEach { uri ->
+        images.forEach { uri ->
             ImageTile(model = uri, onRemove = { viewModel.removeImage(uri) })
         }
     }
@@ -341,13 +345,13 @@ private fun ImageTile(model: Any?, onRemove: () -> Unit) {
 /** Video, audio and documents that were picked, one line each. */
 @Composable
 fun ComposerAttachmentList(
-    state: CreatePostUiState,
+    mediaAttachments: List<PendingForumAttachment>,
     viewModel: CreatePostViewModel,
     modifier: Modifier = Modifier
 ) {
-    if (state.mediaAttachments.isEmpty()) return
+    if (mediaAttachments.isEmpty()) return
     Column(modifier = modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        state.mediaAttachments.forEach { attachment ->
+        mediaAttachments.forEach { attachment ->
             ForumAttachmentChip(
                 attachment = attachment,
                 onRemove = { viewModel.removeMediaAttachment(attachment.localId) },

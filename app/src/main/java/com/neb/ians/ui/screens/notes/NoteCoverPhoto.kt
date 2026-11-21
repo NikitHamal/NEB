@@ -26,7 +26,7 @@ internal fun trimNoteCoverBitmapCache() {
 /** A gallery cover. Decoded off the main thread with bounded dimensions and LRU caching. */
 @Composable
 fun NoteCoverPhoto(file: File, modifier: Modifier = Modifier, light: Boolean = false) {
-    val cacheKey = "${file.path}:${file.lastModified()}:$light"
+    val cacheKey = "${file.path}:$light"
     val cached = androidx.compose.runtime.remember(cacheKey) { synchronized(noteCoverBitmapCache) { noteCoverBitmapCache.get(cacheKey) } }
     val bmp by produceState<ImageBitmap?>(cached, cacheKey) {
         if (value != null) return@produceState

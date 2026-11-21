@@ -522,56 +522,60 @@ class UploadViewModel @Inject constructor(
             }
             return
         }
-        if (document.length() > UploadOptions.MAX_FILE_SIZE) {
-            document.delete()
+        val docLen = withContext(Dispatchers.IO) { document.length() }
+        if (docLen > UploadOptions.MAX_FILE_SIZE) {
+            withContext(Dispatchers.IO) { document.delete() }
             _uiState.update {
                 it.copy(
                     isSubmitting = false,
-                    submitError = "That document came to ${document.length() / (1024 * 1024)} MB, over the 50 MB limit. " +
+                    submitError = "That document came to ${docLen / (1024 * 1024)} MB, over the 50 MB limit. " +
                         "Split it into two uploads."
                 )
             }
             return
         }
 
-        val filePart = MultipartBody.Part.createFormData(
-            "file",
-            document.name,
-            document.asRequestBody("application/pdf".toMediaTypeOrNull())
-        )
-        val thumbnailPart = when {
-            state.thumbnailUri != null -> UploadMedia.buildThumbnailPart(context, state.thumbnailUri, "cover")
-            state.thumbnailUrl.isBlank() -> UploadMedia.buildThumbnailPart(context, files.first().uri, "cover")
-            else -> null
-        }
-        _uiState.update { it.copy(uploadProgress = 0.6f) }
+        val response = try {
+            val filePart = MultipartBody.Part.createFormData(
+                "file",
+                document.name,
+                document.asRequestBody("application/pdf".toMediaTypeOrNull())
+            )
+            val thumbnailPart = when {
+                state.thumbnailUri != null -> UploadMedia.buildThumbnailPart(context, state.thumbnailUri, "cover")
+                state.thumbnailUrl.isBlank() -> UploadMedia.buildThumbnailPart(context, files.first().uri, "cover")
+                else -> null
+            }
+            _uiState.update { it.copy(uploadProgress = 0.6f) }
 
-        val response = apiService.uploadResource(
-            bearerToken = bearerToken,
-            file = filePart,
-            thumbnail = thumbnailPart,
-            title = state.title.toRequestBody(TEXT_PLAIN),
-            subject = state.subject.toRequestBody(TEXT_PLAIN),
-            description = state.description.toRequestBody(TEXT_PLAIN),
-            gradeLevel = state.gradeLevel.toRequestBody(TEXT_PLAIN),
-            type = state.type.ifBlank { "Note" }.toRequestBody(TEXT_PLAIN),
-            examType = state.examType.toRequestBody(TEXT_PLAIN),
-            faculty = state.faculty.toRequestBody(TEXT_PLAIN),
-            program = state.program.toRequestBody(TEXT_PLAIN),
-            year = state.year.toRequestBody(TEXT_PLAIN),
-            school = state.school.toRequestBody(TEXT_PLAIN),
-            pradesh = state.pradesh.toRequestBody(TEXT_PLAIN),
-            district = state.district.toRequestBody(TEXT_PLAIN),
-            tags = state.tags.toRequestBody(TEXT_PLAIN),
-            fileUrl = null,
-            thumbnailUrl = state.thumbnailUrl.toRequestBody(TEXT_PLAIN),
-            authorName = state.authorName.toRequestBody(TEXT_PLAIN),
-            sourceLabel = state.sourceLabel.toRequestBody(TEXT_PLAIN),
-            sourceUrl = state.sourceUrl.toRequestBody(TEXT_PLAIN),
-            isPaid = (if (state.isPaid) "true" else "false").toRequestBody(TEXT_PLAIN),
-            price = (state.price.ifBlank { "0" }).toRequestBody(TEXT_PLAIN)
-        )
-        document.delete()
+            apiService.uploadResource(
+                bearerToken = bearerToken,
+                file = filePart,
+                thumbnail = thumbnailPart,
+                title = state.title.toRequestBody(TEXT_PLAIN),
+                subject = state.subject.toRequestBody(TEXT_PLAIN),
+                description = state.description.toRequestBody(TEXT_PLAIN),
+                gradeLevel = state.gradeLevel.toRequestBody(TEXT_PLAIN),
+                type = state.type.ifBlank { "Note" }.toRequestBody(TEXT_PLAIN),
+                examType = state.examType.toRequestBody(TEXT_PLAIN),
+                faculty = state.faculty.toRequestBody(TEXT_PLAIN),
+                program = state.program.toRequestBody(TEXT_PLAIN),
+                year = state.year.toRequestBody(TEXT_PLAIN),
+                school = state.school.toRequestBody(TEXT_PLAIN),
+                pradesh = state.pradesh.toRequestBody(TEXT_PLAIN),
+                district = state.district.toRequestBody(TEXT_PLAIN),
+                tags = state.tags.toRequestBody(TEXT_PLAIN),
+                fileUrl = null,
+                thumbnailUrl = state.thumbnailUrl.toRequestBody(TEXT_PLAIN),
+                authorName = state.authorName.toRequestBody(TEXT_PLAIN),
+                sourceLabel = state.sourceLabel.toRequestBody(TEXT_PLAIN),
+                sourceUrl = state.sourceUrl.toRequestBody(TEXT_PLAIN),
+                isPaid = (if (state.isPaid) "true" else "false").toRequestBody(TEXT_PLAIN),
+                price = (state.price.ifBlank { "0" }).toRequestBody(TEXT_PLAIN)
+            )
+        } finally {
+            withContext(Dispatchers.IO) { document.delete() }
+        }
 
         if (response.error != null) {
             _uiState.update { it.copy(isSubmitting = false, submitError = response.error) }

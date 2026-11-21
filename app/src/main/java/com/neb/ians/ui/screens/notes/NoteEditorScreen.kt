@@ -281,11 +281,16 @@ fun NoteEditorScreen(
                         MenuItem("Copy note text", Icons.Outlined.ContentCopy) {
                             menu = false
                             val cm = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as? android.content.ClipboardManager
-                            cm?.setPrimaryClip(android.content.ClipData.newPlainText("Note", vm.shareText()))
+                            vm.buildShareText { text ->
+                                cm?.setPrimaryClip(android.content.ClipData.newPlainText("Note", text))
+                            }
                         }
                         MenuItem("Appearance", Icons.Outlined.Palette) { menu = false; toneSheet = true }
                         MenuItem("Add tag", Icons.Outlined.Add) { menu = false; tagDialog = true }
-                        MenuItem("Share", Icons.Outlined.Share) { menu = false; shareText(context, vm.shareText()) }
+                        MenuItem("Share", Icons.Outlined.Share) {
+                            menu = false
+                            vm.buildShareText { text -> shareText(context, text) }
+                        }
                         MenuItem("Duplicate", Icons.Outlined.ContentCopy) { menu = false; vm.duplicate(onOpenNote) }
                         MenuItem(if (archived) "Unarchive" else "Archive", if (archived) Icons.Outlined.Unarchive else Icons.Outlined.Archive) {
                             menu = false; vm.toggleArchive(); if (!archived) leave()

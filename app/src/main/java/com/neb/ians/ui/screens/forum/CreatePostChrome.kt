@@ -181,7 +181,8 @@ private fun ChromeButton(@DrawableRes icon: Int, description: String, onClick: (
 /** The markdown row, scrolling sideways, with Write and Preview pinned at its end. */
 @Composable
 fun ComposerFormatRow(
-    state: CreatePostUiState,
+    showPreview: Boolean,
+    isSubmitting: Boolean,
     viewModel: CreatePostViewModel,
     insertImageEnabled: Boolean,
     onInlineImage: () -> Unit,
@@ -189,12 +190,12 @@ fun ComposerFormatRow(
 ) {
     val scheme = MaterialTheme.colorScheme
     var open by androidx.compose.runtime.saveable.rememberSaveable { androidx.compose.runtime.mutableStateOf(true) }
-    val showTools = open && !state.showPreview
+    val showTools = open && !showPreview
     Row(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        if (!state.showPreview) {
+        if (!showPreview) {
             // Hide the formatting row to write on a clean page; the same button brings it back.
             Box(
                 modifier = Modifier
@@ -230,13 +231,13 @@ fun ComposerFormatRow(
                     FormatTool(
                         icon = NebIcons.Image,
                         description = "Insert picture in text",
-                        enabled = insertImageEnabled && !state.isSubmitting,
+                        enabled = insertImageEnabled && !isSubmitting,
                         onClick = onInlineImage
                     )
                 }
             }
         }
-        ModeSwitch(preview = state.showPreview, onChange = viewModel::togglePreview, modifier = Modifier.padding(start = 8.dp))
+        ModeSwitch(preview = showPreview, onChange = viewModel::togglePreview, modifier = Modifier.padding(start = 8.dp))
     }
 }
 

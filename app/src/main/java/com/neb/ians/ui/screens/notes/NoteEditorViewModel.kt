@@ -871,6 +871,18 @@ class NoteEditorViewModel @Inject constructor(
         return if (t.isEmpty()) b else if (b.isEmpty()) t else "$t\n\n$b"
     }
 
+    fun buildShareText(onReady: (String) -> Unit) {
+        val t = _title.value.trim()
+        val snap = _blocks.value
+        viewModelScope.launch {
+            val text = withContext(Dispatchers.Default) {
+                val b = NoteDoc.toMarkdown(snap).trim()
+                if (t.isEmpty()) b else if (b.isEmpty()) t else "$t\n\n$b"
+            }
+            onReady(text)
+        }
+    }
+
     // ---- voice
 
     fun startDictation() {

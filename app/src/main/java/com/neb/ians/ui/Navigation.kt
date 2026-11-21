@@ -249,6 +249,8 @@ val glassNavItems = listOf(
     ),
 )
 
+private val GLASS_NAV_ROUTES = setOf(Screen.Home.route, "library", "notes")
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NEBiansNavHost(
@@ -392,7 +394,7 @@ fun NEBiansNavHost(
     LaunchedEffect(currentRoute) {
         if (currentRoute != "library") hideLibraryDetailChrome = false
     }
-    val showBottomBar = currentRoute in glassNavItems.map { it.route } && !hideLibraryDetailChrome
+    val showBottomBar = currentRoute in GLASS_NAV_ROUTES && !hideLibraryDetailChrome
     LaunchedEffect(currentRoute, playerResourceId, playerStarted) {
         showMiniPlayer = when {
             currentRoute == Screen.ResourceDetail.route -> false
@@ -471,12 +473,15 @@ fun NEBiansNavHost(
         glassBackdrop.isBarVisible = { showBottomBar && (showCreateMenu || navScroll.hidden < 0.05f) }
     }
     LaunchedEffect(currentRoute) { navScroll.show() }
+    val claimInstitution = remember(navController) { { slug: String -> navController.navigate(Screen.InstitutionClaim.createRoute(slug)) } }
+    val manageInstitution = remember(navController) { { slug: String -> navController.navigate(Screen.InstitutionManage.createRoute(slug)) } }
+    val openInstitution = remember(navController) { { slug: String -> navController.navigate(Screen.Institution.createRoute(slug)) } }
     CompositionLocalProvider(
         LocalAuthGate provides gate,
         // Claiming, managing and browsing institutions work from every screen, so none of them falls back to the website.
-        com.neb.ians.ui.screens.institutions.LocalClaimInstitution provides { navController.navigate(Screen.InstitutionClaim.createRoute(it)) },
-        com.neb.ians.ui.screens.institutions.LocalManageInstitution provides { navController.navigate(Screen.InstitutionManage.createRoute(it)) },
-        com.neb.ians.ui.screens.institutions.LocalOpenInstitution provides { navController.navigate(Screen.Institution.createRoute(it)) }
+        com.neb.ians.ui.screens.institutions.LocalClaimInstitution provides claimInstitution,
+        com.neb.ians.ui.screens.institutions.LocalManageInstitution provides manageInstitution,
+        com.neb.ians.ui.screens.institutions.LocalOpenInstitution provides openInstitution
     ) {
     Box(modifier = Modifier.fillMaxSize().navBarScrollSource(navScroll)) {
         NavHost(
@@ -1138,7 +1143,7 @@ fun NEBiansNavHost(
             MiniPlayerSlot(
                 viewModel = mediaPlayerViewModel,
                 onExpand = {
-                    mediaPlayerState.resource?.id?.let { resourceId ->
+                    playerResourceId?.let { resourceId ->
                         showMiniPlayer = false
                         navController.navigate(Screen.ResourceDetail.createRoute(resourceId)) {
                             launchSingleTop = true
@@ -1222,7 +1227,7 @@ fun NEBiansNavHost(
                     siteThemeState.onDismissWhatsNew()
                     val target = item.targetRoute.trim().removePrefix("/").ifBlank { Screen.Pathways.route }
                     runCatching {
-                        if (glassNavItems.any { it.route == target }) {
+                        if (target in GLASS_NAV_ROUTES) {
                             navController.navigate(target) {
                                 popUpTo(navController.graph.findStartDestination().id) { saveState = true }
                                 launchSingleTop = true

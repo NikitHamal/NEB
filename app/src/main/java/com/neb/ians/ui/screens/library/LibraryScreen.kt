@@ -63,14 +63,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -123,7 +118,6 @@ fun LibraryScreen(
     syllabusViewModel: SyllabusViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val interactiveState by interactiveViewModel.uiState.collectAsStateWithLifecycle()
     var currentTab by rememberSaveable { mutableStateOf("library") }
     val scope = rememberCoroutineScope()
     var isRefreshing by remember { mutableStateOf(false) }
@@ -231,6 +225,7 @@ fun LibraryScreen(
                 }
                 "interactive" -> {
                     LaunchedEffect(Unit) { interactiveViewModel.ensureLoaded() }
+                    val interactiveState by interactiveViewModel.uiState.collectAsStateWithLifecycle()
                     InteractiveContent(
                         state = interactiveState,
                         onCourseClick = onInteractiveCourseClick,
