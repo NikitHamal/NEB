@@ -925,12 +925,15 @@ fun Avatar(
         if (imageUrl.isNullOrBlank()) null
         else {
             var url = imageUrl.trim()
-            if (url.startsWith("http://127.0.0.1:8000/") || url.startsWith("http://localhost:8000/")) {
-                url = url.replace("http://127.0.0.1:8000/", "https://nebians.consica.com.np/")
-                    .replace("http://localhost:8000/", "https://nebians.consica.com.np/")
+            if (url.startsWith("/avatar/") || url.contains("/avatar/")) null
+            else {
+                if (url.startsWith("http://127.0.0.1:8000/") || url.startsWith("http://localhost:8000/")) {
+                    url = url.replace("http://127.0.0.1:8000/", "https://nebians.consica.com.np/")
+                        .replace("http://localhost:8000/", "https://nebians.consica.com.np/")
+                }
+                if (url.startsWith("http://") || url.startsWith("https://")) url
+                else "https://nebians.consica.com.np${if (url.startsWith("/")) "" else "/"}$url"
             }
-            if (url.startsWith("http://") || url.startsWith("https://")) url
-            else "https://nebians.consica.com.np${if (url.startsWith("/")) "" else "/"}$url"
         }
     }
     var isError by remember(resolvedUrl) { mutableStateOf(false) }

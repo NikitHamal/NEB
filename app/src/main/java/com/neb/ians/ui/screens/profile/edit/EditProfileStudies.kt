@@ -147,7 +147,6 @@ private fun EditSubjectPicker(
 internal fun EditPlaceSection(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel) {
     var showProvince by remember { mutableStateOf(false) }
     var showDistrict by remember { mutableStateOf(false) }
-    var showInstitution by remember { mutableStateOf(false) }
 
     val schoolLabel = if (state.role == "institution") "Institution name" else "School or college"
 
@@ -165,11 +164,10 @@ internal fun EditPlaceSection(state: CompleteProfileUiState, viewModel: Complete
                 placeholder = "Select a district",
                 onClick = { showDistrict = true }
             )
-            EditPickerRowField(
-                label = schoolLabel,
-                value = state.school,
-                placeholder = "Institution's name",
-                onClick = { showInstitution = true }
+            com.neb.ians.ui.screens.onboarding.CampusSelector(
+                state = state,
+                viewModel = viewModel,
+                label = schoolLabel
             )
         }
     }
@@ -192,136 +190,5 @@ internal fun EditPlaceSection(state: CompleteProfileUiState, viewModel: Complete
             onDismiss = { showDistrict = false },
             searchPlaceholder = "Search districts"
         )
-    }
-    if (showInstitution) {
-        EditInstitutionSheet(
-            institutions = state.institutions,
-            current = state.school,
-            onSelect = { name, username -> viewModel.onSchoolChange(name, username) },
-            onDismiss = { showInstitution = false }
-        )
-    }
-}
-
-/**
- * Institutions on the platform first, because picking one links the two profiles
- * together. Typing a name by hand stays available underneath for everywhere the
- * platform has not reached yet.
- */
-@Composable
-private fun EditInstitutionSheet(
-    institutions: List<ApiInstitution>,
-    current: String,
-    onSelect: (String, String) -> Unit,
-    onDismiss: () -> Unit
-) {
-    val palette = LocalNebAuthPalette.current
-    var query by remember { mutableStateOf("") }
-    var custom by remember { mutableStateOf(current) }
-    val shown = remember(query, institutions) {
-        if (query.isBlank()) {
-            institutions
-        } else {
-            institutions.filter {
-                it.displayName.contains(query.trim(), ignoreCase = true) ||
-                    it.username.contains(query.trim(), ignoreCase = true)
-            }
-        }
-    }
-
-    NebSheetSurface(
-        title = "Institution",
-        subtitle = "Search the ones already on NEBians, or type your own.",
-        onDismiss = onDismiss
-    ) {
-        NebAuthField(
-            value = query,
-            onValueChange = { query = it },
-            label = "",
-            placeholder = "Search institutions",
-            leadingIcon = Icons.Outlined.Domain
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        LazyColumn(modifier = Modifier.fillMaxWidth().heightIn(max = 260.dp)) {
-            items(shown, key = { it.id.ifBlank { it.username } }) { institution ->
-                NebPickerRow(
-                    label = institution.displayName,
-                    supporting = "@${institution.username}",
-                    selected = institution.displayName == current,
-                    onClick = {
-                        onSelect(institution.displayName, institution.username)
-                        onDismiss()
-                    },
-                    leading = {
-                        if (institution.photoUrl.isBlank()) {
-                            Box(
-                                modifier = Modifier
-                                    .size(36.dp)
-                                    .clip(CircleShape)
-                                    .background(palette.accentSoft),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = institution.displayName.take(1).uppercase(),
-                                    style = NebAuthType.Label,
-                                    color = palette.accent
-                                )
-                            }
-                        } else {
-                            AsyncImage(
-                                model = institution.photoUrl,
-                                contentDescription = null,
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier.size(36.dp).clip(CircleShape)
-                            )
-                        }
-                    }
-                )
-            }
-        }
-
-        if (shown.isEmpty()) {
-            EditInlineHint(
-                text = "No institution on NEBians matches that yet.",
-                modifier = Modifier.padding(vertical = 12.dp)
-            )
-        }
-
-        Spacer(modifier = Modifier.height(14.dp))
-        Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(palette.hairline))
-        Spacer(modifier = Modifier.height(14.dp))
-
-        NebAuthField(
-            value = custom,
-            onValueChange = { custom = it },
-            label = "Or type it yourself",
-            placeholder = "Institution's name",
-            leadingIcon = Icons.Outlined.Place
-        )
-        Spacer(modifier = Modifier.height(12.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            NebOutlinePillButton(
-                text = "Use this name",
-                onClick = {
-                    onSelect(custom.trim(), "")
-                    onDismiss()
-                },
-                enabled = custom.isNotBlank(),
-                modifier = Modifier.weight(1f)
-            )
-            if (current.isNotBlank()) {
-                Spacer(modifier = Modifier.width(10.dp))
-                NebOutlinePillButton(
-                    text = "Clear",
-                    onClick = {
-                        onSelect("", "")
-                        onDismiss()
-                    },
-                    modifier = Modifier.weight(0.6f)
-                )
-            }
-        }
     }
 }

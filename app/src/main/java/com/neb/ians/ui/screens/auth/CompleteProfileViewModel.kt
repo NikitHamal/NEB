@@ -58,7 +58,6 @@ data class CompleteProfileUiState(
     val socialLinks: List<ApiSocialLink> = emptyList(),
     val schoolUsername: String = "",
     val schoolSlug: String = "",
-    val headline: String = "",
     val eduStatus: String = "",
     val eduProgram: String = "",
     val eduTerm: String = "",
@@ -419,7 +418,6 @@ class CompleteProfileViewModel @Inject constructor(
                 schoolUsername = state.schoolUsername,
                 schoolSlug = state.schoolSlug.ifBlank { null },
                 // Only sent once read (or for a new account), so an edit never blanks what it never saw.
-                headline = state.headline.takeIf { !state.isEditing || state.portfolioLoaded },
                 eduStatus = state.eduStatus.takeIf { !state.isEditing || state.portfolioLoaded },
                 eduProgram = state.eduProgram.takeIf { !state.isEditing || state.portfolioLoaded },
                 eduTerm = state.eduTerm.takeIf { !state.isEditing || state.portfolioLoaded },
@@ -553,7 +551,7 @@ class CompleteProfileViewModel @Inject constructor(
             } else ""
             _uiState.update {
                 it.copy(
-                    headline = p.headline.orEmpty(), skills = csv(p.skills), openTo = csv(p.openTo),
+                    skills = csv(p.skills), openTo = csv(p.openTo),
                     eduStatus = p.eduStatus.orEmpty(), eduProgram = p.eduProgram.orEmpty(), eduTerm = p.eduTerm.orEmpty(),
                     eduCompleted = p.eduCompleted.orEmpty(),
                     teachLevels = csv(p.teachLevels), experienceYears = if (p.experienceYears > 0) p.experienceYears.toString() else "",
@@ -564,7 +562,6 @@ class CompleteProfileViewModel @Inject constructor(
         }
     }
 
-    fun onHeadlineChange(v: String) = _uiState.update { it.copy(headline = v.take(120)) }
     fun onExperienceChange(v: String) = _uiState.update { it.copy(experienceYears = v.filter(Char::isDigit).take(2)) }
     fun onEmploymentChange(v: String) = _uiState.update { it.copy(employment = if (it.employment == v) "" else v) }
     fun toggleSkill(v: String) = _uiState.update { it.copy(skills = if (v in it.skills) it.skills - v else (it.skills + v).take(15)) }

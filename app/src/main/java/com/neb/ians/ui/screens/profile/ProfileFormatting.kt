@@ -100,7 +100,6 @@ internal fun subjectList(raw: String?): String =
 
 fun formatRoleHeadline(profile: UserProfileResponse): String {
     if (profile.isBot) return "AI Study Companion"
-    profile.headline?.trim()?.takeIf { it.isNotEmpty() }?.let { return it }
     return when (profile.role) {
         "teacher" -> {
             val parts = mutableListOf("Teacher")

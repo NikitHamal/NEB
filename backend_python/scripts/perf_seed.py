@@ -164,10 +164,7 @@ def seed():
             u.photo_url = f'https://lh3.googleusercontent.com/a/ACg8oc{rng.getrandbits(64):x}=s96-c'
         if rng.random() < 0.12:
             u.avatar_use_pp = rng.random() < 0.7
-            u.avatar_hue = rng.randint(0, 359)
-            u.avatar_tone = round(rng.random(), 2)
-            u.avatar_bg = rng.choice(('square', 'circle', 'squircle'))
-            u.avatar_shape = rng.choice(('round', 'boxy', 'cloud'))
+
             u.avatar_expression = rng.choice(('happy', 'wink', 'thinking'))
             u.avatar_color = '#%06x' % rng.getrandbits(24)
         users.append(u)

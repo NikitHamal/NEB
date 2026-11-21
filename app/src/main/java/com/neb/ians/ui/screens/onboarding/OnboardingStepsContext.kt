@@ -196,12 +196,8 @@ fun PlaceStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CampusStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel) {
-    val palette = LocalNebAuthPalette.current
-    var showRegistered by remember { mutableStateOf(false) }
-    var showCatalogue by remember { mutableStateOf(false) }
     val isInstitution = state.role == "institution"
     androidx.compose.runtime.LaunchedEffect(Unit) { viewModel.fetchInstitutions() }
-    val registeredNames = remember(state.institutions) { state.institutions.map { it.displayName } }
 
     Column(modifier = Modifier.fillMaxWidth()) {
         NebArtSlot { com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.School, flag = state.school.isNotBlank(), height = 160.dp) }
@@ -235,16 +231,40 @@ fun CampusStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMode
             Spacer(modifier = Modifier.height(NebAuthTokens.StackGap + 4.dp))
         }
 
+        CampusSelector(
+            state = state,
+            viewModel = viewModel,
+            label = "Institution name"
+        )
+    }
+}
+
+/**
+ * Reusable school/institution selector shared by Onboarding (`CampusStep`) and Edit Profile (`EditPlaceSection`):
+ * direct text field plus the 24,000+ school/college catalogue sheet and the registered NEBians institutions sheet.
+ */
+@Composable
+fun CampusSelector(
+    state: CompleteProfileUiState,
+    viewModel: CompleteProfileViewModel,
+    label: String = if (state.role == "institution") "Institution name" else "School or college"
+) {
+    var showRegistered by remember { mutableStateOf(false) }
+    var showCatalogue by remember { mutableStateOf(false) }
+    val isInstitution = state.role == "institution"
+    val registeredNames = remember(state.institutions) { state.institutions.map { it.displayName } }
+
+    Column(modifier = Modifier.fillMaxWidth()) {
         NebAuthField(
             value = state.school,
             onValueChange = { viewModel.onSchoolChange(it) },
-            label = "Institution name",
+            label = label,
             placeholder = "Institution's name",
             leadingIcon = Icons.Outlined.Domain,
             imeAction = ImeAction.Done
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             CampusAction(
                 icon = Icons.Outlined.Search,

@@ -37,16 +37,10 @@ private val EMPLOYMENT = listOf("full_time" to "Full time", "part_time" to "Part
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun EditPortfolioSection(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel) {
+    if (state.role == "institution" && !state.ownedKnown) return
     val gap = Arrangement.spacedBy(8.dp)
-    EditSection(title = if (state.role == "institution") "Page headline" else "Portfolio") {
+    EditSection(title = "Portfolio") {
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            NebAuthField(
-                value = state.headline,
-                onValueChange = viewModel::onHeadlineChange,
-                label = "Headline",
-                placeholder = if (state.role == "teacher") "Physics, made visual" else "One line about you",
-                leadingIcon = Icons.Outlined.Badge
-            )
             if (state.role == "institution" && state.ownedKnown) {
                 val manage = com.neb.ians.ui.screens.institutions.LocalManageInstitution.current
                 val find = com.neb.ians.ui.screens.institutions.LocalOpenSchools.current

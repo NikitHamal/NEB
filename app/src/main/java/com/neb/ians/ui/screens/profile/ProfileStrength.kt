@@ -22,17 +22,17 @@ private fun gapsFor(p: UserProfileResponse, hasEntries: Boolean): List<Gap> = wh
     "teacher" -> listOf(
         Gap("Current school", 15, p.school.has()), Gap("Type of work", 5, p.employment.has()),
         Gap("Subjects", 15, p.teachingSubjects.has()), Gap("Levels", 12, p.teachLevels.has()),
-        Gap("Experience", 10, p.experienceYears > 0), Gap("Headline", 8, p.headline.has()), Gap("About", 8, p.bio.has()),
+        Gap("Experience", 10, p.experienceYears > 0), Gap("About", 16, p.bio.has()),
         Gap("Skills", 5, p.skills.has()), Gap("Past schools", 22, hasEntries, tappable = false)
     )
     "explorer" -> listOf(
-        Gap("Headline", 30, p.headline.has()), Gap("About", 30, p.bio.has()),
-        Gap("Skills", 20, p.skills.has()), Gap("Open to", 20, p.openTo.has())
+        Gap("About", 40, p.bio.has()),
+        Gap("Skills", 30, p.skills.has()), Gap("Open to", 30, p.openTo.has())
     )
     else -> listOf(
-        Gap("Class or program", 12, p.classLevel.has() || p.eduProgram.has()), Gap("School or college", 12, p.school.has()),
-        Gap("Headline", 12, p.headline.has()), Gap("About", 10, p.bio.has()), Gap("Skills", 12, p.skills.has()),
-        Gap("Open to", 10, p.openTo.has()), Gap("Achievements and projects", 22, hasEntries, tappable = false)
+        Gap("Class or program", 15, p.classLevel.has() || p.eduProgram.has()), Gap("School or college", 15, p.school.has()),
+        Gap("About", 16, p.bio.has()), Gap("Skills", 16, p.skills.has()),
+        Gap("Open to", 14, p.openTo.has()), Gap("Achievements and projects", 24, hasEntries, tappable = false)
     )
 }
 
