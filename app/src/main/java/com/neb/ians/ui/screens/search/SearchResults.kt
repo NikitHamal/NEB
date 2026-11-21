@@ -58,6 +58,10 @@ fun SearchResultsList(
     onSchoolClick: (com.neb.ians.data.api.ApiInstRow) -> Unit,
     onScopeChange: (SearchScope) -> Unit
 ) {
+    val topResources = androidx.compose.runtime.remember(state.resources) { state.resources.take(PREVIEW_PER_SECTION) }
+    val topPosts = androidx.compose.runtime.remember(state.posts) { state.posts.take(PREVIEW_PER_SECTION) }
+    val topUsers = androidx.compose.runtime.remember(state.users) { state.users.take(PREVIEW_PER_SECTION) }
+    val topSchools = androidx.compose.runtime.remember(state.schools) { state.schools.take(PREVIEW_PER_SECTION) }
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(top = 4.dp, bottom = 28.dp),
@@ -65,7 +69,7 @@ fun SearchResultsList(
     ) {
         when (state.scope) {
             SearchScope.All -> {
-                if (state.resources.isNotEmpty()) {
+                if (topResources.isNotEmpty()) {
                     item(key = "h_resources") {
                         SearchSectionHeader(
                             title = "Resources",
@@ -75,7 +79,7 @@ fun SearchResultsList(
                             } else null
                         )
                     }
-                    items(state.resources.take(PREVIEW_PER_SECTION), key = { "r_${it.id}" }, contentType = { "resource" }) { resource ->
+                    items(topResources, key = { "r_${it.id}" }, contentType = { "resource" }) { resource ->
                         WebResourceCard(
                             resource = resource,
                             onClick = { onResourceClick(resource.id) },
@@ -84,7 +88,7 @@ fun SearchResultsList(
                         )
                     }
                 }
-                if (state.posts.isNotEmpty()) {
+                if (topPosts.isNotEmpty()) {
                     item(key = "h_posts") {
                         SearchSectionHeader(
                             title = "Posts",
@@ -94,7 +98,7 @@ fun SearchResultsList(
                             } else null
                         )
                     }
-                    items(state.posts.take(PREVIEW_PER_SECTION), key = { "p_${it.id}" }, contentType = { "post" }) { post ->
+                    items(topPosts, key = { "p_${it.id}" }, contentType = { "post" }) { post ->
                         WebPostCard(
                             post = post,
                             onClick = { onPostClick(post.id) },
@@ -104,7 +108,7 @@ fun SearchResultsList(
                         )
                     }
                 }
-                if (state.users.isNotEmpty()) {
+                if (topUsers.isNotEmpty()) {
                     item(key = "h_people") {
                         SearchSectionHeader(
                             title = "People",
@@ -114,11 +118,11 @@ fun SearchResultsList(
                             } else null
                         )
                     }
-                    items(state.users.take(PREVIEW_PER_SECTION), key = { "u_${it.id}" }, contentType = { "user" }) { user ->
+                    items(topUsers, key = { "u_${it.id}" }, contentType = { "user" }) { user ->
                         UserResultRow(user = user, onClick = { onProfileClick(user.username) })
                     }
                 }
-                if (state.schools.isNotEmpty()) {
+                if (topSchools.isNotEmpty()) {
                     item(key = "h_schools") {
                         SearchSectionHeader(
                             title = "Schools",
@@ -128,7 +132,7 @@ fun SearchResultsList(
                             } else null
                         )
                     }
-                    items(state.schools.take(PREVIEW_PER_SECTION), key = { "s_${it.slug}" }, contentType = { "school" }) { row ->
+                    items(topSchools, key = { "s_${it.slug}" }, contentType = { "school" }) { row ->
                         SchoolResultRow(row = row, onClick = { onSchoolClick(row) })
                     }
                 }

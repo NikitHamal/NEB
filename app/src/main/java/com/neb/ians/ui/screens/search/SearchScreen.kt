@@ -231,7 +231,9 @@ private fun SearchHeader(
     onFilterClick: () -> Unit,
     onClearFilter: (String) -> Unit
 ) {
-    val scopeCounts = SearchScope.entries.map { state.countFor(it) }
+    val scopeCounts = remember(state.resources.size, state.posts.size, state.users.size, state.schoolTotal) {
+        SearchScope.entries.map { state.countFor(it) }
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth()

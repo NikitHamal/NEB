@@ -869,7 +869,7 @@ fun ReadingMode(
                 ),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                items(count = pageCount, key = { it }) { page ->
+                items(count = pageCount, key = { it }, contentType = { "page" }) { page ->
                     Box(Modifier.widthIn(max = 680.dp).fillMaxWidth()) {
                         RdPage(page, t, ctx, minOf(maxWidth - t.sidePadding * 2, 680.dp), onWords)
                     }

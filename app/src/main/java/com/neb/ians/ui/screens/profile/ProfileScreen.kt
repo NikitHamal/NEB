@@ -376,15 +376,18 @@ private fun ProfileBody(
         }
 
         stickyHeader(key = "tabs") { _: Int ->
+            val profileTabs = remember(profile.postCount, uiState.repliesCount, uiState.resourcesCount) {
+                listOf(
+                    NebRailTab("Overview"),
+                    NebRailTab("Posts", count = profile.postCount),
+                    NebRailTab("Replies", count = uiState.repliesCount),
+                    NebRailTab("Resources", count = uiState.resourcesCount),
+                    NebRailTab("About")
+                )
+            }
             Column(modifier = Modifier.background(MaterialTheme.colorScheme.surface)) {
                 NebTabRail(
-                    tabs = listOf(
-                        NebRailTab("Overview"),
-                        NebRailTab("Posts", count = profile.postCount),
-                        NebRailTab("Replies", count = uiState.repliesCount),
-                        NebRailTab("Resources", count = uiState.resourcesCount),
-                        NebRailTab("About")
-                    ),
+                    tabs = profileTabs,
                     selectedIndex = uiState.selectedTab,
                     onSelect = onTabSelected,
                     contentPadding = PaddingValues(horizontal = 14.dp, vertical = 4.dp)
