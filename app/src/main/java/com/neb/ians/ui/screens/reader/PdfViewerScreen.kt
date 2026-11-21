@@ -168,7 +168,7 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
         sheet = null
     }
 
-    val look = remember(state.theme) { readerLook(state.theme) }
+    val look = readerLook(state.theme)
     val onLink: (PdfLink) -> Unit = { link ->
         if (link.page >= 0) {
             returnTo = state.currentPage
