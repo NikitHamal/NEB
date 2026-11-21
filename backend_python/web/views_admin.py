@@ -1709,7 +1709,7 @@ def admin_pending_payments(request):
 
         try:
             payment_obj = (PaymentVerification.objects
-                           .select_related('buyer', 'seller', 'resource', 'course', 'course__page')
+                           .select_related('buyer', 'seller', 'resource')
                            .get(pk=payment_id))
             title = payment_obj.target_title
             if action == 'approve' and payment_obj.status == 'pending':
@@ -1771,10 +1771,10 @@ def admin_pending_payments(request):
     # Capped like the processed list below: this queue is unbounded by nature, and
     # a backlog of thousands would render thousands of proof thumbnails into one page.
     pending_payments = (PaymentVerification.objects.filter(status='pending')
-                        .select_related('buyer', 'seller', 'resource', 'course', 'course__page')
+                        .select_related('buyer', 'seller', 'resource')
                         .order_by('-created_at')[:200])
     processed_payments = (PaymentVerification.objects.exclude(status='pending')
-                          .select_related('buyer', 'seller', 'resource', 'course', 'course__page', 'verified_by')
+                          .select_related('buyer', 'seller', 'resource', 'verified_by')
                           .order_by('-verified_at')[:50])
 
     return render(request, 'admin_panel/payments.html', _ctx(request,

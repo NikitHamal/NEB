@@ -24,7 +24,6 @@ object PixelStates {
             name.startsWith("Newspaper") || name.startsWith("Article") || name.startsWith("Feed") || name.startsWith("Campaign") -> PixelUiSprites.newspaper
             name.startsWith("Payment") || name.startsWith("Paid") || name.startsWith("AccountBalance") || name.startsWith("Toll") || name.startsWith("Savings") || name.startsWith("Wallet") -> PixelUiSprites.coin
             name.startsWith("PushPin") || name.startsWith("Pin") -> PixelUiSprites.pushPin
-            name.startsWith("Storefront") || name.startsWith("Store") || name.startsWith("ShoppingBag") || name.startsWith("Sell") -> PixelUiSprites.storefront
             name.startsWith("EmojiEvents") || name.startsWith("Leaderboard") || name.startsWith("Insights") || name.startsWith("BarChart") || name.startsWith("Analytics") || name.startsWith("MilitaryTech") -> PixelUiSprites.trophy
             else -> PixelUiSprites.nebyIdle
         }

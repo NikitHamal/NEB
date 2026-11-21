@@ -17,18 +17,18 @@ def _gaps(u, has_entries):
         return [
             ('Current school', 15, _has(u.school), True), ('Type of work', 5, _has(u.employment), True),
             ('Subjects', 15, _has(u.teaching_subjects), True), ('Levels', 12, _has(u.teach_levels), True),
-            ('Experience', 10, (u.experience_years or 0) > 0, True), ('Headline', 8, _has(u.headline), True),
-            ('About', 8, _has(u.bio), True), ('Skills', 5, _has(u.skills), True),
+            ('Experience', 10, (u.experience_years or 0) > 0, True),
+            ('About', 16, _has(u.bio), True), ('Skills', 5, _has(u.skills), True),
             ('Past schools', 22, has_entries, False),
         ]
     if role == 'explorer':
-        return [('Headline', 30, _has(u.headline), True), ('About', 30, _has(u.bio), True),
-                ('Skills', 20, _has(u.skills), True), ('Open to', 20, _has(u.open_to), True)]
+        return [('About', 40, _has(u.bio), True),
+                ('Skills', 30, _has(u.skills), True), ('Open to', 30, _has(u.open_to), True)]
     return [
-        ('Class or program', 12, _has(u.class_level) or _has(u.edu_program), True),
-        ('School or college', 12, _has(u.school), True), ('Headline', 12, _has(u.headline), True),
-        ('About', 10, _has(u.bio), True), ('Skills', 12, _has(u.skills), True),
-        ('Open to', 10, _has(u.open_to), True), ('Achievements and projects', 22, has_entries, False),
+        ('Class or program', 15, _has(u.class_level) or _has(u.edu_program), True),
+        ('School or college', 15, _has(u.school), True),
+        ('About', 16, _has(u.bio), True), ('Skills', 16, _has(u.skills), True),
+        ('Open to', 14, _has(u.open_to), True), ('Achievements and projects', 24, has_entries, False),
     ]
 
 

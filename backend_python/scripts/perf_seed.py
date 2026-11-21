@@ -162,11 +162,6 @@ def seed():
         )
         if rng.random() < 0.3:
             u.photo_url = f'https://lh3.googleusercontent.com/a/ACg8oc{rng.getrandbits(64):x}=s96-c'
-        if rng.random() < 0.12:
-            u.avatar_use_pp = rng.random() < 0.7
-
-            u.avatar_expression = rng.choice(('happy', 'wink', 'thinking'))
-            u.avatar_color = '#%06x' % rng.getrandbits(24)
         users.append(u)
 
     viewer, teacher = users[0], users[1]

@@ -8,11 +8,10 @@
   var SECTIONS = {
     school: ['Where you teach', [['school', 'Current school', 'text'], ['employment', 'Type of work', 'one', boot.optEmployment]]],
     teach: ['What you teach', [['teaching_subjects', 'Subjects, separated by commas', 'csv'], ['teach_levels', 'Levels', 'many', boot.optLevels]]],
-    exp: ['Experience', [['experience_years', 'Years of teaching', 'num']]],
-    me: ['Headline', [['headline', 'One line about how you teach', 'text']]]
+    exp: ['Experience', [['experience_years', 'Years of teaching', 'num']]]
   };
   var VALUE = { school: boot.school, employment: boot.employment, teaching_subjects: (boot.subjects || []).join(', '),
-    teach_levels: boot.levels || [], experience_years: boot.years || '', headline: boot.headline };
+    teach_levels: boot.levels || [], experience_years: boot.years || '' };
   var scrim, form, body, titleEl, errEl, saveBtn;
 
   function el(tag, cls, html) { var n = document.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; }
