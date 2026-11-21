@@ -122,7 +122,7 @@ class PdfViewerViewModel @Inject constructor(
     fun onPageVisible(page: Int) {
         if (page == _uiState.value.currentPage) return
         _uiState.update { it.copy(currentPage = page) }
-        prefs.setLastPage(resourceId, page)
+        viewModelScope.launch(Dispatchers.IO) { prefs.setLastPage(resourceId, page) }
     }
 
     fun consumeResume() {
@@ -131,45 +131,45 @@ class PdfViewerViewModel @Inject constructor(
 
     fun toggleBookmark(page: Int = _uiState.value.currentPage) {
         val next = _uiState.value.bookmarks.let { if (page in it) it - page else it + page }
-        prefs.setBookmarks(resourceId, next)
         _uiState.update { it.copy(bookmarks = next) }
+        viewModelScope.launch(Dispatchers.IO) { prefs.setBookmarks(resourceId, next) }
     }
 
     fun setTheme(theme: ReadingTheme) {
-        prefs.theme = theme
         _uiState.update { it.copy(theme = theme) }
+        viewModelScope.launch(Dispatchers.IO) { prefs.theme = theme }
     }
 
     fun setLayout(layout: ReadingLayout) {
-        prefs.layout = layout
         _uiState.update { it.copy(layout = layout) }
+        viewModelScope.launch(Dispatchers.IO) { prefs.layout = layout }
     }
 
     fun setKeepScreenOn(on: Boolean) {
-        prefs.keepScreenOn = on
         _uiState.update { it.copy(keepScreenOn = on) }
+        viewModelScope.launch(Dispatchers.IO) { prefs.keepScreenOn = on }
     }
 
     fun setReadingMode(on: Boolean) {
-        prefs.setReadingMode(resourceId, on)
         if (!on) closeReadSearch()
         _uiState.update { it.copy(readingMode = on) }
+        viewModelScope.launch(Dispatchers.IO) { prefs.setReadingMode(resourceId, on) }
     }
 
     fun updateReading(change: (ReadingSettings) -> ReadingSettings) {
         val next = change(_uiState.value.reading)
-        prefs.reading = next
         _uiState.update { it.copy(reading = next) }
+        viewModelScope.launch(Dispatchers.IO) { prefs.reading = next }
     }
 
     fun setAssistantHidden(hidden: Boolean) {
-        prefs.assistantHidden = hidden
         _uiState.update { it.copy(assistantHidden = hidden) }
+        viewModelScope.launch(Dispatchers.IO) { prefs.assistantHidden = hidden }
     }
 
     fun moveAssistant(x: Float, y: Float) {
-        prefs.assistantX = x; prefs.assistantY = y
         _uiState.update { it.copy(assistantX = x, assistantY = y) }
+        viewModelScope.launch(Dispatchers.IO) { prefs.assistantX = x; prefs.assistantY = y }
     }
 
     suspend fun readingBook(cacheRoot: java.io.File): java.io.File? = engine?.structure?.readingBook(cacheRoot)

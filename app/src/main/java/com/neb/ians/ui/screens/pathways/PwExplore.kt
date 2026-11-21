@@ -255,6 +255,9 @@ private fun PwRouteMap(
         maxOf(courses.maxOfOrNull { d.m(it).payHi } ?: 1L, careers.maxOfOrNull { it.entryMax } ?: 1L).coerceAtLeast(1L).toFloat()
     }
     val hot = c.primary
+    val measure = remember { PathMeasure() }
+    val seg = remember { Path() }
+    val workPath = remember { Path() }
     Row(
         Modifier.fillMaxWidth().padding(16.dp, 16.dp, 16.dp, 8.dp)
             .onGloballyPositioned { mapCoords = it }
@@ -262,9 +265,8 @@ private fun PwRouteMap(
                 placed
                 val map = mapCoords ?: return@drawBehind
                 if (!any || !map.isAttached) return@drawBehind
-                val measure = PathMeasure()
-                val seg = Path()
                 val corner = 14.dp.toPx()
+                val stroke = Stroke(2.5.dp.toPx(), cap = StrokeCap.Round)
                 courses.forEach { r ->
                     if (cState(r) == 0) return@forEach
                     val a = nodes["c:${r.id}"]?.takeIf { it.isAttached }?.let { map.localBoundingBoxOf(it, false) } ?: return@forEach
@@ -276,20 +278,23 @@ private fun PwRouteMap(
                         val dy = b.center.y - a.center.y
                         val rr = minOf(corner, abs(dy) / 2f, (b.left - a.right) / 2f)
                         val sg = if (dy < 0f) -1f else 1f
-                        val p = Path().apply {
-                            moveTo(a.right, a.center.y)
-                            if (abs(dy) < 1f) lineTo(b.left, b.center.y) else {
-                                lineTo(mx - rr, a.center.y)
-                                quadraticTo(mx, a.center.y, mx, a.center.y + sg * rr)
-                                lineTo(mx, b.center.y - sg * rr)
-                                quadraticTo(mx, b.center.y, mx + rr, b.center.y)
-                                lineTo(b.left, b.center.y)
-                            }
+                        workPath.reset()
+                        workPath.moveTo(a.right, a.center.y)
+                        if (abs(dy) < 1f) workPath.lineTo(b.left, b.center.y) else {
+                            workPath.lineTo(mx - rr, a.center.y)
+                            workPath.quadraticTo(mx, a.center.y, mx, a.center.y + sg * rr)
+                            workPath.lineTo(mx, b.center.y - sg * rr)
+                            workPath.quadraticTo(mx, b.center.y, mx + rr, b.center.y)
+                            workPath.lineTo(b.left, b.center.y)
                         }
-                        measure.setPath(p, false)
-                        seg.reset()
-                        measure.getSegment(0f, measure.length * draw.value, seg, true)
-                        drawPath(seg, hot, style = Stroke(2.5.dp.toPx(), cap = StrokeCap.Round))
+                        if (draw.value >= 0.999f) {
+                            drawPath(workPath, hot, style = stroke)
+                        } else {
+                            measure.setPath(workPath, false)
+                            seg.reset()
+                            measure.getSegment(0f, measure.length * draw.value, seg, true)
+                            drawPath(seg, hot, style = stroke)
+                        }
                     }
                 }
             },
@@ -347,8 +352,14 @@ private fun PwNode(
     val r by animateDpAsState(if (state == 2) 14.dp else 22.dp, spring(0.5f, Spring.StiffnessMediumLow), label = "nR")
     val dimA by animateFloatAsState(if (dim) 0.4f else 1f, label = "nA")
     val fillA by animateFloatAsState(fill, tween(500, easing = FastOutSlowInEasing), label = "nFill")
-    val enter = remember(key) { Animatable(0f) }
-    LaunchedEffect(key) { delay(index * 30L); enter.animateTo(1f, tween(320, easing = FastOutSlowInEasing)) }
+    val reducedMotion = com.neb.ians.ui.theme.nebAnimationsReduced()
+    val enter = remember(key, reducedMotion) { Animatable(if (reducedMotion || index > 6) 1f else 0f) }
+    LaunchedEffect(key, reducedMotion) {
+        if (!reducedMotion && index <= 6) {
+            delay(index * 24L)
+            enter.animateTo(1f, tween(280, easing = FastOutSlowInEasing))
+        }
+    }
     Surface(
         onClick = onClick,
         modifier = modifier.fillMaxWidth().heightIn(min = 52.dp).graphicsLayer {

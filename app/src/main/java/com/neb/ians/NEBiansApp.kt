@@ -124,6 +124,10 @@ class NEBiansApp : Application(), ImageLoaderFactory {
                 com.neb.ians.ui.components.M3xArt.covers(this@NEBiansApp)
                 com.neb.ians.ui.components.M3xArt.noteRecipe(this@NEBiansApp, 0)
             }
+            kotlinx.coroutines.delay(1_200L)
+            runCatching {
+                com.neb.ians.ui.screens.pathways.PathwaysViewModel.prewarmFromDisk(this@NEBiansApp)
+            }
         }
     }
 

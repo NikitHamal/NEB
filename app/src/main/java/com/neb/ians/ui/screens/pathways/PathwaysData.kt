@@ -111,17 +111,28 @@ data class PwData(
     val topics: List<PwTopic> = emptyList(), val faq: List<PwFaq> = emptyList(),
     val govtTracks: List<PwTopic> = emptyList(), val govtGroups: List<PwTopic> = emptyList(), val govt: List<PwGovt> = emptyList(), val guides: List<PwGuide> = emptyList(),
 ) {
-    val routeById: Map<String, PwRoute> by lazy { routes.associateBy { it.id } }
-    val govtById: Map<String, PwGovt> by lazy { govt.associateBy { it.id } }
-    val guideById: Map<String, PwGuide> by lazy { guides.associateBy { it.id } }
-    val careerRoutes: Map<String, List<PwRoute>> by lazy { routes.flatMap { r -> r.careers.map { it to r } }.groupBy({ it.first }, { it.second }) }
-    internal val matchIdx: Map<String, PwRouteIdx> by lazy { buildMatchIndex(this) }
-    internal val wordIdf: Map<String, Float> by lazy { buildWordIdf(this) }
+    val routeById: Map<String, PwRoute> by lazy(LazyThreadSafetyMode.PUBLICATION) { routes.associateBy { it.id } }
+    val govtById: Map<String, PwGovt> by lazy(LazyThreadSafetyMode.PUBLICATION) { govt.associateBy { it.id } }
+    val guideById: Map<String, PwGuide> by lazy(LazyThreadSafetyMode.PUBLICATION) { guides.associateBy { it.id } }
+    val careerRoutes: Map<String, List<PwRoute>> by lazy(LazyThreadSafetyMode.PUBLICATION) { routes.flatMap { r -> r.careers.map { it to r } }.groupBy({ it.first }, { it.second }) }
+    internal val matchIdx: Map<String, PwRouteIdx> by lazy(LazyThreadSafetyMode.PUBLICATION) { buildMatchIndex(this) }
+    internal val wordIdf: Map<String, Float> by lazy(LazyThreadSafetyMode.PUBLICATION) { buildWordIdf(this) }
     private val memo = object : LinkedHashMap<PwProfile, PwMatchResult>(8, 0.75f, true) { override fun removeEldestEntry(e: MutableMap.MutableEntry<PwProfile, PwMatchResult>) = size > 6 }
     /** Ranking is a pure function of the data and the answers: coming back to the Match tab with the same answers costs nothing. */
     internal fun matchMemo(p: PwProfile, run: () -> PwMatchResult): PwMatchResult = synchronized(memo) { memo[p] } ?: run().also { synchronized(memo) { memo[p] = it } }
-    internal val metrics: Map<String, PwMetrics> by lazy { routes.associate { it.id to routeMetrics(this, it) } }
-    val maxSenior: Long by lazy { careers.values.maxOfOrNull { (it.seniorMin + it.seniorMax) / 2 }?.coerceAtLeast(1L) ?: 1L }
+    internal val metrics: Map<String, PwMetrics> by lazy(LazyThreadSafetyMode.PUBLICATION) { routes.associate { it.id to routeMetrics(this, it) } }
+    val maxSenior: Long by lazy(LazyThreadSafetyMode.PUBLICATION) { careers.values.maxOfOrNull { (it.seniorMin + it.seniorMax) / 2 }?.coerceAtLeast(1L) ?: 1L }
+
+    internal fun precomputeIndices(): PwData = apply {
+        routeById
+        govtById
+        guideById
+        careerRoutes
+        metrics
+        maxSenior
+        matchIdx
+        wordIdf
+    }
 }
 
 private fun JSONArray?.strings(): List<String> = if (this == null) emptyList() else List(length()) { optString(it) }.filter { it.isNotEmpty() }
@@ -210,7 +221,7 @@ internal fun parsePathways(text: String): PwData {
             } ?: emptyList()
             PwGuide(g.getString("id"), g.optString("name"), g.optString("cat"), steps, g.optJSONArray("docs").strings(), g.optString("link"))
         } ?: emptyList(),
-    )
+    ).precomputeIndices()
 }
 
 data class PwPlace(val name: String, val where: String)
@@ -376,6 +387,17 @@ class PathwaysViewModel @Inject constructor(@ApplicationContext private val cont
         @Volatile private var memoryData: PwData? = null
         @Volatile private var memoryOnNeb: PwOnNebData? = null
         @Volatile private var memoryPlus2Counts: Map<String, Int>? = null
+
+        fun prewarmFromDisk(context: Context) {
+            if (memoryData == null) {
+                val f = File(context.filesDir, "pathways.json")
+                if (f.exists()) runCatching { parsePathways(f.readText()) }.getOrNull()?.let { memoryData = it }
+            }
+            if (memoryOnNeb == null) {
+                val f = File(context.filesDir, "pathways_on_neb.json")
+                if (f.exists()) runCatching { parseOnNeb(f.readText()) }.getOrNull()?.let { memoryOnNeb = it }
+            }
+        }
     }
 
     private fun fetch(): PwData? {

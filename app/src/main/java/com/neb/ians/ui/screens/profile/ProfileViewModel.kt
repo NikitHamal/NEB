@@ -299,6 +299,10 @@ class ProfileViewModel @Inject constructor(
                 val token = authRepository.getBearerToken()
                 val offset = if (reset) 0 else _uiState.value.posts.size
                 val response = apiService.getProfileActivity(token, username, offset, POSTS_PAGE_SIZE)
+                kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
+                    com.neb.ians.ui.components.prewarmCardPreviewsNow(response.posts)
+                    response.posts.forEach { com.neb.ians.ui.components.extractPostAttachments(it.content) }
+                }
                 _uiState.update {
                     val merged = if (reset) response.posts
                     else (it.posts + response.posts).distinctBy { p -> p.id }
@@ -384,6 +388,11 @@ class ProfileViewModel @Inject constructor(
                 val token = authRepository.getBearerToken()
                 val offset = if (reset) 0 else _uiState.value.resources.size
                 val response = apiService.getProfileResources(token, username, offset, POSTS_PAGE_SIZE)
+                kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
+                    response.resources.forEach { r ->
+                        com.neb.ians.ui.components.v3art.V3Cache.prewarm("${r.id}|${r.type}", r.subject.orEmpty())
+                    }
+                }
                 _uiState.update {
                     val merged = if (reset) response.resources
                     else (it.resources + response.resources).distinctBy { r -> r.id }

@@ -147,12 +147,12 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
             else inProv.map { it.district }.distinct().sorted()
         }
         if (districts.size > 1) PwChipRow(districts.map { it to it }, { it == district }, { district = if (it == district) "" else it; if (district.isNotEmpty()) vm.setDistrict(district, kindFor(r)) else vm.setDistrict("", "") }, inset = 0.dp)
-        val needle = filterQ.trim().lowercase()
+        val needle = filterQ.trim()
         val list = remember(inProv, district, cmax, sort, allMatches, onNebBySlug, needle) {
             inProv.filter { p ->
                 (district.isEmpty() || p.district == district) &&
                     (p.fees[r.id]?.second?.let { it / 100_000f <= cmax } ?: true) &&
-                    (needle.isEmpty() || "${p.name} ${p.place} ${p.district}".lowercase().contains(needle))
+                    (needle.isEmpty() || p.name.contains(needle, ignoreCase = true) || p.place.contains(needle, ignoreCase = true) || p.district.contains(needle, ignoreCase = true))
             }
                 .sortedWith(
                     if (sort == "fee") {
@@ -229,7 +229,12 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
         }
         val filteredPlus2 = remember(ui.plus2Schools, needle) {
             if (needle.isEmpty()) ui.plus2Schools
-            else ui.plus2Schools.filter { "${it.name} ${it.nameNe} ${it.address} ${it.code}".lowercase().contains(needle) }
+            else ui.plus2Schools.filter {
+                it.name.contains(needle, ignoreCase = true) ||
+                    it.nameNe.contains(needle, ignoreCase = true) ||
+                    it.address.contains(needle, ignoreCase = true) ||
+                    it.code.contains(needle, ignoreCase = true)
+            }
         }
         if (isPlus2 && district.isNotEmpty() && ui.district == district && filteredPlus2.isNotEmpty()) {
             PwH4("NEB +2 schools in $district (${if (needle.isEmpty()) ui.plus2Total else filteredPlus2.size})")
