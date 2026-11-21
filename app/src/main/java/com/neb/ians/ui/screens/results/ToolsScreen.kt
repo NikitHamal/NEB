@@ -37,8 +37,7 @@ fun ToolsScreen(
     onNavigateBack: () -> Unit,
     onNavigateToResultChecker: () -> Unit,
     onNavigateToNotes: () -> Unit = {},
-    onNavigateToPathways: () -> Unit = {},
-    onNavigateToPostLab: () -> Unit = {}
+    onNavigateToPathways: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -73,9 +72,6 @@ fun ToolsScreen(
             item {
                 val showWhatsNew = com.neb.ians.ui.theme.LocalSiteTheme.current.onShowWhatsNew
                 ToolRow(Icons.Outlined.FactCheck, "What's new in 1.8", "See the latest features in this update and try Pathways, Notes & Voice AI and Schools.", showWhatsNew)
-            }
-            item {
-                ToolRow(Icons.Outlined.Palette, "Dynamic posts", "Preview posts with their own paper, type and decoration.", onNavigateToPostLab)
             }
 
             item {

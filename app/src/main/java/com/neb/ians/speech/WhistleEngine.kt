@@ -76,6 +76,7 @@ class WhistleEngine @Inject constructor(
     @Volatile private var loadedPath: String? = null
     @Volatile private var stopRequested = false
     private var session: Job? = null
+    private var idleJob: Job? = null
 
     val supported: Boolean get() = models.sttSupportedCached
     val isRunning: Boolean get() = session?.isActive == true
@@ -86,6 +87,7 @@ class WhistleEngine @Inject constructor(
                 if (id.isStt) {
                     loadedPath = null
                     cancel()
+                    scope.launch(engineThread) { NativeSpeech.sttAdviseIdle() }
                 }
             }
         }
@@ -100,6 +102,7 @@ class WhistleEngine @Inject constructor(
         if (isRunning) return
         if (!supported) return fail("Speech to text is not available on this device")
         if (!models.isAnySttInstalled()) return fail("Download the speech to text model first")
+        idleJob?.cancel()
         stopRequested = false
         _pending.value = ""
         _seconds.value = 0
@@ -126,6 +129,10 @@ class WhistleEngine @Inject constructor(
             } finally {
                 _level.value = 0f
                 _pending.value = ""
+                idleJob = scope.launch(engineThread) {
+                    kotlinx.coroutines.delay(60_000)
+                    if (!isRunning) NativeSpeech.sttAdviseIdle()
+                }
             }
         }
     }

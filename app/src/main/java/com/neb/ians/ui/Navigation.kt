@@ -67,7 +67,6 @@ import com.neb.ians.ui.components.GateReason
 import com.neb.ians.ui.components.LocalAuthGate
 import com.neb.ians.ui.components.SignInSheet
 import com.neb.ians.ui.screens.pathways.PathwaysScreen
-import com.neb.ians.ui.screens.lab.DynamicPostsLabScreen
 import com.neb.ians.ui.components.NebNavItem
 import com.neb.ians.ui.screens.home.HomeScreen
 import com.neb.ians.ui.screens.library.LibraryScreen
@@ -202,7 +201,6 @@ sealed class Screen(val route: String) {
     data object Institution : Screen("institution/{slug}") { fun createRoute(slug: String) = "institution/$slug" }
     data object InstitutionClaim : Screen("institution_claim/{slug}") { fun createRoute(slug: String) = "institution_claim/$slug" }
     data object InstitutionManage : Screen("institution_manage/{slug}") { fun createRoute(slug: String) = "institution_manage/$slug" }
-    data object PostLab : Screen("forum/lab")
     data object Legal : Screen("legal/{doc}") {
         fun createRoute(doc: String) = "legal/$doc"
     }
@@ -675,8 +673,7 @@ fun NEBiansNavHost(
                     onNavigateBack = { navController.popBackStack() },
                     onNavigateToResultChecker = { navController.navigate(Screen.ResultChecker.route) },
                     onNavigateToNotes = { navController.navigate(Screen.Notes.route) },
-                    onNavigateToPathways = { navController.navigate(Screen.Pathways.route) },
-                    onNavigateToPostLab = { navController.navigate(Screen.PostLab.route) }
+                    onNavigateToPathways = { navController.navigate(Screen.Pathways.route) }
                 )
             }
             composable(Screen.Pathways.route) {
@@ -720,9 +717,6 @@ fun NEBiansNavHost(
                     slug = entry.arguments?.getString("slug").orEmpty(),
                     onBack = { navController.popBackStack() }
                 )
-            }
-            composable(Screen.PostLab.route) {
-                DynamicPostsLabScreen(onNavigateBack = { navController.popBackStack() })
             }
             composable(
                 route = Screen.Search.route,

@@ -392,7 +392,4 @@ object NebyLooks {
     private fun note(cv: PixelCanvas, x: Int, y: Int, col: Int) = with(cv) {
         rect(x, y + 3, 2, 2, col); line(x + 1, y, x + 1, y + 3, col); set(x + 2, y, col); set(x + 3, y + 1, col)
     }
-
-    /** Distance from the body's centre line, used by states placing props. */
-    internal fun clearOfBody(g: Geo, x: Float): Boolean = abs(x - g.cx) > g.rx + 1f
 }

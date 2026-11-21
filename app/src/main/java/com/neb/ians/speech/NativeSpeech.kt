@@ -44,8 +44,8 @@ internal object NativeSpeech {
     external fun sttCompiled(): Boolean
     external fun sttLoad(path: String): Int
     external fun sttReset()
+    external fun sttAdviseIdle()
     external fun sttError(): String
-    external fun sttTranscribe(pcm: FloatArray, samples: Int, lang: String?, keywords: String?): String?
     external fun sttStream(pcm: FloatArray, samples: Int, lang: String?, keywords: String?): String?
     external fun sttStop(): String?
 
@@ -55,7 +55,6 @@ internal object NativeSpeech {
     external fun ttsError(handle: Long): String
     external fun ttsVoices(handle: Long): Array<String>
     external fun ttsSetVoice(handle: Long, name: String): Boolean
-    external fun ttsSetLanguage(handle: Long, lang: String): Boolean
     external fun ttsSpeak(handle: Long, text: String, sink: PcmSink): Boolean
     external fun ttsFree(handle: Long)
 

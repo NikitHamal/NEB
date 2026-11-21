@@ -122,21 +122,6 @@ class PixelCanvas(val width: Int, val height: Int) {
         if (amount > Bayer.threshold(x, y)) set(x, y, color)
     }
 
-    fun blit(sprite: PixelSprite, frame: Int, x: Int, y: Int, flipX: Boolean = false) {
-        val data = sprite.frames[Math.floorMod(frame, sprite.frames.size)]
-        for (sy in 0 until sprite.height) {
-            val ty = y + sy
-            if (ty !in 0 until height) continue
-            for (sx in 0 until sprite.width) {
-                val c = data[sy * sprite.width + if (flipX) sprite.width - 1 - sx else sx]
-                if ((c ushr 24) != 0) {
-                    val tx = x + sx
-                    if (tx in 0 until width) pixels[ty * width + tx] = c
-                }
-            }
-        }
-    }
-
 }
 
 /** 4x4 ordered dither: the classic, stable pattern that reads as "pixel art" rather than noise. */

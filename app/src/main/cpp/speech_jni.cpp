@@ -48,8 +48,7 @@ jstring toJava(JNIEnv* env, const char* s) {
 #ifndef NEB_NO_NEEDLE
 void* gModelMap = nullptr;
 size_t gModelLen = 0;
-std::vector<char> gSttStreamBuf(1 << 17, 0);
-std::vector<char> gSttBatchBuf(1 << 20, 0);
+std::vector<char> gSttStreamBuf;
 #endif
 
 }  // namespace
@@ -108,37 +107,22 @@ Java_com_neb_ians_speech_NativeSpeech_sttReset(JNIEnv*, jobject) {
 #endif
 }
 
+JNIEXPORT void JNICALL
+Java_com_neb_ians_speech_NativeSpeech_sttAdviseIdle(JNIEnv*, jobject) {
+#ifndef NEB_NO_NEEDLE
+    if (gModelMap != nullptr && gModelLen > 0) {
+        madvise(gModelMap, gModelLen, MADV_DONTNEED);
+    }
+    std::vector<char>().swap(gSttStreamBuf);
+#endif
+}
+
 JNIEXPORT jstring JNICALL
 Java_com_neb_ians_speech_NativeSpeech_sttError(JNIEnv* env, jobject) {
 #ifdef NEB_NO_NEEDLE
     return toJava(env, "This device build has no speech engine");
 #else
     return toJava(env, needle_last_error());
-#endif
-}
-
-JNIEXPORT jstring JNICALL
-Java_com_neb_ians_speech_NativeSpeech_sttTranscribe(
-        JNIEnv* env, jobject, jfloatArray pcm, jint samples, jstring lang, jstring keywords) {
-#ifdef NEB_NO_NEEDLE
-    (void) env; (void) pcm; (void) samples; (void) lang; (void) keywords;
-    return nullptr;
-#else
-    std::string l = toStd(env, lang), k = toStd(env, keywords);
-    jfloat* data = env->GetFloatArrayElements(pcm, nullptr);
-    if (data == nullptr) return nullptr;
-    const int cap = (int) gSttBatchBuf.size();
-    gSttBatchBuf[0] = '\0';
-    int rc = -1;
-    try {
-        rc = needle_transcribe(data, samples, l.empty() ? nullptr : l.c_str(),
-                               k.empty() ? nullptr : k.c_str(), 0, gSttBatchBuf.data(), cap);
-    } catch (...) {
-        rc = -1;
-    }
-    env->ReleaseFloatArrayElements(pcm, data, JNI_ABORT);
-    if (rc < 0) return nullptr;
-    return toJava(env, gSttBatchBuf.data());
 #endif
 }
 
@@ -152,6 +136,7 @@ Java_com_neb_ians_speech_NativeSpeech_sttStream(
     std::string l = toStd(env, lang), k = toStd(env, keywords);
     jfloat* data = env->GetFloatArrayElements(pcm, nullptr);
     if (data == nullptr) return nullptr;
+    if (gSttStreamBuf.size() < (1 << 17)) gSttStreamBuf.resize(1 << 17, 0);
     const int cap = (int) gSttStreamBuf.size();
     gSttStreamBuf[0] = '\0';
     int rc = -1;
@@ -173,6 +158,7 @@ Java_com_neb_ians_speech_NativeSpeech_sttStop(JNIEnv* env, jobject) {
     (void) env;
     return nullptr;
 #else
+    if (gSttStreamBuf.size() < (1 << 17)) gSttStreamBuf.resize(1 << 17, 0);
     const int cap = (int) gSttStreamBuf.size();
     gSttStreamBuf[0] = '\0';
     int rc = -1;

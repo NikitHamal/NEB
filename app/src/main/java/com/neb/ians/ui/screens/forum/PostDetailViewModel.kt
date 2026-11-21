@@ -471,16 +471,6 @@ class PostDetailViewModel @Inject constructor(
 
     // ----- Edit / archive / delete -----
 
-    fun editPost(title: String, content: String) {
-        viewModelScope.launch {
-            forumRepository.updatePost(postId, title = title, content = content)
-                .onSuccess { updated ->
-                    _state.update { it.copy(post = updated, poll = updated.poll?.toPollUi() ?: it.poll) }
-                }
-                .onFailure { _state.update { it.copy(snackbarMessage = "Couldn't save changes") } }
-        }
-    }
-
     fun editReply(replyId: String, content: String) {
         viewModelScope.launch {
             forumRepository.updateReply(replyId, content)
