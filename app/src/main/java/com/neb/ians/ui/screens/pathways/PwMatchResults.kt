@@ -52,8 +52,8 @@ internal fun LazyListScope.pwMatchItems(d: PwData, ui: PathwaysUiState, vm: Path
     if (r.strong.isEmpty()) item("mnote") { MatchNote() }
     fun section(key: String, title: String, list: List<PwMatch>, from: Int) {
         if (list.isEmpty()) return
-        item("h$key") { PwH4(title, Modifier.padding(horizontal = 16.dp)) }
-        items(list.size, key = { "m${list[it].route.id}" }) { i ->
+        item("h$key", contentType = "pw_match_header") { PwH4(title, Modifier.padding(horizontal = 16.dp)) }
+        items(list.size, key = { "m${list[it].route.id}" }, contentType = { "pw_match_card" }) { i ->
             val m = list[i]
             PwMatchCard(
                 d, m, from + i == 0, open == m.route.id, "route:${m.route.id}" in ui.saved,
@@ -65,8 +65,8 @@ internal fun LazyListScope.pwMatchItems(d: PwData, ui: PathwaysUiState, vm: Path
     section("s", "Best fit", r.strong, 0)
     section("p", if (r.strong.isEmpty()) "Closest options" else "Worth a look", r.possible, r.strong.size)
     if (r.weak.isNotEmpty()) {
-        item("mweak") { WeakToggle(r.weak.size, s.matchWeak) { s.matchWeak = !s.matchWeak } }
-        if (s.matchWeak) items(r.weak.size, key = { "w${r.weak[it].route.id}" }) { i ->
+        item("mweak", contentType = "pw_weak_toggle") { WeakToggle(r.weak.size, s.matchWeak) { s.matchWeak = !s.matchWeak } }
+        if (s.matchWeak) items(r.weak.size, key = { "w${r.weak[it].route.id}" }, contentType = { "pw_weak_row" }) { i ->
             val m = r.weak[i]
             Box(Modifier.padding(horizontal = 16.dp, vertical = 3.dp)) { PwRow(m.route.name, m.neg.joinToString(" · ").ifEmpty { groupLabel(m.route.group) }, "${m.score}", { nav.push("route:${m.route.id}") }, strong = true) }
         }

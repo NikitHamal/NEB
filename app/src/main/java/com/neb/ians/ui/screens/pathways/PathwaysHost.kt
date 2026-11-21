@@ -236,7 +236,7 @@ internal fun PwSearch(d: PwData, vm: PathwaysViewModel, nav: PwNav) {
         }
         LazyColumn(contentPadding = PaddingValues(16.dp, 0.dp, 16.dp, 24.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             if (q.isNotBlank() && hits.isEmpty()) item("none") { PwEmpty("No results") }
-            items(hits, key = { it.kind + it.id }) { h -> PwRow(h.title, h.sub, h.kind, onClick = { open(h) }) }
+            items(hits, key = { it.kind + it.id }, contentType = { "pw_hit" }) { h -> PwRow(h.title, h.sub, h.kind, onClick = { open(h) }) }
         }
     }
 }

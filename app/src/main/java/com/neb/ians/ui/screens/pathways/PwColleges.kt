@@ -166,7 +166,7 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
                         compareBy<PwProvider>(
                             { if (it.id in allMatches) 0 else 1 },
                             { -(onNebBySlug[allMatches[it.id]]?.completeness ?: 0) },
-                            { -it.seats },
+                            { -it.seatsFor(r.id) },
                             { it.name }
                         )
                     }
@@ -181,6 +181,7 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
                 val matchedSlug = allMatches[p.id]
                 val onNebItem = matchedSlug?.let { onNebBySlug[it] }
                 val fee = p.fees[r.id]?.second ?: onNebItem?.feeMax ?: onNebItem?.feeMin
+                val routeSeats = p.seatsFor(r.id)
                 PwSurface(
                     Modifier.fillMaxWidth().pwRise(i, r.id),
                     radius = 22.dp,
@@ -201,7 +202,7 @@ internal fun PwCollegesBody(d: PwData, fixed: String, ui: PathwaysUiState, vm: P
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                             Column(Modifier.weight(1f)) {
                                 Text(p.name, fontSize = 14.5.sp, fontWeight = FontWeight.SemiBold, lineHeight = 18.sp)
-                                Text(listOf(p.place, p.district, if (p.seats > 0) "${p.seats} seats" else "").filter { it.isNotBlank() }.distinct().joinToString(" · "),
+                                Text(listOf(p.place, p.district, if (routeSeats > 0) "$routeSeats seats" else "").filter { it.isNotBlank() }.distinct().joinToString(" · "),
                                     fontSize = 12.sp, fontWeight = FontWeight.Medium, color = c.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
                             }
                             if (matchedSlug != null) {

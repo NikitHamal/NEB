@@ -179,7 +179,7 @@ private fun SyllabusHub(
                                 )
                             }
                         } else {
-                            items(pick, key = { "p_${mode.name}_${grade.grade}_${it.subject}" }) { card ->
+                            items(pick, key = { "p_${mode.name}_${grade.grade}_${it.subject}" }, contentType = { "subject_card" }) { card ->
                                 val n = if (mode == HubMode.Banks) card.bankCount else card.modelCount
                                 SubjectCard(
                                     card = card,
@@ -192,7 +192,7 @@ private fun SyllabusHub(
                     } else if (grade != null) {
                         val groups = grade.subjects.groupBy { it.group }
                         groups.forEach { (group, cards) ->
-                            item(key = "g_$group") {
+                            item(key = "g_$group", contentType = "group_header") {
                                 Text(
                                     text = groupTitle(group),
                                     style = MaterialTheme.typography.labelLarge,
@@ -200,7 +200,7 @@ private fun SyllabusHub(
                                     modifier = Modifier.padding(top = 6.dp, start = 4.dp)
                                 )
                             }
-                            items(cards, key = { "s_${grade.grade}_${it.subject}" }) { card ->
+                            items(cards, key = { "s_${grade.grade}_${it.subject}" }, contentType = { "subject_card" }) { card ->
                                 SubjectCard(
                                     card = card,
                                     progress = fraction(state.chaptersDone(grade.grade, card.subject), card.unitCount),
@@ -240,7 +240,7 @@ private fun androidx.compose.foundation.lazy.LazyListScope.syllabusHits(state: S
                 modifier = Modifier.padding(start = 4.dp)
             )
         }
-        items(state.hits, key = { "h_${it.grade}_${it.subject}_${it.unit}" }) { hit ->
+        items(state.hits, key = { "h_${it.grade}_${it.subject}_${it.unit}" }, contentType = { "syllabus_hit" }) { hit ->
             HitRow(hit) { viewModel.openSubject(hit.grade, hit.subject, hit.unit) }
         }
     }

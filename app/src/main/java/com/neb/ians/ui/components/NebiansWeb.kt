@@ -110,6 +110,7 @@ import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone
 
 private val VideoExtensionRegex = Regex("\\.(mp4|mkv|webm|3gp|mov)$", RegexOption.IGNORE_CASE)
+private val WHITESPACE_SPLIT_REGEX = Regex("\\s+")
 
 val WebCardShape = RoundedCornerShape(14.dp)
 val WebPanelShape = RoundedCornerShape(18.dp)
@@ -221,7 +222,7 @@ fun WebTopBar(
                     }
                 }
                 val firstName = remember(name) {
-                    name.trim().split(Regex("\\s+")).firstOrNull().orEmpty().ifBlank { "User" }
+                    name.trim().split(WHITESPACE_SPLIT_REGEX).firstOrNull().orEmpty().ifBlank { "User" }
                 }
 
                 Column(

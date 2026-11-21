@@ -80,7 +80,10 @@ data class PwCareer(
 data class PwProvider(
     val id: String, val name: String, val kind: String, val sector: String, val district: String, val place: String, val note: String,
     val website: String = "", val fees: Map<String, Pair<Long, Long>> = emptyMap(), val seats: Int = 0,
-)
+    val routeSeats: Map<String, Int> = emptyMap(),
+) {
+    fun seatsFor(routeId: String): Int = routeSeats[routeId]?.takeIf { it > 0 } ?: seats
+}
 data class PwScholarship(
     val id: String, val name: String, val scope: String, val levels: List<String>, val by: String, val covers: String, val who: String, val how: String,
     val link: String = "", val country: String = "", val type: String = "", val open: List<Int> = emptyList(), val awards: Int = 0,
@@ -122,6 +125,7 @@ data class PwData(
     internal fun matchMemo(p: PwProfile, run: () -> PwMatchResult): PwMatchResult = synchronized(memo) { memo[p] } ?: run().also { synchronized(memo) { memo[p] = it } }
     internal val metrics: Map<String, PwMetrics> by lazy(LazyThreadSafetyMode.PUBLICATION) { routes.associate { it.id to routeMetrics(this, it) } }
     val maxSenior: Long by lazy(LazyThreadSafetyMode.PUBLICATION) { careers.values.maxOfOrNull { (it.seniorMin + it.seniorMax) / 2 }?.coerceAtLeast(1L) ?: 1L }
+    internal val searchCorpus: List<Pair<String, PwHit>> by lazy(LazyThreadSafetyMode.PUBLICATION) { buildSearchCorpus(this) }
 
     internal fun precomputeIndices(): PwData = apply {
         routeById
@@ -132,6 +136,7 @@ data class PwData(
         maxSenior
         matchIdx
         wordIdf
+        searchCorpus
     }
 }
 
@@ -177,6 +182,7 @@ internal fun parsePathways(text: String): PwData {
             PwProvider(
                 p.getString("id"), p.getString("name"), p.optString("kind"), p.optString("sector"), p.optString("district"), p.optString("place"), p.optString("note"),
                 p.optString("website"), fees, p.optInt("seats"),
+                routeSeats = p.optJSONObject("route_seats").intMap(),
             )
         }.associateBy { it.id },
         scholarships = o.getJSONArray("scholarships").mapObjs {

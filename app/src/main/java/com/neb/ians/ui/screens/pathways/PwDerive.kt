@@ -150,18 +150,28 @@ internal fun linkLabel(link: String): String = when (link.substringBefore(":")) 
 
 internal data class PwHit(val kind: String, val id: String, val title: String, val sub: String)
 
+internal fun buildSearchCorpus(d: PwData): List<Pair<String, PwHit>> = buildList(
+    d.routes.size + d.careers.size + d.govt.size + d.guides.size + d.providers.size + d.scholarships.size + d.abroad.size + d.faq.size
+) {
+    d.routes.forEach { add("${it.name} ${it.kind} ${it.about}".lowercase() to PwHit("Course", it.id, it.name, groupLabel(it.group))) }
+    d.careers.values.forEach { add("${it.name} ${it.about}".lowercase() to PwHit("Career", it.id, it.name, "NPR ${money(it.entryMin)}–${money(it.seniorMax)} / month")) }
+    d.govt.forEach { add("${it.name} ${it.body} ${it.level}".lowercase() to PwHit("Exam", it.id, it.name, it.body)) }
+    d.guides.forEach { add("${it.name} ${it.cat}".lowercase() to PwHit("Guide", it.id, it.name, it.cat)) }
+    d.providers.values.forEach { add("${it.name} ${it.place} ${it.district}".lowercase() to PwHit("College", it.id, it.name, it.district)) }
+    d.scholarships.forEach { add("${it.name} ${it.by}".lowercase() to PwHit("Scholarship", it.id, it.name, it.by)) }
+    d.abroad.forEach { add(it.country.lowercase() to PwHit("Country", it.id, it.country, "NPR ${money(it.tuitionMin + it.livingMin)} / year")) }
+    d.faq.forEach { add(it.q.lowercase() to PwHit("Question", it.id, it.q, "")) }
+}
+
 internal fun pwSearch(d: PwData, q: String): List<PwHit> {
     val words = q.lowercase().split(" ").filter { it.length >= 2 }
     if (words.isEmpty()) return emptyList()
-    fun hit(vararg s: String): Boolean { val t = s.joinToString(" ").lowercase(); return words.all { it in t } }
-    val out = mutableListOf<PwHit>()
-    d.routes.filter { hit(it.name, it.kind, it.about) }.forEach { out += PwHit("Course", it.id, it.name, groupLabel(it.group)) }
-    d.careers.values.filter { hit(it.name, it.about) }.forEach { out += PwHit("Career", it.id, it.name, "NPR ${money(it.entryMin)}–${money(it.seniorMax)} / month") }
-    d.govt.filter { hit(it.name, it.body, it.level) }.forEach { out += PwHit("Exam", it.id, it.name, it.body) }
-    d.guides.filter { hit(it.name, it.cat) }.forEach { out += PwHit("Guide", it.id, it.name, it.cat) }
-    d.providers.values.filter { hit(it.name, it.place, it.district) }.forEach { out += PwHit("College", it.id, it.name, it.district) }
-    d.scholarships.filter { hit(it.name, it.by) }.forEach { out += PwHit("Scholarship", it.id, it.name, it.by) }
-    d.abroad.filter { hit(it.country) }.forEach { out += PwHit("Country", it.id, it.country, "NPR ${money(it.tuitionMin + it.livingMin)} / year") }
-    d.faq.filter { hit(it.q) }.forEach { out += PwHit("Question", it.id, it.q, "") }
-    return out.take(80)
+    val out = ArrayList<PwHit>(80)
+    for ((haystack, hit) in d.searchCorpus) {
+        if (words.all { it in haystack }) {
+            out += hit
+            if (out.size >= 80) break
+        }
+    }
+    return out
 }

@@ -111,7 +111,7 @@ fun NativeProjectileMotion(modifier: Modifier = Modifier) {
             }
         ) {
             val w = size.width; val h = size.height
-            drawRect(Brush.verticalGradient(listOf(Color(0xFFDCE9FA), Color(0xFFF6F8FC))))
+            drawRect(Color(0xFFE9EEFB))
             val groundY = h * 0.86f; val ox = w * 0.07f
             // scale: fit the furthest flight with margin, in whole 10 m steps
             val reach = max(listOf(speed * speed / g, (flights.maxOfOrNull { it.range } ?: 0f), (latest?.range ?: 0f)).maxOrNull() ?: 10f, 10f)

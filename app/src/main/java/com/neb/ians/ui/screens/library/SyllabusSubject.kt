@@ -211,7 +211,7 @@ private fun SubjectBody(state: SyllabusUiState, doc: ApiSyllabusDoc, viewModel: 
                 }
             }
             SyllabusTab.Bank -> {
-                items(doc.banks, key = { "b_${it.no}" }) { b ->
+                items(doc.banks, key = { "b_${it.no}" }, contentType = { "bank_card" }) { b ->
                     BankCard(b, state.marks["${doc.grade}/${doc.subject}/bank${b.no}"]) { onOpenDoc(doc.grade, doc.subject, "bank", b.no) }
                 }
                 doc.guide?.let { g ->
