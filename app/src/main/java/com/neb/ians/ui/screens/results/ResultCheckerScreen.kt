@@ -151,13 +151,25 @@ fun ResultCheckerScreen(
                 }
             }
             if (state.bulkRows.isNotEmpty()) {
-                item {
+                item(key = "bulk_results") {
                     BulkResultsCard(
                         rows = state.bulkRows,
                         canExport = !state.isChecking && state.bulkRows.any { it.success },
                         onExport = {
-                            val ok = context.exportBulkCsv(state.bulkRows, state.exam, state.batch)
-                            scope.launch { snackbarHostState.showSnackbar(if (ok) "CSV export shared" else "Couldn't export CSV") }
+                            val rowsSnap = state.bulkRows
+                            val examSnap = state.exam
+                            val batchSnap = state.batch
+                            scope.launch {
+                                val intent = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                                    context.buildBulkCsvShareIntent(rowsSnap, examSnap, batchSnap)
+                                }
+                                if (intent != null) {
+                                    runCatching { context.startActivity(Intent.createChooser(intent, "Export CSV")) }
+                                    snackbarHostState.showSnackbar("CSV export shared")
+                                } else {
+                                    snackbarHostState.showSnackbar("Couldn't export CSV")
+                                }
+                            }
                         }
                     )
                 }
@@ -631,8 +643,12 @@ private fun GradesheetDialog(
                                 textAlign = androidx.compose.ui.text.style.TextAlign.Center
                             )
                         }
-                        item { GradesheetDetails(payload, batch, dob) }
-                        itemsIndexed(payload.subjects) { index, subject ->
+                        item(key = "details") { GradesheetDetails(payload, batch, dob) }
+                        itemsIndexed(
+                            items = payload.subjects,
+                            key = { index, s -> "${index}_${s.code}_${s.name}" },
+                            contentType = { _, _ -> "subject" }
+                        ) { index, subject ->
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                                 Text((index + 1).toString(), modifier = Modifier.weight(0.4f), color = Color(0xFF0A0A0B), style = MaterialTheme.typography.labelSmall)
                                 Text(subject.code.ifBlank { "—" }, modifier = Modifier.weight(0.8f), color = Color(0xFF0A0A0B), style = MaterialTheme.typography.labelSmall)
@@ -807,7 +823,7 @@ private fun Context.shareResultSummary(payload: ResultPayload) {
     startActivity(Intent.createChooser(intent, "Share Result"))
 }
 
-private fun Context.exportBulkCsv(rows: List<BulkResultRow>, exam: ResultExam, batch: String): Boolean {
+private fun Context.buildBulkCsvShareIntent(rows: List<BulkResultRow>, exam: ResultExam, batch: String): Intent? {
     return runCatching {
         val csv = buildString {
             appendLine("Symbol Number,Student Name,GPA,Grade,Status")
@@ -823,14 +839,12 @@ private fun Context.exportBulkCsv(rows: List<BulkResultRow>, exam: ResultExam, b
         val file = File(dir, "Result_Export_${exam.name}_$batch.csv")
         file.writeText(csv)
         val uri = FileProvider.getUriForFile(this, "$packageName.fileprovider", file)
-        val intent = Intent(Intent.ACTION_SEND).apply {
+        Intent(Intent.ACTION_SEND).apply {
             type = "text/csv"
             putExtra(Intent.EXTRA_STREAM, uri)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
-        startActivity(Intent.createChooser(intent, "Export CSV"))
-        true
-    }.getOrDefault(false)
+    }.getOrNull()
 }
 
 private fun StringBuilder.appendCsv(value: String) {

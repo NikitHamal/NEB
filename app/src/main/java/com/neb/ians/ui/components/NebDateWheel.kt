@@ -191,7 +191,7 @@ private fun NebWheelColumn(
         contentPadding = PaddingValues(vertical = itemHeight * half),
         modifier = modifier.fillMaxSize()
     ) {
-        items(items.size) { index ->
+        items(items.size, key = { it }, contentType = { "wheel_item" }) { index ->
             val distance = abs(index - centeredIndex).toFloat()
             val fade = (1f - distance / (half + 1f)).coerceIn(0.18f, 1f)
             Box(

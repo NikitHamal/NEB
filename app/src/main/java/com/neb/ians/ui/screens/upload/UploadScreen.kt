@@ -75,6 +75,7 @@ import com.neb.ians.ui.components.NebLoaderSize
 import com.neb.ians.ui.components.nebPressable
 import com.neb.ians.ui.theme.nebEffectsSpec
 import com.neb.ians.ui.theme.nebSpatialSpec
+import kotlinx.coroutines.launch
 import java.io.File
 
 /**
@@ -98,6 +99,7 @@ fun UploadScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val ioScope = androidx.compose.runtime.rememberCoroutineScope()
 
     var stepIndex by rememberSaveable { mutableIntStateOf(0) }
     var sheet by remember { mutableStateOf<UploadSheet?>(null) }
@@ -107,17 +109,30 @@ fun UploadScreen(
     val photoPicker = rememberLauncherForActivityResult(
         ActivityResultContracts.PickMultipleVisualMedia()
     ) { uris ->
-        viewModel.addFiles(uris.mapNotNull { describe(context, it) })
+        if (uris.isEmpty()) return@rememberLauncherForActivityResult
+        val appCtx = context.applicationContext
+        ioScope.launch {
+            val described = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                uris.mapNotNull { describe(appCtx, it) }
+            }
+            viewModel.addFiles(described)
+        }
     }
 
     val filePicker = rememberLauncherForActivityResult(
         ActivityResultContracts.GetMultipleContents()
     ) { uris ->
-        val described = uris.mapNotNull { describe(context, it) }
-        val small = described.filter { it.size <= UploadOptions.MAX_FILE_SIZE }
-        viewModel.addFiles(small)
-        if (small.size < described.size) {
-            viewModel.setFileError("Files over 50 MB were left out.")
+        if (uris.isEmpty()) return@rememberLauncherForActivityResult
+        val appCtx = context.applicationContext
+        ioScope.launch {
+            val described = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                uris.mapNotNull { describe(appCtx, it) }
+            }
+            val small = described.filter { it.size <= UploadOptions.MAX_FILE_SIZE }
+            viewModel.addFiles(small)
+            if (small.size < described.size) {
+                viewModel.setFileError("Files over 50 MB were left out.")
+            }
         }
     }
 
@@ -134,13 +149,22 @@ fun UploadScreen(
     ) { saved ->
         val uri = captureUri
         if (saved && uri != null) {
-            describe(context, uri)?.let { viewModel.addFiles(listOf(it.copy(isImage = true))) }
-            captureTick++
+            val appCtx = context.applicationContext
+            ioScope.launch {
+                val item = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                    describe(appCtx, uri)?.copy(isImage = true)
+                }
+                if (item != null) viewModel.addFiles(listOf(item))
+                captureTick++
+            }
         }
     }
     LaunchedEffect(captureTick) {
         if (captureTick == 0) return@LaunchedEffect
-        val uri = createCaptureUri(context) ?: return@LaunchedEffect
+        val appCtx = context.applicationContext
+        val uri = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+            createCaptureUri(appCtx)
+        } ?: return@LaunchedEffect
         captureUri = uri
         runCatching { cameraLauncher.launch(uri) }
     }

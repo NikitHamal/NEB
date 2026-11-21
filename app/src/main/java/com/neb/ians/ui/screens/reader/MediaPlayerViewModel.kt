@@ -346,12 +346,15 @@ class MediaPlayerViewModel @Inject constructor(
         val d = p.duration.coerceAtLeast(0)
         val t = p.currentPosition.coerceAtLeast(0)
         val buf = if (d > 0 && p.bufferedPosition > 0) ((p.bufferedPosition.toFloat() / d) * 100).toInt().coerceIn(0, 100) else 0
-        _uiState.update {
-            it.copy(
-                currentTimeMs = t,
-                durationMs = d,
-                bufferedPercent = buf
-            )
+        val cur = _uiState.value
+        if (t / 200L != cur.currentTimeMs / 200L || d != cur.durationMs || buf != cur.bufferedPercent) {
+            _uiState.update {
+                it.copy(
+                    currentTimeMs = t,
+                    durationMs = d,
+                    bufferedPercent = buf
+                )
+            }
         }
         savePositionDebounced()
     }

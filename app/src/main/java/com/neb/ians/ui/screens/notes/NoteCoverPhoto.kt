@@ -19,11 +19,15 @@ import java.io.File
 
 private val noteCoverBitmapCache = android.util.LruCache<String, ImageBitmap>(24)
 
+internal fun trimNoteCoverBitmapCache() {
+    synchronized(noteCoverBitmapCache) { noteCoverBitmapCache.evictAll() }
+}
+
 /** A gallery cover. Decoded off the main thread with bounded dimensions and LRU caching. */
 @Composable
 fun NoteCoverPhoto(file: File, modifier: Modifier = Modifier, light: Boolean = false) {
     val cacheKey = "${file.path}:${file.lastModified()}:$light"
-    val cached = androidx.compose.runtime.remember(cacheKey) { noteCoverBitmapCache.get(cacheKey) }
+    val cached = androidx.compose.runtime.remember(cacheKey) { synchronized(noteCoverBitmapCache) { noteCoverBitmapCache.get(cacheKey) } }
     val bmp by produceState<ImageBitmap?>(cached, cacheKey) {
         if (value != null) return@produceState
         value = withContext(Dispatchers.IO) {
@@ -35,7 +39,7 @@ fun NoteCoverPhoto(file: File, modifier: Modifier = Modifier, light: Boolean = f
                 while (bounds.outWidth / sample > maxDim || bounds.outHeight / sample > maxDim) sample *= 2
                 val opts = BitmapFactory.Options().apply { inSampleSize = sample }
                 BitmapFactory.decodeFile(file.path, opts)?.asImageBitmap()?.also {
-                    noteCoverBitmapCache.put(cacheKey, it)
+                    synchronized(noteCoverBitmapCache) { noteCoverBitmapCache.put(cacheKey, it) }
                 }
             }.getOrNull()
         }

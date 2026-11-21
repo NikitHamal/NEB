@@ -101,7 +101,7 @@ fun FollowRequestsDialog(
                                 contentPadding = PaddingValues(16.dp),
                                 verticalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
-                                items(requests) { req ->
+                                items(requests, key = { it.id }, contentType = { "request" }) { req ->
                                     Row(
                                         modifier = Modifier
                                             .fillMaxWidth()

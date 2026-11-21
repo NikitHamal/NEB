@@ -94,6 +94,8 @@ class NEBiansApp : Application(), ImageLoaderFactory {
         if (level >= TRIM_MEMORY_UI_HIDDEN || level >= TRIM_MEMORY_RUNNING_LOW) {
             com.neb.ians.ui.pixel.art.PixelOnboardingCache.trim()
             com.neb.ians.ui.components.v3art.V3Cache.trim(empty = level >= TRIM_MEMORY_BACKGROUND)
+            com.neb.ians.ui.screens.notes.NoteBackdropCache.trim()
+            com.neb.ians.ui.screens.notes.trimNoteCoverBitmapCache()
             if (level >= TRIM_MEMORY_BACKGROUND) com.neb.ians.ui.components.M3xArt.trimMemory()
         }
     }
@@ -102,6 +104,8 @@ class NEBiansApp : Application(), ImageLoaderFactory {
         super.onLowMemory()
         com.neb.ians.ui.pixel.art.PixelOnboardingCache.trim()
         com.neb.ians.ui.components.v3art.V3Cache.trim(empty = true)
+        com.neb.ians.ui.screens.notes.NoteBackdropCache.trim()
+        com.neb.ians.ui.screens.notes.trimNoteCoverBitmapCache()
         com.neb.ians.ui.components.M3xArt.trimMemory()
     }
 

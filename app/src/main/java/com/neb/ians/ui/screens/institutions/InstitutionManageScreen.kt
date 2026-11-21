@@ -104,7 +104,7 @@ fun InstitutionManageScreen(slug: String, onBack: () -> Unit, vm: InstitutionVie
                     }
                 }
             }
-            items(SECTIONS) { sec ->
+            items(SECTIONS, key = { it.title }, contentType = { "section" }) { sec ->
                 val done = sec.fields.any { f -> d.portfolio.details[f.key]?.let { it !is JsonNull && it.toString() != "\"\"" && it.toString() != "[]" && it.toString() != "{}" } == true }
                 Surface(color = MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(20.dp),
                     border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),

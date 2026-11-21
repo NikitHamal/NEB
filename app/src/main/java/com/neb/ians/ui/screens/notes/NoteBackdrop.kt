@@ -18,10 +18,11 @@ import java.io.File
 import kotlin.math.max
 import kotlin.math.roundToInt
 
-private object NoteBackdropCache {
+internal object NoteBackdropCache {
     private val cache = android.util.LruCache<String, ImageBitmap>(8)
     fun get(key: String): ImageBitmap? = synchronized(cache) { cache.get(key) }
     fun put(key: String, bmp: ImageBitmap) { synchronized(cache) { cache.put(key, bmp) } }
+    fun trim() { synchronized(cache) { cache.evictAll() } }
 }
 
 /** The page picture, decoded once off the main thread (null while loading or when the note has none). */

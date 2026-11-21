@@ -103,7 +103,7 @@ fun FollowersDialog(
                                 contentPadding = PaddingValues(16.dp),
                                 verticalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
-                                items(users) { user ->
+                                items(users, key = { it.id.ifBlank { it.username } }, contentType = { "user" }) { user ->
                                     Row(
                                         modifier = Modifier
                                             .fillMaxWidth()
