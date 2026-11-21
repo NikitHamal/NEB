@@ -74,7 +74,6 @@ import com.neb.ians.ui.components.ExpandableText
 import com.neb.ians.ui.components.NebAvatar
 import com.neb.ians.ui.components.NebCommentComposerBar
 import com.neb.ians.ui.components.NebTopBar
-import com.neb.ians.ui.components.rememberVoiceNoteRecorder
 import com.neb.ians.ui.components.ZoomableImageDialog
 import com.neb.ians.ui.screens.reader.MediaPlayerUiState
 import com.neb.ians.ui.screens.reader.MediaPlayerViewModel
@@ -114,10 +113,6 @@ fun ResourceDetailScreen(
     val commentMediaPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments()
     ) { uris -> if (!uris.isNullOrEmpty()) viewModel.addCommentAttachments(uris) }
-    val voiceNote = rememberVoiceNoteRecorder(
-        onVoiceNote = { file, durationMs -> viewModel.addCommentVoiceNote(file, durationMs) },
-        onError = { message -> viewModel.showSnackbar(message) }
-    )
 
     // Pick up fresh data after the owner editor (or any writer) returns.
     val resumeLifecycleOwner = LocalLifecycleOwner.current
@@ -273,7 +268,6 @@ fun ResourceDetailScreen(
                             viewModel = viewModel,
                             isAuthenticated = uiState.isAuthenticated,
                             isPostingComment = uiState.isPostingComment,
-                            voiceNote = voiceNote,
                             onPickMedia = { commentMediaPicker.launch(it) }
                         )
                     }
@@ -571,7 +565,6 @@ fun ResourceDetailScreen(
                                 activeThreadTargetId = activeThreadTargetId,
                                 replyTarget = replyTarget,
                                 isPostingComment = uiState.isPostingComment,
-                                voiceNote = voiceNote,
                                 onPickMedia = { commentMediaPicker.launch(it) },
                                 onClearTarget = { activeThreadTargetId = null }
                             )
@@ -941,7 +934,6 @@ private fun ResourceMainCommentBarSlot(
     viewModel: ResourceDetailViewModel,
     isAuthenticated: Boolean,
     isPostingComment: Boolean,
-    voiceNote: com.neb.ians.ui.components.VoiceNoteRecorder,
     onPickMedia: (Array<String>) -> Unit
 ) {
     val commentDraft by viewModel.commentDraft.collectAsStateWithLifecycle()
@@ -954,7 +946,6 @@ private fun ResourceMainCommentBarSlot(
         canSend = isAuthenticated && (commentDraft.isNotBlank() || commentAttachments.isNotEmpty()) && !isPostingComment,
         posting = isPostingComment,
         sendContentDescription = "Post comment",
-        voiceNote = if (isAuthenticated) voiceNote else null,
         trailingContent = if (isAuthenticated) {
             {
                 ComposerAttachMenu(
@@ -979,7 +970,6 @@ private fun ResourceThreadCommentBarSlot(
     activeThreadTargetId: String?,
     replyTarget: ApiResourceComment?,
     isPostingComment: Boolean,
-    voiceNote: com.neb.ians.ui.components.VoiceNoteRecorder,
     onPickMedia: (Array<String>) -> Unit,
     onClearTarget: () -> Unit
 ) {
@@ -993,7 +983,6 @@ private fun ResourceThreadCommentBarSlot(
         canSend = (threadDraft.isNotBlank() || commentAttachments.isNotEmpty()) && !isPostingComment,
         posting = isPostingComment,
         sendContentDescription = "Post reply",
-        voiceNote = voiceNote,
         trailingContent = {
             ComposerAttachMenu(
                 enabled = !isPostingComment,

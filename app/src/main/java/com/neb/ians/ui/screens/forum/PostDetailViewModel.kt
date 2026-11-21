@@ -671,40 +671,6 @@ class PostDetailViewModel @Inject constructor(
         _mediaAttachments.update { attachments -> attachments.filterNot { it.localId == localId } }
     }
 
-    /** Stage a finished voice-note recording as an audio attachment on the reply composer. */
-    fun addVoiceNote(file: File, durationMs: Long) {
-        val current = _mediaAttachments.value
-        if (current.size >= ForumMediaUploadHelper.MAX_ATTACHMENTS) {
-            _state.update { it.copy(snackbarMessage = "Maximum ${ForumMediaUploadHelper.MAX_ATTACHMENTS} attachments") }
-            return
-        }
-        val uri = Uri.fromFile(file)
-        val name = "Voice note (${formatVoiceTime(durationMs)})"
-        val pending = PendingForumAttachment(
-            name = name,
-            kind = "audio",
-            sizeBytes = file.length(),
-            uri = uri,
-            durationMs = durationMs
-        )
-        _mediaAttachments.update { it + pending }
-        viewModelScope.launch {
-            val result = mediaUploadHelper.upload(uri, "audio", name)
-            _mediaAttachments.update { attachments ->
-                attachments.map { att ->
-                    if (att.localId != pending.localId) att
-                    else result.fold(
-                        onSuccess = { descriptor -> att.copy(uploading = false, uploaded = descriptor) },
-                        onFailure = { e -> att.copy(uploading = false, error = e.message ?: "Upload failed") }
-                    )
-                }
-            }
-            result.exceptionOrNull()?.let { e ->
-                _state.update { it.copy(snackbarMessage = e.message ?: "Couldn't upload voice note") }
-            }
-        }
-    }
-
     fun onMainReplyChange(value: TextFieldValue) {
         if (value.text.length > 10000) return
         _mainReplyText.value = value

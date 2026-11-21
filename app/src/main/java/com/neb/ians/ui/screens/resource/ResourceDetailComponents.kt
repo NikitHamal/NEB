@@ -291,9 +291,7 @@ fun SlideToBuyBar(
                         .align(Alignment.CenterStart)
                         .height(60.dp)
                         .fillMaxWidth(((thumbLeftPx + thumbPx) / trackWidthPx.coerceAtLeast(1f)).coerceIn(0f, 1f))
-                        .background(
-                            Brush.horizontalGradient(listOf(trackColor.copy(alpha = 0.85f), trackColor))
-                        )
+                        .background(trackColor)
                 )
 
                 if (completed) {
@@ -383,13 +381,9 @@ fun ResourceLockedMediaPlaceholder(
         modifier = modifier
             .fillMaxWidth()
             .height(200.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(
-                Brush.verticalGradient(
-                    listOf(subjectColor.copy(alpha = 0.16f), MaterialTheme.colorScheme.surfaceContainerHigh)
-                )
-            )
-            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(12.dp)),
+            .clip(RoundedCornerShape(24.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainerLow)
+            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(24.dp)),
         contentAlignment = Alignment.Center
     ) {
         Column(

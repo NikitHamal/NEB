@@ -67,49 +67,12 @@ fun HomeNewsSection(
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(visible, key = { it.id }) { news ->
+            items(visible, key = { it.id }, contentType = { "news" }) { news ->
                 CompactNewsCard(
                     item = news,
                     onClick = { onNewsClick(news) }
                 )
             }
-        }
-    }
-}
-
-
-
-@Composable
-fun NewsCategoryBadge(
-    label: String,
-    icon: ImageVector,
-    accent: Color,
-    modifier: Modifier = Modifier
-) {
-    Surface(
-        modifier = modifier,
-        shape = WebPillShape,
-        color = accent
-    ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 9.dp, vertical = 5.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(5.dp)
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-                modifier = Modifier.size(13.dp),
-                tint = Color.White
-            )
-            Text(
-                text = label.uppercase(),
-                style = MaterialTheme.typography.labelSmall,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
         }
     }
 }

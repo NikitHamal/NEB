@@ -116,7 +116,6 @@ import com.neb.ians.ui.components.MentionsVisualTransformation
 import com.neb.ians.ui.components.MentionSuggestions
 import com.neb.ians.ui.components.CommentCard
 import com.neb.ians.ui.components.CommentSortPillsRow
-import com.neb.ians.ui.components.ComposerAnonymousButton
 import com.neb.ians.ui.components.ReplyLabelSheet
 import com.neb.ians.ui.components.ComposerAttachMenu
 import com.neb.ians.ui.components.ComposerPoll
@@ -124,7 +123,6 @@ import com.neb.ians.ui.components.ComposerAttachmentChips
 import com.neb.ians.ui.components.ForumAttachmentChip
 import com.neb.ians.ui.components.ForumMediaAttachments
 import com.neb.ians.ui.components.NebCommentComposerBar
-import com.neb.ians.ui.components.rememberVoiceNoteRecorder
 import com.neb.ians.ui.theme.getSubjectTheme
 import com.neb.ians.util.formatTimeAgo
 import com.neb.ians.ui.components.NebLoader
@@ -152,11 +150,6 @@ fun ForumPostDetailScreen(
     val composerMediaPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments()
     ) { uris -> if (!uris.isNullOrEmpty()) viewModel.addMediaAttachments(uris) }
-
-    val voiceNote = rememberVoiceNoteRecorder(
-        onVoiceNote = { file, durationMs -> viewModel.addVoiceNote(file, durationMs) },
-        onError = viewModel::showSnackbar
-    )
 
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
@@ -202,7 +195,6 @@ fun ForumPostDetailScreen(
             MainReplyComposerSlot(
                 viewModel = viewModel,
                 gate = gate,
-                voiceNote = voiceNote,
                 mainFocusRequester = mainFocusRequester,
                 keyboardController = keyboardController,
                 onLaunchMediaPicker = { composerMediaPicker.launch(it) }
@@ -660,7 +652,6 @@ fun ForumPostDetailScreen(
                         parentId = parent.id,
                         activeThreadTargetReply = activeThreadTargetReply,
                         onClearTargetReply = { activeThreadTargetReply = null },
-                        voiceNote = voiceNote,
                         onLaunchMediaPicker = { composerMediaPicker.launch(it) }
                     )
                 }
@@ -673,7 +664,6 @@ fun ForumPostDetailScreen(
 private fun MainReplyComposerSlot(
     viewModel: PostDetailViewModel,
     gate: com.neb.ians.ui.components.AuthGate,
-    voiceNote: com.neb.ians.ui.components.VoiceNoteRecorder,
     mainFocusRequester: FocusRequester,
     keyboardController: androidx.compose.ui.platform.SoftwareKeyboardController?,
     onLaunchMediaPicker: (Array<String>) -> Unit
@@ -696,7 +686,6 @@ private fun MainReplyComposerSlot(
         enabled = !isSubmittingReply,
         canSend = (mainReplyText.text.isNotBlank() || composerMediaAttachments.isNotEmpty() || composerPoll?.isReady == true) && !isSubmittingReply,
         posting = isSubmittingReply,
-        voiceNote = voiceNote,
         docked = false,
         kind = composerKind,
         onKindChange = viewModel::setComposerKind,
@@ -756,7 +745,6 @@ private fun ThreadReplyComposerSlot(
     parentId: String,
     activeThreadTargetReply: ApiReply?,
     onClearTargetReply: () -> Unit,
-    voiceNote: com.neb.ians.ui.components.VoiceNoteRecorder,
     onLaunchMediaPicker: (Array<String>) -> Unit
 ) {
     val threadReplyText by viewModel.threadReplyText.collectAsStateWithLifecycle()
@@ -775,7 +763,6 @@ private fun ThreadReplyComposerSlot(
         enabled = !isSubmittingReply,
         canSend = (threadReplyText.text.isNotBlank() || composerMediaAttachments.isNotEmpty()) && !isSubmittingReply,
         posting = isSubmittingReply,
-        voiceNote = voiceNote,
         visualTransformation = MentionsVisualTransformation(MaterialTheme.colorScheme.primary),
         leadingContent = {
             com.neb.ians.ui.components.NebIdentityAvatarMenu(

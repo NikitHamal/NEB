@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import com.neb.ians.ui.components.stableSeed
 import com.neb.ians.ui.pixel.PixelCanvas
 import com.neb.ians.ui.theme.subjectFamily
 import kotlin.math.roundToInt

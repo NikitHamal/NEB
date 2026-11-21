@@ -392,29 +392,6 @@ class ResourceDetailViewModel @Inject constructor(
         stageCommentUpload(pending)
     }
 
-    /** Surface a transient snackbar message (used by the voice-note recorder error path). */
-    fun showSnackbar(message: String) {
-        _uiState.update { it.copy(snackbarMessage = message) }
-    }
-
-    /** Stage a finished voice-note recording as an audio attachment on the comment composer. */
-    fun addCommentVoiceNote(file: File, durationMs: Long) {
-        val current = _commentAttachments.value
-        if (current.size >= ForumMediaUploadHelper.MAX_ATTACHMENTS) {
-            _uiState.update { it.copy(snackbarMessage = "Maximum ${ForumMediaUploadHelper.MAX_ATTACHMENTS} attachments") }
-            return
-        }
-        val pending = PendingForumAttachment(
-            name = "Voice note (${formatVoiceTime(durationMs)})",
-            kind = "audio",
-            sizeBytes = file.length(),
-            uri = Uri.fromFile(file),
-            durationMs = durationMs
-        )
-        _commentAttachments.update { it + pending }
-        stageCommentUpload(pending)
-    }
-
     private fun stageCommentUpload(pending: PendingForumAttachment) {
         viewModelScope.launch {
             val result = mediaUploadHelper.upload(pending.uri, pending.kind, pending.name)

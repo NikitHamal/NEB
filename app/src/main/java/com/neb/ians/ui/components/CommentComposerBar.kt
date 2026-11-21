@@ -101,7 +101,6 @@ fun NebCommentComposerBar(
     sendIcon: ImageVector = Icons.Filled.ArrowUpward,
     textFieldModifier: Modifier = Modifier,
     leadingContent: (@Composable RowScope.() -> Unit)? = null,
-    voiceNote: VoiceNoteRecorder? = null,
     docked: Boolean = true,
     kind: String? = null,
     onKindChange: ((String) -> Unit)? = null,
@@ -117,7 +116,6 @@ fun NebCommentComposerBar(
         onSend = onSend,
         sendContentDescription = sendContentDescription,
         sendIcon = sendIcon,
-        voiceNote = voiceNote,
         docked = docked,
         kind = kind,
         onKindChange = onKindChange,
@@ -152,7 +150,6 @@ fun NebCommentComposerBar(
     textFieldModifier: Modifier = Modifier,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     leadingContent: (@Composable RowScope.() -> Unit)? = null,
-    voiceNote: VoiceNoteRecorder? = null,
     docked: Boolean = true,
     kind: String? = null,
     onKindChange: ((String) -> Unit)? = null,
@@ -168,7 +165,6 @@ fun NebCommentComposerBar(
         onSend = onSend,
         sendContentDescription = sendContentDescription,
         sendIcon = sendIcon,
-        voiceNote = voiceNote,
         docked = docked,
         kind = kind,
         onKindChange = onKindChange,
@@ -197,7 +193,6 @@ private fun NebCommentComposerBarFrame(
     onSend: () -> Unit,
     sendContentDescription: String,
     sendIcon: ImageVector,
-    voiceNote: VoiceNoteRecorder?,
     docked: Boolean,
     kind: String?,
     onKindChange: ((String) -> Unit)?,
@@ -207,7 +202,6 @@ private fun NebCommentComposerBarFrame(
     extraContent: @Composable () -> Unit,
     textField: @Composable (Modifier, androidx.compose.ui.unit.Dp, Boolean) -> Unit
 ) {
-    val recording = voiceNote?.isRecording == true
     val active = enabled && canSend && !posting
 
     var focused by remember { mutableStateOf(false) }
@@ -216,11 +210,7 @@ private fun NebCommentComposerBarFrame(
     var kindSheet by remember { mutableStateOf(false) }
     val scheme = MaterialTheme.colorScheme
     val stroke by animateColorAsState(
-        targetValue = when {
-            recording -> scheme.error.copy(alpha = 0.55f)
-            focused -> scheme.primary
-            else -> scheme.outlineVariant
-        },
+        targetValue = if (focused) scheme.primary else scheme.outlineVariant,
         animationSpec = nebEffectsSpec(),
         label = "composerStroke"
     )
@@ -283,22 +273,13 @@ private fun NebCommentComposerBarFrame(
                         .defaultMinSize(minHeight = 44.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    if (recording && voiceNote != null) {
-                        VoiceRecordingStrip(
-                            recorder = voiceNote,
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(horizontal = 10.dp, vertical = 2.dp)
-                        )
-                    } else {
-                        textField(
-                            Modifier
-                                .weight(1f)
-                                .onFocusChanged { focused = it.hasFocus },
-                            if (!writing) 0.dp else if (expanded) 200.dp else 72.dp,
-                            !writing
-                        )
-                    }
+                    textField(
+                        Modifier
+                            .weight(1f)
+                            .onFocusChanged { focused = it.hasFocus },
+                        if (!writing) 0.dp else if (expanded) 200.dp else 72.dp,
+                        !writing
+                    )
                     AnimatedVisibility(
                         visible = !writing,
                         enter = fadeIn(effects) + expandHorizontally(spatial),
@@ -312,12 +293,10 @@ private fun NebCommentComposerBarFrame(
                                 enabled = enabled,
                                 kind = null,
                                 onKind = null,
-                                trailingContent = if (recording) null else trailingContent
+                                trailingContent = trailingContent
                             )
                             Spacer(Modifier.width(4.dp))
-                            ComposerSendButton(recording, active, posting, sendIcon, sendContentDescription) {
-                                if (recording) voiceNote?.stop() else onSend()
-                            }
+                            ComposerSendButton(active, posting, sendIcon, sendContentDescription, onSend)
                         }
                     }
                 }
@@ -353,9 +332,7 @@ private fun NebCommentComposerBarFrame(
                             onClick = { expanded = !expanded }
                         )
                         Spacer(Modifier.width(4.dp))
-                        ComposerSendButton(recording, active, posting, sendIcon, sendContentDescription) {
-                            if (recording) voiceNote?.stop() else onSend()
-                        }
+                        ComposerSendButton(active, posting, sendIcon, sendContentDescription, onSend)
                     }
                 }
             }
@@ -431,7 +408,6 @@ fun ComposerToolButton(icon: @Composable () -> Unit, active: Boolean, enabled: B
 /** The round send button inside the stroke: tonal while there is nothing to send, brand blue once there is. */
 @Composable
 private fun ComposerSendButton(
-    recording: Boolean,
     active: Boolean,
     posting: Boolean,
     sendIcon: ImageVector,
@@ -439,27 +415,22 @@ private fun ComposerSendButton(
     onClick: () -> Unit
 ) {
     val scheme = MaterialTheme.colorScheme
-    val live = recording || active
     val fill by animateColorAsState(
-        targetValue = when {
-            recording -> scheme.error
-            active -> scheme.primary
-            else -> scheme.secondaryContainer
-        },
+        targetValue = if (active) scheme.primary else scheme.secondaryContainer,
         animationSpec = nebEffectsSpec(),
         label = "sendFill"
     )
     IconButton(
         onClick = onClick,
-        enabled = live,
+        enabled = active,
         modifier = Modifier
             .size(40.dp)
             .background(color = fill, shape = CircleShape)
     ) {
-        when {
-            posting -> NebLoader(size = NebLoaderSize.Inline, color = scheme.onPrimary)
-            recording -> Icon(Icons.Filled.Check, contentDescription = "Finish recording", tint = scheme.onError)
-            else -> Icon(
+        if (posting) {
+            NebLoader(size = NebLoaderSize.Inline, color = scheme.onPrimary)
+        } else {
+            Icon(
                 imageVector = sendIcon,
                 contentDescription = description,
                 tint = if (active) scheme.onPrimary else scheme.onSecondaryContainer
@@ -596,45 +567,6 @@ fun ComposerAttachMenu(
                     Text(option.label, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium, color = scheme.onSurface)
                 }
             }
-        }
-    }
-}
-
-/**
- * Incognito-style anonymous toggle for the leading slot of [NebCommentComposerBar] —
- * filled disc + tinted icon when anonymous posting is on, outlined icon when off.
- */
-@Composable
-fun ComposerAnonymousButton(
-    isAnonymous: Boolean,
-    enabled: Boolean,
-    onToggle: (Boolean) -> Unit
-) {
-    IconButton(
-        onClick = { onToggle(!isAnonymous) },
-        enabled = enabled,
-        modifier = Modifier.size(38.dp)
-    ) {
-        Box(
-            modifier = Modifier
-                .size(30.dp)
-                .background(
-                    if (isAnonymous) MaterialTheme.colorScheme.primary
-                    else MaterialTheme.colorScheme.surfaceContainer,
-                    CircleShape
-                ),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                imageVector = if (isAnonymous) Icons.Filled.VisibilityOff else Icons.Outlined.VisibilityOff,
-                contentDescription = if (isAnonymous) "Anonymous mode on" else "Anonymous mode off",
-                tint = when {
-                    isAnonymous -> MaterialTheme.colorScheme.onPrimary
-                    enabled -> MaterialTheme.colorScheme.onSurfaceVariant
-                    else -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
-                },
-                modifier = Modifier.size(17.dp)
-            )
         }
     }
 }
