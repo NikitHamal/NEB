@@ -358,9 +358,11 @@
     padding: 0;
   }
   .syllabus-section-body blockquote {
-    border-left: 3px solid var(--md-primary);
-    padding-left: 12px;
-    margin: 8px 0;
+    border: 1px solid var(--md-outline-variant);
+    border-radius: 14px;
+    background: var(--md-surface-container-low);
+    padding: 12px 16px;
+    margin: 10px 0;
     color: var(--md-on-surface-variant);
   }
   .syllabus-section-body hr {
@@ -537,9 +539,11 @@
     padding: 0;
   }
   .qa-accordion-body blockquote {
-    border-left: 3px solid var(--md-primary);
-    padding-left: 12px;
-    margin: 8px 0;
+    border: 1px solid var(--md-outline-variant);
+    border-radius: 14px;
+    background: var(--md-surface-container-low);
+    padding: 12px 16px;
+    margin: 10px 0;
     color: var(--md-on-surface-variant);
   }
   .qa-accordion-body hr {
@@ -919,22 +923,22 @@
 .rich-syllabus { display:flex; flex-direction:column; gap:16px; }
 .rich-syllabus-meta { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap; }
 .rich-topic-row { display:flex; flex-wrap:wrap; gap:6px; }
-.rich-topic-chip { padding:4px 10px; border-radius:999px; background:var(--md-secondary-container); color:var(--md-on-secondary-container); font-size:.75rem; font-weight:600; }
+.rich-topic-chip { padding:4px 10px; border-radius:20px; background:var(--md-secondary-container); color:var(--md-on-secondary-container); font-size:.75rem; font-weight:600; }
 .rich-source-label { display:flex; gap:6px; align-items:center; font-size:.75rem; color:var(--md-on-surface-variant); }
 .rich-source-label .material-symbols-outlined { font-size:17px; }
-.rich-objectives { border:1px solid var(--md-outline-variant); border-radius:12px; background:var(--md-surface-container-low); padding:10px 14px; }
+.rich-objectives { border:1px solid var(--md-outline-variant); border-radius:14px; background:var(--md-surface-container-low); padding:10px 14px; }
 .rich-objectives summary { cursor:pointer; font-weight:700; font-size:.875rem; color:var(--md-on-surface); }
 .rich-objectives ul { margin:10px 0 2px 20px; padding:0; font-size:.875rem; line-height:1.6; color:var(--md-on-surface-variant); }
 .rich-block-list { display:flex; flex-direction:column; gap:14px; }
-.rich-block { border:1px solid var(--md-outline-variant); border-radius:16px; padding:18px; background:var(--md-surface-container-lowest); scroll-margin-top:90px; }
+.rich-block { border:1px solid var(--md-outline-variant); border-radius:18px; padding:18px; background:var(--md-surface-container-lowest); scroll-margin-top:90px; }
 .rich-block-formula { background:color-mix(in srgb, var(--md-primary-container) 24%, var(--md-surface-container-lowest)); }
 .rich-block-interactive { background:color-mix(in srgb, var(--md-tertiary-container) 22%, var(--md-surface-container-lowest)); }
-.rich-block-callout { border-left:4px solid var(--md-primary); }
+.rich-block-callout { background:color-mix(in srgb, var(--md-secondary-container) 34%, var(--md-surface-container-lowest)); border-color:color-mix(in srgb, var(--md-primary) 28%, var(--md-outline-variant)); }
 .rich-block-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:10px; }
 .rich-block-head h3 { margin:2px 0 0; font-size:1rem; color:var(--md-on-surface); }
 .rich-block-kicker { font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; font-weight:800; color:var(--md-primary); }
 .rich-block-actions { display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:6px; }
-.rich-source-chip, .rich-ai-btn { display:inline-flex; align-items:center; gap:4px; padding:5px 9px; border-radius:999px; font:inherit; font-size:.72rem; font-weight:600; text-decoration:none; }
+.rich-source-chip, .rich-ai-btn { display:inline-flex; align-items:center; gap:4px; padding:5px 9px; border-radius:20px; font:inherit; font-size:.72rem; font-weight:600; text-decoration:none; }
 .rich-source-chip { border:1px solid var(--md-outline-variant); color:var(--md-on-surface-variant); background:var(--md-surface-container); }
 .rich-source-chip .material-symbols-outlined, .rich-ai-btn .material-symbols-outlined { font-size:15px; }
 .rich-ai-btn { border:0; cursor:pointer; background:var(--md-primary-container); color:var(--md-on-primary-container); }

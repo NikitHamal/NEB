@@ -243,7 +243,19 @@ def main():
             remote.append("echo 'Clearing Python bytecode cache...'")
             remote.append("find . -name '*.pyc' -delete 2>/dev/null")
             remote.append("find . -name '__pycache__' -type d -exec rm -rf {} + 2>/dev/null")
-            remote.append("echo 'Cache cleared.'")
+            # Recycle LSAPI workers BEFORE migrate as well so no old worker with dropped ORM fields
+            # can execute SELECT against a column while/after migrate drops it.
+            remote.append(f"pkill -f 'lswsgi -m {REMOTE_DIR}/passenger_wsg[i].py' 2>/dev/null || true")
+            remote.append("echo 'Cache cleared and stale workers recycled.'")
+
+        # Keep server-side cron watchdog.sh aligned with restart_workers.sh (retire daphne when WS_PUBLIC_URL is unset).
+        remote.append(
+            "if [ -f watchdog.sh ] && ! grep -q 'WANT_DAPHNE' watchdog.sh 2>/dev/null; then "
+            "sed -i 's|if ! pgrep -f \"daphne.\\*\\$REALTIME_PORT\" > /dev/null; then|"
+            "WANT_DAPHNE=$(grep -E \"^(WS_PUBLIC_URL=.+|ENABLE_DAPHNE=1)\" \"$APP/.env\" 2>/dev/null \\| head -1); "
+            "if [ -n \"$WANT_DAPHNE\" ] \\&\\& ! pgrep -f \"daphne.*$REALTIME_PORT\" > /dev/null; then|' watchdog.sh || true; "
+            "fi"
+        )
 
         remote.append("echo 'Removing retired files no longer shipped in the payload...'")
         remote.append("rm -f api/ai4bharat_proxy.py")

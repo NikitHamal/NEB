@@ -21,7 +21,7 @@ from api.services import AVATAR_FIELDS, avatar_thumb_url
 from .view_helpers import _get_user_id
 
 LEGACY_PREFIXES = (
-    'library', 'forum', 'marketplace', 'interactive', 'subject', 'search', 'news', 'results',
+    'library', 'forum', 'interactive', 'subject', 'search', 'news', 'results',
     'tools', 'reader', 'resource', 'upload', 'requests', 'profile', 'settings', 'bookmarks',
     'analytics', 'credits', 'past-papers', 'model-questions',
     'online-learning', 'faq', 'study-space', 'study-lab', 'canvas', 'notifications',

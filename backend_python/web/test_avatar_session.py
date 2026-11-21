@@ -57,16 +57,6 @@ class AvatarSessionTests(TestCase):
             'role': self.user.role,
             'photo_url': self.user.photo_url or '',
             'email_verified': True,
-            'avatar_bg': '',
-            'avatar_hue': -1,
-            'avatar_tone': -1.0,
-            'avatar_anim': 'bob',
-            'avatar_shape': '',
-            'avatar_expression': '',
-            'avatar_color': '',
-            'avatar_bg_color': '',
-            'avatar_eye_color': '',
-            'avatar_use_pp': True,
         })
         home = client.get('/app/')
         self.assertEqual(home.status_code, 200)
@@ -85,7 +75,6 @@ class AvatarSessionTests(TestCase):
         request.session['user_data'] = {
             'id': self.user.id,
             'username': self.user.username,
-            'avatar_anim': 'bob',
         }
         healed = get_session_user(request)
         self.assertEqual(healed.get('gender'), 'Male')

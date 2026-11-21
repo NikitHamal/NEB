@@ -3,7 +3,6 @@ import json
 from api import services
 from api.models import (
     Bookmark,
-    PaymentVerification,
     Post,
     Reply,
     Resource,
@@ -313,14 +312,6 @@ def profile(request, username):
                 'sender_photo': _avatar_url(req.sender),
             })
 
-    seller_balance = None
-    sales_history = []
-    withdrawal_history = []
-    if is_self:
-        seller_balance = get_or_create_seller_balance(profile_user)
-        sales_history = PaymentVerification.objects.filter(seller=profile_user).select_related('buyer', 'resource').order_by('-created_at')[:100]
-        withdrawal_history = WithdrawalRequest.objects.filter(user=profile_user).order_by('-created_at')[:100]
-
     social_links_data = []
     if not profile_private and not profile_user.is_bot:
         social_links_data = get_user_links(profile_user.id)
@@ -377,9 +368,6 @@ def profile(request, username):
         pending_requests_count=pending_requests_count,
         social_links=social_links_data,
         social_links_json=json.dumps(social_links_data),
-        seller_balance=seller_balance,
-        sales_history=sales_history,
-        withdrawal_history=withdrawal_history,
     ))
 
 

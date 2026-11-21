@@ -114,10 +114,6 @@ PAGES = {
         'kicker': 'Syllabus', 'title': 'The NEB syllabus, unit by unit',
         'meta': ('Class 8 to 12', 'With notes for every unit'), 'hero': 'books',
     },
-    'marketplace': {
-        'kicker': 'Marketplace', 'title': 'Learn from teachers who have sat the exam',
-        'meta': ('Courses', 'Storefronts'), 'hero': 'cards',
-    },
     'interactive': {
         'kicker': 'Interactive', 'title': 'Physics, chemistry and code you can touch',
         'meta': ('Virtual labs', 'No install'), 'hero': 'flask',
